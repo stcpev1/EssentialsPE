@@ -258,7 +258,7 @@ class BaseAPI{
         }
         $state = $ev->getAFKMode();
         $this->getSession($player)->setAFK($state);
-        $time = $this-$this->getEssentialsPEPlugin()->getConfig()->getNested("afk.auto-kick");
+        $time = $this->getEssentialsPEPlugin()->getConfig()->getNested("afk.auto-kick");
         if($state === false && ($id = $this->getSession($player)->getAFKKickTaskID()) !== false){
             $this->getServer()->getScheduler()->cancelTask($id);
             $this->getSession($player)->removeAFKKickTaskID();
