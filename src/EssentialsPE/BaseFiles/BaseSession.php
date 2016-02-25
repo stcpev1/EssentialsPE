@@ -458,7 +458,7 @@ class BaseSession{
     /**
      * @param null|string $nick
      */
-    public function setNick(string $nick){
+    public function setNick($nick){
         $this->nick = $nick;
         $this->getPlayer()->setDisplayName($nick === null ? $this->getPlayer()->getName() : $nick);
         $this->getPlayer()->setNameTag($nick === null ? $this->getPlayer()->getName() : $nick);
