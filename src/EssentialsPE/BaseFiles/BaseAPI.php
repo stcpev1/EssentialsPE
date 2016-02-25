@@ -792,7 +792,7 @@ class BaseAPI{
      * @param float $pitch
      * @return bool
      */
-    public function setHome(Player $player, string$home, Position $pos, float $yaw = 0, float $pitch = 0){
+    public function setHome(Player $player, string$home, Position $pos, float $yaw = 0.0, float $pitch = 0.0){
         return $this->getSession($player)->setHome($home, ($pos instanceof Location ? $pos : Location::fromObject($pos, $pos->getLevel(), $yaw, $pitch)));
     }
 
