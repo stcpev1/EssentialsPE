@@ -149,10 +149,7 @@ class BaseSession{
      * @param bool $mode
      * @return bool
      */
-    public function setAFK($mode){
-        if(!is_bool($mode)){
-            return false;
-        }
+    public function setAFK(bool $mode){
         $this->isAFK = $mode;
         return true;
     }
@@ -171,10 +168,7 @@ class BaseSession{
      * @param int $id
      * @return bool
      */
-    public function setAFKKickTaskID($id){
-        if(!is_int($id)){
-            return false;
-        }
+    public function setAFKKickTaskID(int $id){
         $this->kickAFK = $id;
         return true;
     }
@@ -193,8 +187,8 @@ class BaseSession{
     /**
      * @param int $time
      */
-    public function setLastMovement($time){
-        $this->lastMovement = (int) $time;
+    public function setLastMovement(int $time){
+        $this->lastMovement = $time;
     }
 
     /**  ____             _
@@ -276,10 +270,7 @@ class BaseSession{
      * @param bool $mode
      * @return bool
      */
-    public function setGod($mode){
-        if(!is_bool($mode)){
-            return false;
-        }
+    public function setGod(bool $mode){
         $this->isGod = $mode;
         return true;
     }
@@ -321,18 +312,18 @@ class BaseSession{
     }
 
     /**
-     * @param $home
+     * @param string $home
      * @return bool
      */
-    public function homeExists($home){
+    public function homeExists(string $home){
         return $this->getAPI()->validateName($home) && isset($this->homes[$home]) && $this->homes[$home] instanceof BaseLocation;
     }
 
     /**
-     * @param $home
+     * @param string $home
      * @return bool|BaseLocation
      */
-    public function getHome($home){
+    public function getHome(string $home){
         if(!$this->homeExists($home)){
             return false;
         }
@@ -340,11 +331,11 @@ class BaseSession{
     }
 
     /**
-     * @param $home
+     * @param string $home
      * @param Location $pos
      * @return bool
      */
-    public function setHome($home, Location $pos){
+    public function setHome(string $home, Location $pos){
         if(!$this->getAPI()->validateName($home, false)){
             return false;
         }
@@ -353,10 +344,10 @@ class BaseSession{
     }
 
     /**
-     * @param $home
+     * @param string $home
      * @return bool
      */
-    public function removeHome($home){
+    public function removeHome(string $home){
         if(!$this->homeExists($home)){
             return false;
         }
@@ -368,7 +359,7 @@ class BaseSession{
      * @param bool $inArray
      * @return array|bool|string
      */
-    public function homesList($inArray = false){
+    public function homesList(bool $inArray = false){
         $list = array_keys($this->homes);
         if(count($list) < 1){
             return false;
@@ -441,11 +432,9 @@ class BaseSession{
      * @param bool $state
      * @param \DateTime|null $expires
      */
-    public function setMuted($state, \DateTime $expires = null){
-        if(is_bool($state)){
-            $this->isMuted = $state;
-            $this->mutedUntil = $expires;
-        }
+    public function setMuted(bool $state, \DateTime $expires = null){
+        $this->isMuted = $state;
+        $this->mutedUntil = $expires;
     }
 
     /**  _   _ _      _
@@ -469,7 +458,7 @@ class BaseSession{
     /**
      * @param null|string $nick
      */
-    public function setNick($nick){
+    public function setNick(string $nick){
         $this->nick = $nick;
         $this->getPlayer()->setDisplayName($nick === null ? $this->getPlayer()->getName() : $nick);
         $this->getPlayer()->setNameTag($nick === null ? $this->getPlayer()->getName() : $nick);
@@ -503,8 +492,8 @@ class BaseSession{
      * @param string $command
      * @return bool
      */
-    public function setPowerToolItemCommand($itemId, $command){
-        if(!is_numeric($itemId) || (int) $itemId === 0){
+    public function setPowerToolItemCommand(int $itemId, string $command){
+        if($itemId < 1){
             return false;
         }
         if(!is_array($this->ptCommands) || !isset($this->ptCommands[$itemId]) || !is_array($this->ptCommands[$itemId])){
@@ -519,7 +508,7 @@ class BaseSession{
      * @param int $itemId
      * @return bool
      */
-    public function getPowerToolItemCommand($itemId){
+    public function getPowerToolItemCommand(int $itemId){
         if(!isset($this->ptCommands[$itemId]) || is_array($this->ptCommands[$itemId])){
             return false;
         }
@@ -531,8 +520,8 @@ class BaseSession{
      * @param array $commands
      * @return bool
      */
-    public function setPowerToolItemCommands($itemId, array $commands){
-        if(!is_numeric($itemId) || (int) $itemId === 0 || count($commands) < 1){
+    public function setPowerToolItemCommands(int $itemId, array $commands){
+        if($itemId < 1 || count($commands) < 1){
             return false;
         }
         $this->ptCommands[$itemId] = $commands;
@@ -543,7 +532,7 @@ class BaseSession{
      * @param int $itemId
      * @return bool
      */
-    public function getPowerToolItemCommands($itemId){
+    public function getPowerToolItemCommands(int $itemId){
         if(!is_array($this->ptCommands) || !in_array($itemId, $this->ptCommands) || !is_array($this->ptCommands[$itemId])){
             return false;
         }
@@ -554,7 +543,7 @@ class BaseSession{
      * @param int $itemId
      * @param string $command
      */
-    public function removePowerToolItemCommand($itemId, $command){
+    public function removePowerToolItemCommand(int $itemId, string $command){
         $commands = $this->getPowerToolItemCommands($itemId);
         if(is_array($commands)){
             foreach($commands as $c){
@@ -570,8 +559,8 @@ class BaseSession{
      * @param string $chat_message
      * @return bool
      */
-    public function setPowerToolItemChatMacro($itemId, $chat_message){
-        if(!is_int($itemId) || $itemId === 0){
+    public function setPowerToolItemChatMacro(int $itemId, string $chat_message){
+        if($itemId < 1){
             return false;
         }
         $chat_message = str_replace("\\n", "\n", $chat_message);
@@ -583,8 +572,8 @@ class BaseSession{
      * @param int $itemId
      * @return bool
      */
-    public function getPowerToolItemChatMacro($itemId){
-        if(!is_int($itemId) || $itemId === 0 || !isset($this->ptChatMacro[$itemId])){
+    public function getPowerToolItemChatMacro(int $itemId){
+        if($itemId < 1 || !isset($this->ptChatMacro[$itemId])){
             return false;
         }
         return $this->ptChatMacro[$itemId];
@@ -593,7 +582,7 @@ class BaseSession{
     /**
      * @param int $itemId
      */
-    public function disablePowerToolItem($itemId){
+    public function disablePowerToolItem(int $itemId){
         unset($this->ptCommands[$itemId]);
         unset($this->ptChatMacro[$itemId]);
     }
@@ -625,10 +614,7 @@ class BaseSession{
      * @param bool $mode
      * @return bool
      */
-    public function setPvP($mode){
-        if(!is_bool($mode)){
-            return false;
-        }
+    public function setPvP(bool $mode){
         $this->isPvPEnabled = $mode;
         return true;
     }
@@ -662,7 +648,7 @@ class BaseSession{
      * @param string $target
      * @return bool
      */
-    public function madeARequestTo($target){
+    public function madeARequestTo(string $target){
         return $this->requestTo === $target;
     }
 
@@ -670,7 +656,7 @@ class BaseSession{
      * @param string $target
      * @param string $action
      */
-    public function requestTP($target, $action){
+    public function requestTP(string $target, string $action){
         $this->requestTo = $target;
         $this->requestToAction = $action;
     }
@@ -691,10 +677,7 @@ class BaseSession{
      * @param int $taskId
      * @return bool
      */
-    public function setRequestToTaskID($taskId){
-        if(!is_int($taskId)){
-            return false;
-        }
+    public function setRequestToTaskID(int $taskId){
         $this->requestToTask = $taskId;
         return true;
     }
@@ -726,7 +709,7 @@ class BaseSession{
      * @param string $requester
      * @return bool|string
      */
-    public function hasARequestFrom($requester){
+    public function hasARequestFrom(string $requester){
         return (isset($this->requestsFrom[$requester]) ? $this->requestsFrom[$requester] : false);
     }
 
@@ -741,7 +724,7 @@ class BaseSession{
      * @param string $requester
      * @param string $action
      */
-    public function receiveRequest($requester, $action){
+    public function receiveRequest(string $requester, string $action){
         $this->latestRequestFrom = $requester;
         $this->requestsFrom[$requester] = $action;
     }
@@ -749,7 +732,7 @@ class BaseSession{
     /**
      * @param string $requester
      */
-    public function removeRequestFrom($requester){
+    public function removeRequestFrom(string $requester){
         unset($this->requestsFrom[$requester]);
         if($this->getLatestRequestFrom() === $requester){
             $this->latestRequestFrom = null;
@@ -778,10 +761,7 @@ class BaseSession{
      * @param bool $mode
      * @return bool
      */
-    public function setUnlimited($mode){
-        if(!is_bool($mode)){
-            return false;
-        }
+    public function setUnlimited(bool $mode){
         $this->isUnlimitedEnabled = $mode;
         return true;
     }
@@ -816,14 +796,8 @@ class BaseSession{
      * @param bool $noPacket
      * @return bool
      */
-    public function setVanish($mode, $noPacket){
-        if(!is_bool($mode)){
-            return false;
-        }
+    public function setVanish(bool $mode, bool $noPacket){
         $this->isVanished = $mode;
-        if(!is_bool($noPacket)){
-            return false;
-        }
         $this->noPacket = $noPacket;
         return true;
     }
