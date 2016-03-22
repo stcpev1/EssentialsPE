@@ -69,6 +69,7 @@ class BaseAPI{
         $this->ess = $ess;
         self::$instance = $this;
         $this->saveConfigs();
+        $this->getServerGeoLocation();
     }
 
     public function __destruct(){
@@ -693,6 +694,9 @@ class BaseAPI{
      *   \_____|\___|\___/|______\___/ \___\__,_|\__|_|\___/|_| |_|
      */
 
+    /** @var string */
+    private $serverGeoLocation;
+
     /**
      * @param Player $player
      * @return string|null
@@ -702,11 +706,30 @@ class BaseAPI{
     }
 
     /**
+     * @return string
+     */
+    public function getServerGeoLocation(){
+        if($this->serverGeoLocation === null){
+            $this->getServer()->getScheduler()->scheduleAsyncTask(new GeoLocation(null));
+        }
+        return $this->serverGeoLocation;
+    }
+
+    /**
      * @param Player $player
      * @param string $location
      */
     public function updateGeoLocation(Player $player, string $location){
         $this->getSession($player)->setGeoLocation($location);
+    }
+
+    /**
+     * @param string $location
+     */
+    public function setServerGeoLocation(string $location){
+        if($this->serverGeoLocation === null){
+            $this->serverGeoLocation = $location;
+        }
     }
 
     /**   _____           _
