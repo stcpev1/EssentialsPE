@@ -506,10 +506,13 @@ class BaseSession{
 
     /**
      * @param int $itemId
-     * @return bool
+     * @return bool|string
      */
     public function getPowerToolItemCommand(int $itemId){
         if($itemId < 1 && !isset($this->ptCommands[$itemId]) || is_array($this->ptCommands[$itemId])){
+            return false;
+        }elseif($this->ptCommands[$itemId] === null){
+            unset($this->ptCommands[$itemId]);
             return false;
         }
         return $this->ptCommands[$itemId];
@@ -533,7 +536,10 @@ class BaseSession{
      * @return bool
      */
     public function getPowerToolItemCommands(int $itemId){
-        if(!is_array($this->ptCommands) || !in_array($itemId, $this->ptCommands) || !is_array($this->ptCommands[$itemId])){
+        if($itemId < 1 || !is_array($this->ptCommands) || !isset($this->ptCommands[$itemId]) || !is_array($this->ptCommands[$itemId])){
+            return false;
+        }elseif($this->ptCommands[$itemId] === null){
+            unset($this->ptCommands[$itemId]);
             return false;
         }
         return $this->ptCommands[$itemId];
