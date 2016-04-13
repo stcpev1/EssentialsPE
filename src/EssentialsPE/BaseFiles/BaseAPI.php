@@ -594,7 +594,7 @@ class BaseAPI{
                 ])
             ]);
         }
-        $entity = Entity::createEntity($type, $level->getChunk($pos->getX() >> 4, $pos->getZ() >> 4), $nbt) !== null ?? false;
+        $entity = Entity::createEntity($type, $level->getChunk($pos->getX() >> 4, $pos->getZ() >> 4), $nbt) ?? false;
         return $entity;
     }
 
