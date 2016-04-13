@@ -571,19 +571,42 @@ class BaseAPI{
     }
 
     /**
-     * @param Vector3|Position $pos
-     * @param null|Level $level
+     * @param string $type
+     * @param Vector3 $pos
+     * @param Level|null $level
+     * @param CompoundTag|null $nbt
+     * @return bool|Entity
      */
-    public function createTNT(Vector3 $pos, Level $level = null){
+    public function createEntity(string $type , Vector3 $pos, Level $level = null, CompoundTag $nbt = null){
         if($level === null){
             if($pos instanceof Position){
                 $level = $pos->getLevel();
             }else{
-                return;
+                return false;
             }
         }
+        if($nbt === null){
+            $nbt = new CompoundTag("EssPE", [
+                "Pos" => new ListTag("Pos", [
+                    new DoubleTag("x", $pos->getX()),
+                    new DoubleTag("y", $pos->getY()).
+                    new DoubleTag("z", $pos->getZ())
+                ])
+            ]);
+        }
+        $entity = Entity::createEntity($type, $level->getChunk($pos->getX() >> 4, $pos->getZ() >> 4), $nbt) !== null ?? false;
+        return $entity;
+    }
+
+    /**
+     * @param Vector3|Position $pos
+     * @param null|Level $level
+     * @param bool $spawn
+     * @return null|Entity
+     */
+    public function createTNT(Vector3 $pos, Level $level = null, $spawn = true){
         $mot = (new Random())->nextSignedFloat() * M_PI * 2;
-        $entity = Entity::createEntity("PrimedTNT", $level->getChunk($pos->x >> 4, $pos->z >> 4), new CompoundTag("EssNuke", [
+        $entity = $this->createEntity("PrimedTNT", $pos, $level, new CompoundTag("EssPE", [
             "Pos" => new ListTag("Pos", [
                 new DoubleTag("", $pos->getFloorX() + 0.5),
                 new DoubleTag("", $pos->getFloorY()),
@@ -600,7 +623,10 @@ class BaseAPI{
             ]),
             "Fuse" => new ByteTag("Fuse", 80),
         ]));
-        $entity->spawnToAll();
+        if($spawn){
+            $entity->spawnToAll();
+        }
+        return $entity;
     }
 
     /**
@@ -611,6 +637,9 @@ class BaseAPI{
         $pk = $this->lightning($pos);
         foreach($pos->getLevel()->getPlayers() as $p){
             $p->dataPacket($pk);
+        }
+        if(!$pos instanceof Entity){
+            $pos = $this->createTNT($pos, null, false);
         }
         foreach($pos->getLevel()->getNearbyEntities(new AxisAlignedBB($pos->getFloorX() - ($radius = 5), $pos->getFloorY() - $radius, $pos->getFloorZ() - $radius, $pos->getFloorX() + $radius, $pos->getFloorY() + $radius, $pos->getFloorZ() + $radius), $pos) as $e){
             $e->attack(0, new EntityDamageEvent($pos, EntityDamageEvent::CAUSE_MAGIC, $damage));
