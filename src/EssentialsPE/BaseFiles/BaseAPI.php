@@ -638,8 +638,8 @@ class BaseAPI{
         foreach($pos->getLevel()->getPlayers() as $p){
             $p->dataPacket($pk);
         }
-        if(!$pos instanceof Entity){
-            $pos = $this->createTNT($pos, null, false);
+        if(!$pos instanceof Entity and !($pos = $this->createTNT($pos, null, false))){
+            return;
         }
         foreach($pos->getLevel()->getNearbyEntities(new AxisAlignedBB($pos->getFloorX() - ($radius = 5), $pos->getFloorY() - $radius, $pos->getFloorZ() - $radius, $pos->getFloorX() + $radius, $pos->getFloorY() + $radius, $pos->getFloorZ() + $radius), $pos) as $e){
             $e->attack(0, new EntityDamageEvent($pos, EntityDamageEvent::CAUSE_MAGIC, $damage));
