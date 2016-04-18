@@ -1233,13 +1233,15 @@ class BaseAPI{
      * @return bool
      */
     public function setMute(Player $player, bool $state, \DateTime $expires = null, bool $notify = true){
-        $this->getServer()->getPluginManager()->callEvent($ev = new PlayerMuteEvent($this, $player, $state, $expires));
-        if($ev->isCancelled()){
-            return false;
-        }
-        $this->getSession($player)->setMuted($ev->willMute(), $ev->getMutedUntil());
-        if($notify && $player->hasPermission("essentials.mute.notify")){
-            $player->sendMessage(TextFormat::YELLOW . "You where " . ($this->isMuted($player) ? "muted " . ($ev->getMutedUntil() !== null ? "until: " . TextFormat::AQUA . $ev->getMutedUntil()->format("l, F j, Y") . TextFormat::RED . " at " . TextFormat::AQUA . $ev->getMutedUntil()->format("h:ia") : TextFormat::AQUA . "Forever" . TextFormat::YELLOW . "!") : "unmuted!"));
+        if($this->isMuted($player) !== $state){
+            $this->getServer()->getPluginManager()->callEvent($ev = new PlayerMuteEvent($this, $player, $state, $expires));
+            if($ev->isCancelled()){
+                return false;
+            }
+            $this->getSession($player)->setMuted($ev->willMute(), $ev->getMutedUntil());
+            if($notify && $player->hasPermission("essentials.mute.notify")){
+                $player->sendMessage(TextFormat::YELLOW . "You have been " . ($this->isMuted($player) ? "muted " . ($ev->getMutedUntil() !== null ? "until: " . TextFormat::AQUA . $ev->getMutedUntil()->format("l, F j, Y") . TextFormat::RED . " at " . TextFormat::AQUA . $ev->getMutedUntil()->format("h:ia") : TextFormat::AQUA . "Forever" . TextFormat::YELLOW . "!") : "unmuted!"));
+            }
         }
         return true;
     }
