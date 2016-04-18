@@ -96,9 +96,9 @@ class BaseSession{
         // Let's revert some things to their original state...
         $this->setNick(null);
         $this->getAPI()->removeTPRequest($this->getPlayer());
-        if($this->isVanished()){
+        /*if($this->isVanished()){
             $this->getAPI()->setVanish($this->getPlayer(), false, $this->noPacket());
-        }
+        }*/
     }
 
     /**
