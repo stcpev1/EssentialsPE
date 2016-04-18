@@ -63,7 +63,7 @@ class BaseSession{
         $this->api = $api;
         $this->player = $player;
         $this->config = $config;
-        self::$defaults["lastMovement"] = !$player->hasPermission("essentals.afk.preventauto") ? time() : null;
+        self::$defaults["lastMovement"] = !$player->hasPermission("essentials.afk.preventauto") ? time() : null;
         foreach($values as $k => $v){
             $this->{$k} = $v;
         }
