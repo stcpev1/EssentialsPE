@@ -24,7 +24,7 @@ class PlayerAFKModeChangeEvent extends BaseCustomEvent implements Cancellable{
      * @param bool $mode
      * @param bool $broadcast
      */
-    public function __construct(BaseAPI $api, Player $player, $mode, $broadcast){
+    public function __construct(BaseAPI $api, Player $player, bool $mode, bool $broadcast){
         parent::__construct($api);
         $this->player = $player;
         $this->isAFK = $api->isAFK($player);
@@ -37,7 +37,7 @@ class PlayerAFKModeChangeEvent extends BaseCustomEvent implements Cancellable{
      *
      * @return Player
      */
-    public function getPlayer(){
+    public function getPlayer(): Player{
         return $this->player;
     }
 
@@ -46,7 +46,7 @@ class PlayerAFKModeChangeEvent extends BaseCustomEvent implements Cancellable{
      *
      * @return bool
      */
-    public function isAFK(){
+    public function isAFK(): bool{
         return $this->isAFK;
     }
 
@@ -55,7 +55,7 @@ class PlayerAFKModeChangeEvent extends BaseCustomEvent implements Cancellable{
      *
      * @return bool
      */
-    public function getAFKMode(){
+    public function getAFKMode(): bool{
         return $this->mode;
     }
 
@@ -66,10 +66,8 @@ class PlayerAFKModeChangeEvent extends BaseCustomEvent implements Cancellable{
      *
      * @param bool $mode
      */
-    public function setAFKMode($mode){
-        if(is_bool($mode)){
-            $this->mode = $mode;
-        }
+    public function setAFKMode(bool $mode){
+        $this->mode = $mode;
     }
 
     /**
@@ -77,7 +75,7 @@ class PlayerAFKModeChangeEvent extends BaseCustomEvent implements Cancellable{
      *
      * @return bool
      */
-    public function getBroadcast(){
+    public function getBroadcast(): bool{
         return $this->broadcast;
     }
 
@@ -86,7 +84,7 @@ class PlayerAFKModeChangeEvent extends BaseCustomEvent implements Cancellable{
      *
      * @param bool $mode
      */
-    public function setBroadcast($mode){
+    public function setBroadcast(bool $mode){
         $this->broadcast = $mode;
     }
 } 

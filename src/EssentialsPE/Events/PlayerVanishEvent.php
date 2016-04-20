@@ -26,7 +26,7 @@ class PlayerVanishEvent extends BaseCustomEvent implements Cancellable{
      * @param bool $willVanish
      * @param bool $noPacket
      */
-    public function __construct(BaseAPI $api, Player $player, $willVanish, $noPacket){
+    public function __construct(BaseAPI $api, Player $player, bool $willVanish, bool $noPacket){
         parent::__construct($api);
         $this->player = $player;
         $this->isVanished = $api->isVanished($player);
@@ -39,7 +39,7 @@ class PlayerVanishEvent extends BaseCustomEvent implements Cancellable{
      *
      * @return Player
      */
-    public function getPlayer(){
+    public function getPlayer(): Player{
         return $this->player;
     }
 
@@ -48,7 +48,7 @@ class PlayerVanishEvent extends BaseCustomEvent implements Cancellable{
      *
      * @return bool
      */
-    public function isVanished(){
+    public function isVanished(): bool{
         return $this->isVanished;
     }
 
@@ -59,7 +59,7 @@ class PlayerVanishEvent extends BaseCustomEvent implements Cancellable{
      *
      * @return bool
      */
-    public function willVanish(){
+    public function willVanish(): bool{
         return $this->willVanish;
     }
 
@@ -70,10 +70,8 @@ class PlayerVanishEvent extends BaseCustomEvent implements Cancellable{
      *
      * @param bool $value
      */
-    public function setVanished($value){
-        if(is_bool($value)){
-            $this->willVanish = $value;
-        }
+    public function setVanished(bool $value){
+        $this->willVanish = $value;
     }
 
     /**
@@ -83,7 +81,7 @@ class PlayerVanishEvent extends BaseCustomEvent implements Cancellable{
      *
      * @return bool
      */
-    public function noPacket(){
+    public function noPacket(): bool{
         return $this->noPacket;
     }
 
@@ -94,10 +92,8 @@ class PlayerVanishEvent extends BaseCustomEvent implements Cancellable{
      *
      * @param bool $state
      */
-    public function setNoPacket($state){
-        if(is_bool($state)){
-            $this->noPacket = $state;
-        }
+    public function setNoPacket(bool $state){
+        $this->noPacket = $state;
     }
 
     /**
@@ -117,7 +113,7 @@ class PlayerVanishEvent extends BaseCustomEvent implements Cancellable{
      *
      * @return array
      */
-    public function getHiddenFor(){
+    public function getHiddenFor(): array{
         return $this->keepHiddenFor;
     }
 } 

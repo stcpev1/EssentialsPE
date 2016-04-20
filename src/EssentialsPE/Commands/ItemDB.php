@@ -22,7 +22,7 @@ class ItemDB extends BaseCommand{
      * @param array $args
      * @return bool
      */
-    public function execute(CommandSender $sender, $alias, array $args){
+    public function execute(CommandSender $sender, $alias, array $args): bool{
         if(!$this->testPermission($sender)){
             return false;
         }
@@ -38,7 +38,7 @@ class ItemDB extends BaseCommand{
                     $m = TextFormat::AQUA . "This item is named: " . TextFormat::RED . $item->getName();
                     break;
                 case "id":
-                    $m = TextFormat::AQUA . "This item ID is: " . TextFormat::RED . $item->getID();
+                    $m = TextFormat::AQUA . "This item ID is: " . TextFormat::RED . $item->getId();
                     break;
                 case "durability":
                 case "dura":

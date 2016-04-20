@@ -25,11 +25,16 @@ class BaseLocation extends Location{
     /**
      * @return string
      */
-    public function getName(){
+    public function getName(): string{
         return $this->name;
     }
 
-    public static function fromPosition($name, Location $pos){
+    /**
+     * @param $name
+     * @param Location $pos
+     * @return BaseLocation
+     */
+    public static function fromPosition($name, Location $pos): BaseLocation{
         return new BaseLocation($name, $pos->getX(), $pos->getY(), $pos->getZ(), $pos->getLevel(), $pos->getYaw(), $pos->getPitch());
     }
 }

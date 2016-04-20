@@ -21,7 +21,7 @@ class PlayerFlyModeChangeEvent extends BaseCustomEvent implements Cancellable{
      * @param Player $player
      * @param bool $mode
      */
-    public function __construct(BaseAPI $api, Player $player, $mode){
+    public function __construct(BaseAPI $api, Player $player, bool $mode){
         parent::__construct($api);
         $this->player = $player;
         $this->isFlying = $api->canFly($player);
@@ -33,7 +33,7 @@ class PlayerFlyModeChangeEvent extends BaseCustomEvent implements Cancellable{
      *
      * @return Player
      */
-    public function getPlayer(){
+    public function getPlayer(): Player{
         return $this->player;
     }
 
@@ -42,7 +42,7 @@ class PlayerFlyModeChangeEvent extends BaseCustomEvent implements Cancellable{
      *
      * @return bool
      */
-    public function getCanFly(){
+    public function getCanFly(): bool{
         return $this->isFlying;
     }
 
@@ -51,7 +51,7 @@ class PlayerFlyModeChangeEvent extends BaseCustomEvent implements Cancellable{
      *
      * @return bool
      */
-    public function willFly(){
+    public function willFly(): bool{
         return $this->mode;
     }
 
@@ -60,7 +60,7 @@ class PlayerFlyModeChangeEvent extends BaseCustomEvent implements Cancellable{
      *
      * @param bool $mode
      */
-    public function setCanFly($mode){
+    public function setCanFly(bool $mode){
         $this->mode = $mode;
     }
 }

@@ -14,10 +14,10 @@ class UpdateFetchTask extends AsyncTask{
     private $install;
 
     /**
-     * @param $build
-     * @param $install
+     * @param string $build
+     * @param bool $install
      */
-    public function __construct($build, $install){
+    public function __construct(string $build, bool $install){
         $this->build = $build;
         $this->install = $install;
     }
@@ -87,7 +87,7 @@ class UpdateFetchTask extends AsyncTask{
      * @param string $version
      * @return string
      */
-    protected function correctVersion($version){
+    protected function correctVersion(string $version){
         if(($beta = stripos($version, "Beta")) !== false){
             str_replace("Beta", ".", $version);
         }

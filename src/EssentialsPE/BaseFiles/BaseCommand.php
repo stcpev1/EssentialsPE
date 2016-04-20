@@ -31,24 +31,27 @@ abstract class BaseCommand extends Command implements PluginIdentifiableCommand{
     /**
      * @return Loader
      */
-    public final function getPlugin(){
+    public final function getPlugin(): Loader{
         return $this->getAPI()->getEssentialsPEPlugin();
     }
 
     /**
      * @return BaseAPI
      */
-    public final function getAPI(){
+    public final function getAPI(): BaseAPI{
         return $this->api;
     }
 
     /**
      * @return string
      */
-    public function getUsage(){
+    public function getUsage(): string{
         return "/" . parent::getName() . " " . parent::getUsage();
     }
 
+    /**
+     * @return bool|null|string
+     */
     public function getConsoleUsage(){
         return $this->consoleUsageMessage;
     }
@@ -60,7 +63,7 @@ abstract class BaseCommand extends Command implements PluginIdentifiableCommand{
      * @param CommandSender $sender
      * @param string $alias
      */
-    public function sendUsage(CommandSender $sender, $alias){
+    public function sendUsage(CommandSender $sender, $alias): string{
         $message = TextFormat::RED . "Usage: " . TextFormat::GRAY . "/$alias ";
         if(!$sender instanceof Player){
             if(is_string($this->consoleUsageMessage)){

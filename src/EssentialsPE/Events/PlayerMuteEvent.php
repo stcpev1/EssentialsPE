@@ -24,7 +24,7 @@ class PlayerMuteEvent extends BaseCustomEvent implements Cancellable{
      * @param bool $mode
      * @param \DateTime $expires
      */
-    public function __construct(BaseAPI $api, Player $player, $mode, \DateTime $expires = null){
+    public function __construct(BaseAPI $api, Player $player, bool $mode, \DateTime $expires = null){
         parent::__construct($api);
         $this->player = $player;
         $this->isMuted = $api->isMuted($player);
@@ -37,7 +37,7 @@ class PlayerMuteEvent extends BaseCustomEvent implements Cancellable{
      *
      * @return Player
      */
-    public function getPlayer(){
+    public function getPlayer(): Player{
         return $this->player;
     }
 
@@ -46,7 +46,7 @@ class PlayerMuteEvent extends BaseCustomEvent implements Cancellable{
      *
      * @return bool
      */
-    public function isMuted(){
+    public function isMuted(): bool{
         return $this->isMuted;
     }
 
@@ -55,7 +55,7 @@ class PlayerMuteEvent extends BaseCustomEvent implements Cancellable{
      *
      * @return bool
      */
-    public function willMute(){
+    public function willMute(): bool{
         return $this->mode;
     }
 
@@ -66,10 +66,8 @@ class PlayerMuteEvent extends BaseCustomEvent implements Cancellable{
      *
      * @param bool $mode
      */
-    public function setMuted($mode){
-        if(is_bool($mode)){
-            $this->mode = $mode;
-        }
+    public function setMuted(bool $mode){
+        $this->mode = $mode;
     }
 
     /**

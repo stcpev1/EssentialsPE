@@ -25,21 +25,30 @@ class SessionCreateEvent extends BaseCustomEvent{
     }
 
     /**
+     * return the Player to work on
+     *
+     * @return Player
+     */
+    public function getPlayer(): Player{
+        return $this->player;
+    }
+
+    /**
      * Return all the Session Values
      *
      * @return array
      */
-    public function getValues(){
+    public function getValues(): array{
         return $this->values;
     }
 
     /**
      * Replace a specific Session Value
      *
-     * @param $key
-     * @param $value
+     * @param string $key
+     * @param mixed $value
      */
-    public function setValue($key, $value){
+    public function setValue(string $key, mixed $value){
         if(!isset($this->values[$key])){
             return;
         }
@@ -53,14 +62,5 @@ class SessionCreateEvent extends BaseCustomEvent{
      */
     public function setValues(array $values){
         $this->values = $values;
-    }
-
-    /**
-     * return the Player to work on
-     *
-     * @return Player
-     */
-    public function getPlayer(){
-        return $this->player;
     }
 } 

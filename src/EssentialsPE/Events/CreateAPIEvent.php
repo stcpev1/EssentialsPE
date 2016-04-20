@@ -26,7 +26,7 @@ class CreateAPIEvent extends PluginEvent{
     /**
      * @return BaseAPI
      */
-    public function getClass(){
+    public function getClass(): BaseAPI{
         return $this->class;
     }
 
