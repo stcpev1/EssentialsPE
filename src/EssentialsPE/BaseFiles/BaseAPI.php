@@ -1634,7 +1634,11 @@ class BaseAPI{
      * @return bool
      */
     public function sessionExists(Player $player){
-        return isset($this->sessions[spl_object_hash($player)]);
+        if(isset($this->sessions[$spl = spl_object_hash($player)])){
+            $this->sessions[$player->getId()] = $this->sessions[$spl];
+            unset($this->sessions[$spl]);
+        }
+        return isset($this->sessions[$player->getId()]);
     }
 
     /**
@@ -1649,8 +1653,8 @@ class BaseAPI{
         }
         $r = [];
         foreach($player as $p){
-            $spl = spl_object_hash($p);
-            if(!isset($this->sessions[$spl])){
+            $pID = $player->getId() ?? spl_object_hash($p);
+            if(!isset($this->sessions[$pID])){
                 $this->getEssentialsPEPlugin()->getLogger()->debug("Creating player session file...");
                 $cfg = $this->getSessionFile($p->getName());
                 $tValues = $cfg->getAll();
@@ -1696,12 +1700,12 @@ class BaseAPI{
                     unset($values["noPacket"]);
                 }
                 $this->getEssentialsPEPlugin()->getLogger()->debug("Setting up final values...");
-                $this->sessions[$spl] = new BaseSession($this, $p, $cfg, $values);
+                $this->sessions[$pID] = new BaseSession($this, $p, $cfg, $values);
                 $this->setMute($p, $m, $mU);
                 $this->setNick($p, $n);
                 $this->setVanish($p, $v, $vNP);
             }
-            $r[] = $this->sessions[$spl];
+            $r[] = $this->sessions[$pID];
         }
         $this->getServer()->getScheduler()->scheduleAsyncTask(new GeoLocation($player));
         return $r;
@@ -1732,10 +1736,9 @@ class BaseAPI{
             $player = [$player];
         }
         foreach($player as $p){
-            $spl = spl_object_hash($p);
-            if(isset($this->sessions[$spl])){
+            if($this->sessionExists($p)){
                 $this->getSession($p)->onClose();
-                unset($this->sessions[$spl]);
+                unset($this->sessions[$p->getId()]);
             }
         }
     }
@@ -1748,7 +1751,7 @@ class BaseAPI{
         if(!$this->sessionExists($player)){
             $this->createSession($player);
         }
-        return $this->sessions[spl_object_hash($player)];
+        return $this->sessions[$player->getId()];
     }
 
     /**  _______ _
