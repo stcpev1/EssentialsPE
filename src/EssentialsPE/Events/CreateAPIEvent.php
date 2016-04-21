@@ -8,7 +8,7 @@ use pocketmine\event\plugin\PluginEvent;
 class CreateAPIEvent extends PluginEvent{
     public static $handlerList = null;
 
-    /** @var BaseAPI */
+    /** @var string */
     private $class;
 
     /**
@@ -24,9 +24,9 @@ class CreateAPIEvent extends PluginEvent{
     }
 
     /**
-     * @return BaseAPI
+     * @return string
      */
-    public function getClass(): BaseAPI{
+    public function getClass(): string{
         return $this->class;
     }
 

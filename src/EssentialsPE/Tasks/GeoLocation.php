@@ -42,7 +42,7 @@ class GeoLocation extends AsyncTask{
                     $data["country"] = "server";
                 }
                 if(isset($data["country"])){
-                    $list[$spl] = $data["country"];
+                    $list[$spl] = $data["country"] ?? "Unknown";
                 }
             }
             $this->setResult($list);

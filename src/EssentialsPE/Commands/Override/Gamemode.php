@@ -119,7 +119,7 @@ class Gamemode extends BaseOverrideCommand{
         return true;
     }
 
-    public function sendUsage(CommandSender $sender, $alias){
+    public function sendUsage(CommandSender $sender, string $alias){
         $usage = $this->usageMessage;
         if(strtolower($alias) !== "gamemode" && strtolower($alias) !== "gm"){
             $usage = str_replace("<mode> ", "", $usage);

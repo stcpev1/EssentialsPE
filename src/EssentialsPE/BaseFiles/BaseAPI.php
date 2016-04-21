@@ -724,7 +724,7 @@ class BaseAPI{
      */
 
     /** @var string */
-    private $serverGeoLocation;
+    private $serverGeoLocation = "Unknown";
 
     /**
      * @param Player $player
