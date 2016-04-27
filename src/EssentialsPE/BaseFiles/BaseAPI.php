@@ -277,7 +277,7 @@ class BaseAPI{
      * @param Player $player
      * @param bool $broadcast
      */
-    public function switchAFKMode(Player $player, bool $broadcast = true): bool{
+    public function switchAFKMode(Player $player, bool $broadcast = true){
         $this->setAFKMode($player, !$this->isAFK($player), $broadcast);
     }
 
@@ -633,7 +633,7 @@ class BaseAPI{
      * @param Position|Player $pos
      * @param int $damage
      */
-    public function strikeLightning(Position $pos, int $damage = 0): int{
+    public function strikeLightning(Position $pos, int $damage = 0){
         $pk = $this->lightning($pos);
         foreach($pos->getLevel()->getPlayers() as $p){
             $p->dataPacket($pk);
@@ -1527,7 +1527,7 @@ class BaseAPI{
      * @param Item $item
      * @param string $command
      */
-    public function removePowerToolItemCommand(Player $player, Item $item, string $command): string{
+    public function removePowerToolItemCommand(Player $player, Item $item, string $command){
         $this->getSession($player)->removePowerToolItemCommand($item->getId(), $command);
     }
 
