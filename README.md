@@ -1,14 +1,15 @@
-EssentialsPE [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/LegendOfMCPE/EssentialsPE?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=PE3TXNBRXC8AS)
+[![Paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=PE3TXNBRXC8AS) EssentialsPE [![Build Status](https://travis-ci.org/LegendOfMCPE/EssentialsPE.svg?branch=master)](https://travis-ci.org/LegendOfMCPE/EssentialsPE) [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/LegendOfMCPE/EssentialsPE?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 =========
 
 The port version of [Bukkit Essentials](http://dev.bukkit.org/bukkit-plugins/essentials/) for [PocketMine-MP Software](http://www.pocketmine.net/).
 
-**Remember that we will only support PocketMine-MP [Beta Builds](https://github.com/PocketMine/PocketMine-MP/releases) now.**
+**EssentialsPE does not aim to provide compatibility with _Modded PocketMine-MP_ server software**
 
 If you are planning to use PocketMine-MP _Dev_ builds keep in mind that EssentialsPE can crash it because may not support _Dev_ API versions.
 
-#### [Download the latest _Development_ Builds here!](#)
-> TODO: Add new 'dev builds' site
+=
+
+#### [Download the latest _Development_ Builds here!](https://github.com/LegendOfMCPE/EssentialsPE/raw/travis-build/EssentialsPE.phar)
 
 =
 
@@ -24,7 +25,7 @@ If you are planning to use PocketMine-MP _Dev_ builds keep in mind that Essentia
 
 
 ### Updater:
-  - [ ] Add _Development_ channel 
+  - [x] Add _Development_ channel
   - [x] Implement "better version" checking
 
 #### TODO (Economy Update)
