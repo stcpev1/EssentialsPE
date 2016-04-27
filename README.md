@@ -3,9 +3,8 @@
 
 The port version of [Bukkit Essentials](http://dev.bukkit.org/bukkit-plugins/essentials/) for [PocketMine-MP Software](http://www.pocketmine.net/).
 
-**EssentialsPE does not aim to provide compatibility with _Modded PocketMine-MP_ server software**
-
-If you are planning to use PocketMine-MP _Dev_ builds keep in mind that EssentialsPE can crash it because may not support _Dev_ API versions.
+> EssentialsPE does not officially provide compatibility with _Modded PocketMine-MP_ server software
+> Nevertheless compatibility can be found sometimes, but do not complain if it does not appear.
 
 =
 
