@@ -6,8 +6,6 @@ The port version of [Bukkit Essentials](http://dev.bukkit.org/bukkit-plugins/ess
 > EssentialsPE does not officially provide compatibility with _Modded PocketMine-MP_ server software
 > Nevertheless compatibility can be found sometimes, but do not complain if it does not appear.
 
-=
-
 #### [Download the latest _Development_ Builds here!](https://github.com/LegendOfMCPE/EssentialsPE/raw/travis-build/EssentialsPE.phar)
 
 =
