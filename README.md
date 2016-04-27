@@ -6,13 +6,13 @@ The port version of [Bukkit Essentials](http://dev.bukkit.org/bukkit-plugins/ess
 > EssentialsPE does not officially provide compatibility with _Modded PocketMine-MP_ server software
 > Nevertheless compatibility can be found sometimes, but do not complain if it does not appear.
 
-#### [Download the latest _Development_ Builds here!](https://github.com/LegendOfMCPE/EssentialsPE/raw/travis-build/EssentialsPE.phar)
+#### [Download the latest _Development_ Build here!](https://github.com/LegendOfMCPE/EssentialsPE/raw/travis-build/EssentialsPE.phar)
 
 =
 
 #### TODO (v2.0.0):
 * Start working over [THIS](https://gist.github.com/shoghicp/88acec9d15564ccc8e75).
-- [ ] Update to `PHP7`
+- [x] Update to `PHP7`
 - [ ] Add _Developers API_ documentation.
 - [ ] Add _Special Signs_ documentation.
 - [ ] Implement _Messages API_ (Multi-language update)
