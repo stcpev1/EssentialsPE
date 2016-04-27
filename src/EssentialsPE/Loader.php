@@ -314,7 +314,7 @@ class Loader extends PluginBase{
             }
         }
 
-        $updater = ["enabled", "time-interval", "warn-console", "warn-players", "stable"];
+        $updater = ["enabled", "time-interval", "warn-console", "warn-players", "channel"];
         foreach($updater as $key){
             $value = null;
             $k = $this->getConfig()->getNested("updater." . $key);
@@ -327,11 +327,14 @@ class Loader extends PluginBase{
                 case "enabled":
                 case "warn-console":
                 case "warn-players":
-                case "stable":
                     if(!is_bool($k)){
                         $value = true;
                     }
                     break;
+                case "channel":
+                    if(!is_string($k) || ($k !== "stable" && $k !== "beta" && $k !== "development")){
+                        $value = "stable";
+                    }
             }
             if($value !== null){
                 $this->getConfig()->setNested("updater." . $key, $value);

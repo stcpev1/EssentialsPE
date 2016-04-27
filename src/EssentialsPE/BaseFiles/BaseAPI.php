@@ -2049,7 +2049,7 @@ class BaseAPI{
      * @return string
      */
     public function getUpdateBuild(): string{
-        return ($this->getEssentialsPEPlugin()->getConfig()->getNested("updater.stable") ? "stable" : "beta");
+        return $this->getEssentialsPEPlugin()->getConfig()->getNested("updater.channel", "stable");
     }
 
     /**
