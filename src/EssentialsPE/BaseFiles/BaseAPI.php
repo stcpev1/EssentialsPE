@@ -1653,7 +1653,7 @@ class BaseAPI{
         }
         $r = [];
         foreach($player as $i => $p){
-            $pID = $player->getId() ?? spl_object_hash($p);
+            $pID = $p->getId() ?? spl_object_hash($p);
             if(!isset($this->sessions[$pID])){
                 $this->getEssentialsPEPlugin()->getLogger()->debug("Creating player session file...");
                 $cfg = $this->getSessionFile($p->getName());
