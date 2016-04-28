@@ -21,7 +21,7 @@ class Gamemode extends BaseOverrideCommand{
      * @param array $args
      * @return bool
      */
-    public function execute(CommandSender $sender, $alias, array $args){
+    public function execute(CommandSender $sender, $alias, array $args): bool{
         if(!$this->testPermission($sender)){
             return false;
         }
@@ -108,17 +108,18 @@ class Gamemode extends BaseOverrideCommand{
         }
         $gmstring = $this->getAPI()->getServer()->getGamemodeString($gm);
         if($player->getGamemode() === $gm){
-            $player->sendMessage(TextFormat::RED . "[Error] " . ($player === $sender ? "You're" : $args[1] . " is") . " already in " . $gmstring . " mode");
+            $sender->sendMessage(TextFormat::RED . "[Error] " . ($player === $sender ? "You're" : $player->getDisplayName() . " is") . " already in " . $gmstring . " mode");
             return false;
         }
-        if($player !== $sender){
-            $sender->sendMessage(TextFormat::GREEN . $args[1] . " is now in " . $gmstring . " mode");
-        }
         $player->setGamemode($gm);
+        $player->sendMessage(TextFormat::YELLOW . "You're now in " . $gmstring . " mode");
+        if($player !== $sender){
+            $sender->sendMessage(TextFormat::GREEN . $player->getDisplayName() . " is now in " . $gmstring . " mode");
+        }
         return true;
     }
 
-    public function sendUsage(CommandSender $sender, $alias){
+    public function sendUsage(CommandSender $sender, string $alias){
         $usage = $this->usageMessage;
         if(strtolower($alias) !== "gamemode" && strtolower($alias) !== "gm"){
             $usage = str_replace("<mode> ", "", $usage);

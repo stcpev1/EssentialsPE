@@ -25,12 +25,12 @@ class PlayerNickChangeEvent extends BaseCustomEvent implements Cancellable{
      * @param string $new_nick
      * @param mixed $nametag
      */
-    public function __construct(BaseAPI $api, Player $player, $new_nick, $nametag = false){
+    public function __construct(BaseAPI $api, Player $player, string $new_nick, $nametag = false){
         parent::__construct($api);
         $this->player = $player;
         $this->new_nick = $new_nick;
         $this->old_nick = $player->getDisplayName();
-        if($nametag === false){ $this->nametag = $new_nick; }else{ $this->nametag = $nametag; }
+        $this->nametag = ($nametag ?? $new_nick);
     }
 
     /**
@@ -38,7 +38,7 @@ class PlayerNickChangeEvent extends BaseCustomEvent implements Cancellable{
      *
      * @return Player
      */
-    public function getPlayer(){
+    public function getPlayer(): Player{
         return $this->player;
     }
 
@@ -47,7 +47,7 @@ class PlayerNickChangeEvent extends BaseCustomEvent implements Cancellable{
      *
      * @return string
      */
-    public function getNewNick(){
+    public function getNewNick(): string{
         return $this->new_nick;
     }
 
@@ -56,7 +56,7 @@ class PlayerNickChangeEvent extends BaseCustomEvent implements Cancellable{
      *
      * @return string
      */
-    public function getOldNick(){
+    public function getOldNick(): string{
         return $this->old_nick;
     }
 
@@ -65,7 +65,7 @@ class PlayerNickChangeEvent extends BaseCustomEvent implements Cancellable{
      *
      * @param string $nick
      */
-    public function setNick($nick){
+    public function setNick(string $nick){
         $this->new_nick = $nick;
     }
 
@@ -84,7 +84,7 @@ class PlayerNickChangeEvent extends BaseCustomEvent implements Cancellable{
      *
      * @param string $nametag
      */
-    public function setNameTag($nametag){
+    public function setNameTag(string $nametag){
         $this->nametag = $nametag;
     }
 }

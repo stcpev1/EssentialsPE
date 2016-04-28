@@ -23,7 +23,7 @@ class ItemCommand extends BaseCommand{
      * @param array $args
      * @return bool
      */
-    public function execute(CommandSender $sender, $alias, array $args){
+    public function execute(CommandSender $sender, $alias, array $args): bool{
         if(!$this->testPermission($sender)){
             return false;
         }
@@ -39,10 +39,10 @@ class ItemCommand extends BaseCommand{
         //Getting the item...
         $item = $this->getAPI()->getItem($item_name = array_shift($args));
 
-        if($item->getID() === Item::AIR){
+        if($item->getId() === Item::AIR){
             $sender->sendMessage(TextFormat::RED . "Unknown item \"" . $item_name . "\"");
             return false;
-        }elseif(!$sender->hasPermission("essentials.itemspawn.item-all") && !$sender->hasPermission("essentials.itemspawn.item-" . $item->getName() && !$sender->hasPermission("essentials.itemspawn.item-" . $item->getID()))){
+        }elseif(!$sender->hasPermission("essentials.itemspawn.item-all") && !$sender->hasPermission("essentials.itemspawn.item-" . $item->getName() && !$sender->hasPermission("essentials.itemspawn.item-" . $item->getId()))){
             $sender->sendMessage(TextFormat::RED . "You can't spawn this item");
             return false;
         }

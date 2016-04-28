@@ -21,7 +21,7 @@ class PlayerPvPModeChangeEvent extends BaseCustomEvent implements Cancellable{
      * @param Player $player
      * @param bool $mode
      */
-    public function __construct(BaseAPI $api, Player $player, $mode){
+    public function __construct(BaseAPI $api, Player $player, bool $mode){
         parent::__construct($api);
         $this->player = $player;
         $this->isEnabled = $api->isPvPEnabled($player);
@@ -33,7 +33,7 @@ class PlayerPvPModeChangeEvent extends BaseCustomEvent implements Cancellable{
      *
      * @return Player
      */
-    public function getPlayer(){
+    public function getPlayer(): Player{
         return $this->player;
     }
 
@@ -42,7 +42,7 @@ class PlayerPvPModeChangeEvent extends BaseCustomEvent implements Cancellable{
      *
      * @return bool
      */
-    public function isPvPEnabled(){
+    public function isPvPEnabled(): bool{
         return $this->isEnabled;
     }
 
@@ -51,7 +51,7 @@ class PlayerPvPModeChangeEvent extends BaseCustomEvent implements Cancellable{
      *
      * @return bool
      */
-    public function getPvPMode(){
+    public function getPvPMode(): bool{
         return $this->mode;
     }
 
@@ -62,9 +62,7 @@ class PlayerPvPModeChangeEvent extends BaseCustomEvent implements Cancellable{
      *
      * @param bool $mode
      */
-    public function setPvPMode($mode){
-        if(is_bool($mode)){
-            $this->mode = $mode;
-        }
+    public function setPvPMode(bool $mode){
+        $this->mode = $mode;
     }
 } 

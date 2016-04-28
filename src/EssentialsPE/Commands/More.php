@@ -23,7 +23,7 @@ class More extends BaseCommand{
      * @param array $args
      * @return bool
      */
-    public function execute(CommandSender $sender, $alias, array $args){
+    public function execute(CommandSender $sender, $alias, array $args): bool{
         if(!$this->testPermission($sender)){
             return false;
         }
@@ -36,7 +36,7 @@ class More extends BaseCommand{
             return false;
         }
         $item = $sender->getInventory()->getItemInHand();
-        if($item->getID() === Item::AIR){
+        if($item->getId() === Item::AIR){
             $sender->sendMessage(TextFormat::RED . "You can't get a stack of AIR");
             return false;
         }

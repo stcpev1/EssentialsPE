@@ -237,13 +237,13 @@ class SignEvents extends BaseEventHandler{
 
                 $item = $this->getAPI()->getItem($item_name . ":" . $damage);
 
-                if($item->getID() === 0 || $item->getName() === "Air"){
+                if($item->getId() === 0 || $item->getName() === "Air"){
                     $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] Invalid item name/ID");
                     $event->setCancelled(true);
                 }else{
                     $event->getPlayer()->sendMessage(TextFormat::GREEN . "Free sign successfully created!");
                     $event->setLine(0, TextFormat::AQUA . "[Free]");
-                    $event->setLine(1, ($item->getName() === "Unknown" ? $item->getID() : $item->getName()));
+                    $event->setLine(1, ($item->getName() === "Unknown" ? $item->getId() : $item->getName()));
                     $event->setLine(2, $damage);
                 }
             }else{

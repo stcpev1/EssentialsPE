@@ -41,5 +41,5 @@ updater:
   warn-console: true
   # Do you want to warn players with the permission 'essentials.update'?
   warn-players: true
-  # Do you want to use 'stable' releases? If not, beta ones will be used instead
-  stable: true
+  # Do you want to use 'stable', 'beta' or 'development' releases?
+  channel: stable

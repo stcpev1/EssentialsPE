@@ -21,7 +21,7 @@ class PlayerUnlimitedModeChangeEvent extends BaseCustomEvent implements Cancella
      * @param Player $player
      * @param bool $mode
      */
-    public function __construct(BaseAPI $api, Player $player, $mode){
+    public function __construct(BaseAPI $api, Player $player, bool $mode){
         parent::__construct($api);
         $this->player = $player;
         $this->isEnabled = $api->isUnlimitedEnabled($player);
@@ -33,7 +33,7 @@ class PlayerUnlimitedModeChangeEvent extends BaseCustomEvent implements Cancella
      *
      * @return Player
      */
-    public function getPlayer(){
+    public function getPlayer(): Player{
         return $this->player;
     }
 
@@ -42,7 +42,7 @@ class PlayerUnlimitedModeChangeEvent extends BaseCustomEvent implements Cancella
      *
      * @return bool
      */
-    public function isUnlimitedEnabled(){
+    public function isUnlimitedEnabled(): bool{
         return $this->isEnabled;
     }
 
@@ -51,7 +51,7 @@ class PlayerUnlimitedModeChangeEvent extends BaseCustomEvent implements Cancella
      *
      * @return bool
      */
-    public function getUnlimitedMode(){
+    public function getUnlimitedMode(): bool{
         return $this->mode;
     }
 
@@ -62,9 +62,7 @@ class PlayerUnlimitedModeChangeEvent extends BaseCustomEvent implements Cancella
      *
      * @param bool $mode
      */
-    public function setUnlimitedMode($mode){
-        if(is_bool($mode)){
-            $this->mode = $mode;
-        }
+    public function setUnlimitedMode(bool $mode){
+        $this->mode = $mode;
     }
 } 

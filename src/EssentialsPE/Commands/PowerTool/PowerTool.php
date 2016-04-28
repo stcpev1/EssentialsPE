@@ -23,7 +23,7 @@ class PowerTool extends BaseCommand{
      * @param array $args
      * @return bool
      */
-    public function execute(CommandSender $sender, $alias, array $args){
+    public function execute(CommandSender $sender, $alias, array $args): bool{
         if(!$this->testPermission($sender)){
             return false;
         }
@@ -32,7 +32,7 @@ class PowerTool extends BaseCommand{
             return false;
         }
         $item = $sender->getInventory()->getItemInHand();
-        if($item->getID() === Item::AIR){
+        if($item->getId() === Item::AIR){
             $sender->sendMessage(TextFormat::RED . "You can't assign a command to an empty hand.");
             return false;
         }

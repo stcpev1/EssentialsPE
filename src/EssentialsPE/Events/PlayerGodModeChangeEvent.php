@@ -21,7 +21,7 @@ class PlayerGodModeChangeEvent extends BaseCustomEvent implements Cancellable{
      * @param Player $player
      * @param bool $mode
      */
-    public function __construct(BaseAPI $api, Player $player, $mode){
+    public function __construct(BaseAPI $api, Player $player, bool $mode){
         parent::__construct($api);
         $this->player = $player;
         $this->isGod = $api->isGod($player);
@@ -33,7 +33,7 @@ class PlayerGodModeChangeEvent extends BaseCustomEvent implements Cancellable{
      *
      * @return Player
      */
-    public function getPlayer(){
+    public function getPlayer(): Player{
         return $this->player;
     }
 
@@ -42,7 +42,7 @@ class PlayerGodModeChangeEvent extends BaseCustomEvent implements Cancellable{
      *
      * @return bool
      */
-    public function isGod(){
+    public function isGod(): bool{
         return $this->isGod;
     }
 
@@ -51,7 +51,7 @@ class PlayerGodModeChangeEvent extends BaseCustomEvent implements Cancellable{
      *
      * @return bool
      */
-    public function getGodMode(){
+    public function getGodMode(): bool{
         return $this->mode;
     }
 
@@ -62,9 +62,7 @@ class PlayerGodModeChangeEvent extends BaseCustomEvent implements Cancellable{
      *
      * @param bool $mode
      */
-    public function setGodMode($mode){
-        if(is_bool($mode)){
-            $this->mode = $mode;
-        }
+    public function setGodMode(bool $mode){
+        $this->mode = $mode;
     }
 } 

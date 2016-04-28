@@ -7,22 +7,22 @@ use pocketmine\Server;
 use pocketmine\utils\TextFormat;
 
 class UpdateInstallTask extends AsyncTask{
+    /** @var BaseAPI */
+    private $api;
     /** @var string */
     private $url;
     /** @var string */
     private $pluginPath;
     /** @var string */
     private $newVersion;
-    /** @var BaseAPI */
-    private $api;
 
     /**
      * @param BaseAPI $api
-     * @param $url
-     * @param $pluginPath
-     * @param $newVersion
+     * @param string $url
+     * @param string $pluginPath
+     * @param string $newVersion
      */
-    public function __construct(BaseAPI $api, $url, $pluginPath, $newVersion){
+    public function __construct(BaseAPI $api, string $url, string $pluginPath, string $newVersion){
         $this->url = $url;
         $this->pluginPath = $pluginPath;
         $this->newVersion = $newVersion;

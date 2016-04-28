@@ -19,14 +19,14 @@ abstract class BaseTask extends PluginTask{
     /**
      * @return Loader
      */
-    public final function getPlugin(){
+    public final function getPlugin(): Loader{
         return $this->getAPI()->getEssentialsPEPlugin();
     }
 
     /**
      * @return BaseAPI
      */
-    public final function getAPI(){
+    public final function getAPI(): BaseAPI{
         return $this->api;
     }
 }

@@ -24,7 +24,7 @@ class BreakCommand extends BaseCommand{
      * @param array $args
      * @return bool
      */
-    public function execute(CommandSender $sender, $alias, array $args){
+    public function execute(CommandSender $sender, $alias, array $args): bool{
         if(!$this->testPermission($sender)){
             return false;
         }
@@ -35,7 +35,7 @@ class BreakCommand extends BaseCommand{
         if(($block = $sender->getTargetBlock(100, [Block::AIR])) === null){
             $sender->sendMessage(TextFormat::RED . "There isn't a reachable block");
             return false;
-        }elseif($block->getID() === Block::BEDROCK && !$sender->hasPermission("essentials.break.bedrock")){
+        }elseif($block->getId() === Block::BEDROCK && !$sender->hasPermission("essentials.break.bedrock")){
             $sender->sendMessage(TextFormat::RED . "You can't break bedrock");
             return false;
         }

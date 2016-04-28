@@ -24,7 +24,7 @@ class OtherEvents extends BaseEventHandler{
      * @param EntityExplodeEvent $event
      */
     public function onTNTExplode(EntityExplodeEvent $event){
-        if($event->getEntity()->namedtag->getName() === "EssNuke"){
+        if($event->getEntity()->namedtag->getName() === "EssPE"){
             $event->setBlockList([]);
         }
     }

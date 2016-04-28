@@ -14,10 +14,10 @@ class UpdateFetchTask extends AsyncTask{
     private $install;
 
     /**
-     * @param $build
-     * @param $install
+     * @param string $build
+     * @param bool $install
      */
-    public function __construct($build, $install){
+    public function __construct(string $build, bool $install){
         $this->build = $build;
         $this->install = $install;
     }
@@ -32,9 +32,9 @@ class UpdateFetchTask extends AsyncTask{
             case "beta":
                 $url = "https://api.github.com/repos/LegendOfMCPE/EssentialsPE/releases"; // Github repository for 'Beta' releases
                 break;
-            /*case "development": TODO: Release 'dev' builds
-                $url = "https://api.github.com/repos/LegendOfMCPE/EssentialsPE/contents/plugin.yml";
-                break;*/
+            case "development":
+                $url = "https://api.github.com/repos/LegendOfMCPE/EssentialsPE/contents/plugin.yml"; // Github repository for 'Development' versions
+                break;
         }
         $i = json_decode(Utils::getURL($url), true);
 
@@ -52,7 +52,7 @@ class UpdateFetchTask extends AsyncTask{
             case "development":
                 $content = yaml_parse(base64_decode($i["content"]));
                 $r["version"] = $content["version"];
-                $r["downloadURL"] = "https://raw.githubusercontent.com/LegendOfMCPE/EssentialsPE/master/build/EssentialsPE.phar"; // TODO: Update when releasing 'dev' builds, this is written just for reference now...
+                $r["downloadURL"] = "https://github.com/LegendOfMCPE/EssentialsPE/raw/travis-build/EssentialsPE.phar";
                 break;
         }
         $this->setResult($r);
@@ -69,9 +69,15 @@ class UpdateFetchTask extends AsyncTask{
         $currentVersion = $this->correctVersion($ess->getDescription()->getVersion());
         $v = $this->getResult()["version"];
 
-        if($currentVersion < $v){
+        if($currentVersion < $v or $this->build === "development"){
             $continue = true;
-            $message = TextFormat::AQUA . "[EssentialsPE]" . TextFormat::GREEN . " A new " . TextFormat::YELLOW . $this->build . TextFormat::GREEN . " version of EssentialsPE found! Version: " . TextFormat::YELLOW . $v . TextFormat::GREEN . ($this->install !== true ? "" : ", " . TextFormat::LIGHT_PURPLE . "Installing...");
+            $message = TextFormat::AQUA . "[EssentialsPE]" . TextFormat::GREEN .
+                ($this->build === "development" ?
+                    "Fetching latest EssentialsPE development build..." :
+                    " A new " . TextFormat::YELLOW . $this->build . TextFormat::GREEN . " version of EssentialsPE found!"
+                ) .
+                " Version: " . TextFormat::YELLOW . $v . TextFormat::GREEN .
+                ($this->install !== true ? "" : ", " . TextFormat::LIGHT_PURPLE . "Installing...");
         }else{
             $continue = false;
             $message = TextFormat::AQUA . "[EssentialsPE]" . TextFormat::YELLOW . " No new version found, you're using the latest version of EssentialsPE";
@@ -87,7 +93,7 @@ class UpdateFetchTask extends AsyncTask{
      * @param string $version
      * @return string
      */
-    protected function correctVersion($version){
+    protected function correctVersion(string $version){
         if(($beta = stripos($version, "Beta")) !== false){
             str_replace("Beta", ".", $version);
         }
