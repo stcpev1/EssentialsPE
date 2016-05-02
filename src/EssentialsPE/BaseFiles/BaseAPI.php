@@ -1279,10 +1279,10 @@ class BaseAPI{
      * Change the player name for chat and even on his NameTag (aka Nick)
      *
      * @param Player $player
-     * @param string $nick
+     * @param null|string $nick
      * @return bool
      */
-    public function setNick(Player $player, string $nick): bool{
+    public function setNick(Player $player, $nick): bool{
         if(!$this->colorMessage($nick, $player)){
             return false;
         }

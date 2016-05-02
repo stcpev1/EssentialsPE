@@ -460,8 +460,8 @@ class BaseSession{
      */
     public function setNick($nick){
         $this->nick = $nick;
-        $this->getPlayer()->setDisplayName($nick === null ? $this->getPlayer()->getName() : $nick);
-        $this->getPlayer()->setNameTag($nick === null ? $this->getPlayer()->getName() : $nick);
+        $this->getPlayer()->setDisplayName($nick ?? $this->getPlayer()->getName());
+        $this->getPlayer()->setNameTag($nick ?? $this->getPlayer()->getName());
     }
 
     /**  _____                    _______          _
