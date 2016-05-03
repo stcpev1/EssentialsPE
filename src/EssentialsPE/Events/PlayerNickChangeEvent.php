@@ -12,7 +12,7 @@ class PlayerNickChangeEvent extends BaseCustomEvent implements Cancellable{
 
     /** @var Player  */
     protected $player;
-    /** @var  string */
+    /** @var  null|string */
     protected   $new_nick;
     /** @var  string */
     protected   $old_nick;
@@ -63,9 +63,9 @@ class PlayerNickChangeEvent extends BaseCustomEvent implements Cancellable{
     /**
      * Change the nick to be set
      *
-     * @param null|string $nick
+     * @param string $nick
      */
-    public function setNick($nick){
+    public function setNick(string $nick){
         $this->new_nick = $nick;
     }
 

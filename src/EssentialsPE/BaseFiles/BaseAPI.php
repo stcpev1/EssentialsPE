@@ -1286,12 +1286,12 @@ class BaseAPI{
         if(!$this->colorMessage($nick, $player)){
             return false;
         }
+        if(strtolower($nick) === strtolower($player->getName()) || $nick === "off" || trim($nick) === "" || $nick === null){
+            $nick = $player->getName();
+        }
         $this->getServer()->getPluginManager()->callEvent($ev = new PlayerNickChangeEvent($this, $player, $this->colorMessage($nick)));
         if($ev->isCancelled()){
             return false;
-        }
-        if(strtolower($ev->getNewNick()) === strtolower($player->getName()) || $ev->getNewNick() === "off" || trim($ev->getNewNick()) === "" || $ev->getNewNick() === null){
-            $ev->setNick(null);
         }
         $this->getSession($player)->setNick($ev->getNewNick());
         return true;
