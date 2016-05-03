@@ -1287,7 +1287,7 @@ class BaseAPI{
             return false;
         }
         if(strtolower($nick) === strtolower($player->getName()) || $nick === "off" || trim($nick) === "" || $nick === null){
-            $nick = $player->getName();
+            return $this->removeNick($player);
         }
         $this->getServer()->getPluginManager()->callEvent($ev = new PlayerNickChangeEvent($this, $player, $this->colorMessage($nick)));
         if($ev->isCancelled()){
