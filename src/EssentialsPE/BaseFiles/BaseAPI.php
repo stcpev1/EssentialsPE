@@ -1641,9 +1641,9 @@ class BaseAPI{
      * Creates a new Sessions for the specified player
      *
      * @param Player|Player[] $player
-     * @return BaseSession
+     * @return array
      */
-    public function createSession($player): BaseSession{
+    public function createSession($player): array{
         if(!is_array($player)){
             $player = [$player];
         }
