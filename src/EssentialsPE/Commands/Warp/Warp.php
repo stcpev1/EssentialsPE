@@ -38,7 +38,7 @@ class Warp extends BaseCommand{
             $sender->sendMessage(TextFormat::RED . "[Error] Warp doesn't exist");
             return false;
         }
-        if(!isset($args[0]) && !$sender instanceof Player){
+        if(!isset($args[1]) && !$sender instanceof Player){
             $this->sendUsage($sender, $alias);
             return false;
         }
