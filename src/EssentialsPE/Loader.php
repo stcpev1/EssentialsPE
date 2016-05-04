@@ -94,8 +94,8 @@ class Loader extends PluginBase{
 	    $this->getLogger()->info(TextFormat::YELLOW . "Loading...");
         $this->registerEvents();
         $this->registerCommands();
-        if(count($l = $this->getServer()->getOnlinePlayers()) > 0){
-            $this->getAPI()->createSession($l);
+        if(count($p = $this->getServer()->getOnlinePlayers()) > 0){
+            $this->getAPI()->createSession($p);
         }
         if($this->getAPI()->isUpdaterEnabled()){
             $this->getAPI()->fetchEssentialsPEUpdate(false);
