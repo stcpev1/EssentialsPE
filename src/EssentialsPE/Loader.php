@@ -81,6 +81,9 @@ class Loader extends PluginBase{
     private $api;
 
     public function onEnable(){
+        // Before anything else...
+        $this->checkConfig();
+
         // Custom API Setup :3
         $this->getServer()->getPluginManager()->callEvent($ev = new CreateAPIEvent($this, BaseAPI::class));
         $class = $ev->getClass();
@@ -90,7 +93,6 @@ class Loader extends PluginBase{
         if(!is_dir($this->getDataFolder())){
             mkdir($this->getDataFolder());
         }
-        $this->checkConfig();
 	    $this->getLogger()->info(TextFormat::YELLOW . "Loading...");
         $this->registerEvents();
         $this->registerCommands();
@@ -237,6 +239,7 @@ class Loader extends PluginBase{
         }
         //$this->saveResource("Economy.yml");
         $this->saveResource("Kits.yml");
+        $this->saveResource("Warps.yml");
         $cfg = $this->getConfig();
 
         if(!$cfg->exists("version") || $cfg->get("version") !== "0.0.2"){
