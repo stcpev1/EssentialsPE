@@ -234,6 +234,9 @@ class Loader extends PluginBase{
     }
 
     public function checkConfig(){
+        if(!is_dir($this->getDataFolder())){
+            mkdir($this->getDataFolder());
+        }
         if(!file_exists($this->getDataFolder() . "config.yml")){
             $this->saveDefaultConfig();
         }
