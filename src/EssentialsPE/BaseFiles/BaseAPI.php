@@ -1308,19 +1308,19 @@ class BaseAPI{
      * Change the player name for chat and even on his NameTag (aka Nick)
      *
      * @param Player $player
-     * @param string $nick
+     * @param null|string $nick
      * @return bool
      */
-    public function setNick(Player $player, string $nick): bool{
+    public function setNick(Player $player, $nick): bool{
         if(!$this->colorMessage($nick, $player)){
             return false;
+        }
+        if(strtolower($nick) === strtolower($player->getName()) || $nick === "off" || trim($nick) === "" || $nick === null){
+            return $this->removeNick($player);
         }
         $this->getServer()->getPluginManager()->callEvent($ev = new PlayerNickChangeEvent($this, $player, $this->colorMessage($nick)));
         if($ev->isCancelled()){
             return false;
-        }
-        if(strtolower($ev->getNewNick()) === strtolower($player->getName()) || $ev->getNewNick() === "off" || trim($ev->getNewNick()) === "" || $ev->getNewNick() === null){
-            $ev->setNick(null);
         }
         $this->getSession($player)->setNick($ev->getNewNick());
         return true;
@@ -1663,27 +1663,23 @@ class BaseAPI{
      * @return bool
      */
     public function sessionExists(Player $player): bool{
-        if(isset($this->sessions[$spl = spl_object_hash($player)])){
-            $this->sessions[$player->getId()] = $this->sessions[$spl];
-            unset($this->sessions[$spl]);
-        }
-        return isset($this->sessions[$player->getId()]);
+        return isset($this->sessions[spl_object_hash($player)]);
     }
 
     /**
      * Creates a new Sessions for the specified player
      *
      * @param Player|Player[] $player
-     * @return BaseSession
+     * @return array
      */
-    public function createSession($player): BaseSession{
+    public function createSession($player): array{
         if(!is_array($player)){
             $player = [$player];
         }
         $r = [];
         foreach($player as $i => $p){
-            $pID = $p->getId() ?? spl_object_hash($p);
-            if(!isset($this->sessions[$pID])){
+            $spl = spl_object_hash($p);
+            if(!isset($this->sessions[$spl])){
                 $this->getEssentialsPEPlugin()->getLogger()->debug("Creating player session file...");
                 $cfg = $this->getSessionFile($p->getName());
                 $tValues = $cfg->getAll();
@@ -1729,12 +1725,12 @@ class BaseAPI{
                     unset($values["noPacket"]);
                 }
                 $this->getEssentialsPEPlugin()->getLogger()->debug("Setting up final values...");
-                $this->sessions[$pID] = new BaseSession($this, $p, $cfg, $values);
+                $this->sessions[$spl] = new BaseSession($this, $p, $cfg, $values);
                 $this->setMute($p, $m, $mU);
                 $this->setNick($p, $n);
                 $this->setVanish($p, $v, $vNP);
             }
-            $r[] = $this->sessions[$pID];
+            $r[] = $this->sessions[$spl];
         }
         $this->getServer()->getScheduler()->scheduleAsyncTask(new GeoLocation($player));
         return $r;
@@ -1767,7 +1763,7 @@ class BaseAPI{
         foreach($player as $p){
             if($this->sessionExists($p)){
                 $this->getSession($p)->onClose();
-                unset($this->sessions[$p->getId()]);
+                unset($this->sessions[spl_object_hash($p)]);
             }
         }
     }
@@ -1780,7 +1776,7 @@ class BaseAPI{
         if(!$this->sessionExists($player)){
             $this->createSession($player);
         }
-        return $this->sessions[$player->getId()];
+        return $this->sessions[spl_object_hash($player)];
     }
 
     /**  _______ _

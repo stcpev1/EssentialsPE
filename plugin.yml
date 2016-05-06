@@ -16,7 +16,7 @@ permissions:
                 children:
                     essentials.ban.exempt:
                         default: op
-                        descrption: "Prevent the player from being banned"
+                        description: "Prevent the player from being banned"
             essentials.colorchat:
                 default: op
                 description: "Allow to chat using colors!"
@@ -181,7 +181,7 @@ permissions:
                 children:
                     essentials.heal.use:
                         default: op
-                        description: "Heal youself"
+                        description: "Heal yourself"
                     essentials.heal.other:
                         default: op
                         description: "Heal other players"
@@ -280,7 +280,7 @@ permissions:
                         default: op
                         description: "Change others name"
             essentials.nuke:
-                defualt: false
+                default: false
                 description: "Spawn a thin carpet of bomb"
                 children:
                     essentials.nuke.use:
@@ -336,7 +336,7 @@ permissions:
                         description: "Let you repair all the damaged tools/armors on your inventory"
                     essentials.repair.armor:
                         default: op
-                        description: "Let your repair the equiped armor while using /repair all"
+                        description: "Let your repair the equipped armor while using /repair all"
             essentials.reply:
                 default: true
                 description: "Allow the player to quick reply to the last player that messaged him"

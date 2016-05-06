@@ -63,7 +63,6 @@ use EssentialsPE\Commands\Teleport\TPDeny;
 use EssentialsPE\Commands\Teleport\TPHere;
 use EssentialsPE\Commands\TempBan;
 use EssentialsPE\Commands\Top;
-use EssentialsPE\Commands\TreeCommand;
 use EssentialsPE\Commands\Unlimited;
 use EssentialsPE\Commands\Vanish;
 use EssentialsPE\Commands\Warp\DelWarp;
@@ -82,6 +81,9 @@ class Loader extends PluginBase{
     private $api;
 
     public function onEnable(){
+        // Before anything else...
+        $this->checkConfig();
+
         // Custom API Setup :3
         $this->getServer()->getPluginManager()->callEvent($ev = new CreateAPIEvent($this, BaseAPI::class));
         $class = $ev->getClass();
@@ -91,12 +93,11 @@ class Loader extends PluginBase{
         if(!is_dir($this->getDataFolder())){
             mkdir($this->getDataFolder());
         }
-        $this->checkConfig();
 	    $this->getLogger()->info(TextFormat::YELLOW . $this->getAPI()->getMessage("load"));
         $this->registerEvents();
         $this->registerCommands();
-        if(count($l = $this->getServer()->getOnlinePlayers()) > 0){
-            $this->getAPI()->createSession($l);
+        if(count($p = $this->getServer()->getOnlinePlayers()) > 0){
+            $this->getAPI()->createSession($p);
         }
         if($this->getAPI()->isUpdaterEnabled()){
             $this->getAPI()->fetchEssentialsPEUpdate(false);
@@ -168,7 +169,7 @@ class Loader extends PluginBase{
             new Suicide($this->getAPI()),
             new TempBan($this->getAPI()),
             new Top($this->getAPI()),
-            new TreeCommand($this->getAPI()), #TODO
+            //new TreeCommand($this->getAPI()), #TODO
             new Unlimited($this->getAPI()),
             new Vanish($this->getAPI()),
             //new Whois($this->getAPI()), TODO
@@ -233,11 +234,15 @@ class Loader extends PluginBase{
     }
 
     public function checkConfig(){
+        if(!is_dir($this->getDataFolder())){
+            mkdir($this->getDataFolder());
+        }
         if(!file_exists($this->getDataFolder() . "config.yml")){
             $this->saveDefaultConfig();
         }
         //$this->saveResource("Economy.yml");
         $this->saveResource("Kits.yml");
+        $this->saveResource("Warps.yml");
         $cfg = $this->getConfig();
 
         if(!$cfg->exists("version") || $cfg->get("version") !== "0.0.2"){

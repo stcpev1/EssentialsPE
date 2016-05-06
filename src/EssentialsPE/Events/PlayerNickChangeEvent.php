@@ -12,7 +12,7 @@ class PlayerNickChangeEvent extends BaseCustomEvent implements Cancellable{
 
     /** @var Player  */
     protected $player;
-    /** @var  string */
+    /** @var  null|string */
     protected   $new_nick;
     /** @var  string */
     protected   $old_nick;
@@ -82,9 +82,9 @@ class PlayerNickChangeEvent extends BaseCustomEvent implements Cancellable{
     /**
      * Change the NameTag to be set
      *
-     * @param string $nametag
+     * @param null|string $nametag
      */
-    public function setNameTag(string $nametag){
+    public function setNameTag($nametag){
         $this->nametag = $nametag;
     }
 }
