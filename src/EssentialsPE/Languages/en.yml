@@ -1,68 +1,113 @@
-economy:
-  sign: "$"
-  balance:
-    add: "&eAdding balance..."
-    message:
-      other: "&f{0} &bhas &e{1}."
-      self: "&bYou have &e{1}."
-    pay: "&ePaying..."
-    reset: "&eResetting balance..."
-    set: "&eSetting balance..."
-    take: "&eTaking balance..."
-  sold:
-    single: "&aSold &e{0} &aitems! You got &b{1}"
-    much: "&aItem sold! You got &b{1}"
-  worth:
-    set: "&eSetting worth..."
-    get: "&bThe worth for this item is &a{0}"
-error:
-  prefix: "&c[Error] "
-  economy:
-    amount: "&cPlease specify a valid amount."
-    negative: "&cYou can't pay a negative value."
-    profit: "&cYou don't have enough profit to pay."
-    worth:
-      unknown: "&cWorth not available for this item."
-      invalid: "&cPlease provide a valid worth."
-  gamemode:
-    other: "&f{0} &cis in &e{1} &cmode."
-    self: "You're in {1}."
-  home:
-    exists: "&cHome \"{0}\" doesn't exists, or maybe the world is not available."
-    empty: "&cYou don't have any home yet."
-    bed: "&cYou can only set a \"&ebed\" &chome by sleeping in one."
-  ingame: "&cPlease run this command in-game."
-  item:
-    in:
-      hand: "&cYou don't have anything in your hand."
-      inventory: "&c You don't have that item in your inventory."
-    invalid: "&cPlease provide a valid item."
-    unknown: "&cUnknown Item."
-    quantity: "&cYou don't have that amount of items."
-  alphanumeric: "&cPlease provide a valid alphanumeric name (and underscores, without spaces):&e _ a-z A-Z 0-9"
-  playernotfound: "Player not found."
-  permission: "You don't have enough permissions to run this command."
-  usage: "&cUsage: &e{0}"
+#economy:
+#  sign: "$"
+#  balance:
+#    add: "&eAdding balance..."
+#    message:
+#      other: "&f{0} &bhas &e{1}."
+#     self: "&bYou have &e{1}."
+#    pay: "&ePaying..."
+#    reset: "&eResetting balance..."
+#   set: "&eSetting balance..."
+#    take: "&eTaking balance..."
+#  sold:
+#    single: "&aSold &e{0} &aitems! You got &b{1}"
+#    much: "&aItem sold! You got &b{1}"
+#  worth:
+#    set: "&eSetting worth..."
+#    get: "&bThe worth for this item is &a{0}"
+#error:
+#  prefix: "&c[Error] "
+#  economy:
+#    amount: "&cPlease specify a valid amount."
+#    negative: "&cYou can't pay a negative value."
+#    profit: "&cYou don't have enough profit to pay."
+#    worth:
+#      unknown: "&cWorth not available for this item."
+#      invalid: "&cPlease provide a valid worth."
+#  gamemode:
+#    other: "&f{0} &cis in &e{1} &cmode."
+#    self: "You're in {1}."
+#  home:
+#    exists: "&cHome \"{0}\" doesn't exists, or maybe the world is not available."
+#    empty: "&cYou don't have any home yet."
+#    bed: "&cYou can only set a \"&ebed\" &chome by sleeping in one."
+#  ingame: "&cPlease run this command in-game."
+#  item:
+#    in:
+#      hand: "&cYou don't have anything in your hand."
+#      inventory: "&c You don't have that item in your inventory."
+#    invalid: "&cPlease provide a valid item."
+#    unknown: "&cUnknown Item."
+#    quantity: "&cYou don't have that amount of items."
+#  alphanumeric: "&cPlease provide a valid alphanumeric name (and underscores, without spaces):&e _ a-z A-Z 0-9"
+#  playernotfound: "Player not found."
+#  permission: "You don't have enough permissions to run this command."
+#  usage: "&cUsage: &e{0}"
+#home:
+#  create: "&aSuccessfully created home \"&b{0}\""
+#  list: "&bAvailable homes:\n{0}"
+#  remove: "&aSuccessfully removed home \"{0}\"!"
+#  teleport: "&aTeleporting to home &b{0} &a..."
+#  update: "&aSuccessfully updated home \"&b{0}\""
+#vanish:
+#  other: "&f{0} is now &7{1}."
+#  self: "You are now &7{1}."
+#warning:
+#  updater: "&eThe updater is already working... PLease wait a few moments and try again."
+#commands:
+#  essentialspe:
+#    name: "essentialspe"
+#    description: "Useful tools for EssentialsPE plugin"
+#    alias:
+#      - "esspe"
+#      - "ess"
+#      - "essentials"
+
+# TODO: Replace everything above into below more structured syntax
 essentials:
-  prefix: "&f[&aEssentialsPE&f] "
+  error:
+    command-usage: "&fUsage: &e{0}"
+    invalid-config: "&cInvalid Configuration file found, generating a new one..."
+    need-permission: "&eYou don't have permission to use this command"
+    prefix: "&c[Error]"
+    player-not-found: "&fPlayer &d{0} not found"
+    run-in-game: "&fCommand &d{0} &fcan only be run &ein-game"
+    run-in-console: "&fCommand &d{0} &fcan only be run &ein-console"
+  prefix: "&f[&aEssentialsPE&f]"
   version: "&eThis server is using &aEssentialsPE &bv{0}"
-home:
-  create: "&aSuccessfully created home \"&b{0}\""
-  list: "&bAvailable homes:\n{0}"
-  remove: "&aSuccessfully removed home \"{0}\"!"
-  teleport: "&aTeleporting to home &b{0} &a..."
-  update: "&aSuccessfully updated home \"&b{0}\""
-load: "&eLoading..."
-vanish:
-  other: "&f{0} is now &7{1}."
-  self: "You are now &7{1}."
-warning:
-  updater: "&eThe updater is already working... PLease wait a few moments and try again."
 commands:
-  essentialspe:
-    name: "essentialspe"
-    description: "Useful tools for EssentialsPE plugin"
+  vanish:
+    name: "vanish"
+    description: "Hide from other players!"
+    usage: "[player]"
+    console-usage: "<player>"
     alias:
-      - "esspe"
-      - "ess"
-      - "essentials"
+      - "v"
+    vanish-enabled: "&fYou are now &7vanished&f!"
+    vanish-disabled: "&fYou are now &lvisible"
+    other-enabled: "&d{0} &fis now &7vanished!"
+    other-disabled: "&d{0} &f is now &lvisible"
+  whois:
+    name: "whois"
+    description: "Display player information"
+    usage: "<player>"
+    console-usage: true
+    alias:
+    sub:
+      information: "&bInformation"
+      afk: "&7AFK"
+      location: "&7Location"
+      money: "&7Money"
+      name: "&7Name"
+      nick: "&7Nick"
+  world:
+    name: "world"
+    description: "Teleport bewteen worlds"
+    usage: "<world name>"
+    console-usage: true
+    alias:
+    need-permission: "&fYou can not teleport to world &d{0}"
+    world-not-exists: "&fWorld &d{0} &fdoes not exists"
+    loading-world: "&fWorld &d{0} &fwas not loaded previously. Loading..."
+    load-error: "&fSomething went wrong and we could not load world &d{0}"
+    teleport: "&eTeleporting to world &d{0}"

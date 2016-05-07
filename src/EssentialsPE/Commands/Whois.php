@@ -11,7 +11,7 @@ class Whois extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "whois", "Display player information", "<player>");
+        parent::__construct($api, "whois");
         $this->setPermission("essentials.whois");
     }
 
@@ -29,17 +29,17 @@ class Whois extends BaseCommand{
             $this->sendUsage($sender, $alias);
             return false;
         }
-        if(!($player = $this->getAPI()->getPlayer($alias[0]))){
-            $sender->sendMessage(TextFormat::RED . "[Error] Player not found");
+        if(!($player = $this->getAPI()->getPlayer($args[0]))){
+            $this->sendMessage($sender, "essentials.error.player-not-found", $args[0]);
             return false;
         }
         $data = $this->getAPI()->getPlayerInformation($player);
         if(!$sender->hasPermission("essentials.geoip.show") || $player->hasPermission("essentials.geoip.hide")){
             unset($data["location"]);
         }
-        $m =TextFormat::AQUA . "Information:\n";
+        $m = $this->getAPI()->getTranslation("commands.whois.sub.information");
         foreach($data as $k => $v){
-            $m .= TextFormat::GRAY . " * " . ucfirst($k) . ": $v";
+            $m .= " * " . ucfirst($k) . ": $v";
         }
         $sender->sendMessage($m);
         return true;

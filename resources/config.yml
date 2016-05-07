@@ -6,30 +6,51 @@ version: 0.0.2
 
 # Edit different parts of the AFK feature!
 afk:
-  # Players that are AFK can, or not, be damaged
-  safe: true
-  # Time until a player is known as AFK
-  # You can disable this feature by assigning a value lower to 0
-  auto-set: 300
   # This option et you enable or disable the "Auto-AFK" broadcast status,
   # So when someone is automatically set into AFK for idling, it will be broadcasted... Or not
   auto-broadcast: true
   # Time until a player is kicked for being AFK
-  # You can disable this feature by assigning a value lower to 0
+  # Set to -1 to disable
   auto-kick: 300
+  # Time until a player is known as AFK
+  # Set to -1 to disable
+  auto-set: 300
   # Allow the broadcasting of the AFK status of a player
   broadcast: true
+  # Players that are AFK can, or not, be damaged
+  safe: true
 
-# Let you configure the size of a stack that players (with permission) can get (via /more or /item)
-oversized-stacks: 64
+# Allow to manage some chat functionalities (Provided by EssentialsPE)
+chat:
+  # Enable the usage of & symbol to insert Formatting Codes
+  # If you disable, people will still be able to use § symbol for Format Codes
+  ampersand-codes: true
+  # This property will disable any kind of Formatting Codes in player chat
+  # NOTES:
+  # - This only applies for messages sent by players and does not include their name in the format-removal.
+  # - If this option is set to true, we will ignore the 'ampersand-codes' property
+  escape-format-codes: false
+  # A color code between 0-9 or a-f. Set to 'none' to disable.
+  ops-name-color: "4"
+  # The character(s) to prefix all nicknames, so that you know they are not true usernames.
+  nickname-prefix: "~"
+  # The maximum length allowed in nicknames. The nickname prefix is included in this.
+  max-nick-lenght: 15
 
-# Let you set a limit for the /near command to search for players (in blocks)
-near-radius-limit: 200
-# Let you set a default value to search for players (it can't be higher than the default limit)
-near-default-radius: 200
+# Disabling commands here will prevent EssentialsPE handling the command, this will not affect command conflicts.
+disabled-commands:
+#  - nick
+#  - clear
 
-# This option let you enable color codes in the server, but keep in mind that the client may not support them
-enable-custom-colors: false
+items:
+  # Let you configure the size of a stack that players (with permission) can get (via /more or /item)
+  oversized-stacks: 64
+
+near:
+  # Let you set a default value to search for players (it can't be higher than the default limit)
+  default: 200
+  # Let you set a limit for the /near command to search for players (in blocks)
+  limit: 200
 
 # These options will let you configure how the auto-updater will work
 updater:
@@ -43,3 +64,90 @@ updater:
   warn-players: true
   # Do you want to use 'stable', 'beta' or 'development' releases?
   channel: stable
+
+################################
+# If the teleport destination is unsafe, should players be teleported to the nearest safe location?
+# If this is set to true, Essentials will attempt to teleport players close to the intended destination.
+# If this is set to false, attempted teleports to unsafe locations will be cancelled with a warning.
+teleport-safety: true
+
+# The delay, in seconds, required between /home, /tp, etc.
+teleport-cooldown: 0
+
+# The delay, in seconds, before a user actually teleports.  If the user moves or gets attacked in this timeframe, the teleport never occurs.
+teleport-delay: 0
+
+# The delay, in seconds, a player can't be attacked by other players after they have been teleported by a command.
+# This will also prevent the player attacking other players.
+teleport-invulnerability: 4
+
+# The delay, in seconds, required between /heal or /feed attempts.
+heal-cooldown: 60
+
+# Set the locale for all messages.
+# If you don't set this, the default locale of the server will be used.
+# For example, to set language to English, set locale to en, to use the file "messages_en.properties".
+# Don't forget to remove the # in front of the line.
+#locale: en
+
+# Turn off god mode when people leave the server.
+remove-god-on-disconnect: false
+
+# Auto-AFK
+# After this timeout in seconds, the user will be set as AFK.
+# This feature requires the player to have essentials.afk.auto node.
+# Set to -1 for no timeout.
+auto-afk: 300
+
+# Auto-AFK Kick
+# After this timeout in seconds, the user will be kicked from the server.
+# essentials.afk.kickexempt node overrides this feature.
+# Set to -1 for no timeout.
+auto-afk-kick: -1
+
+# Set this to true, if you want to freeze the player, if the player is AFK.
+# Other players or monsters can't push the player out of AFK mode then.
+# This will also enable temporary god mode for the AFK player.
+# The player has to use the command /afk to leave the AFK mode.
+freeze-afk-players: false
+
+# When the player is AFK, should he be able to pickup items?
+# Enable this, when you don't want people idling in mob traps.
+disable-item-pickup-while-afk: false
+
+# This setting controls if a player is marked as active on interaction.
+# When this setting is false, the player would need to manually un-AFK using the /afk command.
+cancel-afk-on-interact: true
+
+# Should we automatically remove afk status when a player moves?
+# Player will be removed from AFK on chat/command regardless of this setting.
+# Disable this to reduce server lag.
+cancel-afk-on-move: true
+
+# Add worlds to this list, if you want to automatically disable god mode there.
+no-god-in-worlds:
+#  - world_nether
+
+# The number of items given if the quantity parameter is left out in /item or /give.
+    # IDEA!!!!: Override 'give' command and 'item' will extend it: parent::execute($sender, $alias, $args) --- TODO
+# If this number is below 1, the maximum stack size size is given. If over-sized stacks.
+# are not enabled, any number higher than the maximum stack size results in more than one stack.
+default-stack-size: -1
+
+# Over-sized stacks are stacks that ignore the normal max stack size.
+# They can be obtained using /give and /item, if the player has essentials.oversizedstacks permission.
+# How many items should be in an over-sized stack?
+oversized-stacksize: 64
+
+# Allow repair of enchanted weapons and armor.
+# If you set this to false, you can still allow it for certain players using the permission.
+# essentials.repair.enchanted
+repair-enchanted: true
+
+# Allow 'unsafe' enchantments in kits and item spawning.
+# Warning: Mixing and overleveling some enchantments can cause issues with clients, servers and plugins.
+unsafe-enchantments: false
+
+# Allows people to set their bed at daytime.
+update-bed-at-daytime: true
+

@@ -74,7 +74,7 @@ use EssentialsPE\EventHandlers\PlayerEvents;
 use EssentialsPE\EventHandlers\SignEvents;
 use EssentialsPE\Events\CreateAPIEvent;
 use pocketmine\plugin\PluginBase;
-use pocketmine\utils\TextFormat;
+use pocketmine\utils\Config;
 
 class Loader extends PluginBase{
     /** @var BaseAPI */
@@ -93,7 +93,6 @@ class Loader extends PluginBase{
         if(!is_dir($this->getDataFolder())){
             mkdir($this->getDataFolder());
         }
-	    $this->getLogger()->info(TextFormat::YELLOW . $this->getAPI()->getMessage("load"));
         $this->registerEvents();
         $this->registerCommands();
         if(count($p = $this->getServer()->getOnlinePlayers()) > 0){
@@ -169,7 +168,7 @@ class Loader extends PluginBase{
             new Suicide($this->getAPI()),
             new TempBan($this->getAPI()),
             new Top($this->getAPI()),
-            //new TreeCommand($this->getAPI()), #TODO
+            //new TreeCommand($this->getAPI()), TODO
             new Unlimited($this->getAPI()),
             new Vanish($this->getAPI()),
             //new Whois($this->getAPI()), TODO
@@ -213,24 +212,22 @@ class Loader extends PluginBase{
             new Gamemode($this->getAPI()),
             new Kill($this->getAPI())
         ];
-        $aliased = [];
-        foreach($commands as $cmd){
+        $register = [];
+        $cfg = $this->getConfig()->get("disabled-commands") ?? [];
+        foreach($commands as $k => $cmd){
             /** @var BaseCommand $cmd */
-            $commands[$cmd->getName()] = $cmd;
-            $aliased[$cmd->getName()] = $cmd->getName();
-            foreach($cmd->getAliases() as $alias){
-                $aliased[$alias] = $cmd->getName();
+            $register[$cmd->getName()] = $cmd;
+            $alias = $cmd->getAliases();
+            $alias[] = $cmd->getName();
+            foreach($alias as $a){
+                if(isset($cfg[$a])){
+                    unset($register[$cmd->getName()]);
+                    break;
+                }
             }
         }
-        $cfg = $this->getConfig()->get("commands", []);
-        foreach($cfg as $del){
-            if(isset($alias[$del])){
-                unset($commands[$alias[$del]]);
-            }else{
-                $this->getLogger()->debug("\"$del\" command not found inside EssentialsPE, skipping...");
-            }
-        }
-        $this->getServer()->getCommandMap()->registerAll("EssentialsPE", $commands);
+        unset($commands);
+        $this->getServer()->getCommandMap()->registerAll("EssentialsPE", $register);
     }
 
     public function checkConfig(){
@@ -245,105 +242,23 @@ class Loader extends PluginBase{
         $this->saveResource("Warps.yml");
         $cfg = $this->getConfig();
 
-        if(!$cfg->exists("version") || $cfg->get("version") !== "0.0.2"){
-            $this->getLogger()->debug(TextFormat::RED . "An invalid config file was found, generating a new one...");
+        if(\Phar::running(true) !== ""){
+            $path = \Phar::running(true) . DIRECTORY_SEPARATOR;
+        }else{
+            $path = $this->getServer()->getPluginPath() . DIRECTORY_SEPARATOR . "EssentialsPE" . DIRECTORY_SEPARATOR;
+        }
+        $default = new Config($path . "resources" . DIRECTORY_SEPARATOR . "config.yml");
+
+        if($cfg->get("version") !== $default->get("version")){
+            $this->getLogger()->debug($this->getAPI()->getTranslation("essentials.error.invalidconfig"));
             rename($this->getDataFolder() . "config.yml", $this->getDataFolder() . "config.yml.old");
             $this->saveDefaultConfig();
             $cfg = $this->getConfig();
         }
 
-        $booleans = ["enable-custom-colors"];
-        foreach($booleans as $key){
-            $value = null;
-            if(!$cfg->exists($key) || !is_bool($cfg->get($key))){
-                switch($key){
-                    // Properties to auto set true
-                    case "safe-afk":
-                        $value = true;
-                        break;
-                    // Properties to auto set false
-                    case "enable-custom-colors":
-                        $value = false;
-                        break;
-                }
-            }
-            if($value !== null){
-                $cfg->set($key, $value);
-            }
-        }
-
-        $integers = ["oversized-stacks", "near-radius-limit", "near-default-radius"];
-        foreach($integers as $key){
-            $value = null;
-            if(!is_numeric($cfg->get($key))){
-                switch($key){
-                    case "auto-afk-kick":
-                        $value = 300;
-                        break;
-                    case "oversized-stacks":
-                        $value = 64;
-                        break;
-                    case "near-radius-limit":
-                        $value = 200;
-                        break;
-                    case "near-default-radius":
-                        $value = 100;
-                        break;
-                }
-            }
-            if($value !== null){
-                $cfg->set($key, $value);
-            }
-        }
-
-        $afk = ["safe", "auto-set", "auto-broadcast", "auto-kick", "broadcast"];
-        foreach($afk as $key){
-            $value = null;
-            $k = $this->getConfig()->getNested("afk." . $key);
-            switch($key){
-                case "safe":
-                case "auto-broadcast":
-                case "broadcast":
-                    if(!is_bool($k)){
-                        $value = true;
-                    }
-                    break;
-                case "auto-set":
-                case "auto-kick":
-                    if(!is_int($k)){
-                        $value = 300;
-                    }
-                    break;
-            }
-            if($value !== null){
-                $this->getConfig()->setNested("afk." . $key, $value);
-            }
-        }
-
-        $updater = ["enabled", "time-interval", "warn-console", "warn-players", "channel"];
-        foreach($updater as $key){
-            $value = null;
-            $k = $this->getConfig()->getNested("updater." . $key);
-            switch($key){
-                case "time-interval":
-                    if(!is_int($k)){
-                        $value = 1800;
-                    }
-                    break;
-                case "enabled":
-                case "warn-console":
-                case "warn-players":
-                    if(!is_bool($k)){
-                        $value = true;
-                    }
-                    break;
-                case "channel":
-                    if(!is_string($k) || ($k !== "stable" && $k !== "beta" && $k !== "development")){
-                        $value = "stable";
-                    }
-            }
-            if($value !== null){
-                $this->getConfig()->setNested("updater." . $key, $value);
+        foreach($default->getAll() as $k => $v){
+            if(!$cfg->exists($k)){
+                $cfg->set($k, $v);
             }
         }
     }

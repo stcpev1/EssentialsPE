@@ -1,8 +1,10 @@
 ---
 iksaku:
-- 32
-- 329
-- 331
-- 340
-- 341
+  delay: 10 # Delay must be set in Seconds
+  items:
+    - 32
+    - 329
+    - 331
+    - 340
+    - 341
 ...

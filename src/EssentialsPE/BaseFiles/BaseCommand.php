@@ -14,22 +14,16 @@ abstract class BaseCommand extends Command implements PluginIdentifiableCommand{
     private $consoleUsageMessage;
 
     /**
+     * BaseCommand constructor.
      * @param BaseAPI $api
      * @param string $name
-     * @param string $description
-     * @param null|string $usageMessage
-     * @param bool|null|string $consoleUsageMessage
-     * @param array $aliases
      */
-    public function __construct(BaseAPI $api, $name, $description = "", $usageMessage = null, $consoleUsageMessage = true, array $aliases = []){
-        #$identifier = "commands.essentialspe";
-        /** @var array $identifier */
-        #$identifier = $this->getAPI()->getMessage($identifier);
-        #parent::__construct($identifier["name"], $identifier["description"], $usageMessage, $aliases); TODO
-        parent::__construct($name, $description, $usageMessage, $aliases);
+    public function __construct(BaseAPI $api, string $name){
         $this->api = $api;
-        $this->consoleUsageMessage = $consoleUsageMessage;
-        $this->setPermissionMessage($this->getAPI()->getMessage("error.permission"));
+        $t = $this->getAPI()->getTranslation("commands." . $name);
+        parent::__construct($t["name"], $t["description"], $t["usage"], $t["alias"] ?? []);
+        $this->consoleUsageMessage = $t["console-usage"] === true ? $this->getUsage() : $t["console-usage"];
+        $this->setPermissionMessage($this->getAPI()->getTranslation("essentials.error.need-permission"));
     }
 
     /**
@@ -68,13 +62,13 @@ abstract class BaseCommand extends Command implements PluginIdentifiableCommand{
      * @param string $alias
      */
     public function sendUsage(CommandSender $sender, string $alias){
-        $error = "error.usage";
+        $error = "essentials.error.command-usage";
         $message = "/$alias ";
         if(!$sender instanceof Player){
             if(is_string($this->consoleUsageMessage)){
                 $message .= $this->consoleUsageMessage;
             }elseif(!$this->consoleUsageMessage){
-                $error = "error.ingame";
+                $error = "essentials.error.run-in-game";
             }else{
                 $message .= str_replace("[player]", "<player>", parent::getUsage());
             }
@@ -87,9 +81,9 @@ abstract class BaseCommand extends Command implements PluginIdentifiableCommand{
     /**
      * @param CommandSender $sender
      * @param string $message
-     * @param ...$args
+     * @param array ...$args
      */
-    public function sendMessage(CommandSender $sender, $message, ...$args){
-        $sender->sendMessage($this->getAPI()->getMessage($message, ...$args));
+    public function sendMessage(CommandSender $sender, string $message, ...$args){
+        $sender->sendMessage($this->getAPI()->getTranslation($message, ...$args));
     }
 }

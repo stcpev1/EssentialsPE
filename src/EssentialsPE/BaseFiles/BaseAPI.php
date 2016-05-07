@@ -397,7 +397,7 @@ class BaseAPI{
     }
 
     /**
-     * Gets the minium balance that a player can own
+     * Gets the minimum balance that a player can own
      *
      * @return bool|mixed
      */
@@ -1094,8 +1094,11 @@ class BaseAPI{
      * @param string[] ...$args
      * @return string|array
      */
-    public function getMessage(string $message, ...$args){
+    public function getTranslation(string $message, ...$args){ // TODO: Update to new translation structure
         $result = $this->language->getNested($message, $message);
+        if(is_array($result)){
+            return $result;
+        }
         if(($p = stripos($message, ".")) !== false && ($p = $this->language->getNested(substr($message, 0, $p) . ".prefix")) !== null){
             $result = $p . $result;
         }
@@ -1104,9 +1107,9 @@ class BaseAPI{
             for($i = 0; $i < count($args); $i++){
                 $a = $args[$i];
                 if(is_string($a) && $a[0] === "%"){
-                    $a = $this->getMessage($a);
+                    $a = $this->getTranslation($a);
                 }elseif(is_array($a)){
-                    $a = $this->getMessage(array_shift($a), ...$a);
+                    $a = $this->getTranslation(array_shift($a), ...$a);
                 }
                 $result = str_replace("{" . $i . "}", $a, $result);
             }
@@ -1441,11 +1444,11 @@ class BaseAPI{
      */
     public function getPlayerInformation(Player $player): array{
         return [
-            "name" => $player->getName(),
-            "nick" => $player->getDisplayName(),
-            //"money" => $this->getPlayerBalance($player), TODO
-            "afk" => $this->isAFK($player),
-            "location" => $this->getGeoLocation($player)
+            $this->getTranslation("commands.whois.sub.name") => $player->getName(),
+            $this->getTranslation("commands.whois.sub.nick") => $player->getDisplayName(),
+            //$this->getTranslation("commands.whois.sub.money") => $this->getPlayerBalance($player), TODO
+            $this->getTranslation("commands.whois.sub.afk") => $this->isAFK($player),
+            $this->getTranslation("commands.whois.sub.location") => $this->getGeoLocation($player)
         ];
     }
 
@@ -1874,7 +1877,7 @@ class BaseAPI{
     /**
      * Tell if a player has a pending request
      * Return false if not
-     * Return array with all the names of the requesters and the actions to perform of each:
+     * Return array with the names of all the requests and the actions to perform of each:
      *      "tpto" means that the requester wants to tp to the target position
      *      "tphere" means that the requester wants to tp the target to its position
      *

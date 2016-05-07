@@ -36,14 +36,14 @@ class Vanish extends BaseCommand{
                 $sender->sendMessage($this->getPermissionMessage());
                 return false;
             }elseif(!($player = $this->getAPI()->getPlayer($args[0]))){
-                $sender->sendMessage(TextFormat::RED . "[Error] Player not found");
+                $this->sendMessage($sender, "essentials.error.player-not-found", $args[0]);
                 return false;
             }
         }
         $this->getAPI()->switchVanish($player);
-        $player->sendMessage(TextFormat::GRAY . "You're now " . ($s = $this->getAPI()->isVanished($player) ? "vanished" : "visible"));
+        $this->sendMessage($player, "commands.vanish.vanish-" . $v = ($this->getAPI()->isVanished($player) ? "enabled" : "disabled"));
         if($player !== $sender){
-            $sender->sendMessage(TextFormat::GRAY .  $player->getDisplayName() . " is now $s");
+            $this->sendMessage($sender, "command.vanish.other-" . $v);
         }
         return true;
     }
