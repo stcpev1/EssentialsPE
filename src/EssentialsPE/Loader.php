@@ -250,7 +250,7 @@ class Loader extends PluginBase{
         $default = new Config($path . "resources" . DIRECTORY_SEPARATOR . "config.yml");
 
         if($cfg->get("version") !== $default->get("version")){
-            $this->getLogger()->debug($this->getAPI()->getTranslation("essentials.error.invalidconfig"));
+            $this->getLogger()->debug($this->getAPI()->getTranslation("general  .error.invalidconfig"));
             rename($this->getDataFolder() . "config.yml", $this->getDataFolder() . "config.yml.old");
             $this->saveDefaultConfig();
             $cfg = $this->getConfig();

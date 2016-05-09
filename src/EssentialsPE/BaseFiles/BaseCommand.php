@@ -22,8 +22,12 @@ abstract class BaseCommand extends Command implements PluginIdentifiableCommand{
         $this->api = $api;
         $t = $this->getAPI()->getTranslation("commands." . $name);
         parent::__construct($t["name"], $t["description"], $t["usage"], $t["alias"] ?? []);
-        $this->consoleUsageMessage = $t["console-usage"] === true ? $this->getUsage() : $t["console-usage"];
-        $this->setPermissionMessage($this->getAPI()->getTranslation("essentials.error.need-permission"));
+        if(is_bool($t["console-usage"])){
+            $this->consoleUsageMessage = (!$t["console-usage"] ? $this->getAPI()->getTranslation("general.error.run-in-game") : parent::getUsage());
+        }else{
+            $this->consoleUsageMessage = $t["console-usage"];
+        }
+        $this->setPermissionMessage($this->getAPI()->getTranslation("general.error.need-permission"));
     }
 
     /**
@@ -48,7 +52,7 @@ abstract class BaseCommand extends Command implements PluginIdentifiableCommand{
     }
 
     /**
-     * @return bool|null|string
+     * @return bool|string
      */
     public function getConsoleUsage(){
         return $this->consoleUsageMessage;
@@ -62,20 +66,7 @@ abstract class BaseCommand extends Command implements PluginIdentifiableCommand{
      * @param string $alias
      */
     public function sendUsage(CommandSender $sender, string $alias){
-        $error = "essentials.error.command-usage";
-        $message = "/$alias ";
-        if(!$sender instanceof Player){
-            if(is_string($this->consoleUsageMessage)){
-                $message .= $this->consoleUsageMessage;
-            }elseif(!$this->consoleUsageMessage){
-                $error = "essentials.error.run-in-game";
-            }else{
-                $message .= str_replace("[player]", "<player>", parent::getUsage());
-            }
-        }else{
-            $message = parent::getUsage();
-        }
-        $this->sendMessage($sender, $error, $message);
+        $sender->sendMessage(str_replace(parent::getName(), $alias, $this->getAPI()->getTranslation("essentials.error.command-usage", ($sender instanceof Player ? $this->getUsage() : $this->getConsoleUsage()))));
     }
 
     /**

@@ -64,18 +64,73 @@
 #      - "essentials"
 
 # TODO: Replace everything above into below more structured syntax
-essentials:
+general:
   error:
-    command-usage: "&fUsage: &e{0}"
+    command-usage: "&cUsage: &e{0}"
     invalid-config: "&cInvalid Configuration file found, generating a new one..."
+    near-block: "&cThere are no reachable blocks in your aiming direction"
     need-permission: "&eYou don't have permission to use this command"
-    prefix: "&c[Error]"
-    player-not-found: "&fPlayer &d{0} not found"
-    run-in-game: "&fCommand &d{0} &fcan only be run &ein-game"
-    run-in-console: "&fCommand &d{0} &fcan only be run &ein-console"
+    player-not-found: "&cPlayer &d{0} &cnot found"
+    run-in-game: "&cCommand &d{0} &ccan only be run &ein-game"
+    run-in-console: "&cCommand &d{0} &ccan only be run &ein-console"
   prefix: "&f[&aEssentialsPE&f]"
   version: "&eThis server is using &aEssentialsPE &bv{0}"
 commands:
+  sudo:
+    name: "sudo"
+    description: "Run a command as another player"
+    usage: "<player> <command [args]|c:<chat message>>"
+    console-usage: true
+    alias: []
+    exempt-sudo: "&cPlayer &d{0} &ccan not be sudo'ed"
+    sending-command: "&aCommand &e{0} &aran as &d{1}"
+    sending-message: "&aSending message '&e{0}&a' as &d{1}"
+  suicide:
+    name: "suicide"
+    description: "Kill yourself"
+    usage: null
+    console-usage: false
+    alias: []
+    message: "Ouch. That look like it hurt"
+  tempban:
+    name: "tempban"
+    description: "Bans a player for a specific amount of time"
+    usage: "<player> <time...> [reason...]"
+    console-usage: true
+    alias: []
+    invalid-time: "&cPlease specify a valid amount time"
+    ban-exempt: "&d{0} &ccan not be banned"
+    banned-until: "&cBanned until &b{0} &cat &b{1}"
+    reason: "&eReason: &r{0}"
+    broadcast: "&eBanned player &d{0} until &b{1} &cat &b{2}"
+  top:
+    name: "top"
+    description: "Teleport to the highest block above you"
+    usage: null
+    console-usage: false
+    alias: []
+    teleporting: "&eTeleporting..."
+  tree:
+    name: "tree"
+    description: "Spawns a tree"
+    usage: "<tree|birch|redwood|jungle>"
+    console-usage: false
+    alias: []
+  unlimited:
+    name: "unlimited"
+    description: "Allow you to place unlimited blocks"
+    usage: "[player]"
+    console-usage: "<player>"
+    alias:
+      - "ul"
+      - "unl"
+    gamemode-error: "&fYou are in &e{0} &fmode"
+    self-enabled: "&eUnlimited placing of blocks &aEnabled"
+    self-disabled: "&eUnlimited placing of blocks &cDisabled"
+    other-enabled: "&eUnlimited placing of blocks &aEnabled &efor &d{0}"
+    other-disabled: "&eUnlimited placing of blocks &cDisabled &efor &d{0}"
+    other-gamemode-error: "&d{0} &fis in &e{1} &fmode"
+    other-permission: "&fYou are not allowed to enable &oUnlimited &r&fmode for other players"
   vanish:
     name: "vanish"
     description: "Hide from other players!"
@@ -83,31 +138,31 @@ commands:
     console-usage: "<player>"
     alias:
       - "v"
-    vanish-enabled: "&fYou are now &7vanished&f!"
-    vanish-disabled: "&fYou are now &lvisible"
-    other-enabled: "&d{0} &fis now &7vanished!"
+    self-enabled: "&fYou are now &7vanished&f!"
+    self-disabled: "&fYou are now &lvisible"
+    other-enabled: "&d{0} &fis now &7vanished&f!"
     other-disabled: "&d{0} &f is now &lvisible"
+    other-permission: "&cYou are not allowed to &oVanish &r&cother players"
   whois:
     name: "whois"
     description: "Display player information"
     usage: "<player>"
     console-usage: true
-    alias:
-    sub:
-      information: "&bInformation"
-      afk: "&7AFK"
-      location: "&7Location"
-      money: "&7Money"
-      name: "&7Name"
-      nick: "&7Nick"
+    alias: []
+    i-afk: "&7AFK"
+    i-information: "&bInformation"
+    i-location: "&7Location"
+    i-money: "&7Money"
+    i-name: "&7Name"
+    i-nick: "&7Nick"
   world:
     name: "world"
     description: "Teleport bewteen worlds"
     usage: "<world name>"
-    console-usage: true
-    alias:
-    need-permission: "&fYou can not teleport to world &d{0}"
-    world-not-exists: "&fWorld &d{0} &fdoes not exists"
-    loading-world: "&fWorld &d{0} &fwas not loaded previously. Loading..."
-    load-error: "&fSomething went wrong and we could not load world &d{0}"
+    console-usage: false
+    alias: []
+    load-error: "&eSomething went wrong and we could not load world &d{0}"
+    loading-world: "&cWorld &d{0} &cwas not loaded previously. Loading..."
+    need-permission: "&cYou are not allowed teleport to world &d{0}"
     teleport: "&eTeleporting to world &d{0}"
+    world-not-exists: "&cWorld &d{0} &cdoes not exists"

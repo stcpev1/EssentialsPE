@@ -8,14 +8,13 @@ use pocketmine\command\CommandSender;
 use pocketmine\level\generator\object\Tree;
 use pocketmine\Player;
 use pocketmine\utils\Random;
-use pocketmine\utils\TextFormat;
 
 class TreeCommand extends BaseCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "tree", "Spawns a tree", "<tree|birch|redwood|jungle>", false);
+        parent::__construct($api, "tree");
         $this->setPermission("essentials.tree");
     }
 
@@ -35,7 +34,7 @@ class TreeCommand extends BaseCommand{
         }
         $block = $sender->getTargetBlock(100, BaseAPI::NON_SOLID_BLOCKS);
         if($block === null){
-            $sender->sendMessage(TextFormat::RED . "There isn't a reachable block");
+            $this->sendMessage($sender, "general.error.near-block");
             return false;
         }
         switch(strtolower($args[0])){

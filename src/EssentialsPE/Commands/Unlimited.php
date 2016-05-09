@@ -12,7 +12,7 @@ class Unlimited extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "unlimited", "Allow you to place unlimited blocks", "[player]", true, ["ul", "unl"]);
+        parent::__construct($api, "unlimited");
         $this->setPermission("essentials.unlimited.use");
     }
 
@@ -33,21 +33,27 @@ class Unlimited extends BaseCommand{
         $player = $sender;
         if(isset($args[0])){
             if(!$sender->hasPermission("essentials.unlimited.other")){
-                $sender->sendMessage(TextFormat::RED . $this->getPermissionMessage());
+                $this->sendMessage($sender, "commands.unlimited.other-permission");
                 return false;
             }elseif(!($player = $this->getAPI()->getPlayer($args[0]))){
-                $sender->sendMessage(TextFormat::RED . "[Error] Player not found");
+                $this->sendMessage($sender, "general.error.player-not-found", $args[0]);
                 return false;
             }
         }
         if(($gm = $player->getGamemode()) === Player::CREATIVE || $gm === Player::SPECTATOR){
-            $sender->sendMessage(TextFormat::RED . "[Error] " . ($player === $sender ? "you are" : $player->getDisplayName() . " is") . " in " . $this->getAPI()->getServer()->getGamemodeString($gm) . " mode");
+            $gm = $this->getAPI()->getServer()->getGamemodeString($gm);
+            if($player === $sender){
+                $this->sendMessage($sender, "commands.unlimited.gamemode-error", $gm);
+            }else{
+                $this->sendMessage($sender, "commands.unlimited.other-gamemode-error", $player->getDisplayName(), $gm);
+            }
             return false;
         }
         $this->getAPI()->switchUnlimited($player);
-        $player->sendMessage(TextFormat::GREEN . "Unlimited placing of blocks " . ($s = $this->getAPI()->isUnlimitedEnabled($player) ? "enabled" : "disabled"));
+        $player->sendMessage(TextFormat::GREEN . "Unlimited placing of blocks ");
+        $this->sendMessage($player, "commands.unlimited.self-" . ($s = $this->getAPI()->isUnlimitedEnabled($player) ? "enabled" : "disabled"));
         if($player !== $sender){
-            $sender->sendMessage(TextFormat::GREEN . "Unlimited placing of blocks $s");
+            $this->sendMessage($sender, "commands.unlimited.other-" . $s, $player->getName());
         }
         return true;
     }

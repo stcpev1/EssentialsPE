@@ -10,16 +10,6 @@ permissions:
         default: false
         description: "Allow to access to every EssentialsPE feature"
         children:
-            essentials.ban:
-                default: false
-                description: "Ban utilities nodes"
-                children:
-                    essentials.ban.exempt:
-                        default: op
-                        description: "Prevent the player from being banned"
-            essentials.colorchat:
-                default: op
-                description: "Allow to chat using colors!"
             essentials.afk:
                 default: false
                 description: "Toggle the AFK status"
@@ -59,6 +49,13 @@ permissions:
                     essentials.balance.other:
                         default: op
                         description: "Let players to see other's balance"
+            essentials.ban:
+                default: false
+                description: "Ban utilities nodes"
+                children:
+                    essentials.ban.exempt:
+                        default: op
+                        description: "Prevent the player from being banned"
             essentials.bigtree:
                 default: op
                 description: "Spawns a big tree"
@@ -88,6 +85,9 @@ permissions:
                     essentials.clearinventory.other:
                         default: op
                         description: "Clear other's inventory"
+            essentials.colorchat:
+                default: op
+                description: "Allow to chat using colors!"
             essentials.compass:
                 default: true
                 description: "Display your current bearing direction"

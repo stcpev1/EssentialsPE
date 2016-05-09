@@ -4,7 +4,6 @@ namespace EssentialsPE\Commands;
 use EssentialsPE\BaseFiles\BaseAPI;
 use EssentialsPE\BaseFiles\BaseCommand;
 use pocketmine\command\CommandSender;
-use pocketmine\utils\TextFormat;
 
 class Whois extends BaseCommand{
     /**
@@ -30,14 +29,14 @@ class Whois extends BaseCommand{
             return false;
         }
         if(!($player = $this->getAPI()->getPlayer($args[0]))){
-            $this->sendMessage($sender, "essentials.error.player-not-found", $args[0]);
+            $this->sendMessage($sender, "general.error.player-not-found", $args[0]);
             return false;
         }
         $data = $this->getAPI()->getPlayerInformation($player);
         if(!$sender->hasPermission("essentials.geoip.show") || $player->hasPermission("essentials.geoip.hide")){
             unset($data["location"]);
         }
-        $m = $this->getAPI()->getTranslation("commands.whois.sub.information");
+        $m = $this->getAPI()->getTranslation("commands.whois.i-information");
         foreach($data as $k => $v){
             $m .= " * " . ucfirst($k) . ": $v";
         }

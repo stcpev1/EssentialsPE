@@ -12,7 +12,7 @@ class Suicide extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "suicide", "Kill yourself", null, false);
+        parent::__construct($api, "suicide");
         $this->setPermission("essentials.suicide");
     }
 
@@ -36,7 +36,7 @@ class Suicide extends BaseCommand{
         }
         $sender->setLastDamageCause($ev);
         $sender->setHealth(0);
-        $sender->sendMessage("Ouch. That look like it hurt.");
+        $this->sendMessage($sender, "commands.suicide.message");
         return true;
     }
 } 

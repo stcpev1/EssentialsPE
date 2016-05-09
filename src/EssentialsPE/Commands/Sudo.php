@@ -12,7 +12,7 @@ class Sudo extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "sudo", "Run a command as another player", "<player> <command line|c:<chat message>");
+        parent::__construct($api, "sudo");
         $this->setPermission("essentials.sudo.use");
     }
 
@@ -30,24 +30,24 @@ class Sudo extends BaseCommand{
             $this->sendUsage($sender, $alias);
             return false;
         }
-        if(!($player = $this->getAPI()->getPlayer(array_shift($args)))){
-            $sender->sendMessage(TextFormat::RED . "[Error] Player not found");
+        if(!($player = $this->getAPI()->getPlayer($name = array_shift($args)))){
+            $this->sendMessage($sender, "general.error.player-not-found", $name);
             return false;
         }elseif($player->hasPermission("essentials.sudo.exempt")){
-            $sender->sendMessage(TextFormat::RED . "[Error] " . $player->getName() . " cannot be sudo'ed");
+            $this->sendMessage($sender, "commands.sudo.exempt-sudo");
             return false;
         }
 
-        $v = implode(" ", $args);
-        if(substr($v, 0, 2) === "c:"){
-            $sender->sendMessage(TextFormat::GREEN . "Sending message as " .  $player->getDisplayName());
-            $this->getAPI()->getServer()->getPluginManager()->callEvent($ev = new PlayerChatEvent($player, substr($v, 2)));
+        $cmd = implode(" ", $args);
+        if(substr($cmd, 0, 2) === "c:"){
+            $this->getAPI()->getServer()->getPluginManager()->callEvent($ev = new PlayerChatEvent($player, $m = substr($cmd, 2)));
             if(!$ev->isCancelled()){
+                $this->sendMessage($sender, "commands.sudo.sending-message", $m, $player->getDisplayName());
                 $this->getAPI()->getServer()->broadcastMessage(\sprintf($ev->getFormat(), $ev->getPlayer()->getDisplayName(), $ev->getMessage()), $ev->getRecipients());
             }
         }else{
-            $sender->sendMessage(TextFormat::AQUA . "Command ran as " .  $player->getDisplayName());
-            $this->getAPI()->getServer()->dispatchCommand($player, $v);
+            $this->getAPI()->getServer()->dispatchCommand($player, $cmd);
+            $this->sendMessage($sender, "commands.sudo.sending-command", $cmd, $player->getDisplayName());
         }
         return true;
     }

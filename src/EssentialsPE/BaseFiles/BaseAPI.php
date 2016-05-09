@@ -1099,16 +1099,11 @@ class BaseAPI{
         if(is_array($result)){
             return $result;
         }
-        if(($p = stripos($message, ".")) !== false && ($p = $this->language->getNested(substr($message, 0, $p) . ".prefix")) !== null){
-            $result = $p . $result;
-        }
         if(count($args) > 0){
             /** @var string[] $args */
             for($i = 0; $i < count($args); $i++){
                 $a = $args[$i];
-                if(is_string($a) && $a[0] === "%"){
-                    $a = $this->getTranslation($a);
-                }elseif(is_array($a)){
+                if(is_array($a)){
                     $a = $this->getTranslation(array_shift($a), ...$a);
                 }
                 $result = str_replace("{" . $i . "}", $a, $result);
@@ -1444,11 +1439,11 @@ class BaseAPI{
      */
     public function getPlayerInformation(Player $player): array{
         return [
-            $this->getTranslation("commands.whois.sub.name") => $player->getName(),
-            $this->getTranslation("commands.whois.sub.nick") => $player->getDisplayName(),
-            //$this->getTranslation("commands.whois.sub.money") => $this->getPlayerBalance($player), TODO
-            $this->getTranslation("commands.whois.sub.afk") => $this->isAFK($player),
-            $this->getTranslation("commands.whois.sub.location") => $this->getGeoLocation($player)
+            $this->getTranslation("commands.whois.i-name") => $player->getName(),
+            $this->getTranslation("commands.whois.i-nick") => $player->getDisplayName(),
+            //$this->getTranslation("commands.whois.i-money") => $this->getPlayerBalance($player), TODO
+            $this->getTranslation("commands.whois.i-afk") => $this->isAFK($player),
+            $this->getTranslation("commands.whois.i-location") => $this->getGeoLocation($player)
         ];
     }
 
