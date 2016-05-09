@@ -12,7 +12,7 @@ class Repair extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "repair", "Repair the item you're holding", "[all|hand]", false, ["fix"]);
+        parent::__construct($api, "repair");
         $this->setPermission("essentials.repair.use");
     }
 
@@ -30,39 +30,48 @@ class Repair extends BaseCommand{
             $this->sendUsage($sender, $alias);
             return false;
         }
+        if(!isset($args[0])){
+            $args[0] = "hand";
+        }
         $a = strtolower($args[0]);
-        if(isset($args[0]) && !($a === "hand" || $a === "all")){
+        if($a !== "all" || $a !== "hand" || $a !== "armor" || $a !== "inventory"){
             $this->sendUsage($sender, $alias);
             return false;
         }
-        if($a === "all"){
-            if(!$sender->hasPermission("essentials.repair.all")){
-                $sender->sendMessage(TextFormat::RED . $this->getPermissionMessage());
+        if($a === "hand"){
+            if(!$this->getAPI()->isRepairable($sender->getInventory()->getItemInHand())){
+                $this->sendTranslation($sender, "commands.repair.invalid-item");
                 return false;
             }
-            foreach($sender->getInventory()->getContents() as $item){
-                if($this->getAPI()->isRepairable($item)){
-                    $item->setDamage(0);
+            $sender->getInventory()->getItemInHand()->setDamage(0);
+            $this->sendTranslation($sender, "commands.repair.confirm-individual");
+        }else{
+            $all = $a === "all";
+            if(($all && $sender->hasPermission("essentials.repair.inventory")) || $a === "inventory"){
+                if(!$sender->hasPermission("essentials.repair.all") && !$sender->hasPermission("essentials.repair.inventory")){
+                    $this->sendTranslation($sender, "commands.repair.inventory.permission");
+                    return false;
                 }
+                foreach($sender->getInventory()->getContents() as $item){
+                    if($this->getAPI()->isRepairable($item)){
+                        $item->setDamage(0);
+                    }
+                }
+                $this->sendTranslation($sender, "commands.repair.confirm-inventory");
             }
-            $m = TextFormat::GREEN . "All the tools on your inventory were repaired!";
-            if($sender->hasPermission("essentials.repair.armor")){
+            if(($all && $sender->hasPermission("essentials.repair.armor")) || $a === "armor"){
+                if(!$sender->hasPermission("essentials.repair.all") && !$sender->hasPermission("essentials.repair.armor")){
+                    $this->sendTranslation($sender, "armor-permission");
+                    return false;
+                }
                 foreach($sender->getInventory()->getArmorContents() as $item){
                     if($this->getAPI()->isRepairable($item)){
                         $item->setDamage(0);
                     }
                 }
-                $m .= TextFormat::AQUA . " (Including the equipped Armor)";
+                $this->sendTranslation($sender, "commands.repair.confirm-armor");
             }
-        }else{
-            if(!$this->getAPI()->isRepairable($sender->getInventory()->getItemInHand())){
-                $sender->sendMessage(TextFormat::RED . "[Error] This item can't be repaired!");
-                return false;
-            }
-            $sender->getInventory()->getItemInHand()->setDamage(0);
-            $m = TextFormat::GREEN . "Item successfully repaired!";
         }
-        $sender->sendMessage($m);
         return true;
     }
 }

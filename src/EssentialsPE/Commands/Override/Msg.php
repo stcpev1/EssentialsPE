@@ -44,7 +44,7 @@ class Msg extends BaseOverrideCommand{
         if($t instanceof Player){
             $t->sendMessage($m);
         }else{
-            $this->getPlugin()->getLogger()->info($m);
+            $this->getLogger()->info($m);
         }
         $this->getAPI()->setQuickReply(($t instanceof Player ? $t : ($t === "console" ? new ConsoleCommandSender() : new RemoteConsoleCommandSender())), $sender);
         return true;

@@ -36,7 +36,7 @@ class Suicide extends BaseCommand{
         }
         $sender->setLastDamageCause($ev);
         $sender->setHealth(0);
-        $this->sendMessage($sender, "commands.suicide.message");
+        $this->sendTranslation($sender, "commands.suicide.message");
         return true;
     }
 } 

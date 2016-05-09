@@ -33,27 +33,27 @@ class Unlimited extends BaseCommand{
         $player = $sender;
         if(isset($args[0])){
             if(!$sender->hasPermission("essentials.unlimited.other")){
-                $this->sendMessage($sender, "commands.unlimited.other-permission");
+                $this->sendTranslation($sender, "commands.unlimited.other-permission");
                 return false;
             }elseif(!($player = $this->getAPI()->getPlayer($args[0]))){
-                $this->sendMessage($sender, "general.error.player-not-found", $args[0]);
+                $this->sendTranslation($sender, "general.error.player-not-found", $args[0]);
                 return false;
             }
         }
         if(($gm = $player->getGamemode()) === Player::CREATIVE || $gm === Player::SPECTATOR){
             $gm = $this->getAPI()->getServer()->getGamemodeString($gm);
             if($player === $sender){
-                $this->sendMessage($sender, "commands.unlimited.gamemode-error", $gm);
+                $this->sendTranslation($sender, "commands.unlimited.gamemode-error", $gm);
             }else{
-                $this->sendMessage($sender, "commands.unlimited.other-gamemode-error", $player->getDisplayName(), $gm);
+                $this->sendTranslation($sender, "commands.unlimited.other-gamemode-error", $player->getDisplayName(), $gm);
             }
             return false;
         }
         $this->getAPI()->switchUnlimited($player);
         $player->sendMessage(TextFormat::GREEN . "Unlimited placing of blocks ");
-        $this->sendMessage($player, "commands.unlimited.self-" . ($s = $this->getAPI()->isUnlimitedEnabled($player) ? "enabled" : "disabled"));
+        $this->sendTranslation($player, "commands.unlimited.self-" . ($s = $this->getAPI()->isUnlimitedEnabled($player) ? "enabled" : "disabled"));
         if($player !== $sender){
-            $this->sendMessage($sender, "commands.unlimited.other-" . $s, $player->getName());
+            $this->sendTranslation($sender, "commands.unlimited.other-" . $s, $player->getName());
         }
         return true;
     }

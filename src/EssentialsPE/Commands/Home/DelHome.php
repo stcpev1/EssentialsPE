@@ -30,11 +30,11 @@ class DelHome extends BaseCommand{
             return false;
         }
         if(!$this->getAPI()->homeExists($sender, $args[0])){
-            $this->sendMessage($sender, "error.home.exists", $args[0]);
+            $this->sendTranslation($sender, "error.home.exists", $args[0]);
             return false;
         }
         $this->getAPI()->removeHome($sender, $args[0]);
-        $this->sendMessage($sender, "home.remove", $args[0]);
+        $this->sendTranslation($sender, "home.remove", $args[0]);
         return true;
     }
 } 

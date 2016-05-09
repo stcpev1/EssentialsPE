@@ -5,14 +5,13 @@ use EssentialsPE\BaseFiles\BaseAPI;
 use EssentialsPE\BaseFiles\BaseCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 
 class Seen extends BaseCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "seen", "See player's last played time", "<player>");
+        parent::__construct($api, "seen");
         $this->setPermission("essentials.seen");
     }
 
@@ -31,11 +30,11 @@ class Seen extends BaseCommand{
             return false;
         }
         if(($player = $this->getAPI()->getOfflinePlayer($args[0])) instanceof Player){
-            $sender->sendMessage(TextFormat::GREEN . $player->getDisplayName() . " is online!");
+            $this->sendTranslation($sender, "commands.seen.is-online", $player->getDisplayName());
             return true;
         }
         if(!is_numeric($player->getLastPlayed())){
-            $sender->sendMessage(TextFormat::RED .  $args[0] . " has never played on this server.");
+            $this->sendTranslation($sender, "commands.seen.unknown-player", $args[0]);
             return false;
         }
         /**
@@ -45,9 +44,9 @@ class Seen extends BaseCommand{
          * l = Day name
          * j = Day number (1 - 30/31)
          * F = Month name
-         * Y = Year in 4 digits (1999)
+         * Y = Year in 4 digits (Ex: 1999)
          */
-        $sender->sendMessage(TextFormat::AQUA .  $player->getName() ." was last seen on " . TextFormat::RED . date("l, F j, Y", ($t = $player->getLastPlayed() / 1000)) . TextFormat::AQUA . " at " . TextFormat::RED . date("h:ia", $t));
+        $this->sendTranslation($sender, "commands.seen.last-seen", $player->getDisplayName(), date("l, F j, Y", ($t = $player->getLastPlayed() / 1000)), date("h:ia", $t));
         return true;
     }
 }

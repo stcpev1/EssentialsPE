@@ -34,7 +34,7 @@ class TreeCommand extends BaseCommand{
         }
         $block = $sender->getTargetBlock(100, BaseAPI::NON_SOLID_BLOCKS);
         if($block === null){
-            $this->sendMessage($sender, "general.error.near-block");
+            $this->sendTranslation($sender, "general.error.near-block");
             return false;
         }
         switch(strtolower($args[0])){

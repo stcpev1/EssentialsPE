@@ -35,10 +35,10 @@ class Worth extends BaseCommand{
             $id = $this->getAPI()->getItem($args[0])->getId();
         }
         if(!($worth = $this->getAPI()->getItemWorth($id))){
-            $this->sendMessage($sender, "error.economy.worth.unknown");
+            $this->sendTranslation($sender, "error.economy.worth.unknown");
             return false;
         }
-        $this->sendMessage($sender, "economy.worth.get", $this->getAPI()->getCurrencySymbol() . $worth);
+        $this->sendTranslation($sender, "economy.worth.get", $this->getAPI()->getCurrencySymbol() . $worth);
         return true;
     }
 }

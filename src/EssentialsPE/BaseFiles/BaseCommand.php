@@ -6,6 +6,7 @@ use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\command\PluginIdentifiableCommand;
 use pocketmine\Player;
+use pocketmine\utils\MainLogger;
 
 abstract class BaseCommand extends Command implements PluginIdentifiableCommand{
     /** @var BaseAPI  */
@@ -59,6 +60,13 @@ abstract class BaseCommand extends Command implements PluginIdentifiableCommand{
     }
 
     /**
+     * @return MainLogger
+     */
+    public function getLogger(): MainLogger{
+        return $this->getAPI()->getServer()->getLogger();
+    }
+
+    /**
      * Function to give different type of usages, switching from "Console" and "Player" executors of a command.
      * This function can be overridden to fit any command needs...
      *
@@ -74,7 +82,7 @@ abstract class BaseCommand extends Command implements PluginIdentifiableCommand{
      * @param string $message
      * @param array ...$args
      */
-    public function sendMessage(CommandSender $sender, string $message, ...$args){
+    public function sendTranslation(CommandSender $sender, string $message, ...$args){
         $sender->sendMessage($this->getAPI()->getTranslation($message, ...$args));
     }
 }

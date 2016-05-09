@@ -12,7 +12,7 @@ class SetSpawn extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "setspawn", "Change your server main spawn point", null, false);
+        parent::__construct($api, "setspawn");
         $this->setPermission("essentials.setspawn");
     }
 
@@ -33,7 +33,8 @@ class SetSpawn extends BaseCommand{
         $sender->getLevel()->setSpawnLocation($sender);
         $sender->getServer()->setDefaultLevel($sender->getLevel());
         $sender->sendMessage(TextFormat::YELLOW . "Server's spawn point changed!");
-        $this->getAPI()->getServer()->getLogger()->info(TextFormat::YELLOW . "Server's spawn point set to " . TextFormat::AQUA . $sender->getLevel()->getName() . TextFormat::YELLOW . " by " . TextFormat::GREEN . $sender->getName());
+        $this->sendTranslation($sender, "commands.setspawn.confirmation");
+        $this->getLogger()->info($this->getAPI()->getTranslation("commands.setspawn.console-confirmation", $sender->getLevel()->getName(), $sender->getName()));
         return true;
     }
 }

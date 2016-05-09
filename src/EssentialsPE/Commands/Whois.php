@@ -29,7 +29,7 @@ class Whois extends BaseCommand{
             return false;
         }
         if(!($player = $this->getAPI()->getPlayer($args[0]))){
-            $this->sendMessage($sender, "general.error.player-not-found", $args[0]);
+            $this->sendTranslation($sender, "general.error.player-not-found", $args[0]);
             return false;
         }
         $data = $this->getAPI()->getPlayerInformation($player);

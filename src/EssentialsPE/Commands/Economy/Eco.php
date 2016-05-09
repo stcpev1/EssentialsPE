@@ -29,30 +29,30 @@ class Eco extends BaseCommand{
             return false;
         }
         if(!($player = $this->getAPI()->getPlayer($args[1]))){
-            $this->sendMessage($sender, "error.playernotfound");
+            $this->sendTranslation($sender, "error.playernotfound");
             return false;
         }
         if((!isset($args[2]) && strtolower($args[0]) !== "reset") || (isset($args[2]) && !is_numeric($args[2]))){
-            $this->sendMessage($sender, "error.economy.amount");
+            $this->sendTranslation($sender, "error.economy.amount");
             return false;
         }
         $balance = (int) $args[2];
         switch(strtolower($args[0])){
             case "give":
             case "add":
-                $this->sendMessage($sender, "economy.balance.add");
+                $this->sendTranslation($sender, "economy.balance.add");
                 $this->getAPI()->addToPlayerBalance($player, $balance);
                 break;
             case "reset":
-                $this->sendMessage($sender, "economy.balance.reset");
+                $this->sendTranslation($sender, "economy.balance.reset");
                 $this->getAPI()->setPlayerBalance($player, $this->getAPI()->getDefaultBalance());
                 break;
             case "set":
-                $this->sendMessage($sender, "economy.balance.set");
+                $this->sendTranslation($sender, "economy.balance.set");
                 $this->getAPI()->setPlayerBalance($player, $balance);
                 break;
             case "take":
-                $this->sendMessage($sender, "economy.balance.take");
+                $this->sendTranslation($sender, "economy.balance.take");
                 $this->getAPI()->addToPlayerBalance($player, -$balance);
                 break;
         }

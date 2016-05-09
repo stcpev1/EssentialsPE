@@ -30,18 +30,18 @@ class SetHome extends BaseCommand{
             return false;
         }
         if(strtolower($args[0]) === "bed"){
-            $this->sendMessage($sender, "error.home.bed");
+            $this->sendTranslation($sender, "error.home.bed");
             return false;
         }elseif(trim($args[0] === "")){
-            $this->sendMessage($sender, "error.alphanumeric");
+            $this->sendTranslation($sender, "error.alphanumeric");
             return false;
         }
         $updated = $this->getAPI()->homeExists($sender, $args[0]);
         if(!$this->getAPI()->setHome($sender, strtolower($args[0]), $sender->getLocation(), $sender->getYaw(), $sender->getPitch())){
-            $this->sendMessage($sender, "error.alphanumeric");
+            $this->sendTranslation($sender, "error.alphanumeric");
             return false;
         }
-        $this->sendMessage($sender, "home." . ($updated ? "update" : "create"), $args[0]);
+        $this->sendTranslation($sender, "home." . ($updated ? "update" : "create"), $args[0]);
         return true;
     }
 } 

@@ -32,17 +32,17 @@ class Vanish extends BaseCommand{
         $player = $sender;
         if(isset($args[0])){
             if(!$sender->hasPermission("essentials.vanish.other")){
-                $this->sendMessage($sender, "commands.vanish.other-permission");
+                $this->sendTranslation($sender, "commands.vanish.other-permission");
                 return false;
             }elseif(!($player = $this->getAPI()->getPlayer($args[0]))){
-                $this->sendMessage($sender, "general.error.player-not-found", $args[0]);
+                $this->sendTranslation($sender, "general.error.player-not-found", $args[0]);
                 return false;
             }
         }
         $this->getAPI()->switchVanish($player);
-        $this->sendMessage($player, "commands.vanish.self-" . $v = ($this->getAPI()->isVanished($player) ? "enabled" : "disabled"));
+        $this->sendTranslation($player, "commands.vanish.self-" . $v = ($this->getAPI()->isVanished($player) ? "enabled" : "disabled"));
         if($player !== $sender){
-            $this->sendMessage($sender, "command.vanish.other-" . $v, $player->getDisplayName());
+            $this->sendTranslation($sender, "command.vanish.other-" . $v, $player->getDisplayName());
         }
         return true;
     }

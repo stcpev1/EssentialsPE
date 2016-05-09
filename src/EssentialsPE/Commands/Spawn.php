@@ -6,14 +6,13 @@ use EssentialsPE\BaseFiles\BaseCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\level\Location;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 
 class Spawn extends BaseCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "spawn", "Teleport to server's main spawn", "[player]");
+        parent::__construct($api, "spawn");
         $this->setPermission("essentials.spawn.use");
     }
 
@@ -34,15 +33,18 @@ class Spawn extends BaseCommand{
         $player = $sender;
         if(isset($args[0])){
             if(!$sender->hasPermission("essentials.spawn.other")){
-                $sender->sendMessage(TextFormat::RED . "[Error] You can't teleport other players to spawn");
+                $this->sendTranslation($sender, "commands.spawn.other-permission");
                 return false;
             }elseif(!($player = $this->getAPI()->getPlayer($args[0]))){
-                $sender->sendMessage(TextFormat::RED . "[Error] Player not found");
+                $this->sendTranslation($sender, "general.error.player-not-found", $args[0]);
                 return false;
             }
         }
+        $this->sendTranslation($player, "commands.spawn.teleporting");
+        if($player !== $sender){
+            $this->sendTranslation($sender, "commands.spawn.other-teleporting", $player->getDisplayName());
+        }
         $player->teleport(Location::fromObject($this->getAPI()->getServer()->getDefaultLevel()->getSpawnLocation(), $this->getAPI()->getServer()->getDefaultLevel()));
-        $player->sendMessage(TextFormat::GREEN . "Teleporting...");
         return true;
     }
 } 

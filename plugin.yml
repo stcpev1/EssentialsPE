@@ -333,10 +333,13 @@ permissions:
                         description: "Access the /repair command"
                     essentials.repair.all:
                         default: op
-                        description: "Let you repair all the damaged tools/armors on your inventory"
+                        description: "Let you repair all the damaged tools/armors in your inventory and armor slots"
                     essentials.repair.armor:
                         default: op
                         description: "Let your repair the equipped armor while using /repair all"
+                    essentials.repair.inventory:
+                        default: op
+                        description: "Let you repair all the damaged items in your inventory"
             essentials.reply:
                 default: true
                 description: "Allow the player to quick reply to the last player that messaged him"

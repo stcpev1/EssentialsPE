@@ -30,13 +30,13 @@ class SetWorth extends BaseCommand{
             $this->sendUsage($sender, $alias);
             return false;
         }elseif(!is_numeric($args[0]) || (int) $args[0] < 0){
-            $this->sendMessage($sender, "error.economy.worth.invalid");
+            $this->sendTranslation($sender, "error.economy.worth.invalid");
             return false;
         }elseif(($id = $sender->getInventory()->getItemInHand()->getId()) === Item::AIR){
-            $this->sendMessage($sender, "error.item.invalid");
+            $this->sendTranslation($sender, "error.item.invalid");
             return false;
         }
-        $this->sendMessage($sender, "economy.worth.set");
+        $this->sendTranslation($sender, "economy.worth.set");
         $this->getAPI()->setItemWorth($id, (int) $args[0]);
         return true;
     }

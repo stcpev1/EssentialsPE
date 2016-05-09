@@ -31,18 +31,18 @@ class Home extends BaseCommand{
         }
         if(count($args) === 0){
             if(($list = $this->getAPI()->homesList($sender, false)) === false){
-                $this->sendMessage($sender, "error.home.empty");
+                $this->sendTranslation($sender, "error.home.empty");
                 return false;
             }
-            $this->sendMessage($sender, "home.list", $list);
+            $this->sendTranslation($sender, "home.list", $list);
             return true;
         }
         if(!($home = $this->getAPI()->getHome($sender, $args[0]))){
-            $this->sendMessage($sender, "error.home.exists", $args[0]);
+            $this->sendTranslation($sender, "error.home.exists", $args[0]);
             return false;
         }
         $sender->teleport($home);
-        $this->sendMessage($sender, "home.teleport", $home->getName());
+        $this->sendTranslation($sender, "home.teleport", $home->getName());
         return true;
     }
 } 

@@ -11,7 +11,7 @@ class RealName extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "realname", "Check the realname of a player", "<player>");
+        parent::__construct($api, "realname");
         $this->setPermission("essentials.realname");
     }
 
@@ -30,10 +30,10 @@ class RealName extends BaseCommand{
             return false;
         }
         if(!($player = $this->getAPI()->getPlayer($args[0]))){
-            $sender->sendMessage(TextFormat::RED . "[Error] Player not found");
+            $this->sendTranslation($sender, "general.error.player-not-found", $args[0]);
             return false;
         }
-        $sender->sendMessage(TextFormat::YELLOW .  $player->getDisplayName() . (substr($player->getName(), -1, 1) === "s" ? "'" : "'s") . " realname is: " . TextFormat::RED . $player->getName());
+        $this->sendTranslation($sender, "commands.realname.reveal", $player->getDisplayName(), $player->getName());
         return true;
     }
 }

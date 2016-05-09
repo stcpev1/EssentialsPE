@@ -31,13 +31,13 @@ class Sell extends BaseCommand{
             return false;
         }
         if($sender->getGamemode() === Player::CREATIVE || $sender->getGamemode() === Player::SPECTATOR){
-            $this->sendMessage($sender, "error.gamemode.self", $this->getAPI()->getServer()->getGamemodeString($sender->getGamemode()));
+            $this->sendTranslation($sender, "error.gamemode.self", $this->getAPI()->getServer()->getGamemodeString($sender->getGamemode()));
             return false;
         }
         if(strtolower($args[0]) === "hand"){
             $item = $sender->getInventory()->getItemInHand();
             if($item->getId() === 0){
-                $this->sendMessage($sender, "error.item.in.hand");
+                $this->sendTranslation($sender, "error.item.in.hand");
                 return false;
             }
         }else{
@@ -47,25 +47,25 @@ class Sell extends BaseCommand{
                 $item = Item::get($args[0]);
             }
             if($item->getId() === Item::AIR){
-                $this->sendMessage($sender, "error.item.unknown");
+                $this->sendTranslation($sender, "error.item.unknown");
                 return false;
             }
         }
         if(!$sender->getInventory()->contains($item)){
-            $this->sendMessage($sender, "error.item.in.inventory");
+            $this->sendTranslation($sender, "error.item.in.inventory");
             return false;
         }
         if(isset($args[1]) && !is_numeric($args[1])){
-            $this->sendMessage($sender, "error.economy.amount");
+            $this->sendTranslation($sender, "error.economy.amount");
             return false;
         }
 
         $amount = $this->getAPI()->sellPlayerItem($sender, $item, (isset($args[1]) ? $args[1] : null));
         if(!$amount){
-            $this->sendMessage($sender, "error.economy.worth.unknown");
+            $this->sendTranslation($sender, "error.economy.worth.unknown");
             return false;
         }elseif($amount === -1){
-            $this->sendMessage($sender, "error.item.quantity");
+            $this->sendTranslation($sender, "error.item.quantity");
             return false;
         }
         $profit = $this->getAPI()->getCurrencySymbol();
@@ -77,7 +77,7 @@ class Sell extends BaseCommand{
         }else{
             $profit .= $amount;
         }
-        $this->sendMessage($sender, "economy.sold.$m", $amount, $profit);
+        $this->sendTranslation($sender, "economy.sold.$m", $amount, $profit);
         return true;
     }
 }

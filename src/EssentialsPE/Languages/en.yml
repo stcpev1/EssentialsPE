@@ -76,6 +76,60 @@ general:
   prefix: "&f[&aEssentialsPE&f]"
   version: "&eThis server is using &aEssentialsPE &bv{0}"
 commands:
+  realname:
+    name: "realname"
+    description: "Check the real name of a player"
+    usage: "<player>"
+    console-usage: true
+    alias: []
+    reveal: "&eReal name of &d{0} &eis &f{0}"
+  repair:
+    name: "repair"
+    description: "Repair the item you are holding"
+    usage: "[all|hand|armor|inventory]"
+    console-usage: false
+    alias:
+      - "fix"
+    armor-permission: "&cYou are not allowed to repair your armor"
+    invalid-item: "&cThis item can not be repaired"
+    inventory-permission: "&cYou are not allowed to repair all items in your inventory"
+    confirm-armor: "&bEquipped armor was repaired"
+    confirm-individual: "&aItem successfully repaired"
+    confirm-inventory: "&aAll the tools in your inventory were repaired"
+  seen:
+    name: "seen"
+    description: "See player's last connection time"
+    usage: "<player>"
+    console-usage: true
+    alias: []
+    is-online: "&d{0} &fis &aOnline&f!"
+    unknown-player: "&d{0} &c as never played on this server"
+    last-seen: "&d{0} &bwas last need on &e{1} &bat &e{2}"
+  setspawn:
+    name: "setspawn"
+    description: "Sets the spawn location"
+    usage: ""
+    console-usage: false
+    alias: []
+    confirmation: "&eServer's spawnpoint location changed!"
+    console-confirmation: "&eServer's spawn location set on world &d{0} &eby &d{1}"
+  spawn:
+    name: "spawn"
+    description: "Teleport to server's main spawn"
+    usage: "[player]"
+    console-usage: "<player>"
+    alias: []
+    other-permission: "&cYou are not allowed to teleport other players to &eSpawn"
+    other-teleporting: "&aTeleporting &d{0} &ato &eSpawn&a..."
+    teleporting: "&aTeleporting to &eSpawn&a..."
+  speed:
+    name: "speed"
+    description: "Change your speed limits"
+    usage: "<speed> [player]"
+    console-usage: "<speed> <player>"
+    alias: []
+    invalid: "&cPlease provide a valid speed value"
+    applied: "&eSpeed amplified by &f{0}"
   sudo:
     name: "sudo"
     description: "Run a command as another player"

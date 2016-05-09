@@ -31,7 +31,7 @@ class TempBan extends BaseCommand{
         }
         $name = array_shift($args);
         if(!($info = $this->getAPI()->stringToTimestamp(implode(" ", $args)))){
-            $this->sendMessage($sender, "commands.tempban.invalid-time");
+            $this->sendTranslation($sender, "commands.tempban.invalid-time");
             return false;
         }
         /** @var \DateTime $date */
@@ -41,7 +41,7 @@ class TempBan extends BaseCommand{
         $time = $date->format("h:ia");
         if(($player = $this->getAPI()->getPlayer($name)) instanceof Player){
             if($player->hasPermission("essentials.ban.exempt")){
-                $this->sendMessage($sender, "commands.tempban.ban-exempt", $player->getDisplayName());
+                $this->sendTranslation($sender, "commands.tempban.ban-exempt", $player->getDisplayName());
                 return false;
             }else{
                 $player->kick($this->getAPI()->getTranslation("commands.tempban.banned-until", $day, $time) . $reason);
