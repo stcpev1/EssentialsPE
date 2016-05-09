@@ -96,6 +96,16 @@ commands:
     confirm-armor: "&bEquipped armor was repaired"
     confirm-individual: "&aItem successfully repaired"
     confirm-inventory: "&aAll the tools in your inventory were repaired"
+  reply:
+    name: "reply"
+    description: "Quickly reply to the last played that messaged you"
+    usage: "<message...>"
+    console-usage: true
+    alias:
+      - "r"
+    no-target: "&cNo target available to reply"
+    self-syntax: "[me -> {0}&r] {1}"
+    other-syntax: "[{0} &r-> me] {1}"
   seen:
     name: "seen"
     description: "See player's last connection time"

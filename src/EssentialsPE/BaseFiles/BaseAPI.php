@@ -1186,6 +1186,13 @@ class BaseAPI{
         }else{
             $q = $this->quickReply[strtolower($sender->getName())];
         }
+        /** @var bool|Player $q */
+        if($q !== false && $q !== "console" && $q !== "rcon"){
+            $q = $this->getPlayer($q->getName());
+        }
+        if(!$q){
+            $this->removeQuickReply($sender);
+        }
         return $q;
     }
 

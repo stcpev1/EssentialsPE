@@ -7,14 +7,13 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\ConsoleCommandSender;
 use pocketmine\command\RemoteConsoleCommandSender;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 
 class Reply extends BaseCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "reply", "Quickly reply to the last person that messaged you", "<message ...>", true, ["r"]);
+        parent::__construct($api, "reply");
         $this->setPermission("essentials.reply");
     }
 
@@ -33,18 +32,11 @@ class Reply extends BaseCommand{
             return false;
         }
         if(!($t = $this->getAPI()->getQuickReply($sender))){
-            $sender->sendMessage(TextFormat::RED . "[Error] No target available for QuickReply");
+            $this->sendTranslation($sender, "commands.reply.no-target");
             return false;
         }
-        if(strtolower($t) !== "console" && strtolower($t) !== "rcon"){
-            if(!($t = $this->getAPI()->getPlayer($t))){
-                $sender->sendMessage(TextFormat::RED . "[Error] No player available for QuickReply");
-                $this->getAPI()->removeQuickReply($sender);
-                return false;
-            }
-        }
-        $sender->sendMessage(TextFormat::YELLOW . "[me -> " . ($t instanceof Player ? $t->getDisplayName() : $t) . "]" . TextFormat::RESET . " " . implode(" ", $args));
-        $m = TextFormat::YELLOW . "[" . ($sender instanceof Player ? $sender->getDisplayName() : $sender->getName()) . " -> me]" . TextFormat::RESET . " " . implode(" ", $args);
+        $this->sendTranslation($sender, "commands.reply.self-syntax", ($t instanceof Player ? $t->getDisplayName() : $t), $m = implode(" ", $args));
+        $m = $this->getAPI()->getTranslation("commands.reply.other-syntax", ($sender instanceof Player ? $sender->getDisplayName() : $sender->getName()), $m);
         if($t instanceof Player){
             $t->sendMessage($m);
         }else{
