@@ -27,7 +27,7 @@ class Speed extends BaseCommand{
         }
         $player = $sender;
         if(isset($args[1]) && !($player = $this->getAPI()->getPlayer($args[1]))){
-            $this->sendTranslation($sender, "general.error.player-not-found", $args[1]);
+            $this->sendTranslation($sender, "error.player-not-found", $args[1]);
             return false;
         }
         if((int) $args[0] === 0){

@@ -6,14 +6,13 @@ use EssentialsPE\BaseFiles\BaseCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\item\Item;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 
 class ItemCommand extends BaseCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "item", "Gives yourself an item", "<item[:damage]> [amount]", false, ["i"]);
+        parent::__construct($api, "item");
         $this->setPermission("essentials.item");
     }
 
@@ -32,7 +31,7 @@ class ItemCommand extends BaseCommand{
             return false;
         }
         if(($gm = $sender->getGamemode()) === Player::CREATIVE || $gm === Player::SPECTATOR){
-            $sender->sendMessage(TextFormat::RED . "[Error] You're in " . $this->getAPI()->getServer()->getGamemodeString($gm) . " mode");
+            $this->sendTranslation($sender, "error.gamemode-error", $this->getAPI()->getServer()->getGamemodeString($gm));
             return false;
         }
 
@@ -40,10 +39,10 @@ class ItemCommand extends BaseCommand{
         $item = $this->getAPI()->getItem($item_name = array_shift($args));
 
         if($item->getId() === Item::AIR){
-            $sender->sendMessage(TextFormat::RED . "Unknown item \"" . $item_name . "\"");
+            $this->sendTranslation($sender, "commands.item.unknown", $item_name);
             return false;
         }elseif(!$sender->hasPermission("essentials.itemspawn.item-all") && !$sender->hasPermission("essentials.itemspawn.item-" . $item->getName() && !$sender->hasPermission("essentials.itemspawn.item-" . $item->getId()))){
-            $sender->sendMessage(TextFormat::RED . "You can't spawn this item");
+            $this->sendTranslation($sender, "commands.item.need-permission", $item->getName());
             return false;
         }
 
@@ -61,8 +60,8 @@ class ItemCommand extends BaseCommand{
         }*/
 
         //Giving the item...
+        $this->sendTranslation($sender, "commands.item.confirmation", $item->getCount(), ($item->getName() === "Unknown" ? $item_name : $item->getName()));
         $sender->getInventory()->setItem($sender->getInventory()->firstEmpty(), $item);
-        $sender->sendMessage(TextFormat::YELLOW . "Giving " . TextFormat::RED . $item->getCount() . TextFormat::YELLOW . " of " . TextFormat::RED . ($item->getName() === "Unknown" ? $item_name : $item->getName()));
         return false;
     }
 }

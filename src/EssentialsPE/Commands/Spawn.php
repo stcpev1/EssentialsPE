@@ -36,7 +36,7 @@ class Spawn extends BaseCommand{
                 $this->sendTranslation($sender, "commands.spawn.other-permission");
                 return false;
             }elseif(!($player = $this->getAPI()->getPlayer($args[0]))){
-                $this->sendTranslation($sender, "general.error.player-not-found", $args[0]);
+                $this->sendTranslation($sender, "error.player-not-found", $args[0]);
                 return false;
             }
         }

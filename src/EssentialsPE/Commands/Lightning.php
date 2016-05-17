@@ -5,14 +5,13 @@ use EssentialsPE\BaseFiles\BaseAPI;
 use EssentialsPE\BaseFiles\BaseCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 
 class Lightning extends BaseCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "lightning", "Strike a lightning!", "[player [damage]]", "<player> [damage]", ["strike", "smite", "thor", "shock"]);
+        parent::__construct($api, "lightning");
         $this->setPermission("essentials.lightning.use");
     }
 
@@ -32,13 +31,13 @@ class Lightning extends BaseCommand{
         }
         $player = $sender;
         if(isset($args[0]) && !($player = $this->getAPI()->getPlayer($args[0]))){
-            $sender->sendMessage(TextFormat::RED . "[Error] Player not found");
+            $this->sendTranslation($sender, "error.player-not-found", $args[0]);
             return false;
         }
-        $pos = isset($args[0]) ? $player : $player->getTargetBlock(100);
-        $damage = isset($args[1]) ? $args[1] : 0;
+        $pos = $player === $sender ? $player : $player->getTargetBlock(100);
+        $damage = $args[1] ?? 0;
         $this->getAPI()->strikeLightning($pos, $damage);
-        $sender->sendMessage(TextFormat::YELLOW . "Lightning summoned!");
+        $this->sendTranslation($sender, "commands.lightning.summon");
         return true;
     }
 }

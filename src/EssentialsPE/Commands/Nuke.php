@@ -5,14 +5,13 @@ use EssentialsPE\BaseFiles\BaseAPI;
 use EssentialsPE\BaseFiles\BaseCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 
 class Nuke extends BaseCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "nuke", "Thin carpet of bomb", "[player]");
+        parent::__construct($api, "nuke");
         $this->setPermission("essentials.nuke.use");
     }
 
@@ -33,10 +32,10 @@ class Nuke extends BaseCommand{
         $player = $sender;
         if(isset($args[0])){
             if(!$sender->hasPermission("essentials.nuke.other")){
-                $sender->sendMessage(TextFormat::RED . $this->getPermissionMessage());
+                $this->sendTranslation($sender, "commands.nuke.other-permission");
                 return false;
             }elseif(!($player = $this->getAPI()->getPlayer($args[0]))){
-                $sender->sendMessage(TextFormat::RED . "[Error] Player not found");
+                $this->sendTranslation($sender, "error.player-not-found", $args[0]);
                 return false;
             }
         }

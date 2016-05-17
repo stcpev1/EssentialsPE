@@ -5,14 +5,13 @@ use EssentialsPE\BaseFiles\BaseAPI;
 use EssentialsPE\BaseFiles\BaseCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 
 class ItemDB extends BaseCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "itemdb", "Display the information attached to the item you hold", "[name|id|meta]", false, ["itemno", "durability", "dura"]);
+        parent::__construct($api, "itemdb");
         $this->setPermission("essentials.itemdb");
     }
 
@@ -31,24 +30,27 @@ class ItemDB extends BaseCommand{
             return false;
         }
         $item = $sender->getInventory()->getItemInHand();
-        $m = TextFormat::AQUA . "This item " . ($this->getAPI()->isRepairable($item) ? "has " . TextFormat::RED . $item->getDamage() . TextFormat::AQUA . " points of damage" : "metadata is " . TextFormat::RED . $item->getDamage());
+        $t = "commands.itemdb.i-" . ($this->getAPI()->isRepairable($item) ? "durability" : "metadata");
+        $a = $item->getDamage();
         if(isset($args[0])){
             switch(strtolower($args[0])){
                 case "name":
-                    $m = TextFormat::AQUA . "This item is named: " . TextFormat::RED . $item->getName();
+                    $t = "commands.itemdb.i-name";
+                    $a = $item->getName();
                     break;
                 case "id":
-                    $m = TextFormat::AQUA . "This item ID is: " . TextFormat::RED . $item->getId();
+                    $t = "commands.itemdb.i-id";
+                    $a = $item->getId();
                     break;
                 case "durability":
                 case "dura":
                 case "metadata":
                 case "meta":
-                    $m = TextFormat::AQUA . "This item " . ($this->getAPI()->isRepairable($item) ? "has " . TextFormat::RED . $item->getDamage() . TextFormat::AQUA . " points of damage" : "metadata is " . TextFormat::RED . $item->getDamage());
+                default:
                     break;
             }
         }
-        $sender->sendMessage($m);
+        $this->sendTranslation($sender, $t, $a);
         return true;
     }
 } 

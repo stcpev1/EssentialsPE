@@ -30,7 +30,7 @@ class Sudo extends BaseCommand{
             return false;
         }
         if(!($player = $this->getAPI()->getPlayer($name = array_shift($args)))){
-            $this->sendTranslation($sender, "general.error.player-not-found", $name);
+            $this->sendTranslation($sender, "error.player-not-found", $name);
             return false;
         }elseif($player->hasPermission("essentials.sudo.exempt")){
             $this->sendTranslation($sender, "commands.sudo.exempt-sudo");

@@ -5,14 +5,13 @@ use EssentialsPE\BaseFiles\BaseAPI;
 use EssentialsPE\BaseFiles\BaseCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 
 class KickAll extends BaseCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "kickall", "Kick all the players", "<reason>");
+        parent::__construct($api, "kickall");
         $this->setPermission("essentials.kickall");
     }
 
@@ -27,20 +26,16 @@ class KickAll extends BaseCommand{
             return false;
         }
         if(($count = count($this->getAPI()->getServer()->getOnlinePlayers())) < 1 || ($sender instanceof Player && $count < 2)){
-            $sender->sendMessage(TextFormat::RED . "[Error] There are no more players in the server");
+            $this->sendTranslation($sender, "commands.kickall.empty-server");
             return false;
         }
-        if(count($args) < 1){
-            $reason = "Unknown";
-        }else{
-            $reason = implode(" ", $args);
-        }
+        $reason = $this->getAPI()->getTranslation("commands.kickall.reason", (count($args) < 1 ? ["commands.kickall.unknown-reason"] : implode(" ", $args)));
         foreach($this->getAPI()->getServer()->getOnlinePlayers() as $p){
             if($p != $sender){
                 $p->kick($reason, false);
             }
         }
-        $sender->sendMessage(TextFormat::AQUA . "Kicked all the players!");
+        $this->sendTranslation($sender, "commands.kickall.done");
         return true;
     }
 }

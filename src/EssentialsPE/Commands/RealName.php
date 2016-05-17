@@ -29,7 +29,7 @@ class RealName extends BaseCommand{
             return false;
         }
         if(!($player = $this->getAPI()->getPlayer($args[0]))){
-            $this->sendTranslation($sender, "general.error.player-not-found", $args[0]);
+            $this->sendTranslation($sender, "error.player-not-found", $args[0]);
             return false;
         }
         $this->sendTranslation($sender, "commands.realname.reveal", $player->getDisplayName(), $player->getName());

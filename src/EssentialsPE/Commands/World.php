@@ -34,7 +34,7 @@ class World extends BaseCommand{
             return false;
         }
         if(!$sender->getServer()->isLevelGenerated($args[0])){
-            $this->sendTranslation($sender, "commands.world.world-not-exists", $args[0]);
+            $this->sendTranslation($sender, "commands.world.not-exists", $args[0]);
             return false;
         }elseif(!$sender->getServer()->isLevelLoaded($args[0])){
             $this->sendTranslation($sender, "commands.world.loading-world", $args[0]);

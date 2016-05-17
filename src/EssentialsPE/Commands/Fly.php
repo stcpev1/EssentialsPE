@@ -5,14 +5,13 @@ use EssentialsPE\BaseFiles\BaseAPI;
 use EssentialsPE\BaseFiles\BaseCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 
 class Fly extends BaseCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "fly", "Fly in Survival or Adventure mode!", "[player]");
+        parent::__construct($api, "fly");
         $this->setPermission("essentials.fly.use");
     }
 
@@ -33,17 +32,17 @@ class Fly extends BaseCommand{
         $player = $sender;
         if(isset($args[0])){
             if(!$sender->hasPermission("essentials.fly.other")){
-                $sender->sendMessage(TextFormat::RED . $this->getPermissionMessage());
+                $this->sendTranslation($sender, "commands.fly.other-permission");
                 return false;
             }elseif(!($player = $this->getAPI()->getPlayer($args[0]))){
-                $sender->sendMessage(TextFormat::RED . "[Error] Player not found");
+                $this->sendTranslation($sender, "error.player-not-found", $args[0]);
                 return false;
             }
         }
         $this->getAPI()->switchCanFly($player);
-        $player->sendMessage(TextFormat::YELLOW . "Flying mode " . ($this->getAPI()->canFly($player) ? "enabled" : "disabled") . "!");
+        $this->sendTranslation($sender, "commands.fly.self-" . ($t = $this->getAPI()->canFly($player) ? "enabled" : "disabled"));
         if($player !== $sender){
-            $sender->sendMessage(TextFormat::YELLOW . "Flying mode " . ($this->getAPI()->canFly($player) ? "enabled" : "disabled") . " for " . $player->getDisplayName());
+            $this->sendTranslation($sender, "commands.fly.other-" . $t, $player->getDisplayName());
         }
         return true;
     }

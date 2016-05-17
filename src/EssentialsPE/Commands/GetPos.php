@@ -5,14 +5,13 @@ use EssentialsPE\BaseFiles\BaseAPI;
 use EssentialsPE\BaseFiles\BaseCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 
 class GetPos extends BaseCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "getpos", "Get your/other's position", "[player]", true, ["coords", "position", "whereami", "getlocation", "getloc"]);
+        parent::__construct($api, "getpos");
         $this->setPermission("essentials.getpos.use");
     }
 
@@ -33,14 +32,14 @@ class GetPos extends BaseCommand{
         $player = $sender;
         if(isset($args[0])){
             if(!$sender->hasPermission("essentials.getpos.other")){
-                $sender->sendMessage(TextFormat::RED . $this->getPermissionMessage());
+                $this->sendTranslation($sender, "commands.getpos.other-permission");
                 return false;
             }elseif(!($player = $this->getAPI()->getPlayer($args[0]))){
-                $sender->sendMessage(TextFormat::RED . "[Error] Player not found");
+                $this->sendTranslation($sender, "error.player-not-found", $args[0]);
                 return false;
             }
         }
-        $sender->sendMessage(TextFormat::GREEN . ($player === $sender ? "You're" : $player->getDisplayName() . TextFormat::GRAY . "is") . "in world: " . TextFormat::AQUA . $player->getLevel()->getName() . "\n" . TextFormat::GREEN . "Coordinates: " . TextFormat::YELLOW . "X: " . TextFormat::AQUA . $player->getFloorX() . TextFormat::GREEN . ", " . TextFormat::YELLOW . "Y: " . TextFormat::AQUA . $player->getFloorY() . TextFormat::GREEN . ", " . TextFormat::YELLOW . "Z: " . TextFormat::AQUA . $player->getFloorZ());
+        $this->sendTranslation($sender, "commands.getpos." . ($player === $sender ? "self" : "other") . "-location", $player->getLevel()->getName(), $player->getX(), $player->getY(), $player->getZ(), $player->getDisplayName());
         return true;
     }
 }

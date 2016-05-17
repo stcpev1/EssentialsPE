@@ -11,7 +11,7 @@ class Ping extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "ping", "Pong!");
+        parent::__construct($api, "ping");
         $this->setPermission("essentials.ping");
     }
     /**
@@ -24,7 +24,7 @@ class Ping extends BaseCommand{
         if(!$this->testPermission($sender)){
             return false;
         }
-        $sender->sendMessage("Pong!");
+        $this->sendTranslation($sender, "commands.ping.pong");
         return true;
     }
 }

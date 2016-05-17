@@ -4,14 +4,13 @@ namespace EssentialsPE\Commands;
 use EssentialsPE\BaseFiles\BaseAPI;
 use EssentialsPE\BaseFiles\BaseCommand;
 use pocketmine\command\CommandSender;
-use pocketmine\Player;
 
 class EssentialsPE extends BaseCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "essentialspe", "Get current Essentials version", "[update <check|install>]", true, ["essentials", "ess", "esspe"]);
+        parent::__construct($api, "essentialspe");
         $this->setPermission("essentials.essentials");
     }
 
@@ -29,29 +28,25 @@ class EssentialsPE extends BaseCommand{
             $this->sendUsage($sender, $alias);
             return false;
         }elseif(!isset($args[0])){
-            $args[0] = "v";
+            $args[0] = "version";
         }
         switch(strtolower($args[0])){
             case "update":
-            case "u":
                 if(!$sender->hasPermission("essentials.update.use")){
                     $sender->sendMessage($this->getPermissionMessage());
                     return false;
                 }
                 $a = strtolower($args[1]);
-                if(!(isset($args[1]) && ($a === "check" || $a === "c" || $a === "install" || $a === "i"))){
+                if(!(isset($args[1]) && ($a === "check" || $a === "install"))){
                     $this->sendUsage($sender, $alias);
                     return false;
                 }
-                if(!$this->getAPI()->fetchEssentialsPEUpdate($a[0] === "i")){
-                    #$sender->sendMessage(TextFormat::YELLOW . "The updater is already working... Please wait a few moments and try again");
-                    $this->sendTranslation($sender, "warning.updater");
+                if(!$this->getAPI()->fetchEssentialsPEUpdate($a === "install")){
+                    $this->sendTranslation($sender, "general.updater.working");
                 }
                 break;
             case "version":
-            case "v":
-                #$sender->sendMessage(TextFormat::YELLOW . "You're using " . TextFormat::AQUA . "EssentialsPE " . TextFormat::YELLOW . "v" . TextFormat::GREEN . $sender->getServer()->getPluginManager()->getPlugin("EssentialsPE")->getDescription()->getVersion());
-                $this->sendTranslation($sender, "essentials.version", $sender->getServer()->getPluginManager()->getPlugin("EssentialsPE")->getDescription()->getVersion());
+                $this->sendTranslation($sender, "general.version", $this->getPlugin()->getDescription()->getVersion());
                 break;
             default:
                 $this->sendUsage($sender, $alias);

@@ -36,16 +36,16 @@ class Unlimited extends BaseCommand{
                 $this->sendTranslation($sender, "commands.unlimited.other-permission");
                 return false;
             }elseif(!($player = $this->getAPI()->getPlayer($args[0]))){
-                $this->sendTranslation($sender, "general.error.player-not-found", $args[0]);
+                $this->sendTranslation($sender, "error.player-not-found", $args[0]);
                 return false;
             }
         }
         if(($gm = $player->getGamemode()) === Player::CREATIVE || $gm === Player::SPECTATOR){
             $gm = $this->getAPI()->getServer()->getGamemodeString($gm);
             if($player === $sender){
-                $this->sendTranslation($sender, "commands.unlimited.gamemode-error", $gm);
+                $this->sendTranslation($sender, "error.gamemode-error", $gm);
             }else{
-                $this->sendTranslation($sender, "commands.unlimited.other-gamemode-error", $player->getDisplayName(), $gm);
+                $this->sendTranslation($sender, "error.other-gamemode-error", $player->getDisplayName(), $gm);
             }
             return false;
         }

@@ -6,14 +6,13 @@ use EssentialsPE\BaseFiles\BaseCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\item\Item;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 
 class Hat extends BaseCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "hat", "Get some new cool headgear", "[remove]", false, ["head"]);
+        parent::__construct($api, "hat");
         $this->setPermission("essentials.hat");
     }
 
@@ -40,7 +39,7 @@ class Hat extends BaseCommand{
         if(!$remove){
             $new = $sender->getInventory()->getItemInHand();
             if($new->getId() === Item::AIR){
-                $sender->sendMessage(TextFormat::RED . "[Error] Please specify an item to wear");
+                $this->sendTranslation($sender, "commands.hat.invalid-item");
                 return false;
             }
             $slot = $sender->getInventory()->getHeldItemSlot();
@@ -49,7 +48,7 @@ class Hat extends BaseCommand{
         if($slot !== null){
             $sender->getInventory()->setItem($slot, $old);
         }
-        $sender->sendMessage(TextFormat::AQUA . ($new->getId() === Item::AIR ? "Hat removed!" : "You got a new hat!"));
+        $this->sendTranslation($sender, "commands.hat." . ($new->getId() === Item::AIR ? "removed" : "added"));
         return true;
     }
 }

@@ -5,14 +5,13 @@ namespace EssentialsPE\Commands;
 use EssentialsPE\BaseFiles\BaseAPI;
 use EssentialsPE\BaseFiles\BaseCommand;
 use pocketmine\command\CommandSender;
-use pocketmine\utils\TextFormat;
 
 class Mute extends BaseCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "mute", "Prevent a player from chatting", "<player> [time...]", true, ["silence"]);
+        parent::__construct($api, "mute");
         $this->setPermission("essentials.mute.use");
     }
 
@@ -30,12 +29,12 @@ class Mute extends BaseCommand{
             $this->sendUsage($sender, $alias);
             return false;
         }
-        if(!($player = $this->getAPI()->getPlayer(array_shift($args)))){
-            $sender->sendMessage(TextFormat::RED . "[Error] Player not found.");
+        if(!($player = $this->getAPI()->getPlayer($n = array_shift($args)))){
+            $this->sendTranslation($sender, "error.player-not-found", $n);
             return false;
         }
         if($player->hasPermission("essentials.mute.exempt") && !$this->getAPI()->isMuted($player)){
-            $sender->sendMessage(TextFormat::RED . $player->getDisplayName() . " can't be muted");
+            $this->sendTranslation($sender, "commands.mute.exempt", $player->getDisplayName());
             return false;
         }
         /** @var \DateTime $date */
@@ -44,7 +43,10 @@ class Mute extends BaseCommand{
             $date = $info[0];
         }
         $this->getAPI()->switchMute($player, $date, true);
-        $sender->sendMessage(TextFormat::YELLOW . $player->getDisplayName() . " has been " . ($this->getAPI()->isMuted($player) ? "muted " . ($date !== null ? "until: " . TextFormat::AQUA . $date->format("l, F j, Y") . TextFormat::RED . " at " . TextFormat::AQUA . $date->format("h:ia") : TextFormat::AQUA . "Forever" . TextFormat::YELLOW . "!") : "unmuted!"));
+        $this->sendTranslation($sender, "commands.mute.other-" . ($this->getAPI()->isMuted($player) ? "muted" : "unmuted"), ($date === null ?
+            $this->getAPI()->getTranslation("commands.mute.mute-until", $date->format("l, F j, Y"), $date->format("h:ia"))
+            : $this->getAPI()->getTranslation("commands.mute.mute-forever"))
+        );
         return true;
     }
 }

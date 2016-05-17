@@ -28,7 +28,7 @@ abstract class BaseCommand extends Command implements PluginIdentifiableCommand{
         }else{
             $this->consoleUsageMessage = $t["console-usage"];
         }
-        $this->setPermissionMessage($this->getAPI()->getTranslation("general.error.need-permission"));
+        $this->setPermissionMessage($this->getAPI()->getTranslation("error.need-permission"));
     }
 
     /**

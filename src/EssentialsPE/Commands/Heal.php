@@ -7,14 +7,13 @@ use pocketmine\command\CommandSender;
 use pocketmine\event\entity\EntityRegainHealthEvent;
 use pocketmine\level\particle\HeartParticle;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 
 class Heal extends BaseCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "heal", "Heal yourself or other player", "[player]");
+        parent::__construct($api, "heal");
         $this->setPermission("essentials.heal.use");
     }
 
@@ -34,14 +33,14 @@ class Heal extends BaseCommand{
         }
         $player = $sender;
         if(isset($args[0]) && !($player = $this->getAPI()->getPlayer($args[0]))){
-            $sender->sendMessage(TextFormat::RED . "[Error] Player not found");
+            $this->sendTranslation($sender, "error.player-not-found", $args[0]);
             return false;
         }
         $player->heal($player->getMaxHealth(), new EntityRegainHealthEvent($player, $player->getMaxHealth() - $player->getHealth(), EntityRegainHealthEvent::CAUSE_CUSTOM));
-        $player->getLevel()->addParticle(new HeartParticle($player->add(0, 2), 4));
-        $player->sendMessage(TextFormat::GREEN . "You have been healed!");
+        $player->getLevel()->addParticle(new HeartParticle($player->add(0, 2), 4)); // TODO: Configuration for minimized particles
+        $this->sendTranslation($sender, "commands.heal.confirmation");
         if($player !== $sender){
-            $sender->sendMessage(TextFormat::GREEN . $player->getDisplayName() . " has been healed!");
+            $this->sendTranslation($sender, "commands.heal.other-confirmation", $player->getDisplayName());
         }
         return true;
     }

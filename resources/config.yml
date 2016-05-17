@@ -64,6 +64,9 @@ updater:
   warn-players: true
   # Do you want to use 'stable', 'beta' or 'development' releases?
   channel: stable
+  # When looking for 'Stable Releases', should we look inside Github or PocketMine Forums?
+  # 'false' means to look inside PocketMine Forums Releases, 'true' to look in Github Releases
+  prefer-github: false
 
 ################################
 # If the teleport destination is unsafe, should players be teleported to the nearest safe location?

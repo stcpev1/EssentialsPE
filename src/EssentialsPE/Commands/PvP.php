@@ -5,14 +5,13 @@ use EssentialsPE\BaseFiles\BaseAPI;
 use EssentialsPE\BaseFiles\BaseCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 
 class PvP extends BaseCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "pvp", "Toggle PvP on/off", "<on|true|enable|off|false|disable>", false);
+        parent::__construct($api, "pvp");
         $this->setPermission("essentials.pvp");
     }
 
@@ -31,7 +30,7 @@ class PvP extends BaseCommand{
             return false;
         }
         $this->getAPI()->setPvP($sender, $s);
-        $sender->sendMessage(TextFormat::GREEN . "PvP mode " . ($s ? "enabled" : "disabled"));
+        $this->sendTranslation($sender, "commands.pvp." . ($s ? "enabled" : "disabled"));
         return true;
     }
 }

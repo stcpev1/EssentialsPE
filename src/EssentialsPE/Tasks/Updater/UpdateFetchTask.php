@@ -4,7 +4,6 @@ namespace EssentialsPE\Tasks\Updater;
 use EssentialsPE\Loader;
 use pocketmine\scheduler\AsyncTask;
 use pocketmine\Server;
-use pocketmine\utils\TextFormat;
 use pocketmine\utils\Utils;
 
 class UpdateFetchTask extends AsyncTask{
@@ -69,18 +68,24 @@ class UpdateFetchTask extends AsyncTask{
         $currentVersion = $this->correctVersion($ess->getDescription()->getVersion());
         $v = $this->getResult()["version"];
 
+        $message = $ess->getAPI()->getTranslation("general.prefix") . " ";
         if($currentVersion < $v or $this->build === "development"){
             $continue = true;
-            $message = TextFormat::AQUA . "[EssentialsPE]" . TextFormat::GREEN .
+            $message .= $ess->getAPI()->getTranslation("general.updater." . ($this->build === "development" ? "development" : "found-new"), $this->build) . " " . 
+            $ess->getAPI()->getTranslation("general.updater.version", $v);
+            if($this->install){
+                $message .= $ess->getAPI()->getTranslation("general.updater.install");
+            }
+            /*$message = TextFormat::AQUA . "[EssentialsPE]" . TextFormat::GREEN .
                 ($this->build === "development" ?
                     "Fetching latest EssentialsPE development build..." :
                     " A new " . TextFormat::YELLOW . $this->build . TextFormat::GREEN . " version of EssentialsPE found!"
                 ) .
                 " Version: " . TextFormat::YELLOW . $v . TextFormat::GREEN .
-                ($this->install !== true ? "" : ", " . TextFormat::LIGHT_PURPLE . "Installing...");
+                ($this->install !== true ? "" : ", " . TextFormat::LIGHT_PURPLE . "Installing...");*/
         }else{
             $continue = false;
-            $message = TextFormat::AQUA . "[EssentialsPE]" . TextFormat::YELLOW . " No new version found, you're using the latest version of EssentialsPE";
+            $message .= $ess->getAPI()->getTranslation("general.updater.is-latest");
         }
         $ess->getAPI()->broadcastUpdateAvailability($message);
         if($continue && $this->install){

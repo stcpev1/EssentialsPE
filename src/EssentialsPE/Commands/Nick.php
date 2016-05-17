@@ -5,14 +5,13 @@ use EssentialsPE\BaseFiles\BaseAPI;
 use EssentialsPE\BaseFiles\BaseCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 
 class Nick extends BaseCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "nick", "Change your in-game name", "<new nick|off> [player]", true, ["nickname"]);
+        parent::__construct($api, "nick");
         $this->setPermission("essentials.nick.use");
     }
 
@@ -30,27 +29,29 @@ class Nick extends BaseCommand{
             $this->sendUsage($sender, $alias);
             return false;
         }
-        $nick = ($n = strtolower($alias[0])) === "off" || $n === "remove" || (bool) $n === false ? false : $args[0];
+        $nick = ($n = strtolower($alias[0])) === "off" || $n === "remove" || $n === "restore" || (bool) $n === false ? false : $args[0];
         $player = $sender;
         if(isset($args[1])){
             if(!$sender->hasPermission("essentials.nick.other")){
-                $sender->sendMessage(TextFormat::RED . $this->getPermissionMessage());
+                $this->sendTranslation($sender, "commands.nick.other-permission");
                 return false;
             }elseif(!($player = $this->getAPI()->getPlayer($args[1]))){
-                $sender->sendMessage(TextFormat::RED . "[Error] Player not found");
+                $this->sendTranslation($sender, "error.player-not-found", $args[1]);
                 return false;
             }
         }
         if(!$nick){
             $this->getAPI()->removeNick($player);
-        }else{
-            if(!$this->getAPI()->setNick($player, $nick)){
-                $sender->sendMessage(TextFormat::RED . "[Error] You don't have permissions to give 'colored' nicknames");
-            }
+        }elseif(!$sender->hasPermission("essentials.colorchat")){
+            $this->sendTranslation($sender, "error.color-codes-permission");
+            return false;
+        }elseif(!$this->getAPI()->setNick($player, $nick)){
+            $this->sendTranslation($sender, "commands.nick.cancelled");
+            return false;
         }
-        $player->sendMessage(TextFormat::GREEN . "Your nick " . ($m = !$nick ? "has been removed" : "is now " . TextFormat::RESET . $nick));
+        $this->sendTranslation($player, "commands.nick.self-" . (!$nick ? "restore" : "change"), $nick);
         if($player !== $sender){
-            $sender->sendMessage(TextFormat::GREEN . $player->getName() . (substr($player->getName(), -1, 1) === "s" ? "'" : "'s") . " nick " . $m);
+            $this->sendTranslation($sender, "commands.nick.other-change", $player->getName(), $player->getDisplayName());
         }
         return true;
     }

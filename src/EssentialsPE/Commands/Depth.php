@@ -5,14 +5,13 @@ use EssentialsPE\BaseFiles\BaseAPI;
 use EssentialsPE\BaseFiles\BaseCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 
 class Depth extends BaseCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "depth", "Display your depth related to sea-level", null, false, ["height"]);
+        parent::__construct($api, "depth");
         $this->setPermission("essentials.depth");
     }
 
@@ -30,7 +29,7 @@ class Depth extends BaseCommand{
             $this->sendUsage($sender, $alias);
             return false;
         }
-        $sender->sendMessage(TextFormat::AQUA . "You're " . (($pos = $sender->getFloorY() - 63) === 0 ? "at" : (abs($pos) . " meters " . ($pos > 0 ? "above" : "below"))) . " the sea level.");
+        $this->sendTranslation($sender, "commands.depth." . (($pos = $sender->getFloorY() - 63) === 0 ? "at-sea-level" : ($pos > 0 ? "above" : "below")), abs($pos));
         return true;
     }
 }

@@ -5,14 +5,13 @@ use EssentialsPE\BaseFiles\BaseAPI;
 use EssentialsPE\BaseFiles\BaseCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 
 class God extends BaseCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "god", "Prevent you to take any damage", "[player]", true, ["godmode", "tgm"]);
+        parent::__construct($api, "god");
         $this->setPermission("essentials.god.use");
     }
 
@@ -33,17 +32,17 @@ class God extends BaseCommand{
         $player = $sender;
         if(isset($args[0])){
             if(!$sender->hasPermission("essentials.god.other")){
-                $sender->sendMessage(TextFormat::RED . $this->getPermissionMessage());
+                $this->sendTranslation($sender, "commands.god.other-permission");
                 return false;
             }elseif(!($player = $this->getAPI()->getPlayer($args[0]))){
-                $sender->sendMessage(TextFormat::RED . "[Error] Player not found");
+                $this->sendTranslation($sender, "error.player-not-found", $args[0]);
                 return false;
             }
         }
         $this->getAPI()->switchGodMode($player);
-        $player->sendMessage(TextFormat::AQUA . "God mode " . ($m = $this->getAPI()->isGod($player) ? "enabled" : "disabled"));
+        $this->sendTranslation($player, "commands.god.self-" . ($t = $this->getAPI()->isGod($player) ? "enabled" : "disabled"));
         if($player !== $sender){
-            $sender->sendMessage(TextFormat::AQUA . "God mode $m");
+            $this->sendTranslation($sender, "commands.god.other-" . $t, $player->getDisplayName());
         }
         return true;
     }

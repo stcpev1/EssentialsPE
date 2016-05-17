@@ -643,7 +643,7 @@ class BaseAPI{
             return;
         }
         foreach($pos->getLevel()->getNearbyEntities(new AxisAlignedBB($pos->getFloorX() - ($radius = 5), $pos->getFloorY() - $radius, $pos->getFloorZ() - $radius, $pos->getFloorX() + $radius, $pos->getFloorY() + $radius, $pos->getFloorZ() + $radius), $pos) as $e){
-            $e->attack(0, new EntityDamageEvent($pos, EntityDamageEvent::CAUSE_MAGIC, $damage));
+            $e->attack($damage, new EntityDamageEvent($pos, EntityDamageEvent::CAUSE_MAGIC, $damage));
         }
     }
 
@@ -1054,7 +1054,11 @@ class BaseAPI{
             return false;
         }
         if(!$inArray){
-            return implode(", ", $list);
+            $m = array_shift($list);
+            foreach($list as $k){
+                $m .= $this->getTranslation("commands.kit.list-syntax", $k);
+            }
+            return $m;
         }
         return $list;
     }
@@ -1129,7 +1133,7 @@ class BaseAPI{
             $message
         );
         if(strpos($message, "§") !== false && ($player instanceof Player) && !$player->hasPermission("essentials.colorchat")){
-            $player->sendMessage(TextFormat::RED . "You can't chat using colors!");
+            $player->sendMessage($this->getTranslation("general.error.color-codes-permission"));
             return false;
         }
         return $message;
@@ -1274,7 +1278,10 @@ class BaseAPI{
             }
             $this->getSession($player)->setMuted($ev->willMute(), $ev->getMutedUntil());
             if($notify && $player->hasPermission("essentials.mute.notify")){
-                $player->sendMessage(TextFormat::YELLOW . "You have been " . ($this->isMuted($player) ? "muted " . ($ev->getMutedUntil() !== null ? "until: " . TextFormat::AQUA . $ev->getMutedUntil()->format("l, F j, Y") . TextFormat::RED . " at " . TextFormat::AQUA . $ev->getMutedUntil()->format("h:ia") : TextFormat::AQUA . "Forever" . TextFormat::YELLOW . "!") : "unmuted!"));
+                $player->sendMessage($this->getTranslation("commands.mute.self-" . ($this->isMuted($player) ? "muted" : "unmuted"), ($ev->getMutedUntil() === null ? 
+                    $this->getTranslation("commands.mute.mute-until", $ev->getMutedUntil()->format("l, F j, Y"), $ev->getMutedUntil()->format("h:ia"))
+                    : $this->getTranslation("commands.mute.mute-forever"))
+                ));
             }
         }
         return true;
@@ -2101,7 +2108,7 @@ class BaseAPI{
         if(($this->updaterTask !== null && $this->updaterTask->isRunning()) && ($this->updaterDownloadTask !== null && $this->updaterDownloadTask->isRunning())){
             return false;
         }
-        $this->getServer()->getLogger()->debug(TextFormat::YELLOW . "Running EssentialsPE's UpdateFetchTask");
+        $this->getServer()->getLogger()->debug($this->getTranslation("general.updater.debug"));
         $this->getServer()->getScheduler()->scheduleAsyncTask($task = new UpdateFetchTask($this->getUpdateBuild(), $install));
         $this->updaterTask = $task;
         return true;

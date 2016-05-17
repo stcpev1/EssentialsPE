@@ -5,14 +5,13 @@ use EssentialsPE\BaseFiles\BaseAPI;
 use EssentialsPE\BaseFiles\BaseCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 
 class Extinguish extends BaseCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "extinguish", "Extinguish a player", "[player]", true, ["ext"]);
+        parent::__construct($api, "extinguish");
         $this->setPermission("essentials.extinguish.use");
     }
 
@@ -33,15 +32,18 @@ class Extinguish extends BaseCommand{
         $player = $sender;
         if(isset($args[0])){
             if(!$sender->hasPermission("essentials.extinguish.other")){
-                $sender->sendMessage(TextFormat::RED . $this->getPermissionMessage());
+                $this->sendTranslation($sender, "commands.extinguish.other-permission");
                 return false;
             }elseif(!($player = $this->getAPI()->getPlayer($args[0]))){
-                $sender->sendMessage(TextFormat::RED . "[Error] Player not found");
+                $this->sendTranslation($sender, "error.player-not-found", $args[0]);
                 return false;
             }
         }
         $player->extinguish();
-        $sender->sendMessage(TextFormat::AQUA . ($player === $sender ? "You were" : $player->getDisplayName() . "has been") . TextFormat::AQUA . " extinguished");
+        $this->sendTranslation($player, "commands.extinguish.self");
+        if($player !== $sender){
+            $this->sendTranslation($sender, "commands.extinguish.other", $player->getDisplayName());
+        }
         return true;
     }
 }
