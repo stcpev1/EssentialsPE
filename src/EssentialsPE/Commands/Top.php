@@ -29,7 +29,7 @@ class Top extends BaseCommand{
             $this->sendUsage($sender, $alias);
             return false;
         }
-        $this->sendTranslation($sender, "general.teleporting");
+        $this->sendTranslation($sender, "general.teleport-confirmation");
         $sender->teleport($sender->add(0, $sender->getLevel()->getHighestBlockAt($sender->getX(), $sender->getZ()) + 1));
         return true;
     }

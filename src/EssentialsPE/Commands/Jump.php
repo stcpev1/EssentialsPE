@@ -31,7 +31,7 @@ class Jump extends BaseCommand{
         }
         $block = $sender->getTargetBlock(100, BaseAPI::NON_SOLID_BLOCKS);
         if($block === null){
-            $this->sendTranslation($sender, "commands.jump.no-reachable-block");
+            $this->sendTranslation($sender, "error.near-block");
             return false;
         }
         if(!$sender->getLevel()->getBlock($block->add(0, 2))->isSolid()){

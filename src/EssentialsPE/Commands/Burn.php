@@ -4,14 +4,13 @@ namespace EssentialsPE\Commands;
 use EssentialsPE\BaseFiles\BaseAPI;
 use EssentialsPE\BaseFiles\BaseCommand;
 use pocketmine\command\CommandSender;
-use pocketmine\utils\TextFormat;
 
 class Burn extends BaseCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "burn", "Set a player on fire", "<player> <seconds>");
+        parent::__construct($api, "burn");
         $this->setPermission("essentials.burn");
     }
 
@@ -30,15 +29,15 @@ class Burn extends BaseCommand{
             return false;
         }
         if(!($player = $this->getAPI()->getPlayer($args[0]))){
-            $sender->sendMessage(TextFormat::RED . "[Error] Player not found");
+            $this->sendTranslation($sender, "error.player-not-found", $args[0]);
             return false;
         }
-        if(!is_numeric($time = $args[1])){
-            $sender->sendMessage(TextFormat::RED . "[Error] Invalid burning time");
+        if(!is_numeric($time = $args[1]) or (int) $time < 0){
+            $this->sendTranslation($sender, "commands.burn.invalid-time");
             return false;
         }
         $player->setOnFire($time);
-        $sender->sendMessage(TextFormat::YELLOW . $player->getDisplayName() . " is now on fire!");
+        $this->sendTranslation($sender, "commands.burn.confirmation");
         return true;
     }
 }

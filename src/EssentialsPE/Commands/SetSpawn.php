@@ -31,7 +31,7 @@ class SetSpawn extends BaseCommand{
             return false;
         }
         $sender->getLevel()->setSpawnLocation($sender);
-        $sender->getServer()->setDefaultLevel($sender->getLevel());
+        $this->getAPI()->getServer()->setDefaultLevel($sender->getLevel());
         $sender->sendMessage(TextFormat::YELLOW . "Server's spawn point changed!");
         $this->sendTranslation($sender, "commands.setspawn.confirmation");
         $this->getLogger()->info($this->getAPI()->getTranslation("commands.setspawn.console-confirmation", $sender->getLevel()->getName(), $sender->getName()));

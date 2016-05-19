@@ -4,14 +4,13 @@ namespace EssentialsPE\Commands;
 use EssentialsPE\BaseFiles\BaseAPI;
 use EssentialsPE\BaseFiles\BaseCommand;
 use pocketmine\command\CommandSender;
-use pocketmine\utils\TextFormat;
 
 class Broadcast extends BaseCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "broadcast", "Broadcast a message.", "<message>", true, ["bcast"]);
+        parent::__construct($api, "broadcast");
         $this->setPermission("essentials.broadcast");
     }
 
@@ -29,7 +28,7 @@ class Broadcast extends BaseCommand{
             $this->sendUsage($sender, $alias);
             return false;
         }
-        $sender->getServer()->broadcastMessage(TextFormat::LIGHT_PURPLE . "[Broadcast] " . TextFormat::RESET . implode(" ", $args));
+        $this->getAPI()->getServer()->broadcastMessage($this->getAPI()->getTranslation("commands.broadcast.syntax", implode(" ", $args)));
         return true;
     }
 }

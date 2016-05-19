@@ -5,14 +5,13 @@ use EssentialsPE\BaseFiles\BaseAPI;
 use EssentialsPE\BaseFiles\BaseCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 
 class Back extends BaseCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "back", "Teleport to your previous location", null, false, ["return"]);
+        parent::__construct($api, "back");
         $this->setPermission("essentials.back.use");
     }
 
@@ -31,10 +30,10 @@ class Back extends BaseCommand{
             return false;
         }
         if(!($pos = $this->getAPI()->getLastPlayerPosition($sender))){
-            $sender->sendMessage(TextFormat::RED . "[Error] No previous position available");
+            $this->sendTranslation($sender, "commands.back.not-available");
             return false;
         }
-        $sender->sendMessage(TextFormat::GREEN . "Teleporting...");
+        $this->sendTranslation($sender, "general.teleport-confirmation");
         $sender->teleport($pos);
         return true;
     }

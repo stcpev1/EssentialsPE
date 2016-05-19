@@ -265,7 +265,7 @@ class BaseAPI{
             $task = $this->getServer()->getScheduler()->scheduleDelayedTask(new AFKKickTask($this, $player), ($time * 20));
             $this->getSession($player)->setAFKKickTaskID($task->getTaskId());
         }
-        $player->sendMessage(TextFormat::YELLOW . "You're " . ($this->isAFK($player) ? "now" : "no longer") . " AFK");
+        $player->sendMessage($this->getTranslation("commands.afk.self-" . ($this->isAFK($player) ? "enable" : "disable")));
         if($ev->getBroadcast()){
             $this->broadcastAFKStatus($player);
         }
@@ -324,7 +324,7 @@ class BaseAPI{
         if(!$this->getEssentialsPEPlugin()->getConfig()->getNested("afk.broadcast")){
             return;
         }
-        $message = TextFormat::YELLOW . $player->getDisplayName() . " is " . ($this->isAFK($player) ? "now" : "no longer") . " AFK";
+        $message = $this->getTranslation("commands.afk.other-" . ($this->isAFK($player) ? "enable" : "disable"), $player->getDisplayName());
         $this->getServer()->getLogger()->info($message);
         foreach($this->getServer()->getOnlinePlayers() as $p){
             if($p !== $player){

@@ -33,12 +33,12 @@ class World extends BaseCommand{
             $this->sendTranslation($sender, "commands.world.need-permission", $args[0]);
             return false;
         }
-        if(!$sender->getServer()->isLevelGenerated($args[0])){
+        if(!$this->getAPI()->getServer()->isLevelGenerated($args[0])){
             $this->sendTranslation($sender, "commands.world.not-exists", $args[0]);
             return false;
-        }elseif(!$sender->getServer()->isLevelLoaded($args[0])){
+        }elseif(!$this->getAPI()->getServer()->isLevelLoaded($args[0])){
             $this->sendTranslation($sender, "commands.world.loading-world", $args[0]);
-            if(!$sender->getServer()->loadLevel($args[0])){
+            if(!$this->getAPI()->getServer()->loadLevel($args[0])){
                 $this->sendTranslation($sender, "commands.world.load-error", $args[0]);
                 return false;
             }

@@ -47,7 +47,7 @@ class TempBan extends BaseCommand{
                 $player->kick($this->getAPI()->getTranslation("commands.tempban.banned-until", $day, $time) . $reason);
             }
         }
-        $sender->getServer()->getNameBans()->addBan(($name = $player instanceof Player ? $player->getName() : $name), (trim($reason) !== "" ? $reason : null), $date, "EssentialsPE");
+        $this->getAPI()->getServer()->getNameBans()->addBan(($name = $player instanceof Player ? $player->getName() : $name), (trim($reason) !== "" ? $reason : null), $date, "EssentialsPE");
         $this->broadcastCommandMessage($sender, $this->getAPI()->getTranslation("commands.tempban.broadcast", $name, $day, $time) . $reason);
         return true;
     }

@@ -5,14 +5,13 @@ use EssentialsPE\BaseFiles\BaseAPI;
 use EssentialsPE\BaseFiles\BaseCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 
 class Compass extends BaseCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "compass", "Display your current bearing direction", null, false, ["direction"]);
+        parent::__construct($api, "compass");
         $this->setPermission("essentials.compass");
     }
 
@@ -30,25 +29,12 @@ class Compass extends BaseCommand{
             $this->sendUsage($sender, $alias);
             return false;
         }
-        switch($sender->getDirection()){
-            case 0:
-                $direction = "south";
-                break;
-            case 1:
-                $direction = "west";
-                break;
-            case 2:
-                $direction = "north";
-                break;
-            case 3:
-                $direction = "east";
-                break;
-            default:
-                $sender->sendMessage(TextFormat::RED . "Oops, there was an error while getting your face direction");
-                return false;
-                break;
-        }
-        $sender->sendMessage(TextFormat::AQUA . "You're facing " . TextFormat::YELLOW . $direction);
+        $direction= ["south", "west", "north", "east"];
+        $this->sendTranslation($sender,
+            "commands.compass." .
+                (isset($direction[$sender->getDirection()]) ? "direction"  : "unknown-direction"),
+            ["commands.compass." . $sender->getDirection()]
+        );
         return true;
     }
 }

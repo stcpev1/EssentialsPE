@@ -5,14 +5,13 @@ use EssentialsPE\BaseFiles\BaseAPI;
 use EssentialsPE\BaseFiles\BaseCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 
 class Antioch extends BaseCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "antioch", "Holy hand grenade", null, false, ["grenade", "tnt"]);
+        parent::__construct($api, "antioch");
         $this->setPermission("essentials.antioch");
     }
 
@@ -31,10 +30,10 @@ class Antioch extends BaseCommand{
             return false;
         }
         if(!$this->getAPI()->antioch($sender)){
-            $sender->sendMessage(TextFormat::RED . "[Error] Cannot throw the grenade, there isn't a near valid block");
+            $this->sendTranslation($sender, "commands.antioch.no-spot");
             return false;
         }
-        $sender->sendMessage(TextFormat::GREEN . "Grenade threw!");
+        $this->sendTranslation($sender, "commands.antioch.confirmation");
         return true;
     }
 }

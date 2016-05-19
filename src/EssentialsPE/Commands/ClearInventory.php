@@ -5,14 +5,13 @@ use EssentialsPE\BaseFiles\BaseAPI;
 use EssentialsPE\BaseFiles\BaseCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 
 class ClearInventory extends BaseCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "clearinventory", "Clear your/other's inventory", "[player]", true, ["ci", "clean", "clearinvent"]);
+        parent::__construct($api, "clearinventory");
         $this->setPermission("essentials.clearinventory.use");
     }
 
@@ -33,21 +32,26 @@ class ClearInventory extends BaseCommand{
         $player = $sender;
         if(isset($args[0])){
             if(!$sender->hasPermission("essentials.clearinventory.other")){
-                $sender->sendMessage(TextFormat::RED . $this->getPermissionMessage());
+                $this->sendTranslation($sender, "commands.clearinventory.other-permission");
                 return false;
             }elseif(!($player = $this->getAPI()->getPlayer($args[0]))){
-                $sender->sendMessage(TextFormat::RED . "[Error] Player not found");
+                $this->sendTranslation($sender, "error.player-not-found", $args[0]);
                 return false;
             }
         }
-        if(($gm = $player->getGamemode()) === 1 || $gm === 3){
-            $sender->sendMessage(TextFormat::RED . "[Error] " . (isset($args[0]) ? $player->getDisplayName() . "is" : "You are") . " in " . $this->getAPI()->getServer()->getGamemodeString($gm) . " mode");
+        if(($gm = $player->getGamemode()) === Player::CREATIVE || $gm === Player::ADVENTURE){
+            $gm = $this->getAPI()->getServer()->getGamemodeString($gm);
+            if($player === $sender){
+                $this->sendTranslation($sender, "error.gamemode-error", $gm);
+            }else{
+                $this->sendTranslation($sender, "error.other-gamemode-error", $player->getDisplayName(), $gm);
+            }
             return false;
         }
         $player->getInventory()->clearAll();
-        $player->sendMessage(TextFormat::AQUA . "Your inventory was cleared");
+        $this->sendTranslation($player, "commands.clearinventory.confirmation");
         if($player !== $sender){
-            $sender->sendMessage(TextFormat::AQUA . $player->getDisplayName() . (substr($player->getDisplayName(), -1, 1) === "s" ? "'" : "'s") . " inventory was cleared");
+            $this->sendTranslation($sender, "commands.clearinventory.other-confirmation");
         }
         return true;
     }

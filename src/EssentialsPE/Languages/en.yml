@@ -66,6 +66,101 @@
 # TODO: Replace everything above into below more structured syntax
 
 commands:
+  afk:
+    name: "afk"
+    description: "Toggle the 'Away from the keyboard' status"
+    usage: "[player]"
+    console-usage: "<player>"
+    alias:
+      - away
+    self-disable: "&eYou are no longer AFK"
+    self-enable: "&eYou are now AFK"
+    other-disable: "&d{0} &eis no longer AFK"
+    other-enable: "&d{0} &eis now AFK"
+    other-permission: "&cYou are not allowed to toggle other players' AFK status"
+  antioch:
+    name: "antioch"
+    description: "Holy hand grenade"
+    usage: ""
+    console-usage: false
+    alias:
+      - grenade
+      - tnt
+    confirmation: "&eGrenade threw!"
+    no-spot: "&cThere are no near spots to place the grenade on..."
+  back:
+    name: "back"
+    description: "Teleport to your previous location"
+    usage: ""
+    console-usage: false
+    alias:
+      - return
+    not-available: "&cThere is no previous location available to teleport"
+  bigtree:
+    name: "bigtree"
+    description: "Spawns a big tree"
+    usage: "<tree|redwood|jungle>"
+    console-usage: false
+    alias: []
+  break:
+    name: "break"
+    description: "Break the block you are looking at"
+    usage: ""
+    console-usage: false
+    alias: []
+    bedrock-permission: "&cYou are not allowed to break bedrock"
+  broadcast:
+    name: "broadcast"
+    description: "Broadcast a message"
+    usage: "<message>"
+    console-usage: true
+    alias:
+      - bcast
+    syntax: "&d[Broadcast] &r{0}"
+  burn:
+    name: "burn"
+    description: "Set a player on fire!"
+    usage: "<player> <seconds>"
+    console-usage: true
+    alias: []
+    confirmation: "&d{0} &eis now on fire!"
+    invalid-time: "&cInvalid burning time provided"
+  clearinventory:
+    name: "clearinventory"
+    description: "Clear your or other's inventory"
+    usage: "[player]"
+    console-usage: "<player>"
+    alias:
+      - ci
+      - clean
+      - clearinvent
+    confirmation: "&bYour inventory was cleared"
+    other-confirmation: "&bCleared inventory of player &d{0}"
+    other-permission: "&cYou are not allowed to clear other players' inventory"
+  compass:
+    name: "compass"
+    description: "Display your current bearing direction"
+    usage: ""
+    console-usage: false
+    alias:
+      - direction
+    direction: "&bYou are facing &e{0}"
+    east: "east"
+    north: "north"
+    south: "south"
+    unknown-direction: "&cOoops, there was an error calculating your facing direction"
+    west: "west"
+  consende:
+    name: "consende"
+    description: "Compact your inventory!"
+    usage: "[item name|id|hand|inventory|all]"
+    console-usage: false
+    alias:
+      - compact
+      - toblocks
+    confirmation: "&eConverting &d{0} &eitem into most compact form..."
+    invalid-item: "&cItem {0} can not be condensed"
+    unknown-item: "&cUnknown item &d{0}"
   depth:
     name: "depth"
     description: "Display your depth related to sea level"
@@ -182,7 +277,6 @@ commands:
     alias:
       - j
       - jumpto
-    no-reachable-block: "&cThere are not reachable blocks"
   kickall:
     name: "kickall"
     description: "Kick all the players from the server"
@@ -396,7 +490,6 @@ commands:
     usage: null
     console-usage: false
     alias: []
-    teleporting: "&eTeleporting..."
   tree:
     name: "tree"
     description: "Spawns a tree"
@@ -464,6 +557,7 @@ error:
     run-in-console: "&cCommand &d{0} &ccan only be run &ein-console"
 general:
   prefix: "&f[&aEssentialsPE&f]"
+  teleport-confirmation: "&eTeleporting..."
   updater:
     debug: "&eRunning EssentialsPE UpdateFetchTask"
     development: "&eFetching latest development build..."

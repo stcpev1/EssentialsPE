@@ -7,14 +7,13 @@ use pocketmine\block\Air;
 use pocketmine\block\Block;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 
 class BreakCommand extends BaseCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "break", "Breaks the block you're looking at", null, false);
+        parent::__construct($api, "break");
         $this->setPermission("essentials.break.use");
     }
 
@@ -33,10 +32,10 @@ class BreakCommand extends BaseCommand{
             return false;
         }
         if(($block = $sender->getTargetBlock(100, [Block::AIR])) === null){
-            $sender->sendMessage(TextFormat::RED . "There isn't a reachable block");
+            $this->sendTranslation($sender, "error.near.block");
             return false;
         }elseif($block->getId() === Block::BEDROCK && !$sender->hasPermission("essentials.break.bedrock")){
-            $sender->sendMessage(TextFormat::RED . "You can't break bedrock");
+            $this->sendTranslation($sender, "commands.break.bedrock-permission");
             return false;
         }
         $sender->getLevel()->setBlock($block, new Air(), true, true);

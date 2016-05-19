@@ -7,14 +7,13 @@ use pocketmine\block\Sapling;
 use pocketmine\command\CommandSender;
 use pocketmine\level\generator\object\BigTree;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 
 class BigTreeCommand extends BaseCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "bigtree", "Spawns a big tree", "<tree|redwood|jungle>", false);
+        parent::__construct($api, "bigtree");
         $this->setPermission("essentials.bigtree");
     }
 
@@ -46,27 +45,23 @@ class BigTreeCommand extends BaseCommand{
             $block = $sender->getTargetBlock(100, $transparent);
         }*/
         if($block === null){
-            $sender->sendMessage(TextFormat::RED . "There isn't a reachable block");
+            $this->sendTranslation($sender, "error.near-block");
             return false;
         }
         switch(strtolower($args[0])){
-            case "tree":
-                $type = Sapling::OAK;
+            case "jungle":
+                $type = Sapling::JUNGLE;
                 break;
             case "redwood":
                 $type = Sapling::SPRUCE;
                 break;
-            case "jungle":
-                $type = Sapling::JUNGLE;
-                break;
+            case "tree":
             default:
-                $sender->sendMessage(TextFormat::RED . "Invalid tree type, try with:\n<tree|redwood|jungle>");
-                return false;
+                $type = Sapling::OAK;
                 break;
         }
         $tree = new BigTree();
         $tree->placeObject($sender->getLevel(), $block->getFloorX(), ($block->getFloorY() + 1), $block->getFloorZ(), $type);
-        $sender->sendMessage(TextFormat::GREEN . "BigTree spawned!");
         return true;
     }
 } 
