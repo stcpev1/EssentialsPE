@@ -5,14 +5,13 @@ use EssentialsPE\BaseFiles\BaseAPI;
 use EssentialsPE\BaseFiles\BaseCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 
 class Warp extends BaseCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "warp", "Teleport to a warp", "[[name] [player]]", true, ["warps"]);
+        parent::__construct($api, "warp");
         $this->setPermission("essentials.warp.use");
     }
 
@@ -28,14 +27,14 @@ class Warp extends BaseCommand{
         }
         if(count($args) === 0){
             if(($list = $this->getAPI()->warpList(false)) === false){
-                $sender->sendMessage(TextFormat::AQUA . "There are no Warps currently available");
+                $this->sendTranslation($sender, "commands.warp.no-warps-available");
                 return false;
             }
-            $sender->sendMessage(TextFormat::AQUA . "Available warps:\n" . $list);
+            $this->sendTranslation($sender, "commands.warp.list-warps", $list);
             return true;
         }
         if(!($warp = $this->getAPI()->getWarp($args[0]))){
-            $sender->sendMessage(TextFormat::RED . "[Error] Warp doesn't exist");
+            $this->sendTranslation($sender, "commands.warp.not-exists", $args[0]);
             return false;
         }
         if(!isset($args[1]) && !$sender instanceof Player){
@@ -45,21 +44,21 @@ class Warp extends BaseCommand{
         $player = $sender;
         if(isset($args[1])){
             if(!$sender->hasPermission("essentials.warp.other")){
-                $sender->sendMessage(TextFormat::RED . "[Error] You can't teleport other players to that warp");
+                $this->sendTranslation($sender, "commands.warp.other-permission");
                 return false;
-            }elseif(!($player = $this->getAPI()->getPlayer($args[0]))){
-                $sender->sendMessage(TextFormat::RED . "[Error] Player nor found");
+            }elseif(!($player = $this->getAPI()->getPlayer($args[1]))){
+                $this->sendTranslation($sender, "error.player-not-found", $args[1]);
                 return false;
             }
         }
         if(!$sender->hasPermission("essentials.warps.*") && !$sender->hasPermission("essentials.warps.$args[0]")){
-            $sender->sendMessage(TextFormat::RED . "[Error] You can't teleport to that warp");
+            $this->sendTranslation($sender, "commands.warp.need-permission", $args[0]);
             return false;
         }
         $player->teleport($warp);
-        $player->sendMessage(TextFormat::GREEN . "Warping to " . TextFormat::AQUA . $warp->getName() . TextFormat::GREEN . "...");
+        $this->sendTranslation($player, "commands.warp.self-confirmation", $warp->getName());
         if($player !== $sender){
-            $sender->sendMessage(TextFormat::GREEN . "Warping " . TextFormat::YELLOW . $player->getDisplayName() . TextFormat::GREEN . " to " . TextFormat::AQUA . $warp->getName() . TextFormat::GREEN . "...");
+            $this->sendTranslation($sender, "commands.warp.other-confirmation", $player->getDisplayName(), $warp->getName());
         }
         return true;
     }

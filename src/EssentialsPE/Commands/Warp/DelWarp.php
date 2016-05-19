@@ -4,14 +4,13 @@ namespace EssentialsPE\Commands\Warp;
 use EssentialsPE\BaseFiles\BaseAPI;
 use EssentialsPE\BaseFiles\BaseCommand;
 use pocketmine\command\CommandSender;
-use pocketmine\utils\TextFormat;
 
 class DelWarp extends BaseCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "delwarp", "Delete a warp", "<name>", true, ["remwarp", "removewarp", "closewarp"]);
+        parent::__construct($api, "delwarp");
         $this->setPermission("essentials.delwarp");
     }
 
@@ -30,15 +29,15 @@ class DelWarp extends BaseCommand{
             return false;
         }
         if(!$this->getAPI()->warpExists($args[0])){
-            $sender->sendMessage(TextFormat::RED . "[Error] Warp doesn't exists");
+            $this->sendTranslation($sender, "commands.warp.not-exists");
             return false;
         }
         if(!$sender->hasPermission("essentials.warp.override.*") && !$sender->hasPermission("essentials.warp.override.$args[0]")){
-            $sender->sendMessage(TextFormat::RED . "[Error] You can't delete this warp");
+            $this->sendTranslation($sender, "commands.delwarp.need-permission");
             return false;
         }
         $this->getAPI()->removeWarp($args[0]);
-        $sender->sendMessage(TextFormat::GREEN . "Warp successfully removed!");
+        $this->sendTranslation($sender, "commands.delwarp.confirmation", $args[0]);
         return true;
     }
 } 

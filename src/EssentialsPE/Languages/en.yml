@@ -161,6 +161,17 @@ commands:
     confirmation: "&eConverting &d{0} &eitem into most compact form..."
     invalid-item: "&cItem {0} can not be condensed"
     unknown-item: "&cUnknown item &d{0}"
+  delwarp:
+    name: "delwarp"
+    description: "Delete a warp"
+    usage: "<name>"
+    console-usage: true
+    alias:
+      - close
+      - remwarp
+      - removewarp
+    confirmation: "&cSuccessfully removed warp &d{0}"
+    need-permission: "&cYou are not allowed to delete this warp"
   depth:
     name: "depth"
     description: "Display your depth related to sea level"
@@ -440,6 +451,18 @@ commands:
     alias: []
     confirmation: "&eServer's spawnpoint location changed!"
     console-confirmation: "&eServer's spawn location set on world &d{0} &eby &d{1}"
+  setwarp:
+    name: "setwarp"
+    description: "Create a warp (or update it)"
+    usage: "<name>"
+    console-usage: false
+    alias:
+      - openwarp
+      - createwarp
+    created: "&aWarp &d{0} &asuccessfully created!"
+    invalid-name: "&cInvalid warp name provided, be sure use only &eAlphanumerical &ccharacters and &eUnderscores"
+    updated: "&aWarp &d{0} &asuccessfully updated!"
+    update-permission: "&cYou are not allowed to update warp &d{0} &cposition"
   spawn:
     name: "spawn"
     description: "Teleport to server's main spawn"
@@ -521,6 +544,21 @@ commands:
     other-permission: "&cYou are not allowed to &oVanish &r&cother players"
     self-disabled: "&fYou are now &lvisible"
     self-enabled: "&fYou are now &7vanished&f!"
+  warp:
+    name: "warp"
+    description: "Teleport to a warp"
+    usage: "[name] [player]"
+    console-usage: "[name <player>]"
+    alias:
+      - warps
+    list-warps: "&bAvailable warps:\n&r{0}"
+    list-syntax: "&f, &e{0}"
+    need-permission: "&cYou are not allowed to teleport to warp &d{0}"
+    not-exists: "&cWarp &d{0} &cdoes not exists"
+    no-warps-available: "&bThere are no warps currently available"
+    self-confirmation: "&aWarping to &b{0}&a..."
+    other-confirmation: "&aWarping &d{0} &ato &b{0}&a..."
+    other-permission: "&cYou are not allowed to warp other players"
   whois:
     name: "whois"
     description: "Display player information"

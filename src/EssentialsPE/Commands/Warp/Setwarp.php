@@ -5,14 +5,13 @@ use EssentialsPE\BaseFiles\BaseAPI;
 use EssentialsPE\BaseFiles\BaseCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 
 class Setwarp extends BaseCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "setwarp", "Create a warp (or update it)", "<name>", false, ["openwarp", "createwarp"]);
+        parent::__construct($api, "setwarp");
         $this->setPermission("essentials.setwarp");
     }
 
@@ -31,14 +30,14 @@ class Setwarp extends BaseCommand{
             return false;
         }
         if(($existed = $this->getAPI()->warpExists($args[0])) && !$sender->hasPermission("essentials.warp.override.*") && !$sender->hasPermission("essentials.warp.override.$args[0]")){
-            $sender->sendMessage(TextFormat::RED . "[Error] You can't modify this warp position");
+            $this->sendTranslation($sender, "commands.setwarp.update-permission", $args[0]);
             return false;
         }
         if(!$this->getAPI()->setWarp($args[0], $sender->getPosition(), $sender->getYaw(), $sender->getPitch())){
-            $sender->sendMessage(TextFormat::RED . "Invalid warp name given! Please be sure to only use alphanumerical characters and underscores");
+            $this->sendTranslation($sender, "commands.setwarp.invalid-name");
             return false;
         }
-        $sender->sendMessage(TextFormat::GREEN . "Warp successfully " . ($existed ? "updated!" : "created!"));
+        $this->sendTranslation($sender, "commands.setwarp." . ($existed ? "updated" : "created"), $args[0]);
         return true;
     }
 } 

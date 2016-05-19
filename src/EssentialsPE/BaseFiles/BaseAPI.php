@@ -1503,7 +1503,7 @@ class BaseAPI{
             }
         }
         if($chat = $this->getPowerToolItemChatMacro($player, $item) !== false){
-            $this->getServer()->broadcast("<" . $player->getDisplayName() . "> " . TextFormat::RESET . $this->getPowerToolItemChatMacro($player, $item), Server::BROADCAST_CHANNEL_USERS);
+            $this->getServer()->broadcast("<" . $player->getDisplayName() . "> " . TextFormat::RESET . $this->getPowerToolItemChatMacro($player, $item), Server::BROADCAST_CHANNEL_USERS); // TODO: Translation
         }
         if($command === false && $chat === false){
             return false;
@@ -2392,7 +2392,11 @@ class BaseAPI{
             return false;
         }
         if(!$inArray){
-            return implode(", ", $list);
+            $m = array_shift($list);
+            foreach($list as $w){
+                $m .= $this->getTranslation("commands.warp.list-syntax", $w);
+            }
+            return $m;
         }
         return $list;
     }
