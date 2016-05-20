@@ -5,14 +5,13 @@ use EssentialsPE\BaseFiles\BaseAPI;
 use EssentialsPE\BaseFiles\BaseCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 
 class TPHere extends BaseCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "tphere", "Teleport a player to you", "<player>", false, ["s"]);
+        parent::__construct($api, "tphere");
         $this->setPermission("essentials.tphere");
     }
 
@@ -31,12 +30,12 @@ class TPHere extends BaseCommand{
             return false;
         }
         if(!($player = $this->getAPI()->getPlayer($args[0]))){
-            $sender->sendMessage(TextFormat::RED . "[Error] Player not found");
+            $this->sendTranslation($sender, "error.player-not-found", $args[0]);
             return false;
         }
+        $this->sendTranslation($sender, "commands.tphere.confirmation", $player->getDisplayName());
+        $this->sendTranslation($player, "commands.tphere.other-confirmation...", $sender->getDisplayName());
         $player->teleport($sender);
-        $player->sendMessage(TextFormat::YELLOW . "Teleporting to " . $sender->getDisplayName() . "...");
-        $sender->sendMessage(TextFormat::YELLOW . "Teleporting " . $player->getDisplayName() . " to you...");
         return true;
     }
 } 

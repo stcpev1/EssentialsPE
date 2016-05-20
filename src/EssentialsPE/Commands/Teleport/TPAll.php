@@ -5,14 +5,13 @@ use EssentialsPE\BaseFiles\BaseAPI;
 use EssentialsPE\BaseFiles\BaseCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 
 class TPAll extends BaseCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "tpall", "Teleport all player to you or another player", "[player]");
+        parent::__construct($api, "tpall");
         $this->setPermission("essentials.tpall");
     }
 
@@ -32,16 +31,17 @@ class TPAll extends BaseCommand{
         }
         $player = $sender;
         if(isset($args[0]) && !($player = $this->getAPI()->getPlayer($args[0]))){
-            $sender->sendMessage(TextFormat::RED . "[Error] Player not found");
+            $this->sendTranslation($sender, "error.player-not-found", $args[0]);
             return false;
         }
+        $this->sendTranslation($player, "commands.tpall.confirmation");
+        $c = $this->getAPI()->getTranslation("commands.tpall.other-confirmation", $player->getDisplayName());
         foreach($this->getAPI()->getServer()->getOnlinePlayers() as $p){
             if($p !== $player){
+                $p->sendMessage($c);
                 $p->teleport($player);
-                $p->sendMessage(TextFormat::YELLOW . "Teleporting to " . $player->getDisplayName() . "...");
             }
         }
-        $player->sendMessage(TextFormat::YELLOW . "Teleporting players to you...");
         return true;
     }
 } 

@@ -159,7 +159,7 @@ commands:
       - compact
       - toblocks
     confirmation: "&eConverting &d{0} &eitem into most compact form..."
-    invalid-item: "&cItem {0} can not be condensed"
+    invalid-item: "&cItem {0} cannot be condensed"
     unknown-item: "&cUnknown item &d{0}"
   delwarp:
     name: "delwarp"
@@ -331,7 +331,7 @@ commands:
     usage: ""
     console-usage: false
     alias: []
-    air-stack: "&cYou can not get a stack of &eAIR"
+    air-stack: "&cYou cannot get a stack of &eAIR"
     stack-filled: "&bFilled item stack up to &e{0}"
   mute:
     name: "mute"
@@ -340,7 +340,7 @@ commands:
     console-usage: true
     alias:
       - silence
-    exempt: "&d{0} &ccan not be muted"
+    exempt: "&d{0} &ccannot be muted"
     mute-forever: "&cForever"
     mute-time: "&euntil &b{0} &eat &b{1}"
     other-muted: "&d{0} &ehas been muted{0}&e!"
@@ -422,7 +422,7 @@ commands:
     confirm-armor: "&bEquipped armor was repaired"
     confirm-individual: "&aItem successfully repaired"
     confirm-inventory: "&aAll the tools in your inventory were repaired"
-    invalid-item: "&cThis item can not be repaired"
+    invalid-item: "&cThis item cannot be repaired"
     inventory-permission: "&cYou are not allowed to repair all items in your inventory"
   reply:
     name: "reply"
@@ -486,7 +486,7 @@ commands:
     usage: "<player> <command [args]|c:<chat message>>"
     console-usage: true
     alias: []
-    exempt-sudo: "&cPlayer &d{0} &ccan not be sudo'ed"
+    exempt-sudo: "&cPlayer &d{0} &ccannot be sudo'ed"
     sending-command: "&aCommand &e{0} &aran as &d{1}"
     sending-message: "&aSending message '&e{0}&a' as &d{1}"
   suicide:
@@ -502,7 +502,7 @@ commands:
     usage: "<player> <time...> [reason...]"
     console-usage: true
     alias: []
-    ban-exempt: "&d{0} &ccan not be banned"
+    ban-exempt: "&d{0} &ccannot be banned"
     banned-until: "&cBanned until &b{0} &cat &b{1}"
     broadcast: "&eBanned player &d{0} until &b{1} &cat &b{2}"
     invalid-time: "&cPlease specify a valid amount time"
@@ -513,6 +513,62 @@ commands:
     usage: null
     console-usage: false
     alias: []
+  tpa:
+    name: "tpa"
+    description: "Send a teleport request to another player"
+    usage: "<player>"
+    console-usage: false
+    alias:
+      - call
+      - tpask
+    confirmation: "&aTeleport request sent to &d{0}"
+    not-available: "&cRequest from &d{0} &cis unavailable"
+    no-requests: "&cYou do not have any teleport requests, yet"
+    no-requests-from: "&cYou do not have any teleport requests from &d{0}"
+    self-request: "&cYou cannot send a teleport request to yourself"
+    syntax: ", please use:\n&e/tpaccept &ato accept the request\n&e/tpdeny &ato decline the request"
+    tphere: "&d{0} &awants you to teleport to him"
+    tpto: "&d{0} &awants to teleport to you"
+  tpaccept:
+    name: "tpaccept"
+    description: "Accept a Teleport Request"
+    usage: "[player]"
+    console-usage: false
+    alias:
+      - tpyes
+    confirmation: "&d{0} &aaccepted your teleport request! &r{1}"
+  tpahere:
+    name: "tpahere"
+    description: "Request a player to Teleport to you"
+    usage: "<player>"
+    console-usage: false
+    alias: []
+  tpall:
+    name: "tpall"
+    description: "Teleport all players to you or another player"
+    usage: "[player]"
+    console-usage: "<player>"
+    alias: []
+    confirmation: "Teleporting all players to you..."
+    other-confirmation: "Teleporting to &d{0}..."
+  tpdeny:
+    name: "tpdeny"
+    description: "Decline a Teleport Request"
+    usage: "[player]"
+    console-usage: false
+    alias:
+      - tpno
+    confirmation: "&eYou have denied teleport request from &d{0}"
+    other-notice: "&d{0} &ehas denied your teleport request"
+  tphere:
+    name: "tphere"
+    description: "Teleport a player to you"
+    usage: "<player>"
+    console-usage: false
+    alias:
+      - s
+    confirmation: "&eTeleporting &d{0} &eto you..."
+    other-confirmation: "&eTeleporting to &d{0}&e..."
   tree:
     name: "tree"
     description: "Spawns a tree"

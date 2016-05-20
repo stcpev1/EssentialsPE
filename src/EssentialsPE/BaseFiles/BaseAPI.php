@@ -1098,7 +1098,7 @@ class BaseAPI{
      * @param string[] ...$args
      * @return string|array
      */
-    public function getTranslation(string $message, ...$args){ // TODO: Update to new translation structure
+    public function getTranslation(string $message, ...$args){
         $result = $this->language->getNested($message, $message);
         if(is_array($result)){
             return $result;

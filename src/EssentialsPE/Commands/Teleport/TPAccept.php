@@ -5,14 +5,13 @@ use EssentialsPE\BaseFiles\BaseAPI;
 use EssentialsPE\BaseFiles\BaseCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 
 class TPAccept extends BaseCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "tpaccept", "Accept a teleport request", "[player]", false, ["tpyes"]);
+        parent::__construct($api, "tpaccept");
         $this->setPermission("essentials.tpaccept");
     }
 
@@ -31,23 +30,23 @@ class TPAccept extends BaseCommand{
             return false;
         }
         if(!($request = $this->getAPI()->hasARequest($sender))){
-            $sender->sendMessage(TextFormat::RED . "[Error] You don't have any request yet");
+            $this->sendTranslation($sender, "commands.tpa.no-requests");
             return false;
         }
         switch(count($args)){
             case 0:
                 if(!($player = $this->getAPI()->getPlayer(($name = $this->getAPI()->getLatestRequest($sender))))){
-                    $sender->sendMessage(TextFormat::RED . "[Error] Request unavailable");
+                    $this->sendTranslation($sender, "commands.tpa.not-available", $name);
                     return false;
                 }
                 break;
             case 1:
                 if(!($player = $this->getAPI()->getPlayer($args[0]))){
-                    $sender->sendMessage(TextFormat::RED . "[Error] Player not found");
+                    $this->sendTranslation($sender, "error.player-not-found", $args[0]);
                     return false;
                 }
                 if(!($request = $this->getAPI()->hasARequestFrom($sender, $player))){
-                    $sender->sendMessage(TextFormat::RED . "[Error] You don't have any requests from " . TextFormat::AQUA . $player->getDisplayName());
+                    $this->sendTranslation($sender, "commands.tpa.no-requests-from", $player->getDisplayName());
                     return false;
                 }
                 break;
@@ -56,12 +55,12 @@ class TPAccept extends BaseCommand{
                 return false;
                 break;
         }
-        $player->sendMessage(TextFormat::AQUA . $sender->getDisplayName() . TextFormat::GREEN . " accepted your teleport request! Teleporting...");
-        $sender->sendMessage(TextFormat::GREEN . "Teleporting...");
+        $this->sendTranslation($player, "commands.tpaccept.conformation", $t = $this->getAPI()->getTranslation("general.teleporting"));
+        $sender->sendTranslation($t);
         if($request === "tpto"){
-            $player->teleport($sender);
-        }else{
             $sender->teleport($player);
+        }else{
+            $player->teleport($sender);
         }
         $this->getAPI()->removeTPRequest($player, $sender);
         return true;
