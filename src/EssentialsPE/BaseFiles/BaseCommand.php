@@ -46,13 +46,6 @@ abstract class BaseCommand extends Command implements PluginIdentifiableCommand{
     }
 
     /**
-     * @return string
-     */
-    public function getUsage(): string{
-        return "/" . parent::getName() . " " . parent::getUsage();
-    }
-
-    /**
      * @return bool|string
      */
     public function getConsoleUsage(){
@@ -74,7 +67,7 @@ abstract class BaseCommand extends Command implements PluginIdentifiableCommand{
      * @param string $alias
      */
     public function sendUsage(CommandSender $sender, string $alias){
-        $sender->sendMessage(str_replace(parent::getName(), $alias, $this->getAPI()->getTranslation("essentials.error.command-usage", ($sender instanceof Player ? $this->getUsage() : $this->getConsoleUsage()))));
+        $sender->sendMessage(str_replace($this->getName(), $alias, $this->getAPI()->getTranslation("essentials.error.command-usage", ($sender instanceof Player ? $this->getUsage() : $this->getConsoleUsage()))));
     }
 
     /**

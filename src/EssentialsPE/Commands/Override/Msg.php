@@ -2,18 +2,18 @@
 namespace EssentialsPE\Commands\Override;
 
 use EssentialsPE\BaseFiles\BaseAPI;
+use EssentialsPE\BaseFiles\BaseOverrideCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\command\ConsoleCommandSender;
 use pocketmine\command\RemoteConsoleCommandSender;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 
 class Msg extends BaseOverrideCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "tell", "Send private messages to other players", "<player> <message ...>", true, ["msg", "m", "t", "whisper"]);
+        parent::__construct($api, "tell");
         $this->setPermission("essentials.msg");
     }
 
@@ -35,12 +35,12 @@ class Msg extends BaseOverrideCommand{
         if(strtolower($t) !== "console" && strtolower($t) !== "rcon"){
             $t = $this->getAPI()->getPlayer($t);
             if(!$t){
-                $sender->sendMessage(TextFormat::RED . "[Error] Player not found");
+                $this->sendTranslation($sender, "error.player-not-found", $t);
                 return false;
             }
         }
-        $sender->sendMessage(TextFormat::YELLOW . "[me -> " . ($t instanceof Player ? $t->getDisplayName() : $t) . "]" . TextFormat::RESET . " " . implode(" ", $args));
-        $m = TextFormat::YELLOW . "[" . ($sender instanceof Player ? $sender->getDisplayName() : $sender->getName()) . " -> me]" . TextFormat::RESET . " " . implode(" ", $args);
+        $this->sendTranslation($sender, "commands.msg.syntax", $tn = ($t instanceof Player ? $t->getDisplayName() : $t), $m = implode(" ", $args));
+        $m = $this->getAPI()->getTranslation("commands.msg.other-syntax", $tn, $m);
         if($t instanceof Player){
             $t->sendMessage($m);
         }else{

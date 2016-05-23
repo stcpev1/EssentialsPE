@@ -212,6 +212,27 @@ commands:
     other-permission: "&cYou are not allowed to toggle Fly mode for other players"
     self-disabled: "&eFly mode disabled!"
     self-enabled: "&eFly mode &aenabled&e!"
+  gamemode:
+    name: "gamemode"
+    description: "Change player's gamemode"
+    usage: "<mode> [player]"
+    console-usage: "<mode> <player>"
+    alias:
+      - gm
+      - gma
+      - gmc
+      - gms
+      - gmt
+      - adventure
+      - creative
+      - survival
+      - spectator
+      - viewer
+    confirmation: "&aYou are now in &e{0} &amode"
+    invalid-mode: "&cPlease provide a valid gamemode"
+    already-in-mode: "&cYou are already in &e{0} &cmode"
+    other-already-in-mode: "&d{0} &cis already in &e{1} &cmode"
+    other-confirmation: "&d{0} &ais now in &e{1} &amode"
   getpos:
     name: "getpos"
     description: "Get your/others position"
@@ -299,6 +320,14 @@ commands:
     message: "&aYou have been kicked!"
     reason: "\n&eReason: {0}"
     unknown-reason: "Unknown"
+  kill:
+    name: "kill"
+    description: "Kill players"
+    usage: "[player]"
+    console-usage: "<player>"
+    alias: []
+    exempt: "&d{0} &ccannot be killed"
+    other-permission: "&cYou are not allowed to kill other players"
   kit:
     name: "kit"
     description: "Get a pre-defined kit"
@@ -333,6 +362,18 @@ commands:
     alias: []
     air-stack: "&cYou cannot get a stack of &eAIR"
     stack-filled: "&bFilled item stack up to &e{0}"
+  msg:
+    name: "tell"
+    description: "Send private messages to other players"
+    usage: "<player> <message>"
+    console-usage: true
+    alias:
+      - msg
+      - m
+      - t
+      - whisper
+    other-syntax: "&e[&d{0} &e-> me] &r{1}"
+    syntax: "&e[me -> &d{0}&e] &r{1}"
   mute:
     name: "mute"
     description: "Prevent a player from sending chat messages"

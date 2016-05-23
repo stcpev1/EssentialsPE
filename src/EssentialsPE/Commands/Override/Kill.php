@@ -2,17 +2,17 @@
 namespace EssentialsPE\Commands\Override;
 
 use EssentialsPE\BaseFiles\BaseAPI;
+use EssentialsPE\BaseFiles\BaseOverrideCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 
 class Kill extends BaseOverrideCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "kill", "Kill other people", "[player]");
+        parent::__construct($api, "kill");
         $this->setPermission("essentials.kill.use");
     }
 
@@ -33,26 +33,24 @@ class Kill extends BaseOverrideCommand{
         $player = $sender;
         if(isset($args[0])){
             if(!$sender->hasPermission("essentials.kill.other")){
-                $sender->sendMessage(TextFormat::RED . $this->getPermissionMessage());
+                $this->sendTranslation($sender, "commands.kill.other-permission");
                 return false;
             }
             if(!($player = $this->getAPI()->getPlayer($args[0])) instanceof Player){
-                $sender->sendMessage(TextFormat::RED . "[Error] Player not found");
+                $this->sendTranslation($sender, "error.player-not-found", $args[0]);
                 return false;
             }
         }
         if($this->getAPI()->isGod($player)){
-            $sender->sendMessage(TextFormat::RED . $args[0] . " can't be killed!");
+            $this->sendTranslation($sender, "commands.kill.exempt", $player->getDisplayName());
             return false;
         }
         $this->getAPI()->getServer()->getPluginManager()->callEvent($ev = new EntityDamageEvent($player, EntityDamageEvent::CAUSE_SUICIDE, ($player->getHealth())));
         if($ev->isCancelled()){
             return true;
         }
-
         $player->setLastDamageCause($ev);
         $player->setHealth(0);
-        $player->sendMessage("Ouch. That look like it hurt.");
         return true;
     }
 } 

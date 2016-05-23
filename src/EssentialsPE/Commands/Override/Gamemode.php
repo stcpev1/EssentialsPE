@@ -2,16 +2,16 @@
 namespace EssentialsPE\Commands\Override;
 
 use EssentialsPE\BaseFiles\BaseAPI;
+use EssentialsPE\BaseFiles\BaseOverrideCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 
 class Gamemode extends BaseOverrideCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "gamemode", "Change player gamemode", "<mode> [player]", true, ["gm", "gma", "gmc", "gms", "gmt", "adventure", "creative", "survival", "spectator", "viewer"]);
+        parent::__construct($api, "gamemode");
         $this->setPermission("essentials.gamemode");
     }
 
@@ -58,7 +58,7 @@ class Gamemode extends BaseOverrideCommand{
             return false;
         }
         if(isset($args[1]) && !($player = $this->getAPI()->getPlayer($args[1]))){
-            $sender->sendMessage(TextFormat::RED . "[Error] Player not found");
+            $this->sendTranslation($sender, "error.player-not-found", $args[1]);
             return false;
         }
 
@@ -75,7 +75,7 @@ class Gamemode extends BaseOverrideCommand{
                     $gm = $args[0];
                     break;
                 default:
-                    $sender->sendMessage(TextFormat::RED . "[Error] Please specify a valid gamemode");
+                    $this->sendTranslation($sender, "commands.gamemode.invalid-mode");
                     return false;
                     break;
             }
@@ -101,32 +101,33 @@ class Gamemode extends BaseOverrideCommand{
                     $gm = Player::SPECTATOR;
                     break;
                 default:
-                    $sender->sendMessage(TextFormat::RED . "[Error] Please specify a valid gamemode");
+                    $this->sendTranslation($sender, "commands.gamemode.invalid-mode");
                     return false;
                     break;
             }
         }
-        $gmstring = $this->getAPI()->getServer()->getGamemodeString($gm);
+        $gmString = $this->getAPI()->getServer()->getGamemodeString($gm);
         if($player->getGamemode() === $gm){
-            $sender->sendMessage(TextFormat::RED . "[Error] " . ($player === $sender ? "You're" : $player->getDisplayName() . " is") . " already in " . $gmstring . " mode");
+            if($player === $sender){
+                $this->sendTranslation($sender, "commands.gamemode.already-in-mode", $gmString);
+            }else{
+                $this->sendTranslation($sender, "commands.gamemode.other-already-in-mode", $gmString);
+            }
             return false;
         }
         $player->setGamemode($gm);
-        $player->sendMessage(TextFormat::YELLOW . "You're now in " . $gmstring . " mode");
+        $this->sendTranslation($player, "commands.gamemode.confirmation", $gmString);
         if($player !== $sender){
-            $sender->sendMessage(TextFormat::GREEN . $player->getDisplayName() . " is now in " . $gmstring . " mode");
+            $this->sendTranslation($sender, "commands.gamemode.other-confirmation", $player->getDisplayName(), $gmString);
         }
         return true;
     }
 
     public function sendUsage(CommandSender $sender, string $alias){
-        $usage = $this->usageMessage;
+        $usage = str_replace($this->getName(), $alias, $this->getAPI()->getTranslation("essentials.error.command-usage", ($sender instanceof Player ? $this->getUsage() : $this->getConsoleUsage())));
         if(strtolower($alias) !== "gamemode" && strtolower($alias) !== "gm"){
             $usage = str_replace("<mode> ", "", $usage);
         }
-        if(!$sender instanceof Player){
-            $usage = str_replace("[player]", "<player>", $usage);
-        }
-        $sender->sendMessage(TextFormat::RED . "Usage: " . TextFormat::GRAY . "/$alias $usage");
+        $sender->sendMessage($usage);
     }
 } 
