@@ -17,6 +17,8 @@ The port version of [Bukkit Essentials](http://dev.bukkit.org/bukkit-plugins/ess
 - [ ] Add _Developers API_ documentation.
 - [ ] Add _Special Signs_ documentation.
 - [ ] Implement _Messages API_ (Multi-language update)
+    - [ ] English
+    - [ ] Spanish
 - [ ] Implement _Online-Player Checking_ to prevent crashes
 - [x] Customizable API
 - [x] Optimize commands' code
