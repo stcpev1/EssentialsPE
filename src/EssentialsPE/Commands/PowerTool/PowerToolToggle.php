@@ -5,14 +5,13 @@ use EssentialsPE\BaseFiles\BaseAPI;
 use EssentialsPE\BaseFiles\BaseCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 
 class PowerToolToggle extends BaseCommand{
     /**
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "powertooltoggle", "Disable PowerTool from all the items", null, false, ["ptt", "pttoggle"]);
+        parent::__construct($api, "powertooltoggle");
         $this->setPermission("essentials.powertooltoggle");
     }
 
@@ -31,7 +30,7 @@ class PowerToolToggle extends BaseCommand{
             return false;
         }
         $this->getAPI()->disablePowerTool($sender);
-        $sender->sendMessage(TextFormat::YELLOW . "PowerTool disabled from all the items!");
+        $this->sendTranslation($sender, "commands.powertooltoggle.confirmation");
         return true;
     }
 } 

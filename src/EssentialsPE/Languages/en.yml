@@ -386,6 +386,36 @@ commands:
     console-usage: true
     alias: []
     pong: "Pong!"
+  powertool:
+    name: "powertool"
+    description: "Toggle PowerTool on the item you are holding"
+    usage: "<command|c: chat macro> <arguments>"
+    console-usage: false
+    alias:
+      - pt
+    append-permission: "&cYou are not allowed to append more than one command to items"
+    chat-macro-assigned: "&aChat Macro successfully assigned to this item"
+    chat-macro-removed: "&eChat Macros removed from this item"
+    command-assigned: "&aCommand successfully assigned to item!"
+    command-removed: "&eCommand removed from this item"
+    commands-assigned: "&aCommands successfully assigned to item!"
+    commands-removed: "&eCommands removed from this item"
+    empty-hand: "&cYou cannot assign a command to an empty hand"
+    invalid-commands: "&cCommand &d{0} &ccannot be assigned"
+    list-syntax: "&e=== &bPowerTool &e===\n&dCommands:&r{0}&r\n&dChat Macro:&r{1}"
+    list-chat-macro-syntax: "\n &e* &f{0}"
+    list-command-syntax: "\n &e* &f/{0}"
+    no-chat-macro: "&e&lThis item does not have any Chat Macros assigned"
+    no-commands: "&e&lThis item does not have any Commands assigned"
+  powertooltoggle:
+    name: "powertooltoggle"
+    description: "Disable PowerTool from all your items"
+    usage: ""
+    console-usage: false
+    alias:
+      - ptt
+      - pttoggle
+    confirmation: "&ePowerTool disabled from all your items!"
   ptime:
     name: "ptime"
     description: "Changes the world-time for a specific player"

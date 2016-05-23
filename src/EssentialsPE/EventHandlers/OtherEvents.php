@@ -2,6 +2,7 @@
 namespace EssentialsPE\EventHandlers;
 
 use EssentialsPE\BaseFiles\BaseEventHandler;
+use pocketmine\block\Block;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\entity\EntityExplodeEvent;
 use pocketmine\event\player\PlayerInteractEvent;
@@ -35,6 +36,9 @@ class OtherEvents extends BaseEventHandler{
      * @priority HIGH
      */
     public function onBlockTap(PlayerInteractEvent $event){// PowerTool
+        if($event->getItem() instanceof Block || (new \ReflectionClass($event->getItem()))->hasProperty("block")){
+            return;
+        }
         if($this->getAPI()->executePowerTool($event->getPlayer(), $event->getItem())){
             $event->setCancelled(true);
         }
