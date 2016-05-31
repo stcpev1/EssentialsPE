@@ -39,7 +39,7 @@ class ItemCommand extends BaseCommand{
         $item = $this->getAPI()->getItem($item_name = array_shift($args));
 
         if($item->getId() === Item::AIR){
-            $this->sendTranslation($sender, "commands.item.unknown", $item_name);
+            $this->sendTranslation($sender, "error.unknown-item", $item_name);
             return false;
         }elseif(!$sender->hasPermission("essentials.itemspawn.item-all") && !$sender->hasPermission("essentials.itemspawn.item-" . $item->getName() && !$sender->hasPermission("essentials.itemspawn.item-" . $item->getId()))){
             $this->sendTranslation($sender, "commands.item.need-permission", $item->getName());

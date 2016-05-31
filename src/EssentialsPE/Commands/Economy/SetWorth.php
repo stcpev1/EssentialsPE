@@ -12,7 +12,7 @@ class SetWorth extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "setworth", "Sets the worth of the item you're holding", "<worth>", false);
+        parent::__construct($api, "setworth");
         $this->setPermission("essentials.setworth");
     }
 
@@ -30,13 +30,13 @@ class SetWorth extends BaseCommand{
             $this->sendUsage($sender, $alias);
             return false;
         }elseif(!is_numeric($args[0]) || (int) $args[0] < 0){
-            $this->sendTranslation($sender, "error.economy.worth.invalid");
+            $this->sendTranslation($sender, "commands.setworth.invalid");
             return false;
         }elseif(($id = $sender->getInventory()->getItemInHand()->getId()) === Item::AIR){
-            $this->sendTranslation($sender, "error.item.invalid");
+            $this->sendTranslation($sender, "commands.worth.empty-hand");
             return false;
         }
-        $this->sendTranslation($sender, "economy.worth.set");
+        $this->sendTranslation($sender, "commands.setworth.confirmation");
         $this->getAPI()->setItemWorth($id, (int) $args[0]);
         return true;
     }

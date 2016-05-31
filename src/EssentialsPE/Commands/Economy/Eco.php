@@ -10,7 +10,7 @@ class Eco extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "eco", "Sets the balance of a player", "<add|give|reset|set|take> <player> [amount]", true, ["economy"]);
+        parent::__construct($api, "eco");
         $this->setPermission("essentials.eco.use");
     }
 
@@ -29,30 +29,30 @@ class Eco extends BaseCommand{
             return false;
         }
         if(!($player = $this->getAPI()->getPlayer($args[1]))){
-            $this->sendTranslation($sender, "error.playernotfound");
+            $this->sendTranslation($sender, "error.player-not-found");
             return false;
         }
         if((!isset($args[2]) && strtolower($args[0]) !== "reset") || (isset($args[2]) && !is_numeric($args[2]))){
-            $this->sendTranslation($sender, "error.economy.amount");
+            $this->sendTranslation($sender, "error.invalid-amount");
             return false;
         }
         $balance = (int) $args[2];
         switch(strtolower($args[0])){
             case "give":
             case "add":
-                $this->sendTranslation($sender, "economy.balance.add");
+                $this->sendTranslation($sender, "commands.balance.add", $balance);
                 $this->getAPI()->addToPlayerBalance($player, $balance);
                 break;
             case "reset":
-                $this->sendTranslation($sender, "economy.balance.reset");
+                $this->sendTranslation($sender, "commands.balance.reset");
                 $this->getAPI()->setPlayerBalance($player, $this->getAPI()->getDefaultBalance());
                 break;
             case "set":
-                $this->sendTranslation($sender, "economy.balance.set");
+                $this->sendTranslation($sender, "commands.balance.set");
                 $this->getAPI()->setPlayerBalance($player, $balance);
                 break;
             case "take":
-                $this->sendTranslation($sender, "economy.balance.take");
+                $this->sendTranslation($sender, "commands.balance.take", $balance);
                 $this->getAPI()->addToPlayerBalance($player, -$balance);
                 break;
         }

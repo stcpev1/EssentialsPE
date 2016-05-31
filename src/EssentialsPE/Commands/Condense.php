@@ -44,7 +44,7 @@ class Condense extends BaseCommand{
             default: // Item name|id
                 $target = $this->getAPI()->getItem($args[0]);
                 if($target->getId() === Item::AIR){
-                    $this->sendTranslation($sender, "commands.condense.unknown-item", $args[0]);
+                    $this->sendTranslation($sender, "error.unknown-item", $args[0]);
                     return false;
                 }
                 break;

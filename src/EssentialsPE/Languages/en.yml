@@ -96,6 +96,20 @@ commands:
     alias:
       - return
     not-available: "&cThere is no previous location available to teleport"
+  balance:
+    name: "balance"
+    description: "Fetch current money balance"
+    usage: "[player]"
+    console-usage: "<player>"
+    alias:
+      - bal
+      - money
+    add: "&eAdding &d{0} &eto balance..."
+    other: "&d{1} &bhas &a{0}"
+    reset: "&eResetting balance..."
+    self: "&bYou have &a{0}"
+    set: "&eSetting &d{0} &eas balance..."
+    take: "&eTaking &d{0} &efrom balance..."
   bigtree:
     name: "bigtree"
     description: "Spawns a big tree"
@@ -160,7 +174,6 @@ commands:
       - toblocks
     confirmation: "&eConverting &d{0} &eitem into most compact form..."
     invalid-item: "&cItem {0} cannot be condensed"
-    unknown-item: "&cUnknown item &d{0}"
   delhome:
     name: "delhome"
     description: "Removes a home"
@@ -191,6 +204,13 @@ commands:
     above: "&bYou are &d{0} &bmeters above sea level"
     at-sea-level: "&bYou are at sea level"
     below: "&bYou are &d{0} &bmeters below sea level"
+  eco:
+    name: "eco"
+    description: "Sets the balance of a player"
+    usage: "<add|give|reser|set|take> <player> [amount]"
+    console-usage: true
+    alias:
+      - economy
   essentialspe:
     name: "essentialspe"
     description: "Update or get information about EssentialsPE"
@@ -309,7 +329,6 @@ commands:
       - i
     confirmation: "&eGetting &a{0} &eof &d{1}"
     need-permission: "&cYou are not allowed to spawn item &d{0}"
-    unknown: "&cUnknown item &d{0}"
   itemdb:
     name: "itemdb"
     description: "Displays information attached to the item in hand"
@@ -442,6 +461,14 @@ commands:
     console-usage: "<player>"
     alias: []
     other-permission: "&cYou are not allowed to explode other players"
+  pay:
+    name: "pay"
+    description: "Pay a player from your balance"
+    usage: "<player> <amount>"
+    console-usage: false
+    alias: []
+    confirmation: "&ePaying &a{0} &eto &d{1}"
+    profit: "&cYou do not have enough profit to pay"
   ping:
     name: "ping"
     description: "Pong!"
@@ -536,6 +563,16 @@ commands:
     is-online: "&d{0} &fis &aOnline&f!"
     last-seen: "&d{0} &bwas last need on &e{1} &bat &e{2}"
     unknown-player: "&d{0} &c as never played on this server"
+  sell:
+    name: "sell"
+    description: "Sell the specified item"
+    usage: "<item|hand> [amount]"
+    console-usage: false
+    alias: []
+    amount-owned: "&cYou do not own that amount of items"
+    confirmation: "&eSold &d{0} &eitems! You got &a{0}"
+    empty-hand: "&cPlease select a valid item to sell"
+    not-owned: "&cYou do not own any &d{0} &citems"
   sethome:
     name: "sethome"
     description: "Create or update home's positions"
@@ -564,6 +601,14 @@ commands:
     created: "&aWarp &d{0} &asuccessfully created!"
     updated: "&aWarp &d{0} &asuccessfully updated!"
     update-permission: "&cYou are not allowed to update warp &d{0} &cposition"
+  setworth:
+    name: "setworth"
+    description: "Sets the worth of the item you hold"
+    usage: "<worth>"
+    console-usage: false
+    alias: []
+    confirmation: "&eSetting worth..."
+    invalid: "&cPlease provide a valid worth"
   spawn:
     name: "spawn"
     description: "Teleport to server's main spawn"
@@ -739,10 +784,19 @@ commands:
     need-permission: "&cYou are not allowed to teleport to world &d{0}"
     teleport: "&eTeleporting to world &d{0}"
     not-exists: "&cWorld &d{0} &cdoes not exists"
+  worth:
+    name: "worth"
+    description: "Get the price of an item"
+    usage: "[item]"
+    console-usage: "<item>"
+    alias: []
+    get: "&eThis item worths &a{0}"
+    unknown: "&cUnknown worth for item &d{0}"
 error:
     color-codes-permission: "&CYou are not allowed to use &o&eColor Codes"
     command-usage: "&cUsage: &e{0}"
     gamemode-error: "&fYou are in &e{0} &fmode"
+    invalid-amount: "&cPlease specify a valid amount"
     invalid-config: "&cInvalid Configuration file found, generating a new one..."
     invalid-name: "&cInvalid name provided, be sure use only &eAlphanumerical &ccharacters and &eUnderscores"
     near-block: "&cThere are no reachable blocks in your aiming direction"
@@ -751,6 +805,7 @@ error:
     player-not-found: "&cPlayer &d{0} &cnot found"
     run-in-game: "&cCommand &d{0} &ccan only be run &ein-game"
     run-in-console: "&cCommand &d{0} &ccan only be run &ein-console"
+    unknown-item: "&cUnknown item &d{0}"
 general:
   prefix: "&f[&aEssentialsPE&f]"
   teleport-confirmation: "&eTeleporting..."

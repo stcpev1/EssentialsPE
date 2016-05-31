@@ -12,7 +12,7 @@ class Pay extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "pay", "Pays a player from your balance", "<player> <amount>", false);
+        parent::__construct($api, "pay");
         $this->setPermission("essentials.pay");
     }
 
@@ -31,21 +31,20 @@ class Pay extends BaseCommand{
             return false;
         }
         if(!($player = $this->getAPI()->getPlayer($args[0]))){
-            $this->sendTranslation($sender, "error.playernotfound");
+            $this->sendTranslation($sender, "error.player-not-found");
             return false;
         }
         if(($args[1] = (int) $args[1]) < 1){
-            $this->sendTranslation($sender, "error.economy.negative");
+            $this->sendTranslation($sender, "error.invalid-amount");
             return false;
         }
         $balance = $this->getAPI()->getPlayerBalance($sender);
         $newBalance = $balance - $args[1];
         if($balance < $args[1] || $newBalance < $this->getAPI()->getMinBalance() || ($newBalance < 0 && !$player->hasPermission("essentials.eco.loan"))){
-            $sender->sendMessage(TextFormat::RED . "[Error] You don't have enough money to pay");
-            $this->sendTranslation($sender, "error.economy.profit");
+            $this->sendTranslation($sender, "commands.pay.profit");
             return false;
         }
-        $this->sendTranslation($sender, "economy.balance.pay");
+        $this->sendTranslation($sender, "commands.pay.confirmation", $this->getAPI()->getCurrencySymbol() . $args[1], $player->getDisplayName());
         $this->getAPI()->setPlayerBalance($sender, $newBalance); //Take out from the payer balance.
         $this->getAPI()->addToPlayerBalance($player, $args[1]); //Pay to the other player
         return true;

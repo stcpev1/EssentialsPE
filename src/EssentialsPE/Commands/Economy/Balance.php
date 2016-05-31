@@ -12,7 +12,7 @@ class Balance extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "balance", "See how many money do you have", "[player]", true, ["bal", "money"]);
+        parent::__construct($api, "balance");
         $this->setPermission("essentials.balance.use");
     }
 
@@ -36,11 +36,11 @@ class Balance extends BaseCommand{
                 $sender->sendMessage(TextFormat::RED . $this->getPermissionMessage());
                 return false;
             }elseif(!$player = $this->getAPI()->getPlayer($args[0])){
-                $this->sendTranslation($sender, "error.playernotfound");
+                $this->sendTranslation($sender, "error.player-not-found", $args[0]);
                 return false;
             }
         }
-        $this->sendTranslation($sender, "economy.balance." . ($player === $sender ? "self" : "other"), $player->getName(), $this->getAPI()->getMessage("economy.sign") . $this->getAPI()->getPlayerBalance($player));
+        $this->sendTranslation($sender, "commands.balance." . ($player === $sender ? "self" : "other"), $this->getAPI()->getCurrencySymbol() . $this->getAPI()->getPlayerBalance($player), $player->getDisplayName());
         return true;
     }
 }
