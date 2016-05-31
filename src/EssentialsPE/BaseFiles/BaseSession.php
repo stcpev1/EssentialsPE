@@ -366,7 +366,11 @@ class BaseSession{
             return false;
         }
         if(!$inArray){
-            return implode(", ", $list);
+            $m = array_shift($list);
+            foreach($list as $h){
+                $m .= $this->getAPI()->getTranslation("commands.home.list-syntax", $h);
+            }
+            return $m;
         }
         return $list;
     }
@@ -700,7 +704,7 @@ class BaseSession{
     private $requestsFrom = [];
     /** This is how it works per player:
     *
-    * "iksaku" => "tpto"  <--- Type of request
+    * "iksaku" => "tpto"  <--- Type of request | TODO: Teleport Type Constants
     *    ^^^
     * Requester Name
     */

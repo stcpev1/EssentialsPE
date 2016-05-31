@@ -11,7 +11,7 @@ class DelHome extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "delhome", "Remove a home", "<name>", false, ["remhome", "removehome"]);
+        parent::__construct($api, "delhome");
         $this->setPermission("essentials.delhome");
     }
 
@@ -30,11 +30,11 @@ class DelHome extends BaseCommand{
             return false;
         }
         if(!$this->getAPI()->homeExists($sender, $args[0])){
-            $this->sendTranslation($sender, "error.home.exists", $args[0]);
+            $this->sendTranslation($sender, "commands.home.exists", $args[0]);
             return false;
         }
         $this->getAPI()->removeHome($sender, $args[0]);
-        $this->sendTranslation($sender, "home.remove", $args[0]);
+        $this->sendTranslation($sender, "commands.delhome.confirmation", $args[0]);
         return true;
     }
 } 

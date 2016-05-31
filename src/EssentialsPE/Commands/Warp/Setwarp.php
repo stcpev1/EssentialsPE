@@ -34,7 +34,7 @@ class Setwarp extends BaseCommand{
             return false;
         }
         if(!$this->getAPI()->setWarp($args[0], $sender->getPosition(), $sender->getYaw(), $sender->getPitch())){
-            $this->sendTranslation($sender, "commands.setwarp.invalid-name");
+            $this->sendTranslation($sender, "error.invalid-name");
             return false;
         }
         $this->sendTranslation($sender, "commands.setwarp." . ($existed ? "updated" : "created"), $args[0]);

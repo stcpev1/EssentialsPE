@@ -11,7 +11,7 @@ class SetHome extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "sethome", "Create or update a home position", "<name>", false, ["createhome"]);
+        parent::__construct($api, "sethome");
         $this->setPermission("essentials.sethome");
     }
 
@@ -30,18 +30,15 @@ class SetHome extends BaseCommand{
             return false;
         }
         if(strtolower($args[0]) === "bed"){
-            $this->sendTranslation($sender, "error.home.bed");
-            return false;
-        }elseif(trim($args[0] === "")){
-            $this->sendTranslation($sender, "error.alphanumeric");
+            $this->sendTranslation($sender, "commands.home.bed-error");
             return false;
         }
         $updated = $this->getAPI()->homeExists($sender, $args[0]);
         if(!$this->getAPI()->setHome($sender, strtolower($args[0]), $sender->getLocation(), $sender->getYaw(), $sender->getPitch())){
-            $this->sendTranslation($sender, "error.alphanumeric");
+            $this->sendTranslation($sender, "error.invalid-name");
             return false;
         }
-        $this->sendTranslation($sender, "home." . ($updated ? "update" : "create"), $args[0]);
+        $this->sendTranslation($sender, "commands.sethome." . ($updated ? "updated" : "created"), $args[0]);
         return true;
     }
 } 

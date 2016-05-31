@@ -11,7 +11,7 @@ class Home extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "home", "Teleport to your home", "<name>", false, ["homes"]);
+        parent::__construct($api, "home");
         $this->setPermission("essentials.home.use");
     }
 
@@ -31,18 +31,18 @@ class Home extends BaseCommand{
         }
         if(count($args) === 0){
             if(($list = $this->getAPI()->homesList($sender, false)) === false){
-                $this->sendTranslation($sender, "error.home.empty");
+                $this->sendTranslation($sender, "commands.home.empty");
                 return false;
             }
-            $this->sendTranslation($sender, "home.list", $list);
+            $this->sendTranslation($sender, "commands.home.list", $list);
             return true;
         }
         if(!($home = $this->getAPI()->getHome($sender, $args[0]))){
-            $this->sendTranslation($sender, "error.home.exists", $args[0]);
+            $this->sendTranslation($sender, "commands.home.exists", $args[0]);
             return false;
         }
         $sender->teleport($home);
-        $this->sendTranslation($sender, "home.teleport", $home->getName());
+        $this->sendTranslation($sender, "commands.home.confirmation", $home->getName());
         return true;
     }
 } 

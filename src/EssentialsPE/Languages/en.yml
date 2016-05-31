@@ -161,6 +161,15 @@ commands:
     confirmation: "&eConverting &d{0} &eitem into most compact form..."
     invalid-item: "&cItem {0} cannot be condensed"
     unknown-item: "&cUnknown item &d{0}"
+  delhome:
+    name: "delhome"
+    description: "Removes a home"
+    usage: "<name>"
+    console-usage: false
+    alias:
+      - remhome
+      - removehome
+    confirmation: "&eSuccessfully removed home &d{0}"
   delwarp:
     name: "delwarp"
     description: "Delete a warp"
@@ -278,6 +287,19 @@ commands:
     alias: []
     confirmation: "&aYou have been healed"
     other-confirmation: "&d{0} &ahas been healed"
+  home:
+    name: "home"
+    description: "Teleport to your home"
+    usage: "<name>"
+    console-usage: false
+    alias:
+      - homes
+    bed-error: "&cYou can only set a &dBed Home &cby sleeping in one bed"
+    confirmation: "&aTeleporting to home &d{0}&a..."
+    list: "&bAvailable kits:\n&r{0}"
+    list-syntax: "&f, &e{0}"
+    empty: "&cYou do not have any home yet"
+    exists: "&cHome &d{0} &cdoes not exists"
   item:
     name: "item"
     description: "Gives yourself an item"
@@ -514,6 +536,15 @@ commands:
     is-online: "&d{0} &fis &aOnline&f!"
     last-seen: "&d{0} &bwas last need on &e{1} &bat &e{2}"
     unknown-player: "&d{0} &c as never played on this server"
+  sethome:
+    name: "sethome"
+    description: "Create or update home's positions"
+    usage: "<name>"
+    console-usage: false
+    alias:
+      - createhome
+    created: "&aSuccessfully created home &d{0}"
+    updated: "&aSuccessfully updated home &d{0}"
   setspawn:
     name: "setspawn"
     description: "Sets the spawn location"
@@ -531,7 +562,6 @@ commands:
       - openwarp
       - createwarp
     created: "&aWarp &d{0} &asuccessfully created!"
-    invalid-name: "&cInvalid warp name provided, be sure use only &eAlphanumerical &ccharacters and &eUnderscores"
     updated: "&aWarp &d{0} &asuccessfully updated!"
     update-permission: "&cYou are not allowed to update warp &d{0} &cposition"
   spawn:
@@ -714,6 +744,7 @@ error:
     command-usage: "&cUsage: &e{0}"
     gamemode-error: "&fYou are in &e{0} &fmode"
     invalid-config: "&cInvalid Configuration file found, generating a new one..."
+    invalid-name: "&cInvalid name provided, be sure use only &eAlphanumerical &ccharacters and &eUnderscores"
     near-block: "&cThere are no reachable blocks in your aiming direction"
     need-permission: "&eYou don't have permission to use this command"
     other-gamemode-error: "&d{0} &fis in &e{1} &fmode"
