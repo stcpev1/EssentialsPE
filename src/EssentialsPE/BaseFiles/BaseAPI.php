@@ -942,7 +942,6 @@ class BaseAPI{
                 if($slot !== $index){
                     $item->setCount($item->getCount() + $i->getCount());
                     $items[$index] = $replace;
-                    var_dump($index . " - " . $slot);
                 }
             }
         }
@@ -1327,7 +1326,7 @@ class BaseAPI{
         if(!$this->colorMessage($nick, $player)){
             return false;
         }
-        if(strtolower($nick) === strtolower($player->getName()) || $nick === "off" || trim($nick) === "" || $nick === null){
+        if(($n = strtolower($nick)) === strtolower($player->getName()) || $n === "off" || trim($nick) === "" || $nick === null){
             return $this->removeNick($player);
         }
         $this->getServer()->getPluginManager()->callEvent($ev = new PlayerNickChangeEvent($this, $player, $this->colorMessage($nick)));
@@ -1721,8 +1720,10 @@ class BaseAPI{
                 }
                 $n = $p->getName();
                 if(isset($values["nick"])){
-                    $n = $values["nick"];
-                    $this->getEssentialsPEPlugin()->getLogger()->info($p->getName() . " is also known as " . $n);
+                    $n = $values["nick"] ?? $p->getName();
+                    if($n !== $p->getName()){
+                        $this->getEssentialsPEPlugin()->getLogger()->info($p->getName() . " is also known as " . $n);
+                    }
                     unset($values["nick"]);
                 }
                 $v = BaseSession::$defaults["isVanished"];

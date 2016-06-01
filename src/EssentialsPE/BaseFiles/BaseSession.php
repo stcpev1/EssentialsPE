@@ -464,9 +464,9 @@ class BaseSession{
      * @param null|string $nick
      */
     public function setNick($nick){
-        $this->nick = ($nick .= TextFormat::RESET);
-        $this->getPlayer()->setDisplayName($nick ?? $this->getPlayer()->getName());
-        $this->getPlayer()->setNameTag($nick ?? $this->getPlayer()->getName());
+        $this->nick = ($nick === null ? $this->getPlayer()->getDisplayName() : $nick . TextFormat::RESET);
+        $this->getPlayer()->setDisplayName($this->nick);
+        $this->getPlayer()->setNameTag($this->nick);
     }
 
     /**  _____                    _______          _

@@ -1,70 +1,3 @@
-#economy:
-#  sign: "$"
-#  balance:
-#    add: "&eAdding balance..."
-#    message:
-#      other: "&f{0} &bhas &e{1}."
-#     self: "&bYou have &e{1}."
-#    pay: "&ePaying..."
-#    reset: "&eResetting balance..."
-#   set: "&eSetting balance..."
-#    take: "&eTaking balance..."
-#  sold:
-#    single: "&aSold &e{0} &aitems! You got &b{1}"
-#    much: "&aItem sold! You got &b{1}"
-#  worth:
-#    set: "&eSetting worth..."
-#    get: "&bThe worth for this item is &a{0}"
-#error:
-#  prefix: "&c[Error] "
-#  economy:
-#    amount: "&cPlease specify a valid amount."
-#    negative: "&cYou can't pay a negative value."
-#    profit: "&cYou don't have enough profit to pay."
-#    worth:
-#      unknown: "&cWorth not available for this item."
-#      invalid: "&cPlease provide a valid worth."
-#  gamemode:
-#    other: "&f{0} &cis in &e{1} &cmode."
-#    self: "You're in {1}."
-#  home:
-#    exists: "&cHome \"{0}\" doesn't exists, or maybe the world is not available."
-#    empty: "&cYou don't have any home yet."
-#    bed: "&cYou can only set a \"&ebed\" &chome by sleeping in one."
-#  ingame: "&cPlease run this command in-game."
-#  item:
-#    in:
-#      hand: "&cYou don't have anything in your hand."
-#      inventory: "&c You don't have that item in your inventory."
-#    invalid: "&cPlease provide a valid item."
-#    unknown: "&cUnknown Item."
-#    quantity: "&cYou don't have that amount of items."
-#  alphanumeric: "&cPlease provide a valid alphanumeric name (and underscores, without spaces):&e _ a-z A-Z 0-9"
-#  playernotfound: "Player not found."
-#  permission: "You don't have enough permissions to run this command."
-#  usage: "&cUsage: &e{0}"
-#home:
-#  create: "&aSuccessfully created home \"&b{0}\""
-#  list: "&bAvailable homes:\n{0}"
-#  remove: "&aSuccessfully removed home \"{0}\"!"
-#  teleport: "&aTeleporting to home &b{0} &a..."
-#  update: "&aSuccessfully updated home \"&b{0}\""
-#vanish:
-#  other: "&f{0} is now &7{1}."
-#  self: "You are now &7{1}."
-#warning:
-#  updater: "&eThe updater is already working... PLease wait a few moments and try again."
-#commands:
-#  essentialspe:
-#    name: "essentialspe"
-#    description: "Useful tools for EssentialsPE plugin"
-#    alias:
-#      - "esspe"
-#      - "ess"
-#      - "essentials"
-
-# TODO: Replace everything above into below more structured syntax
-
 commands:
   afk:
     name: "afk"
@@ -164,8 +97,8 @@ commands:
     south: "south"
     unknown-direction: "&cOoops, there was an error calculating your facing direction"
     west: "west"
-  consende:
-    name: "consende"
+  condense:
+    name: "condense"
     description: "Compact your inventory!"
     usage: "[item name|id|hand|inventory|all]"
     console-usage: false
@@ -173,7 +106,8 @@ commands:
       - compact
       - toblocks
     confirmation: "&eConverting &d{0} &eitem into most compact form..."
-    invalid-item: "&cItem {0} cannot be condensed"
+    confirmation-inventory: "&eConverting all items into most compact form..."
+    invalid-item: "&cItem &d{0} &ccannot be condensed"
   delhome:
     name: "delhome"
     description: "Removes a home"
@@ -794,7 +728,7 @@ commands:
     unknown: "&cUnknown worth for item &d{0}"
 error:
     color-codes-permission: "&CYou are not allowed to use &o&eColor Codes"
-    command-usage: "&cUsage: &e{0}"
+    command-usage: "&cUsage: &e/{0} {1}"
     gamemode-error: "&fYou are in &e{0} &fmode"
     invalid-amount: "&cPlease specify a valid amount"
     invalid-config: "&cInvalid Configuration file found, generating a new one..."

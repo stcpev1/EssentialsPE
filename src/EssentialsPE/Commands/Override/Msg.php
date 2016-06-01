@@ -13,7 +13,7 @@ class Msg extends BaseOverrideCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "tell");
+        parent::__construct($api, "msg");
         $this->setPermission("essentials.msg");
     }
 

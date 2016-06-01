@@ -51,8 +51,9 @@ class Condense extends BaseCommand{
         }
         if(!$this->getAPI()->condenseItems($sender->getInventory(), $target)){
             $this->sendTranslation($sender, "commands.condense.invalid-item", $target->getName());
+            return false;
         }
-        $this->sendTranslation($sender, "commands.condense.confirmation", $target->getName());
+        $this->sendTranslation($sender, "commands.condense.confirmation" . ($target === null ? "-inventory" : ""), ($target === null ? "" : $target->getName()));
         return true;
     }
 }

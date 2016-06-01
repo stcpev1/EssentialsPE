@@ -124,7 +124,7 @@ class Gamemode extends BaseOverrideCommand{
     }
 
     public function sendUsage(CommandSender $sender, string $alias){
-        $usage = str_replace($this->getName(), $alias, $this->getAPI()->getTranslation("essentials.error.command-usage", ($sender instanceof Player ? $this->getUsage() : $this->getConsoleUsage())));
+        $usage = str_replace($this->getName(), $alias, $this->getAPI()->getTranslation("error.command-usage", $alias, ($sender instanceof Player ? $this->getUsage() : $this->getConsoleUsage())));
         if(strtolower($alias) !== "gamemode" && strtolower($alias) !== "gm"){
             $usage = str_replace("<mode> ", "", $usage);
         }

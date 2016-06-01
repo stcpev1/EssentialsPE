@@ -24,7 +24,7 @@ class Burn extends BaseCommand{
         if(!$this->testPermission($sender)){
             return false;
         }
-        if(count($args) != 2){
+        if(count($args) !== 2){
             $this->sendUsage($sender, $alias);
             return false;
         }
@@ -37,7 +37,7 @@ class Burn extends BaseCommand{
             return false;
         }
         $player->setOnFire($time);
-        $this->sendTranslation($sender, "commands.burn.confirmation");
+        $this->sendTranslation($sender, "commands.burn.confirmation", $player->getDisplayName());
         return true;
     }
 }

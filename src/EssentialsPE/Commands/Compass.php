@@ -33,7 +33,7 @@ class Compass extends BaseCommand{
         $this->sendTranslation($sender,
             "commands.compass." .
                 (isset($direction[$sender->getDirection()]) ? "direction"  : "unknown-direction"),
-            ["commands.compass." . $sender->getDirection()]
+            ["commands.compass." . $direction[$sender->getDirection()]]
         );
         return true;
     }

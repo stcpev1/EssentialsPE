@@ -11,6 +11,8 @@ use pocketmine\utils\MainLogger;
 abstract class BaseCommand extends Command implements PluginIdentifiableCommand{
     /** @var BaseAPI  */
     private $api;
+    /** @var bool */
+    private $isConsoleCompatible;
     /** @var bool|string */
     private $consoleUsageMessage;
 
@@ -23,8 +25,9 @@ abstract class BaseCommand extends Command implements PluginIdentifiableCommand{
         $this->api = $api;
         $t = $this->getAPI()->getTranslation("commands." . $name);
         parent::__construct($t["name"], $t["description"], $t["usage"], $t["alias"] ?? []);
+        $this->isConsoleCompatible = $t["console-usage"] !== false;
         if(is_bool($t["console-usage"])){
-            $this->consoleUsageMessage = (!$t["console-usage"] ? $this->getAPI()->getTranslation("general.error.run-in-game") : parent::getUsage());
+            $this->consoleUsageMessage = (!$t["console-usage"] ? $this->getAPI()->getTranslation("error.run-in-game", $this->getName()) : parent::getUsage());
         }else{
             $this->consoleUsageMessage = $t["console-usage"];
         }
@@ -43,6 +46,13 @@ abstract class BaseCommand extends Command implements PluginIdentifiableCommand{
      */
     public final function getAPI(): BaseAPI{
         return $this->api;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isConsoleCompatible(): bool{
+        return $this->isConsoleCompatible;
     }
 
     /**
@@ -67,7 +77,10 @@ abstract class BaseCommand extends Command implements PluginIdentifiableCommand{
      * @param string $alias
      */
     public function sendUsage(CommandSender $sender, string $alias){
-        $sender->sendMessage(str_replace($this->getName(), $alias, $this->getAPI()->getTranslation("essentials.error.command-usage", ($sender instanceof Player ? $this->getUsage() : $this->getConsoleUsage()))));
+        $sender->sendMessage(str_replace($this->getName(), $alias, $this->isConsoleCompatible() ?
+            $this->getAPI()->getTranslation("error.command-usage", $alias, ($sender instanceof Player ? $this->getUsage() : $this->getConsoleUsage())) :
+            $this->getConsoleUsage()
+        ));
     }
 
     /**

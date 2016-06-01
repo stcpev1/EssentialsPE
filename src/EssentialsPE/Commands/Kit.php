@@ -30,7 +30,7 @@ class Kit extends BaseCommand{
             return false;
         }elseif(count($args) === 0){
             if(($list = $this->getAPI()->kitList(false)) === false){
-                $this->sendTranslation($sender, "commands.kit.not-kits-available");
+                $this->sendTranslation($sender, "commands.kit.no-kits-available");
                 return false;
             }
             $this->sendTranslation($sender, "commands.kit.list-kits", $list);
