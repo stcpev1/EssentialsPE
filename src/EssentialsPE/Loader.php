@@ -126,7 +126,7 @@ class Loader extends PluginBase{
      */
     private function registerCommands(){
         $commands = [
-            /*new AFK($this->getAPI()),
+            new AFK($this->getAPI()),
             new Antioch($this->getAPI()),
             new Back($this->getAPI()),
             //new BigTreeCommand($this->getAPI()), TODO
@@ -146,7 +146,7 @@ class Loader extends PluginBase{
             new Heal($this->getAPI()),
             new ItemCommand($this->getAPI()),
             new ItemDB($this->getAPI()),
-            new Jump($this->getAPI()),*/
+            new Jump($this->getAPI()),
             new KickAll($this->getAPI()),
             new Kit($this->getAPI()),
             new Lightning($this->getAPI()),
@@ -183,7 +183,7 @@ class Loader extends PluginBase{
             //new Worth($this->getAPI()),
 
             //Home
-            /*new DelHome($this->getAPI()),
+            new DelHome($this->getAPI()),
             new Home($this->getAPI()),
             new SetHome($this->getAPI()),
 
@@ -210,7 +210,7 @@ class Loader extends PluginBase{
 
             //Override
             new Gamemode($this->getAPI()),
-            new Kill($this->getAPI())*/
+            new Kill($this->getAPI())
         ];
         $register = [];
         $cfg = $this->getConfig()->get("disabled-commands") ?? [];
