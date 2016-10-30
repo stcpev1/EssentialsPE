@@ -36,7 +36,7 @@ class Feed extends BaseCommand{
             $sender->sendMessage(TextFormat::RED . "[Error] Player not found");
             return false;
         }
-        $player->setFood(20));
+        $player->setFood(20);
         $player->getLevel()->addParticle(new HappyVillagerParticle($player->add(0, 2), 4));
         $player->sendMessage(TextFormat::GREEN . "You have been fed!");
         if($player !== $sender){
