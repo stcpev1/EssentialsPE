@@ -20,6 +20,7 @@ use EssentialsPE\Commands\Depth;
 #use EssentialsPE\Commands\Economy\SetWorth;
 #use EssentialsPE\Commands\Economy\Worth;
 use EssentialsPE\Commands\EssentialsPE;
+use EssentialsPE\Commands\Feed;
 use EssentialsPE\Commands\Extinguish;
 use EssentialsPE\Commands\Fly;
 use EssentialsPE\Commands\GetPos;
@@ -157,6 +158,7 @@ class Loader extends PluginBase{
             new Nick($this->getAPI()),
             new Nuke($this->getAPI()),
             new Ping($this->getAPI()),
+            new Feed($this->getAPI()),
             new PTime($this->getAPI()),
             new PvP($this->getAPI()),
             new RealName($this->getAPI()),
