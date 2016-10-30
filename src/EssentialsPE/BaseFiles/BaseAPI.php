@@ -2202,6 +2202,7 @@ class BaseAPI{
      */
     public function switchVanish(Player $player): bool{
         $this->setVanish($player, !$this->isVanished($player));
+        return true;
     }
 
     /**
