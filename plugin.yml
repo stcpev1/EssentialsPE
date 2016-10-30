@@ -136,6 +136,16 @@ permissions:
                     essentials.fly.others:
                         default: op
                         description: "Make other players fly!"
+            essentials.feed:
+                default: false
+                description: "Feed yourself or other players"
+                children:
+                    essentials.feed.use:
+                        default: op
+                        description: "Feed yourself"
+                    essentials.feed.other:
+                        default: op
+                        description: "Feed other players"
             essentials.gamemode:
                 default: op
                 description: "Change your gamemode!"
