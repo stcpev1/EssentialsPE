@@ -58,10 +58,10 @@ class TPAccept extends BaseCommand{
         }
         $player->sendMessage(TextFormat::AQUA . $sender->getDisplayName() . TextFormat::GREEN . " accepted your teleport request! Teleporting...");
         $sender->sendMessage(TextFormat::GREEN . "Teleporting...");
-        if($request === "tpto"){
-            $player->teleport($sender);
-        }else{
+        if($request === "tphere"){
             $sender->teleport($player);
+        }else{
+            $player->teleport($sender);
         }
         $this->getAPI()->removeTPRequest($player, $sender);
         return true;
