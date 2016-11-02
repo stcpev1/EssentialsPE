@@ -6,6 +6,7 @@ use EssentialsPE\BaseFiles\BaseCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
+use pocketmine\math\Vector3
 
 class Top extends BaseCommand{
     /**
