@@ -511,7 +511,7 @@ class BaseSession{
     public function getPowerToolItemCommand(int $itemId){
         if($itemId < 1) {
             return false;
-        }elseif(!is_array($this->ptCommands) || !isset($this->ptCommands[$itemId]) || !is_array($this->ptCommands[$itemId])){
+        }elseif(!isset($this->ptCommands[$itemId]) || is_array($this->ptCommands[$itemId])){
             return false;
         }elseif($this->ptCommands[$itemId] === null){
             unset($this->ptCommands[$itemId]);
