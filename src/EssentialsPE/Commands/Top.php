@@ -31,7 +31,7 @@ class Top extends BaseCommand{
             return false;
         }
         $sender->sendMessage(TextFormat::YELLOW . "Teleporting...");
-        $sender->teleport($sender->x, $sender->getLevel()->getHighestBlockAt($sender->x, $sender->y) + 1, $sender->z); 
+        $sender->teleport(new Vector3($sender->x, $sender->getLevel()->getHighestBlockAt($sender->x, $sender->y) + 1, $sender->z)); 
         return true;
     }
 }
