@@ -2151,7 +2151,7 @@ class BaseAPI{
         }
         $state = $ev->willVanish();
         $player->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_INVISIBLE, $state);
-        $player->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_CAN_SHOW_NAMETAG, ($state ? false : true));
+        $player->setNameTagVisible($state ? 0 : 1);
         /** @var Player[] $pl */
         $pl = [];
         foreach($player->getLevel()->getPlayers() as $p){
