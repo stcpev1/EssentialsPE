@@ -6,6 +6,7 @@ use EssentialsPE\BaseFiles\BaseCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
+use pocketmine\math\Vector3;
 
 class Top extends BaseCommand{
     /**
@@ -31,7 +32,7 @@ class Top extends BaseCommand{
             return false;
         }
         $sender->sendMessage(TextFormat::YELLOW . "Teleporting...");
-        $sender->teleport($sender->add(0, $sender->getLevel()->getHighestBlockAt($sender->getX(), $sender->getZ()) + 1));
+        $sender->teleport(new Vector3($sender->getX(), $sender->getLevel()->getHighestBlockAt($sender->getX(), $sender->getZ()) + 1, $sender->getZ())); 
         return true;
     }
 }

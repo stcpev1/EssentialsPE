@@ -2151,7 +2151,7 @@ class BaseAPI{
         }
         $state = $ev->willVanish();
         $player->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_INVISIBLE, $state);
-        $player->setDataProperty(Entity::DATA_SHOW_NAMETAG, Entity::DATA_TYPE_BYTE, ($state ? 0 : 1));
+        $player->setNameTagVisible(!$state);
         /** @var Player[] $pl */
         $pl = [];
         foreach($player->getLevel()->getPlayers() as $p){
@@ -2202,6 +2202,7 @@ class BaseAPI{
      */
     public function switchVanish(Player $player): bool{
         $this->setVanish($player, !$this->isVanished($player));
+        return true;
     }
 
     /**
