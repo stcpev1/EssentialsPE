@@ -30,7 +30,7 @@ class Repair extends BaseCommand{
             $this->sendUsage($sender, $alias);
             return false;
         }
-        if(isset($args[0]) {
+        if(isset($args[0])) {
             $a = strtolower($args[0]);
         }
         if(!($a === "hand" || $a === "all")){
