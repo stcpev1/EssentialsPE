@@ -12,7 +12,7 @@ class TPA extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "tpa", "Asks the player if you can telepor to them", "<player>", false, ["call", "tpask"]);
+        parent::__construct($api, "tpa", "Asks the player if you can teleport to them", "<player>", false, ["call", "tpask"]);
         $this->setPermission("essentials.tpa");
     }
 
