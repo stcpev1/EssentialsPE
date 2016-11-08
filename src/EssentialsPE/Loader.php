@@ -94,7 +94,8 @@ class Loader extends PluginBase{
         if(!is_dir($this->getDataFolder())){
             mkdir($this->getDataFolder());
         }
-	    $this->getLogger()->info(TextFormat::YELLOW . "Loading...");
+        
+	$this->getLogger()->info(TextFormat::YELLOW . "Loading...");
         $this->registerEvents();
         $this->registerCommands();
         if(count($p = $this->getServer()->getOnlinePlayers()) > 0){
@@ -127,7 +128,7 @@ class Loader extends PluginBase{
      * And to override some default ones
      */
     private function registerCommands(){
-        $commands = [
+        $forcecommands = [
             new AFK($this->getAPI()),
             new Antioch($this->getAPI()),
             new Back($this->getAPI()),
@@ -177,44 +178,65 @@ class Loader extends PluginBase{
             //new Whois($this->getAPI()), TODO
             new World($this->getAPI()),
 
-            //Economy
+            // Economy
             //new Balance($this->getAPI()),
             //new Eco($this->getAPI()),
             //new Pay($this->getAPI()),
             //new Sell($this->getAPI()),
             //new SetWorth($this->getAPI()),
             //new Worth($this->getAPI()),
-
-            //Home
-            new DelHome($this->getAPI()),
-            new Home($this->getAPI()),
-            new SetHome($this->getAPI()),
-
+            
+            // Override
+            new Gamemode($this->getAPI()),
+            new Kill($this->getAPI()),
+            
             // Messages
             new Msg($this->getAPI()),
             new Reply($this->getAPI()),
-
-            //PowerTool
-            new PowerTool($this->getAPI()),
-            new PowerToolToggle($this->getAPI()),
-
-            //Teleport
-            new TPA($this->getAPI()),
-            new TPAccept($this->getAPI()),
-            new TPAHere($this->getAPI()),
-            new TPAll($this->getAPI()),
-            new TPDeny($this->getAPI()),
-            new TPHere($this->getAPI()),
-
-            //Warp
-            new DelWarp($this->getAPI()),
-            new Setwarp($this->getAPI()),
-            new Warp($this->getAPI()),
-
-            //Override
-            new Gamemode($this->getAPI()),
-            new Kill($this->getAPI())
-        ];
+            ];
+        
+        $homes = $this->getConfig()->get("homes");
+        $powertool = $this->getConfig()->get("powertool");
+        $teleporting = $this->getConfig()->get("teleporting");
+        $warps = $this->getConfig()->get("warps");
+        
+        $optionalcommands = [];
+            // Homes
+        if($homes === true) {
+            array_push($optionalcommands, [
+                new DelHome($this->getAPI()),
+                new Home($this->getAPI()),
+                new SetHome($this->getAPI())
+            ]);
+        }
+            // Powertool
+        if($powertool === true){
+            array_push($optionalcommands, [
+                new PowerTool($this->getAPI()),
+                new PowerToolToggle($this->getAPI())
+            ]);
+        }
+            // Teleport
+        if($teleporting === true){
+            array_push($optionalcommands, [
+                new TPA($this->getAPI()),
+                new TPAccept($this->getAPI()),
+                new TPAHere($this->getAPI()),
+                new TPAll($this->getAPI()),
+                new TPDeny($this->getAPI()),
+                new TPHere($this->getAPI())
+            ]);
+        }
+            // Warp
+        if($warps === true){
+            array_push($optionalcommands, [
+                new DelWarp($this->getAPI()),
+                new Setwarp($this->getAPI()),
+                new Warp($this->getAPI())
+            ]);
+        }
+        
+        $commands = array_merge($optionalcommands, $forcecommands);
         $aliased = [];
         foreach($commands as $cmd){
             /** @var BaseCommand $cmd */

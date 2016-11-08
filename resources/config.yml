@@ -1,8 +1,14 @@
 # EssentialsPE configuration
-# This configuration flie let you modify how EssentialsPE work with some features
+# This configuration file lets you modify how EssentialsPE work with some features
 
 # DO NOT EDIT THIS PROPERTY! For internal use ONLY
-version: 0.0.2
+version: 0.0.3
+
+# Disable various parts and features of EssentialsPE, set to false to disable
+homes: true
+warps: true
+teleporting: true
+powertool: true
 
 # Edit different parts of the AFK feature!
 afk:
