@@ -194,24 +194,23 @@ class Loader extends PluginBase{
             new Msg($this->getAPI()),
             new Reply($this->getAPI()),
 
-                new DelHome($this->getAPI()),
-                new Home($this->getAPI()),
-                new SetHome($this->getAPI())
+            new DelHome($this->getAPI()),
+            new Home($this->getAPI()),
+            new SetHome($this->getAPI()),
 
-                new PowerTool($this->getAPI()),
+            new PowerTool($this->getAPI()),
 
-                new TPA($this->getAPI()),
-                new TPAccept($this->getAPI()),
-                new TPAHere($this->getAPI()),
-                new TPAll($this->getAPI()),
-                new TPDeny($this->getAPI()),
-                new TPHere($this->getAPI())
+            new TPA($this->getAPI()),
+            new TPAccept($this->getAPI()),
+            new TPAHere($this->getAPI()),
+            new TPAll($this->getAPI()),
+            new TPDeny($this->getAPI()),
+            new TPHere($this->getAPI())
 
-                new DelWarp($this->getAPI()),
-                new Setwarp($this->getAPI()),
-                new Warp($this->getAPI())
-            ]);
-        }
+            new DelWarp($this->getAPI()),
+            new Setwarp($this->getAPI()),
+            new Warp($this->getAPI())
+            ];
         
         $aliased = [];
         foreach($commands as $cmd){
