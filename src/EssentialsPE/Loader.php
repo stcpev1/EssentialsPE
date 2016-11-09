@@ -194,19 +194,23 @@ class Loader extends PluginBase{
             new Msg($this->getAPI()),
             new Reply($this->getAPI()),
 
+            // Homes
             new DelHome($this->getAPI()),
             new Home($this->getAPI()),
             new SetHome($this->getAPI()),
 
+            // Powertool
             new PowerTool($this->getAPI()),
 
+            // Teleporting
             new TPA($this->getAPI()),
             new TPAccept($this->getAPI()),
             new TPAHere($this->getAPI()),
             new TPAll($this->getAPI()),
             new TPDeny($this->getAPI()),
-            new TPHere($this->getAPI())
+            new TPHere($this->getAPI()),
 
+            // Warps
             new DelWarp($this->getAPI()),
             new Setwarp($this->getAPI()),
             new Warp($this->getAPI())
