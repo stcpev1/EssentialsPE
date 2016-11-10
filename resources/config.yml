@@ -4,6 +4,12 @@
 # DO NOT EDIT THIS PROPERTY! For internal use ONLY
 version: 0.0.2
 
+# Disable various command features of EssentialsPE, set to false to disable
+homes: true
+warps: true
+powertool: true
+teleporting: true
+
 # Edit different parts of the AFK feature!
 afk:
   # Players that are AFK can, or not, be damaged

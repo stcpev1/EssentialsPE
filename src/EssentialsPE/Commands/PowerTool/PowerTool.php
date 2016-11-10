@@ -27,6 +27,10 @@ class PowerTool extends BaseCommand{
         if(!$this->testPermission($sender)){
             return false;
         }
+        if($this->getAPI()->getEssentialsPEPlugin()->getConfig()->get("powertool") !== true) {
+            $sender->sendMessage(TextFormat::RED . "This command has been disabled!");
+            return false;
+        }
         if(!$sender instanceof Player){
             $this->sendUsage($sender, $alias);
             return false;
