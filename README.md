@@ -3,9 +3,9 @@ EssentialsPE [![Build Status](https://travis-ci.org/LegendOfMCPE/EssentialsPE.sv
 
 The port version of [Bukkit Essentials](http://dev.bukkit.org/bukkit-plugins/essentials/) for [PocketMine-MP Software](http://www.pocketmine.net/).
 
-> EssentialsPE does not officially provide compatibility with _Modded PocketMine-MP_ server software
+> EssentialsPE does not officially provide compatibility with _Modded PocketMine-MP_ server software.
 >
-> Nevertheless compatibility can be found sometimes, but do not complain if it does not appear.
+> Compatibility can be found with most PocketMine based softwares, but issues might occur. (Report in Issues)
 
 #### [Download the latest _Development_ Build here!](https://github.com/LegendOfMCPE/EssentialsPE/raw/travis-build/EssentialsPE.phar)
 
