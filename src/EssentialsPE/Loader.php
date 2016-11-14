@@ -181,46 +181,82 @@ class Loader extends PluginBase{
             new Vanish($this->getAPI()),
             //new Whois($this->getAPI()), TODO
             new World($this->getAPI()),
-
-            // Economy
+		
+            // Messages
+            new Msg($this->getAPI()),
+            new Reply($this->getAPI()),
+		
+            // Override
+            new Gamemode($this->getAPI()),
+            new Kill($this->getAPI())		
+	];
+	    
+	$economycommands = [
             new Balance($this->getAPI()),
             new Eco($this->getAPI()),
             new Pay($this->getAPI()),
             new Sell($this->getAPI()),
             new SetWorth($this->getAPI()),
             new Worth($this->getAPI()),
-            new BalanceTop($this->getAPI()),
-            
-            // Override
-            new Gamemode($this->getAPI()),
-            new Kill($this->getAPI()),
-            
-            // Messages
-            new Msg($this->getAPI()),
-            new Reply($this->getAPI()),
-
-            // Homes
+            new BalanceTop($this->getAPI())
+        ];
+	    
+	$homecommands = [
             new DelHome($this->getAPI()),
             new Home($this->getAPI()),
-            new SetHome($this->getAPI()),
-
-            // Powertool
-            new PowerTool($this->getAPI()),
-
-            // Teleporting
+            new SetHome($this->getAPI())
+	];
+	    
+	$powertoolcommands = [
+            new PowerTool($this->getAPI())
+	];
+		
+	$teleportcommands = [
             new TPA($this->getAPI()),
             new TPAccept($this->getAPI()),
             new TPAHere($this->getAPI()),
             new TPAll($this->getAPI()),
             new TPDeny($this->getAPI()),
-            new TPHere($this->getAPI()),
-
-            // Warps
+            new TPHere($this->getAPI())
+	];
+	    
+	$warpcommands = [
             new DelWarp($this->getAPI()),
             new Setwarp($this->getAPI()),
             new Warp($this->getAPI())
-            ];
+        ];
+	    
+	    
+	foreach($warpcommands as $warpcommand) {
+	    if($this->getConfig()->get("warps") === true) {
+		 $commands[] = $warpcommand;
+	    }
+	}
+	  
+	foreach($teleportcommands as $teleportcommand) {
+	    if($this->getConfig()->get("teleporting") === true) {
+		 $commands[] = $teleportcommand;
+	    }
+	}
         
+	foreach($powertoolcommands as $powertoolcommand) {
+	    if($this->getConfig()->get("powertool") === true) {
+		 $commands[] = $powertoolcommand;
+	    }
+	}
+	    
+	foreach($homecommands as $homecommand) {
+	    if($this->getConfig()->get("homes") === true) {
+		 $commands[] = $homecommand;
+	    }
+	}
+	    
+	foreach($economycommands as $economycommand) {
+	    if($this->getConfig()->get("economy") === true) {
+		 $commands[] = $economycommand;
+	    }
+	}
+	    
         $aliased = [];
         foreach($commands as $cmd){
             /** @var BaseCommand $cmd */
