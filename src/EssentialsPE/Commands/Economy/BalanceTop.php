@@ -6,7 +6,7 @@ use EssentialsPE\BaseFiles\BaseCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\utils\TextFormat;
 
-class Balance extends BaseCommand{
+class BalanceTop extends BaseCommand{
     /**
      * @param BaseAPI $api
      */
