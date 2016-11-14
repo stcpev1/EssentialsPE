@@ -98,7 +98,7 @@ class BaseAPI{
     }
 
     private final function saveConfigs(){
-        $this->economy = new Config($this->getDataFolder() . "Economy.yml", Config::YAML);
+        $this->economy = new Config($this->getEssentialsPEPlugin()->getDataFolder() . "Economy.yml", Config::YAML);
         $keys = ["default-balance", "max-money", "min-money"];
         foreach($keys as $k){
             if(!is_int($k)){
