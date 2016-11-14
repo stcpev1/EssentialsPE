@@ -420,7 +420,7 @@ class BaseAPI{
      * 
      * @return array
      */
-    public function sendBalanceTop(Player $sender) {
+    public function sendBalanceTop($sender) {
         $moneylist = $this->economy->get("player-balances");
         arsort($moneylist);
         $i = 0;
