@@ -29,9 +29,8 @@ class BalanceTop extends BaseCommand{
             $this->sendUsage($sender, $alias);
             return false;
         }
-        $this->getAPI()->getBalanceTop();
         $sender->sendMessage(TextFormat::GREEN . " --- Money top list ---");
-        foreach($this->getAPI->numbers as $number) {
+        foreach($this->getAPI->getBalanceTop() as $number) {
             $sender->sendMessage($number);
         }
         return true;
