@@ -82,6 +82,10 @@ class Loader extends PluginBase{
     private $api;
 
     public function onEnable(){
+        If($this->getConfig()->get("enable") == false) {
+           $this->setEnabled(false);
+           return;
+        }
         // Before anything else...
         $this->checkConfig();
 
