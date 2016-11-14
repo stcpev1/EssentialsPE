@@ -98,25 +98,27 @@ class BaseAPI{
     }
 
     private final function saveConfigs(){
-        /**$this->economy = new Config($this->getDataFolder() . "Economy.yml", Config::YAML);
+        $this->economy = new Config($this->getDataFolder() . "Economy.yml", Config::YAML);
         $keys = ["default-balance", "max-money", "min-money"];
         foreach($keys as $k){
-        if(!is_int($k)){
-        $value = 0;
-        switch($k){
-        case "default-balance":
-        $value = 0;
-        break;
-        case "max-money":
-        $value = 10000000000000;
-        break;
-        case "min-money":
-        $value = -10000;
-        break;
+            if(!is_int($k)){
+                $value = 0;
+                switch($k){
+                    case "default-balance":
+                        $value = 0;
+                    break;
+                
+                    case "max-money":
+                        $value = 10000000000000;
+                    break;
+                
+                    case "min-money":
+                        $value = -10000;
+                    break;
+                }
+                $this->economy->set($k, $value);
+            }
         }
-        $this->economy->set($k, $value);
-        }
-        }*/
 
         $this->loadKits();
         $this->loadWarps();
@@ -197,7 +199,7 @@ class BaseAPI{
 
     public function reloadFiles(){
         $this->getEssentialsPEPlugin()->getConfig()->reload();
-        //$this->economy->reload();
+        $this->economy->reload();
         $this->loadKits();
         $this->loadWarps();
         $this->updateHomesAndNicks();
@@ -412,7 +414,23 @@ class BaseAPI{
     public function getCurrencySymbol(): string{
         return $this->economy->get("currency-symbol");
     }
-
+    
+    /**
+     * Return the top 5 players with most money
+     * 
+     * @return array
+     */
+    public function getBalanceTop(): array{
+        $moneylist = $this->economy->get("player-balances");
+        arsort($moneylist);
+        foreach($moneylist as $player => $money) {
+            for($i = 0; $i < 5; $i++) {
+                $this->numbers[] = (TextFormat::GREEN . $player . " - " . TextFormat::YELLOW . $money);
+            }
+        }
+        return $this->numbers;
+    }
+    
     /**
      * Return the current balance of a player.
      *

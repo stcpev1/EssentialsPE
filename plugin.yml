@@ -59,6 +59,13 @@ permissions:
                     essentials.balance.other:
                         default: op
                         description: "Let players to see other's balance"
+            essentials.balancetop:
+                default: false
+                description: "Allow seeing the balance top"
+                children:
+                    essentials.balancetop.use:
+                        default: true
+                        description: "See the balance top"
             essentials.bigtree:
                 default: op
                 description: "Spawns a big tree"

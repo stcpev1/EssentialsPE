@@ -13,12 +13,13 @@ use EssentialsPE\Commands\ClearInventory;
 use EssentialsPE\Commands\Compass;
 use EssentialsPE\Commands\Condense;
 use EssentialsPE\Commands\Depth;
-#use EssentialsPE\Commands\Economy\Balance;
-#use EssentialsPE\Commands\Economy\Eco;
-#use EssentialsPE\Commands\Economy\Pay;
-#use EssentialsPE\Commands\Economy\Sell;
-#use EssentialsPE\Commands\Economy\SetWorth;
-#use EssentialsPE\Commands\Economy\Worth;
+use EssentialsPE\Commands\Economy\Balance;
+use EssentialsPE\Commands\Economy\Eco;
+use EssentialsPE\Commands\Economy\Pay;
+use EssentialsPE\Commands\Economy\Sell;
+use EssentialsPE\Commands\Economy\SetWorth;
+use EssentialsPE\Commands\Economy\Worth;
+use EssentialsPE\Commands\Economy\BalanceTop;
 use EssentialsPE\Commands\EssentialsPE;
 use EssentialsPE\Commands\Feed;
 use EssentialsPE\Commands\Extinguish;
@@ -179,12 +180,13 @@ class Loader extends PluginBase{
             new World($this->getAPI()),
 
             // Economy
-            //new Balance($this->getAPI()),
-            //new Eco($this->getAPI()),
-            //new Pay($this->getAPI()),
-            //new Sell($this->getAPI()),
-            //new SetWorth($this->getAPI()),
-            //new Worth($this->getAPI()),
+            new Balance($this->getAPI()),
+            new Eco($this->getAPI()),
+            new Pay($this->getAPI()),
+            new Sell($this->getAPI()),
+            new SetWorth($this->getAPI()),
+            new Worth($this->getAPI()),
+            new BalanceTop($this->getAPI()),
             
             // Override
             new Gamemode($this->getAPI()),
@@ -243,7 +245,7 @@ class Loader extends PluginBase{
         if(!file_exists($this->getDataFolder() . "config.yml")){
             $this->saveDefaultConfig();
         }
-        //$this->saveResource("Economy.yml");
+        $this->saveResource("Economy.yml");
         $this->saveResource("Kits.yml");
         $this->saveResource("Warps.yml");
         $cfg = $this->getConfig();
