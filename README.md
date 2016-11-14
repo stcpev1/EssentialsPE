@@ -28,9 +28,9 @@ The port version of [Bukkit Essentials](http://dev.bukkit.org/bukkit-plugins/ess
   - [x] Implement "better version" checking
 
 #### TODO (Economy Update)
-  - [ ] Implement Commands:
+  - [x] Implement Commands:
      - [x] Balance.
-     - [ ] BalanceTop.
+     - [x] BalanceTop.
      - [x] Eco.
      - [x] Pay.
      - [x] Sell.
