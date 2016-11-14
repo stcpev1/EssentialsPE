@@ -423,9 +423,11 @@ class BaseAPI{
     public function sendBalanceTop(Player $sender) {
         $moneylist = $this->economy->get("player-balances");
         arsort($moneylist);
+        $i = 0;
         foreach($moneylist as $player => $money) {
-            for($i = 0; $i < 5; $i++) {
-                $sender->sendMessage(TextFormat::GREEN . $i + 1 . $player . " - " . TextFormat::YELLOW . $money);
+            if(!$i > 4) {
+                $sender->sendMessage(TextFormat::GREEN . $i + 1 . " " . $player . " - " . TextFormat::YELLOW . $money);
+                $i++;
             }
         }
         return true;
