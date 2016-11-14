@@ -10,6 +10,7 @@ The port version of [Bukkit Essentials](http://dev.bukkit.org/bukkit-plugins/ess
 #### [Download the latest _Development_ Build here!](https://github.com/LegendOfMCPE/EssentialsPE/raw/travis-build/EssentialsPE.phar)
 
 =
+## The master branch might not be stable. Please use the Stable branch for this.
 
 #### TODO (v2.0.0):
 * Start working over [THIS](https://gist.github.com/shoghicp/88acec9d15564ccc8e75).
