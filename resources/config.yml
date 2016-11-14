@@ -12,6 +12,7 @@ homes: true
 warps: true
 powertool: true
 teleporting: true
+economy: false
 
 # Edit different parts of the AFK feature!
 afk:
