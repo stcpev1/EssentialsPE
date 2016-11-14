@@ -36,7 +36,7 @@ The port version of [Bukkit Essentials](http://dev.bukkit.org/bukkit-plugins/ess
      - [x] Sell.
      - [x] SetWorth.
      - [x] Worth.
-  - [ ] Test the commands.
+  - [x] Test the commands.
   - [ ] Implement Economy Signs:
      - [ ] Trade.
      - [ ] Buy.
