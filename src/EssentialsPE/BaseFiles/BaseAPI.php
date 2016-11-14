@@ -427,8 +427,8 @@ class BaseAPI{
         foreach($moneylist as $player => $money) {
             if(!$i > 4) {
                 $sender->sendMessage(TextFormat::GREEN . $i + 1 . " " . $player . " - " . TextFormat::YELLOW . $money);
-                $i++;
             }
+            $i++;
         }
         return true;
     }
