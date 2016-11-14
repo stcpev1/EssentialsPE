@@ -420,15 +420,15 @@ class BaseAPI{
      * 
      * @return array
      */
-    public function getBalanceTop(): array{
+    public function sendBalanceTop(Player $sender) {
         $moneylist = $this->economy->get("player-balances");
         arsort($moneylist);
         foreach($moneylist as $player => $money) {
             for($i = 0; $i < 5; $i++) {
-                $this->numbers[] = (TextFormat::GREEN . $player . " - " . TextFormat::YELLOW . $money);
+                $sender->sendMessage(TextFormat::GREEN . $i + 1 . $player . " - " . TextFormat::YELLOW . $money);
             }
         }
-        return $this->numbers;
+        return true;
     }
     
     /**
