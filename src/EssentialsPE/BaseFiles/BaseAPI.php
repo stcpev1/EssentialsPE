@@ -1682,12 +1682,12 @@ class BaseAPI{
                 $this->getServer()->getPluginManager()->callEvent($ev = new SessionCreateEvent($this, $p, $values));
                 $this->getEssentialsPEPlugin()->getLogger()->debug("Setting up new values...");
                 $values = $ev->getValues();
-                $m = BaseSession::$defaults["isMuted"];
+)                $m = BaseSession::$defaults["isMuted"];
                 $mU = BaseSession::$defaults["mutedUntil"];
                 if(isset($values["isMuted"])){
                     if(!isset($values["mutedUntil"])){
                         $values["mutedUntil"] = null;
-                    }
+S                    }
                     $m = $values["isMuted"];
                     if(is_int($t = $values["mutedUntil"])){
                         $date = new \DateTime();
@@ -1724,6 +1724,7 @@ class BaseAPI{
             $r[] = $this->sessions[$spl];
         }
         $this->getServer()->getScheduler()->scheduleAsyncTask(new GeoLocation($player));
+        $this->getEssentialsPEPlugin()->getLogger()->debug("Finished session creation.");
         return $r;
     }
 
