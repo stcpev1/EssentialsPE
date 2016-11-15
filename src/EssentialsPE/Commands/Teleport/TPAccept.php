@@ -34,7 +34,7 @@ class TPAccept extends BaseCommand{
             $this->sendUsage($sender, $alias);
             return false;
         }
-        if(!($request = $this->getAPI()->hasARequestFrom($sender))){
+        if(!($request = $this->getAPI()->hasARequest($sender))){
             $sender->sendMessage(TextFormat::RED . "[Error] You don't have any request yet");
             return false;
         }
