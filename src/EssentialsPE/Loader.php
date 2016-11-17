@@ -239,7 +239,7 @@ class Loader extends PluginBase{
 	    }
 	}
         
-3	foreach($powertoolcommands as $powertoolcommand) {
+	foreach($powertoolcommands as $powertoolcommand) {
 	    if($this->getConfig()->get("powertool") === true) {
 		 $commands[] = $powertoolcommand;
 	    }
