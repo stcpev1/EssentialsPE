@@ -239,7 +239,7 @@ class Loader extends PluginBase{
 	    }
 	}
         
-	foreach($powertoolcommands as $powertoolcommand) {
+3	foreach($powertoolcommands as $powertoolcommand) {
 	    if($this->getConfig()->get("powertool") === true) {
 		 $commands[] = $powertoolcommand;
 	    }
@@ -249,8 +249,7 @@ class Loader extends PluginBase{
 	    if($this->getConfig()->get("homes") === true) {
 		 $commands[] = $homecommand;
 	    }
-	}
-	    
+	}	    
 	foreach($economycommands as $economycommand) {
 	    if($this->getConfig()->get("economy") === true) {
 		 $commands[] = $economycommand;
@@ -289,7 +288,7 @@ class Loader extends PluginBase{
         $this->saveResource("Warps.yml");
         $cfg = $this->getConfig();
 
-        if(!$cfg->exists("version") || $cfg->get("version") !== "0.0.2"){
+        if(!$cfg->exists("version") || $cfg->get("version") !== "0.0.3"){
             $this->getLogger()->debug(TextFormat::RED . "An invalid config file was found, generating a new one...");
             rename($this->getDataFolder() . "config.yml", $this->getDataFolder() . "config.yml.old");
             $this->saveDefaultConfig();
