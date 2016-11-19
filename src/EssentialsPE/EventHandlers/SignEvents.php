@@ -178,25 +178,82 @@ class SignEvents extends BaseEventHandler{
                 }
             }
 
-            /**
-             * Economy signs
+            /*
+             * Economy Signs
              */
-
+            
             // Balance sign
-            /**elseif(TextFormat::clean($tile->getText()[0) === "[Balance]"){
-             * $event->setCancelled(true);
-             * if(!$event->getPlayer()->hasPermission("essentials.sign.use.balance")){
-             * $event->getPlayer()->sendMessage(TextFormat::RED . "You don't have permissions to use this sign");
-             * }else{
-             * $event->getPlayer()->sendMessage(TextFormat::AQUA . "Your current balance is " . TextFormat::YELLOW . $this->getAPI()->getCurrencySymbol() . $this->getAPI()->getPlayerBalance($event->getPlayer()));
-             * }
-             * }*/
+            elseif(TextFormat::clean($tile->getText()[0], true) === "[Balance]" && $this->getAPI()->getEssentialsPEPlugin()->getConfig()->get("economy") === true){
+                $event->setCancelled(true);
+                if(!$event->getPlayer()->hasPermission("essentials.sign.use.balance")){
+                    $event->getPlayer()->sendMessage(TextFormat::RED . "You don't have permissions to use this sign");
+                }else{
+                    $event->getPlayer()->sendMessage(TextFormat::AQUA . "Your current balance is " . TextFormat::YELLOW . $this->getAPI()->getCurrencySymbol() . $this->getAPI()->getPlayerBalance($event->getPlayer()));
+                }
+            }
 
-            /**
-             * TODO Implement:
-             * - Buy sign
-             * - Sell sign
-             */
+            // BalanceTop sign
+            elseif(TextFormat::clean($tile->getText()[0], true) === "[BalanceTop]" && $this->getAPI()->getEssentialsPEPlugin()->getConfig()->get("economy") === true){
+                $event->setCancelled(true);
+                if(!$event->getPlayer()->hasPermission("essentials.sign.use.balancetop")){
+                    $event->getPlayer()->sendMessage(TextFormat::RED . "You don't have permissions to use this sign");
+                }else{
+                    $event->getPlayer()->sendMessage(TextFormat::GREEN . " --- Balance Top --- ");
+                    $this->getAPI()->sendBalanceTop($event->getPlayer());
+                }
+            }
+            
+            // Buy sign
+            elseif(TextFormat::clean($tile->getText()[0], true) === "[Buy]" && $this->getAPI()->getEssentialsPEPlugin()->getConfig()->get("economy") === true){
+                $event->setCancelled(true);
+                if(!$event->getPlayer()->hasPermission("essentials.sign.use.buy")){
+                    $event->getPlayer()->sendMessage(TextFormat::RED . "You don't have permissions to use this sign");
+                } else {
+                    if($event->getPlayer()->getGamemode() === 1 || $event->getPlayer()->getGamemode() === 3){
+                        $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You're in " . $event->getPlayer()->getServer()->getGamemodeString($event->getPlayer()->getGamemode()) . " mode");
+                        return;
+                    }
+
+                    $item_name = $tile->getText()[1];
+                    $amount = substr($tile->getText()[2], 8);
+                    $item = $this->getAPI()->getItem($item_name);
+                    $item->setCount($amount);
+                    $price = substr($tile->getText()[3], 7);
+                    if(!$this->getAPI()->getPlayerBalance($event->getPlayer()) >= $price) {
+                        $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You don't have enough money to buy this item!");
+                        return;
+                    }
+                    $this->getAPI()->addToPlayerBalance($event->getPlayer(), -$price);
+                    $event->getPlayer()->getInventory()->addItem($item);
+                    $event->getPlayer()->sendMessage(TextFormat::YELLOW . "You have bought " . TextFormat::RED . $amount . TextFormat::YELLOW . " of " . TextFormat::RED . ($item->getName() === "Unknown" ? $item_name : $item->getName()) . TextFormat::YELLOW . " for " . TextFormat::RED . $price . $this->getAPI()->getCurrencySymbol());
+                }
+            }
+            
+            // Sell sign
+            elseif(TextFormat::clean($tile->getText()[0], true) === "[Sell]" && $this->getAPI()->getEssentialsPEPlugin()->getConfig()->get("economy") === true){
+                $event->setCancelled(true);
+                if(!$event->getPlayer()->hasPermission("essentials.sign.use.sell")){
+                    $event->getPlayer()->sendMessage(TextFormat::RED . "You don't have permissions to use this sign");
+                } else {
+                    if($event->getPlayer()->getGamemode() === 1 || $event->getPlayer()->getGamemode() === 3){
+                        $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You're in " . $event->getPlayer()->getServer()->getGamemodeString($event->getPlayer()->getGamemode()) . " mode");
+                        return;
+                    }
+
+                    $item_name = $tile->getText()[1];
+                    $amount = substr($tile->getText()[2], 8);
+                    $item = $this->getAPI()->getItem($item_name);
+                    $item->setCount($amount);
+                    $price = substr($tile->getText()[3], 7);
+                    if(!$event->getPlayer()->getInventory()->contains($item)) {
+                        $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You don't have this item in your inventory!");
+                        return;
+                    }
+                    $this->getAPI()->addToPlayerBalance($event->getPlayer(), $price);
+                    $event->getPlayer()->getInventory()->removeItem($item);
+                    $event->getPlayer()->sendMessage(TextFormat::YELLOW . "You have sold " . TextFormat::RED . $amount . TextFormat::YELLOW . " of " . TextFormat::RED . ($item->getName() === "Unknown" ? $item_name : $item->getName()) . TextFormat::YELLOW . " for " . TextFormat::RED . $price . $this->getAPI()->getCurrencySymbol());
+                }
+            }
         }
     }
 
@@ -208,7 +265,7 @@ class SignEvents extends BaseEventHandler{
     public function onBlockBreak(BlockBreakEvent $event){
         $tile = $event->getBlock()->getLevel()->getTile(new Vector3($event->getBlock()->getFloorX(), $event->getBlock()->getFloorY(), $event->getBlock()->getFloorZ()));
         if($tile instanceof Sign){
-            $key = ["Free", "Gamemode", "Heal", "Kit", "Repair", "Time", "Teleport", "Warp"];
+            $key = ["Free", "Gamemode", "Heal", "Kit", "Repair", "Time", "Teleport", "Warp", "Balance", "Buy", "Sell", "BalanceTop"];
             foreach($key as $k){
                 if(TextFormat::clean($tile->getText()[0], true) === "[" . $k . "]" && !$event->getPlayer()->hasPermission("essentials.sign.break." . strtolower($k))){
                     $event->setCancelled(true);
@@ -276,7 +333,6 @@ class SignEvents extends BaseEventHandler{
                     $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] Unknown Gamemode, you should use \"Survival\", \"Creative\", \"Adventure\" or \"Spectator\"");
                     $event->setCancelled(true);
                     return;
-                    break;
             }
             $event->getPlayer()->sendMessage(TextFormat::GREEN . "Gamemode sign successfully created!");
             $event->setLine(0, TextFormat::AQUA . "[Gamemode]");
@@ -311,7 +367,6 @@ class SignEvents extends BaseEventHandler{
                     $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] Invalid argument, you should use \"Hand\" or \"All\"");
                     $event->setCancelled(true);
                     return;
-                    break;
             }
             $event->getPlayer()->sendMessage(TextFormat::GREEN . "Repair sign successfully created!");
             $event->setLine(0, TextFormat::AQUA . "[Repair]");
@@ -330,7 +385,6 @@ class SignEvents extends BaseEventHandler{
                     $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] Invalid time, you should use \"Day\" or \"Night\"");
                     $event->setCancelled(true);
                     return;
-                    break;
             }
             $event->getPlayer()->sendMessage(TextFormat::GREEN . "Time sign successfully created!");
             $event->setLine(0, TextFormat::AQUA . "[Time]");
@@ -368,6 +422,108 @@ class SignEvents extends BaseEventHandler{
             }
         }
 
+        /*
+         * Economy signs
+         */
+
+        // BalanceTop sign
+        elseif(strtolower(TextFormat::clean($event->getLine(0), true)) === "[balancetop]" && $this->getAPI()->getEssentialsPEPlugin()->getConfig()->get("economy") === true) {
+            if($event->getPlayer()->hasPermission("essentials.sign.create.balancetop")) {
+                $event->setLine(0, TextFormat::AQUA . "[BalanceTop]");
+                $event->getPlayer()->sendMessage(TextFormat::GREEN . "BalanceTop sign succesfully created!");
+            } else {
+                $event->setCancelled(true);
+                $event->getPlayer()->sendMessage(TextFormat::RED . "You don't have permission to create this sign!");
+            }
+        }
+        
+        // Balance sign
+        elseif(strtolower(TextFormat::clean($event->getLine(0), true)) === "[balance]" && $this->getAPI()->getEssentialsPEPlugin()->getConfig()->get("economy") === true) {
+            if($event->getPlayer()->hasPermission("essentials.sign.create.balance")) {
+                $event->setLine(0, TextFormat::AQUA . "[Balance]");
+                $event->getPlayer()->sendMessage(TextFormat::GREEN . "Balance sign successfully created!");
+            } else {
+                $event->setCancelled(true);
+                $event->getPlayer()->sendMessage(TextFormat::RED . "You don't have permission to create this sign!");
+            }
+        }
+        
+        // Buy sign
+        elseif(strtolower(TextFormat::clean($event->getLine(0), true)) === "[buy]" && $this->getAPI()->getEssentialsPEPlugin()->getConfig()->get("economy") === true){
+            if($event->getPlayer()->hasPermission("essentials.sign.create.buy")) {
+                if(trim($event->getLine(1)) !== "" || $event->getLine(1) !== null){
+                    $item_name = $event->getLine(1);
+                    if(($amount = $event->getLine(2)) == null) {
+                        $amount = 1;
+                    }
+                
+                    if(($price = $event->getLine(3)) == null) {
+                        $price = 1;
+                    }
+                
+                    if(strpos($event->getLine(1), ":") !== false) {
+                        $item = $this->getAPI()->getItem($item_name);
+                    } else {
+                        $item = $this->getAPI()->getItem($item_name . ":0");
+                    }
+                
+                    if($item->getId() === 0 || $item->getName() === "Air"){
+                        $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] Invalid item name/ID");
+                        $event->setCancelled(true);
+                    } else {
+                        $event->getPlayer()->sendMessage(TextFormat::GREEN . "Buy sign successfully created!");
+                        $event->setLine(0, TextFormat::AQUA . "[Buy]");
+                        $event->setLine(1, ($item->getName() === "Unknown" ? $item->getId() : $item->getName()));
+                        $event->setLine(2, "Amount: " . $amount);
+                        $event->setLine(3, "Price: " . $price);
+                    }
+                }else{
+                    $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You should provide an item name/ID");
+                    $event->setCancelled(true);
+                }
+            } else {
+                $event->setCancelled(true);
+                $event->getPlayer()->sendMessage(TextFormat::RED . "You don't have permission to create this sign!");
+            }
+        }
+        
+        elseif(strtolower(TextFormat::clean($event->getLine(0), true)) === "[sell]" && $this->getAPI()->getEssentialsPEPlugin()->getConfig()->get("economy") === true){
+            if($event->getPlayer()->hasPermission("essentials.sign.create.sell")) {
+                if(trim($event->getLine(1)) !== "" || $event->getLine(1) !== null){
+                    $item_name = $event->getLine(1);
+                    if(($amount = $event->getLine(2)) == null) {
+                        $amount = 1;
+                    }
+                    
+                    if(($price = $event->getLine(3)) == null) {
+                        $price = 1;
+                    }
+                
+                    if(strpos($event->getLine(1), ":") !== false) {
+                        $item = $this->getAPI()->getItem($item_name);
+                    } else {
+                        $item = $this->getAPI()->getItem($item_name . ":0");
+                    }
+                
+                    if($item->getId() === 0 || $item->getName() === "Air"){
+                        $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] Invalid item name/ID");
+                        $event->setCancelled(true);
+                    }else{
+                        $event->getPlayer()->sendMessage(TextFormat::GREEN . "Buy sign successfully created!");
+                        $event->setLine(0, TextFormat::AQUA . "[Sell]");
+                        $event->setLine(1, ($item->getName() === "Unknown" ? $item->getId() : $item->getName()));
+                        $event->setLine(2, "Amount: " . $amount);
+                        $event->setLine(3, "Price: " . $price);
+                    }
+                }else{
+                    $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You should provide an item name/ID");
+                    $event->setCancelled(true);
+                }
+            } else {
+                $event->setCancelled(true);
+                $event->getPlayer()->sendMessage(TextFormat::RED . "You don't have permission to create this sign!");
+            }
+        }
         // Colored Sign
         elseif($event->getPlayer()->hasPermission("essentials.sign.color")){
             for($i = 0 ; $i < 4 ; $i++){
