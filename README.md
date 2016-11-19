@@ -16,8 +16,8 @@ We try to keep the master branch stable, but do not complain if it happens to no
 #### TODO (v2.0.0):
 * Start working over [THIS](https://gist.github.com/shoghicp/88acec9d15564ccc8e75).
 - [x] Update to `PHP7`
-- [ ] Add _Developers API_ documentation.
-- [ ] Add _Special Signs_ documentation.
+- [x] Add _Developers API_ documentation.
+- [x] Add _Special Signs_ documentation.
 - [ ] Implement _Messages API_ (Multi-language update)
 - [ ] Implement _Online-Player Checking_ to prevent crashes
 - [x] Customizable API
