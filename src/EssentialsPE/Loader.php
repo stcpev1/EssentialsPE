@@ -227,11 +227,15 @@ class Loader extends PluginBase{
         ];
 	    
 	    
-	foreach($warpcommands as $warpcommand) {
-	    if($this->getConfig()->get("warps") === true) {
-		 $commands[] = $warpcommand;
+	if($this->getServer()->getPluginManager()->getPlugin("SimpleWarp") === null) {
+            foreach($warpcommands as $warpcommand) {
+	        if($this->getConfig()->get("warps") === true) {
+		    $commands[] = $warpcommand;
+	        }
 	    }
-	}
+        } else {
+            $this->getLogger()->info(TextFormat::YELLOW . "SimpleWarp installed, disabling EssentialsPE warps...");
+        }
 	  
 	foreach($teleportcommands as $teleportcommand) {
 	    if($this->getConfig()->get("teleporting") === true) {
