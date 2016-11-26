@@ -555,6 +555,17 @@ class BaseAPI{
         }
         return [$amount, $worth];
     }
+    
+    /**
+     * @param Player $player
+     * @param int $amount
+     * @return bool
+     */
+    public function hasPlayerBalance(Player $player, int $amount): bool {
+        if($this->getPlayerBalance($player) >= $amount || $player->hasPermission("essentials.sign.nopay")) {
+            return true;
+        }
+    }
 
     /**  ______       _   _ _   _
      *  |  ____|     | | (_| | (_)

@@ -462,6 +462,9 @@ permissions:
                             essentials.sign.create.balancetop:
                                 default: op
                                 description: "Allow to create BalanceTop signs"
+                    essentials.sign.nopay:
+                        default: false
+                        description: "Bypass paying for special signs"
                     essentials.sign.use:
                         default: false
                         description: "Allow to use special signs"

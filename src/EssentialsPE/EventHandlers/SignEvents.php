@@ -40,13 +40,21 @@ class SignEvents extends BaseEventHandler{
             }
 
             // Gamemode sign
-            // TODO Implement costs
             elseif(TextFormat::clean($tile->getText()[0], true) === "[Gamemode]"){
                 $event->setCancelled(true);
                 if(!$event->getPlayer()->hasPermission("essentials.sign.use.gamemode")){
                     $event->getPlayer()->sendMessage(TextFormat::RED . "You don't have permissions to use this sign");
                }else{
                     $v = strtolower($tile->getText()[1]);
+                    $price = substr($tile->getText()[2], 7);
+                    if($price !== false) {
+                        if(!$this->getAPI()->hasPlayerBalance($event->getPlayer(), $price)) {
+                            $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You don't have enough money to use this sign");
+                            return;
+                        } else {
+                            $this->getAPI()->addToPlayerBalance($event->getPlayer(), -$price);
+                        }
+                    }
                     if($v === "survival"){
                         $event->getPlayer()->setGamemode(0);
                     }elseif($v === "creative"){
@@ -56,11 +64,11 @@ class SignEvents extends BaseEventHandler{
                     }elseif($v === "spectator"){
                         $event->getPlayer()->setGamemode(3);
                     }
+                    $event->getPlayer()->sendMessage(TextFormat::GREEN . "Your gamemode has been set to " . $event->getPlayer()->getServer()->getGamemodeString($event->getPlayer()->getGamemode()) . TextFormat::GREEN . ($price ? " for " . $this->getAPI()->getCurrencySymbol() . $price : null));
                 }
             }
 
             // Heal sign
-            // TODO Implement costs
             elseif(TextFormat::clean($tile->getText()[0], true) === "[Heal]"){
                 $event->setCancelled(true);
                 if(!$event->getPlayer()->hasPermission("essentials.sign.use.heal")){
@@ -69,13 +77,21 @@ class SignEvents extends BaseEventHandler{
                     $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You're in " . $event->getPlayer()->getServer()->getGamemodeString($event->getPlayer()->getGamemode()) . " mode");
                     return;
                }else{
+                    $price = substr($tile->getText()[1], 7);
+                    if($price !== false) {
+                        if(!$this->getAPI()->hasPlayerBalance($event->getPlayer(), $price)) {
+                            $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You don't have enough money to use this sign");
+                            return;
+                        } else {
+                            $this->getAPI()->addToPlayerBalance($event->getPlayer(), -$price);
+                        }
+                    }
                     $event->getPlayer()->heal($event->getPlayer()->getMaxHealth(), new EntityRegainHealthEvent($event->getPlayer(), $event->getPlayer()->getMaxHealth(), EntityRegainHealthEvent::CAUSE_CUSTOM));
-                    $event->getPlayer()->sendMessage(TextFormat::GREEN . "You have been healed!");
+                    $event->getPlayer()->sendMessage(TextFormat::GREEN . "You have been healed" . TextFormat::GREEN . ($price ? " for " . $this->getAPI()->getCurrencySymbol() . $price : null));
                 }
             }
             
             // Kit sign
-            // TODO: Implement costs
             elseif(TextFormat::clean($tile->getText()[0], true) === "[Kit]"){
                 $event->setCancelled(true);
                 if(!$event->getPlayer()->hasPermission("essentials.sign.use.kit")){
@@ -91,14 +107,22 @@ class SignEvents extends BaseEventHandler{
                         $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You don't have permissions to get this kit");
                         return;
                     }else{
+                        $price = substr($tile->getText()[2], 7);
+                        if($price !== false) {
+                            if(!$this->getAPI()->hasPlayerBalance($event->getPlayer(), $price)) {
+                                $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You don't have enough money to use this sign");
+                                return;
+                            } else {
+                                $this->getAPI()->addToPlayerBalance($event->getPlayer(), -$price);
+                            }
+                        }
                         $kit->giveToPlayer($event->getPlayer());
-                        $event->getPlayer()->sendMessage(TextFormat::GREEN . "Getting kit " . TextFormat::AQUA . $kit->getName() . "...");
+                        $event->getPlayer()->sendMessage(TextFormat::GREEN . "Getting kit " . TextFormat::AQUA . $kit->getName() . TextFormat::GREEN . ($price ? " for " . $this->getAPI()->getCurrencySymbol() . $price : "..."));
                     }
                 }
             }
 
             // Repair sign
-            // TODO Implement costs
             elseif(TextFormat::clean($tile->getText()[0], true) === "[Repair]"){
                 $event->setCancelled(true);
                 if(!$event->getPlayer()->hasPermission("essentials.sign.use.repair")){
@@ -108,11 +132,29 @@ class SignEvents extends BaseEventHandler{
                     return;
                }else{
                     if(($v = $tile->getText()[1]) === "Hand"){
+                        $price = substr($tile->getText()[2], 7);
+                        if($price !== false) {
+                            if(!$this->getAPI()->hasPlayerBalance($event->getPlayer(), $price)) {
+                                $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You don't have enough money to use this sign");
+                                return;
+                            } else {
+                                $this->getAPI()->addToPlayerBalance($event->getPlayer(), -$price);
+                            }
+                        }
                         if($this->getAPI()->isRepairable($item = $event->getPlayer()->getInventory()->getItemInHand())){
                             $item->setDamage(0);
-                            $event->getPlayer()->sendMessage(TextFormat::GREEN . "Item successfully repaired!");
+                            $event->getPlayer()->sendMessage(TextFormat::GREEN . "Item successfully repaired!" . TextFormat::GREEN . ($price ? " for " . $this->getAPI()->getCurrencySymbol() . $price : null));
                         }
                     }elseif($v === "All"){
+                        $price = substr($tile->getText()[2], 7);
+                        if($price !== false) {
+                            if(!$this->getAPI()->hasPlayerBalance($event->getPlayer(), $price)) {
+                                $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You don't have enough money to use this sign");
+                                return;
+                            } else {
+                                $this->getAPI()->addToPlayerBalance($event->getPlayer(), -$price);
+                            }
+                        }
                         foreach ($event->getPlayer()->getInventory()->getContents() as $item){
                             if($this->getAPI()->isRepairable($item)){
                                 $item->setDamage(0);
@@ -123,30 +165,46 @@ class SignEvents extends BaseEventHandler{
                                 $item->setDamage(0);
                             }
                         }
-                        $event->getPlayer()->sendMessage(TextFormat::GREEN . "All the tools on your inventory were repaired!" . TextFormat::AQUA . "\n(including the equipped Armor)");
+                        $event->getPlayer()->sendMessage(TextFormat::GREEN . "All the tools on your inventory were repaired!" . TextFormat::AQUA . "\n(including the equipped Armor)" . TextFormat::GREEN . ($price ? " for " . $this->getAPI()->getCurrencySymbol() . $price : null));
                     }
                 }
             }
 
             // Time sign
-            // TODO Implement costs
             elseif(TextFormat::clean($tile->getText()[0], true) === "[Time]"){
                 $event->setCancelled(true);
                 if(!$event->getPlayer()->hasPermission("essentials.sign.use.time")){
                     $event->getPlayer()->sendMessage(TextFormat::RED . "You don't have permissions to use this sign");
                }else{
                     if(($v = $tile->getText()[1]) === "Day"){
+                        $price = substr($tile->getText()[2], 7);
+                        if($price !== false) {
+                            if(!$this->getAPI()->hasPlayerBalance($event->getPlayer(), $price)) {
+                                $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You don't have enough money to use this sign");
+                                return;
+                            } else {
+                                $this->getAPI()->addToPlayerBalance($event->getPlayer(), -$price);
+                            }
+                        }
                         $event->getPlayer()->getLevel()->setTime(0);
-                        $event->getPlayer()->sendMessage(TextFormat::GREEN . "Time set to \"Day\"");
+                        $event->getPlayer()->sendMessage(TextFormat::GREEN . "Time set to \"Day\"" . TextFormat::GREEN . ($price ? " for " . $this->getAPI()->getCurrencySymbol() . $price : null));
                     }elseif($v === "Night"){
+                        $price = substr($tile->getText()[2], 7);
+                        if($price !== false) {
+                            if(!$this->getAPI()->hasPlayerBalance($event->getPlayer(), $price)) {
+                                $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You don't have enough money to use this sign");
+                                return;
+                            } else {
+                                $this->getAPI()->addToPlayerBalance($event->getPlayer(), $price);
+                            }
+                        }
                         $event->getPlayer()->getLevel()->setTime(12500);
-                        $event->getPlayer()->sendMessage(TextFormat::GREEN . "Time set to \"Night\"");
+                        $event->getPlayer()->sendMessage(TextFormat::GREEN . "Time set to \"Night\"" . TextFormat::GREEN . ($price ? " for " . $this->getAPI()->getCurrencySymbol() . $price : null));
                     }
                 }
             }
 
             // Teleport sign
-            // TODO Implement costs
             elseif(TextFormat::clean($tile->getText()[0], true) === "[Teleport]"){
                 $event->setCancelled(true);
                 if(!$event->getPlayer()->hasPermission("essentials.sign.use.teleport")){
@@ -158,7 +216,6 @@ class SignEvents extends BaseEventHandler{
             }
 
             // Warp sign
-            // TODO Implement costs
             elseif(TextFormat::clean($tile->getText()[0], true) === "[Warp]"){
                 $event->setCancelled(true);
                 if(!$event->getPlayer()->hasPermission("essentials.sign.use.warp")){
@@ -173,8 +230,17 @@ class SignEvents extends BaseEventHandler{
                         $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You can't teleport to that warp");
                         return;
                     }
+                    $price = substr($tile->getText()[2], 7);
+                    if($price !== false) {
+                        if(!$this->getAPI()->hasPlayerBalance($event->getPlayer(), $price)) {
+                            $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You don't have enough money to use this sign");
+                            return;
+                        } else {
+                            $this->getAPI()->addToPlayerBalance($event->getPlayer(), -$price);
+                        }
+                    }
                     $event->getPlayer()->teleport($warp);
-                    $event->getPlayer()->sendMessage(TextFormat::GREEN . "Warping to " . $tile->getText()[1] . "...");
+                    $event->getPlayer()->sendMessage(TextFormat::GREEN . "Warping to " . $tile->getText()[1] . TextFormat::GREEN . ($price ? " for " . $this->getAPI()->getCurrencySymbol() . $price : "..."));
                 }
             }
 
@@ -219,7 +285,7 @@ class SignEvents extends BaseEventHandler{
                     $item = $this->getAPI()->getItem($item_name);
                     $item->setCount($amount);
                     $price = substr($tile->getText()[3], 7);
-                    if(!$this->getAPI()->getPlayerBalance($event->getPlayer()) >= $price) {
+                    if(!$this->getAPI()->hasPlayerBalance($event->getPlayer())) {
                         $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You don't have enough money to buy this item!");
                         return;
                     }
@@ -336,12 +402,20 @@ class SignEvents extends BaseEventHandler{
             }
             $event->getPlayer()->sendMessage(TextFormat::GREEN . "Gamemode sign successfully created!");
             $event->setLine(0, TextFormat::AQUA . "[Gamemode]");
+            $price = $event->getLine(2);
+            if(is_numeric($price) && $this->getAPI()->getEssentialsPEPlugin()->getConfig()->get("economy") === true) {
+                $event->setLine(2, "Price: " . $price);
+            }
         }
 
         // Heal sign
         elseif(strtolower(TextFormat::clean($event->getLine(0), true)) === "[heal]" && $event->getPlayer()->hasPermission("essentials.sign.create.heal")){
             $event->getPlayer()->sendMessage(TextFormat::GREEN . "Heal sign successfully created!");
             $event->setLine(0, TextFormat::AQUA . "[Heal]");
+            $price = $event->getLine(1);
+            if(is_numeric($price) && $this->getAPI()->getEssentialsPEPlugin()->getConfig()->get("economy") === true) {
+                $event->setLine(1, "Price: " . $price);
+            }
         }
 
         // Kit sign
@@ -352,6 +426,10 @@ class SignEvents extends BaseEventHandler{
             }
             $event->getPlayer()->sendMessage(TextFormat::GREEN . "Kit sign successfully created!");
             $event->setLine(0, TextFormat::AQUA . "[Kit]");
+            $price = $event->getLine(2);
+            if(is_numeric($price)) {
+                $event->setLine(2, "Price: " . $price);
+            }
         }
 
         // Repair sign
@@ -370,6 +448,10 @@ class SignEvents extends BaseEventHandler{
             }
             $event->getPlayer()->sendMessage(TextFormat::GREEN . "Repair sign successfully created!");
             $event->setLine(0, TextFormat::AQUA . "[Repair]");
+            $price = $event->getLine(2);
+            if(is_numeric($price) && $this->getAPI()->getEssentialsPEPlugin()->getConfig()->get("economy") === true) {
+                $event->setLine(2, "Price: " . $price);
+            }
         }
 
         // Time sign
@@ -388,6 +470,10 @@ class SignEvents extends BaseEventHandler{
             }
             $event->getPlayer()->sendMessage(TextFormat::GREEN . "Time sign successfully created!");
             $event->setLine(0, TextFormat::AQUA . "[Time]");
+            $price = $event->getLine(2);
+            if(is_numeric($price) && $this->getAPI()->getEssentialsPEPlugin()->getConfig()->get("economy") === true) {
+                $event->setLine(2, "Price: " . $price);
+            }
         }
 
         // Teleport sign
@@ -419,6 +505,10 @@ class SignEvents extends BaseEventHandler{
             }else{
                 $event->getPlayer()->sendMessage(TextFormat::GREEN . "Warp sign successfully created!");
                 $event->setLine(0, TextFormat::AQUA . "[Warp]");
+                $price = $event->getLine(2);
+                if(is_numeric($price) && $this->getAPI()->getEssentialsPEPlugin()->getConfig()->get("economy") === true) {
+                    $event->setLine(2, "Price: " . $price);
+                }
             }
         }
 
