@@ -143,7 +143,7 @@ class SignEvents extends BaseEventHandler{
                         }
                         if($this->getAPI()->isRepairable($item = $event->getPlayer()->getInventory()->getItemInHand())){
                             $item->setDamage(0);
-                            $event->getPlayer()->sendMessage(TextFormat::GREEN . "Item successfully repaired!" . TextFormat::GREEN . ($price ? " for " . $this->getAPI()->getCurrencySymbol() . $price : null));
+                            $event->getPlayer()->sendMessage(TextFormat::GREEN . "Item successfully repaired" . TextFormat::GREEN . ($price ? " for " . $this->getAPI()->getCurrencySymbol() . $price : null));
                         }
                     }elseif($v === "All"){
                         $price = substr($tile->getText()[2], 7);
@@ -165,7 +165,7 @@ class SignEvents extends BaseEventHandler{
                                 $item->setDamage(0);
                             }
                         }
-                        $event->getPlayer()->sendMessage(TextFormat::GREEN . "All the tools on your inventory were repaired!" . TextFormat::AQUA . "\n(including the equipped Armor)" . TextFormat::GREEN . ($price ? " for " . $this->getAPI()->getCurrencySymbol() . $price : null));
+                        $event->getPlayer()->sendMessage(TextFormat::GREEN . "All the tools on your inventory were repaired" . TextFormat::AQUA . "\n(including the equipped Armor)" . TextFormat::GREEN . ($price ? " for " . $this->getAPI()->getCurrencySymbol() . $price : null));
                     }
                 }
             }
@@ -285,7 +285,7 @@ class SignEvents extends BaseEventHandler{
                     $item = $this->getAPI()->getItem($item_name);
                     $item->setCount($amount);
                     $price = substr($tile->getText()[3], 7);
-                    if(!$this->getAPI()->hasPlayerBalance($event->getPlayer())) {
+                    if(!$this->getAPI()->hasPlayerBalance($event->getPlayer(), $price)) {
                         $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You don't have enough money to buy this item!");
                         return;
                     }
