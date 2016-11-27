@@ -550,13 +550,9 @@ class SignEvents extends BaseEventHandler{
                     if(($price = $event->getLine(3)) == null) {
                         $price = 1;
                     }
-                
-                    if(strpos($event->getLine(1), ":") !== false) {
-                        $item = $this->getAPI()->getItem($item_name);
-                    } else {
-                        $item = $this->getAPI()->getItem($item_name . ":0");
-                    }
-                
+
+                    $item = $this->getAPI()->getItem($item_name);
+
                     if($item->getId() === 0 || $item->getName() === "Air"){
                         $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] Invalid item name/ID");
                         $event->setCancelled(true);
@@ -589,12 +585,8 @@ class SignEvents extends BaseEventHandler{
                         $price = 1;
                     }
                 
-                    if(strpos($event->getLine(1), ":") !== false) {
-                        $item = $this->getAPI()->getItem($item_name);
-                    } else {
-                        $item = $this->getAPI()->getItem($item_name . ":0");
-                    }
-                
+                    $item = $this->getAPI()->getItem($item_name);
+
                     if($item->getId() === 0 || $item->getName() === "Air"){
                         $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] Invalid item name/ID");
                         $event->setCancelled(true);
