@@ -216,7 +216,7 @@ class SignEvents extends BaseEventHandler{
             }
 
             // Warp sign
-            elseif(TextFormat::clean($tile->getText()[0], true) === "[Warp]"){
+            elseif(TextFormat::clean($tile->getText()[0], true) === "[Warp]" && $this->getAPI()->getEssentialsPEPlugin()->getServer()->getPluginManager()->getPlugin("SimpleWarp") === null && $this->getAPI()->getEssentialsPEPlugin()->getConfig()->get("warps") === true){
                 $event->setCancelled(true);
                 if(!$event->getPlayer()->hasPermission("essentials.sign.use.warp")){
                     $event->getPlayer()->sendMessage(TextFormat::RED . "You don't have permissions to use this sign");
@@ -497,7 +497,7 @@ class SignEvents extends BaseEventHandler{
         }
 
         // Warp sign
-        elseif(strtolower(TextFormat::clean($event->getLine(0), true)) === "[warp]" && $event->getPlayer()->hasPermission("essentials.sign.create.warp")){
+        elseif(strtolower(TextFormat::clean($event->getLine(0), true)) === "[warp]" && $event->getPlayer()->hasPermission("essentials.sign.create.warp") && $this->getAPI()->getEssentialsPEPlugin()->getServer()->getPluginManager()->getPlugin("SimpleWarp") === null && $this->getAPI()->getEssentialsPEPlugin()->getConfig()->get("warps") === true){
             $warp = $event->getLine(1);
             if(!$this->getAPI()->warpExists($warp)){
                 $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] Warp doesn't exists");
