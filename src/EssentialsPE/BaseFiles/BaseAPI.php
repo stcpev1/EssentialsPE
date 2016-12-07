@@ -565,6 +565,7 @@ class BaseAPI{
         if($this->getPlayerBalance($player) >= $amount || $player->hasPermission("essentials.sign.nopay")) {
             return true;
         }
+        return false;
     }
 
     /**  ______       _   _ _   _
