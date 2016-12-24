@@ -113,7 +113,7 @@ class BaseAPI{
                     break;
                 
                     case "min-money":
-                        $value = -10000;
+                        $value = 0;
                     break;
                 }
                 $this->economy->set($k, $value);
@@ -562,7 +562,7 @@ class BaseAPI{
      * @return bool
      */
     public function hasPlayerBalance(Player $player, int $amount): bool {
-        if($this->getPlayerBalance($player) >= $amount || $player->hasPermission("essentials.sign.nopay")) {
+        if($this->getPlayerBalance($player) >= $amount) {
             return true;
         }
         return false;

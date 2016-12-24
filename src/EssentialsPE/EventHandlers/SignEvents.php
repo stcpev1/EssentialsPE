@@ -591,7 +591,7 @@ class SignEvents extends BaseEventHandler{
                         $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] Invalid item name/ID");
                         $event->setCancelled(true);
                     }else{
-                        $event->getPlayer()->sendMessage(TextFormat::GREEN . "Buy sign successfully created!");
+                        $event->getPlayer()->sendMessage(TextFormat::GREEN . "Sell sign successfully created!");
                         $event->setLine(0, TextFormat::AQUA . "[Sell]");
                         $event->setLine(1, ($item->getName() === "Unknown" ? $item->getId() : $item->getName()));
                         $event->setLine(2, "Amount: " . $amount);
