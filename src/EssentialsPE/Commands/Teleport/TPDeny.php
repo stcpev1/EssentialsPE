@@ -26,10 +26,6 @@ class TPDeny extends BaseCommand{
         if(!$this->testPermission($sender)){
             return false;
         }
-        if($this->getAPI()->getEssentialsPEPlugin()->getConfig()->get("teleporting") !== true) {
-            $sender->sendMessage(TextFormat::RED . "This command has been disabled!");
-            return false;
-        }
         if(!$sender instanceof Player){
             $this->sendUsage($sender, $alias);
             return false;

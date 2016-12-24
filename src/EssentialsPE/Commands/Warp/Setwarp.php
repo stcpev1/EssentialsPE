@@ -26,10 +26,6 @@ class Setwarp extends BaseCommand{
         if(!$this->testPermission($sender)){
             return false;
         }
-        if($this->getAPI()->getEssentialsPEPlugin()->getConfig()->get("warps") !== true) {
-            $sender->sendMessage(TextFormat::RED . "This command has been disabled!");
-            return false;
-        }
         if(!$sender instanceof Player || count($args) !== 1){
             $this->sendUsage($sender, $alias);
             return false;

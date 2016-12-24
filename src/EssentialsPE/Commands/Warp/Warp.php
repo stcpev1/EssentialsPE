@@ -26,10 +26,6 @@ class Warp extends BaseCommand{
         if(!$this->testPermission($sender)){
             return false;
         }
-        if($this->getAPI()->getEssentialsPEPlugin()->getConfig()->get("warps") !== true) {
-            $sender->sendMessage(TextFormat::RED . "This command has been disabled!");
-            return false;
-        }
         if(count($args) === 0){
             if(($list = $this->getAPI()->warpList(false)) === false){
                 $sender->sendMessage(TextFormat::AQUA . "There are no Warps currently available");
