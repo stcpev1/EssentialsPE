@@ -12,7 +12,7 @@ class TempBan extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "tempban", "Temporary bans the specified player", "<player> <time...> [reason ...]");
+        parent::__construct($api, "tempban", "Temporarily bans the specified player", "<player> <time...> [reason ...]");
         $this->setPermission("essentials.tempban");
     }
 

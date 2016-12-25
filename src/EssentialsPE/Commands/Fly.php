@@ -12,7 +12,7 @@ class Fly extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "fly", "Fly in Survival or Adventure mode!", "[player]");
+        parent::__construct($api, "fly", "Fly in Survival or Adventure mode", "[player]");
         $this->setPermission("essentials.fly.use");
     }
 

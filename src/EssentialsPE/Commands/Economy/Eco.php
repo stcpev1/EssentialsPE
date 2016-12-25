@@ -11,7 +11,7 @@ class Eco extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "eco", "Sets the balance of a player", "<give|take|set|reset> <player> [amount]", true, ["economy"]);
+        parent::__construct($api, "eco", "Changes the balance of a player", "<give|take|set|reset> <player> [amount]", true, ["economy"]);
         $this->setPermission("essentials.eco.use");
     }
 

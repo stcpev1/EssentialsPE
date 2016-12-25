@@ -11,7 +11,7 @@ class Broadcast extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "broadcast", "Broadcast a message.", "<message>", true, ["bcast"]);
+        parent::__construct($api, "broadcast", "Broadcast a message", "<message>", true, ["bcast"]);
         $this->setPermission("essentials.broadcast");
     }
 

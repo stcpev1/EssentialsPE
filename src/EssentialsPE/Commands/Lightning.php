@@ -12,7 +12,7 @@ class Lightning extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "lightning", "Strike a lightning!", "[player [damage]]", "<player> [damage]", ["strike", "smite", "thor", "shock"]);
+        parent::__construct($api, "lightning", "Strike lightning", "[player [damage]]", "<player> [damage]", ["strike", "smite", "thor", "shock"]);
         $this->setPermission("essentials.lightning.use");
     }
 
@@ -38,7 +38,7 @@ class Lightning extends BaseCommand{
         $pos = isset($args[0]) ? $player : $player->getTargetBlock(100);
         $damage = isset($args[1]) ? $args[1] : 0;
         $this->getAPI()->strikeLightning($pos, $damage);
-        $sender->sendMessage(TextFormat::YELLOW . "Lightning summoned!");
+        $sender->sendMessage(TextFormat::YELLOW . "Lightning launched!");
         return true;
     }
 }

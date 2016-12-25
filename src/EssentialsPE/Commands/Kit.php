@@ -31,7 +31,7 @@ class Kit extends BaseCommand{
             return false;
         }elseif(count($args) === 0){
             if(($list = $this->getAPI()->kitList(false)) === false){
-                $sender->sendMessage(TextFormat::AQUA . "There are no Kits currently available");
+                $sender->sendMessage(TextFormat::AQUA . "There are currently no Kits available");
                 return false;
             }
             $sender->sendMessage(TextFormat::AQUA . "Available kits:\n" . $list);
@@ -50,7 +50,7 @@ class Kit extends BaseCommand{
                     return false;
                 }
                 if(!$sender->hasPermission("essentials.kits.*") && !$sender->hasPermission("essentials.kits." . strtolower($args[0]))){
-                    $sender->sendMessage(TextFormat::RED . "[Error] You can't get this kit");
+                    $sender->sendMessage(TextFormat::RED . "[Error] You can't obtain this kit");
                     return false;
                 }
                 $kit->giveToPlayer($sender);
@@ -62,7 +62,7 @@ class Kit extends BaseCommand{
                     return false;
                 }
                 if(!$sender->hasPermission("essentials.kits.*") && !$sender->hasPermission("essentials.kits." . strtolower($args[0]))){
-                    $sender->sendMessage(TextFormat::RED . "[Error] You can't get this kit");
+                    $sender->sendMessage(TextFormat::RED . "[Error] You can't obtain this kit");
                     return false;
                 }
                 if(!($player = $this->getAPI()->getPlayer($args[1]))){
@@ -89,7 +89,7 @@ class Kit extends BaseCommand{
             }
         }
         if(!$sender->hasPermission("essentials.kits.*") && !$sender->hasPermission("essentials.kits." . strtolower($args[0]))){
-            $sender->sendMessage(TextFormat::RED . "[Error] You can't get this kit");
+            $sender->sendMessage(TextFormat::RED . "[Error] You can't obtain this kit");
             return false;
         }
         $player->sendMessage(TextFormat::GREEN . "Getting kit " . TextFormat::AQUA . $kit->getName() . "...");

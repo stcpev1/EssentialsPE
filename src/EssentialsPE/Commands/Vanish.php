@@ -12,7 +12,7 @@ class Vanish extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "vanish", "Hide from other players!", "[player]", true, ["v"]);
+        parent::__construct($api, "vanish", "Hide from other players", "[player]", true, ["v"]);
         $this->setPermission("essentials.vanish.use");
     }
 

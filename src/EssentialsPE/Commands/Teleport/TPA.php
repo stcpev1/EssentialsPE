@@ -35,7 +35,7 @@ class TPA extends BaseCommand{
             return false;
         }
         if($player->getName() === $sender->getName()){
-            $sender->sendMessage(TextFormat::RED . "[Error] Please provide another player name");
+            $sender->sendMessage(TextFormat::RED . "[Error] You can't teleport to yourself");
             return false;
         }
         $this->getAPI()->requestTPTo($sender, $player);

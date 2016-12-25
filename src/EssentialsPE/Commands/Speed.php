@@ -10,7 +10,7 @@ use pocketmine\utils\TextFormat;
 
 class Speed extends BaseCommand{
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "speed", "Change your speed limits", "<speed> [player]");
+        parent::__construct($api, "speed", "Change your speed limit", "<speed> [player]");
         $this->setPermission("essentials.speed");
     }
 

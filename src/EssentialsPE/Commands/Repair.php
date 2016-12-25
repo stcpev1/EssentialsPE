@@ -12,7 +12,7 @@ class Repair extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "repair", "Repair the item you're holding", "[all|hand]", false, ["fix"]);
+        parent::__construct($api, "repair", "Repair items in your inventory", "[all|hand]", false, ["fix"]);
         $this->setPermission("essentials.repair.use");
     }
 
@@ -47,7 +47,7 @@ class Repair extends BaseCommand{
                     $item->setDamage(0);
                 }
             }
-            $m = TextFormat::GREEN . "All the tools on your inventory were repaired!";
+            $m = TextFormat::GREEN . "All the tools in your inventory were repaired!";
             if($sender->hasPermission("essentials.repair.armor")){
                 foreach($sender->getInventory()->getArmorContents() as $item){
                     if($this->getAPI()->isRepairable($item)){

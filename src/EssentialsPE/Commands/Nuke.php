@@ -12,7 +12,7 @@ class Nuke extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "nuke", "Thin carpet of bomb", "[player]");
+        parent::__construct($api, "nuke", "Lay down a carpet of TNT", "[player]");
         $this->setPermission("essentials.nuke.use");
     }
 

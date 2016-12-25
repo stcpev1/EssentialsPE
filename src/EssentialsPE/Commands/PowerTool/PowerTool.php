@@ -13,7 +13,7 @@ class PowerTool extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "powertool", "Toogle PowerTool on the item you're holding", "<command|c:chat macro> <arguments...>", false, ["pt"]);
+        parent::__construct($api, "powertool", "Toggle PowerTool on the item you're holding", "<command|c:chat macro> <arguments...>", false, ["pt"]);
         $this->setPermission("essentials.powertool.use");
     }
 

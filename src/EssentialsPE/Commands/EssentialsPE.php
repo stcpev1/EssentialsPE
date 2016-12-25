@@ -12,7 +12,7 @@ class EssentialsPE extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "essentials", "Get current Essentials version", "[update <check|install>]", true, ["essentials", "ess", "esspe"]);
+        parent::__construct($api, "essentials", "Get the current Essentials version", "[update <check|install>]", true, ["essentials", "ess", "esspe"]);
         $this->setPermission("essentials.essentials");
     }
 

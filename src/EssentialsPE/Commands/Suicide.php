@@ -36,7 +36,7 @@ class Suicide extends BaseCommand{
         }
         $sender->setLastDamageCause($ev);
         $sender->setHealth(0);
-        $sender->sendMessage("Ouch. That look like it hurt.");
+        $sender->sendMessage("Ouch. That looks like it hurt.");
         return true;
     }
 } 

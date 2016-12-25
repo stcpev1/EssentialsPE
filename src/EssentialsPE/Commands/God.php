@@ -12,7 +12,7 @@ class God extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "god", "Prevent you to take any damage", "[player]", true, ["godmode", "tgm"]);
+        parent::__construct($api, "god", "Prevent you from taking any damage", "[player]", true, ["godmode", "tgm"]);
         $this->setPermission("essentials.god.use");
     }
 

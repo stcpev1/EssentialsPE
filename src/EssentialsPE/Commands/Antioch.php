@@ -31,10 +31,10 @@ class Antioch extends BaseCommand{
             return false;
         }
         if(!$this->getAPI()->antioch($sender)){
-            $sender->sendMessage(TextFormat::RED . "[Error] Cannot throw the grenade, there isn't a near valid block");
+            $sender->sendMessage(TextFormat::RED . "[Error] Couldn't throw the grenade, there wasn't a valid block near");
             return false;
         }
-        $sender->sendMessage(TextFormat::GREEN . "Grenade threw!");
+        $sender->sendMessage(TextFormat::GREEN . "Grenade thrown!");
         return true;
     }
 }

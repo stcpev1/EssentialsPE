@@ -52,7 +52,7 @@ class Kill extends BaseOverrideCommand{
 
         $player->setLastDamageCause($ev);
         $player->setHealth(0);
-        $player->sendMessage("Ouch. That look like it hurt.");
+        $player->sendMessage("Ouch. That looks like it hurt.");
         return true;
     }
 } 

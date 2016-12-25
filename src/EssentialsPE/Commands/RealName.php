@@ -11,7 +11,7 @@ class RealName extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "realname", "Check the realname of a player", "<player>");
+        parent::__construct($api, "realname", "Check the real name of a player", "<player>");
         $this->setPermission("essentials.realname");
     }
 
