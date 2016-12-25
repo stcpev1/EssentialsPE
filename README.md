@@ -39,9 +39,9 @@ We try to keep the master branch stable, but do not complain if it happens to no
      - [x] Worth.
   - [x] Test the commands.
   - [x] Implement Economy Signs:
-     - [ ] Trade. (Might not be implemented)
      - [x] Buy.
      - [x] Sell.
      - [x] Balance.
      - [x] BalanceTop.
+     - [ ] Effects.
   - [x] Test Economy Signs.
