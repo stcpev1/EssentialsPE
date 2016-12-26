@@ -1,13 +1,12 @@
 
-<!--- Please make sure to read the following carefully.
-- Please make sure your issue applies to the latest version of EssentialsPE.
-- Please do not submit duplicated issues. Search the issue tracker before you submit one. Duplicated can be closed immediatly.
-- Please do not submit issues that do not follow the template.
-- EssentialsPE is designed for PocketMine-MP. Modded versions of whom may not be supported. (we'll always try to make it support though!)
+<!--- Make sure to read the following carefully.
+- Make sure your issue applies to the latest version of EssentialsPE.
+- Do not submit duplicated issues. Search the issue tracker before you submit one.
+- EssentialsPE is designed for PocketMine-MP. Modded versions of whom may not be supported.
 -->
 
 #### Description
-<!--- Write a description about the issue -->
+<!--- Write a detailed description about the issue -->
 
 #### Versions
 * Server software:
@@ -15,6 +14,7 @@
 * Game version: PE/W10
 
 #### Crashdump or console errors
-<!--- Insert in the code block -->
+<!--- Insert in the code block below -->
 ```
 ```
+<!--- Issues that do not follow this template will get closed immediatly. -->
