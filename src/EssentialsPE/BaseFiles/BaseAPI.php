@@ -1123,9 +1123,10 @@ class BaseAPI{
      *
      * @param string $message
      * @param Player|null $player
+     * @param bool $force
      * @return bool|string
      */
-    public function colorMessage(string $message, Player $player = null){
+    public function colorMessage(string $message, Player $player = null, bool $force = false){
         $message = preg_replace_callback(
             "/(\\\&|\&)[0-9a-fk-or]/",
             function(array $matches){
@@ -1133,7 +1134,7 @@ class BaseAPI{
             },
             $message
         );
-        if(strpos($message, "§") !== false && ($player instanceof Player) && !$player->hasPermission("essentials.colorchat")){
+        if(strpos($message, "§") !== false && ($player instanceof Player) && !$player->hasPermission("essentials.colorchat") && !$force){
             $player->sendMessage(TextFormat::RED . "You can't chat using colors!");
             return false;
         }
@@ -1312,10 +1313,11 @@ class BaseAPI{
      *
      * @param Player $player
      * @param null|string $nick
+     * @param bool $force
      * @return bool
      */
-    public function setNick(Player $player, $nick): bool{
-        if(!$this->colorMessage($nick, $player)){
+    public function setNick(Player $player, $nick, bool $force = false): bool{
+        if(!$this->colorMessage($nick, $player, $force)){
             return false;
         }
         if(strtolower($nick) === strtolower($player->getName()) || $nick === "off" || trim($nick) === "" || $nick === null){
@@ -1729,7 +1731,7 @@ class BaseAPI{
                 $this->getEssentialsPEPlugin()->getLogger()->debug("Setting up final values...");
                 $this->sessions[$spl] = new BaseSession($this, $p, $cfg, $values);
                 $this->setMute($p, $m, $mU);
-                $this->setNick($p, $n);
+                $this->setNick($p, $n, true);
             }
             $r[] = $this->sessions[$spl];
         }
