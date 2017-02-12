@@ -281,10 +281,10 @@ class SignEvents extends BaseEventHandler{
                     }
 
                     $item_name = $tile->getText()[1];
-                    $amount = substr($tile->getText()[2], 8);
+                    $amount = (int)substr($tile->getText()[2], 8);
                     $item = $this->getAPI()->getItem($item_name);
                     $item->setCount($amount);
-                    $price = substr($tile->getText()[3], 7);
+                    $price = (int)substr($tile->getText()[3], 7);
                     if(!$this->getAPI()->hasPlayerBalance($event->getPlayer(), $price)) {
                         $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You don't have enough money to buy this item!");
                         return;
@@ -307,10 +307,10 @@ class SignEvents extends BaseEventHandler{
                     }
 
                     $item_name = $tile->getText()[1];
-                    $amount = substr($tile->getText()[2], 8);
+                    $amount = (int)substr($tile->getText()[2], 8);
                     $item = $this->getAPI()->getItem($item_name);
                     $item->setCount($amount);
-                    $price = substr($tile->getText()[3], 7);
+                    $price = (int)substr($tile->getText()[3], 7);
                     if(!$event->getPlayer()->getInventory()->contains($item)) {
                         $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You don't have this item in your inventory!");
                         return;
