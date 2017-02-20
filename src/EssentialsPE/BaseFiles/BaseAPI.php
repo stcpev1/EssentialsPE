@@ -923,7 +923,7 @@ class BaseAPI{
         if(strpos($item_name, ":") !== false){
             $v = explode(":", $item_name);
             $item_name = $v[0];
-            $damage = $v[1];
+            $damage = (int) $v[1];
         }else{
             $damage = 0;
         }
