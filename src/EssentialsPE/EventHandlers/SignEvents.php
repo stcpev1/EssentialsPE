@@ -47,7 +47,7 @@ class SignEvents extends BaseEventHandler{
                }else{
                     $v = strtolower($tile->getText()[1]);
                     $price = substr($tile->getText()[2], 7);
-                    if($price !== false) {
+                    if($price !== false && is_numeric($price)) {
                         if(!$this->getAPI()->hasPlayerBalance($event->getPlayer(), $price)) {
                             $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You don't have enough money to use this sign");
                             return;
@@ -78,7 +78,7 @@ class SignEvents extends BaseEventHandler{
                     return;
                }else{
                     $price = substr($tile->getText()[1], 7);
-                    if($price !== false) {
+                    if($price !== false && is_numeric($price)) {
                         if(!$this->getAPI()->hasPlayerBalance($event->getPlayer(), $price)) {
                             $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You don't have enough money to use this sign");
                             return;
@@ -108,7 +108,7 @@ class SignEvents extends BaseEventHandler{
                         return;
                     }else{
                         $price = substr($tile->getText()[2], 7);
-                        if($price !== false) {
+                        if($price !== false && is_numeric($price)) {
                             if(!$this->getAPI()->hasPlayerBalance($event->getPlayer(), $price)) {
                                 $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You don't have enough money to use this sign");
                                 return;
@@ -133,7 +133,7 @@ class SignEvents extends BaseEventHandler{
                }else{
                     if(($v = $tile->getText()[1]) === "Hand"){
                         $price = substr($tile->getText()[2], 7);
-                        if($price !== false) {
+                        if($price !== false && is_numeric($price)) {
                             if(!$this->getAPI()->hasPlayerBalance($event->getPlayer(), $price)) {
                                 $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You don't have enough money to use this sign");
                                 return;
@@ -178,7 +178,7 @@ class SignEvents extends BaseEventHandler{
                }else{
                     if(($v = $tile->getText()[1]) === "Day"){
                         $price = substr($tile->getText()[2], 7);
-                        if($price !== false) {
+                        if($price !== false && is_numeric($price)) {
                             if(!$this->getAPI()->hasPlayerBalance($event->getPlayer(), $price)) {
                                 $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You don't have enough money to use this sign");
                                 return;
@@ -231,7 +231,7 @@ class SignEvents extends BaseEventHandler{
                         return;
                     }
                     $price = substr($tile->getText()[2], 7);
-                    if($price !== false) {
+                    if($price !== false && is_numeric($price)) {
                         if(!$this->getAPI()->hasPlayerBalance($event->getPlayer(), $price)) {
                             $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You don't have enough money to use this sign");
                             return;
