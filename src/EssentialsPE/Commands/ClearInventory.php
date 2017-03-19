@@ -40,7 +40,7 @@ class ClearInventory extends BaseCommand{
                 return false;
             }
         }
-        if(($gm = $player->getGamemode()) === 1 || $gm === 3){
+        if(($gm = $player->getGamemode()) === Player::SPECTATOR){
             $sender->sendMessage(TextFormat::RED . "[Error] " . (isset($args[0]) ? $player->getDisplayName() . "is" : "You are") . " in " . $this->getAPI()->getServer()->getGamemodeString($gm) . " mode");
             return false;
         }

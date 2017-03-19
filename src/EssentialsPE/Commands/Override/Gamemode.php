@@ -12,7 +12,7 @@ class Gamemode extends BaseOverrideCommand{
      */
     public function __construct(BaseAPI $api){
         parent::__construct($api, "gamemode", "Change player gamemode", "<mode> [player]", true, ["gm", "gma", "gmc", "gms", "gmt", "adventure", "creative", "survival", "spectator", "viewer"]);
-        $this->setPermission("essentials.gamemode");
+        $this->setPermission("essentials.gamemode.use");
     }
 
     /**
@@ -60,6 +60,10 @@ class Gamemode extends BaseOverrideCommand{
         if(isset($args[1]) && !($player = $this->getAPI()->getPlayer($args[1]))){
             $sender->sendMessage(TextFormat::RED . "[Error] Player not found");
             return false;
+        }
+        if($sender->getName() !== $player->getName() && !$sender->hasPermission("essentials.gamemode.other")) {
+        	$sender->sendMessage(TextFormat::RED . $this->getPermissionMessage());
+        	return false;
         }
 
         /**

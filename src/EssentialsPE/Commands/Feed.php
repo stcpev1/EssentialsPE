@@ -36,6 +36,10 @@ class Feed extends BaseCommand{
             $sender->sendMessage(TextFormat::RED . "[Error] Player not found");
             return false;
         }
+	    if($player->getName() !== $sender->getName() && !$sender->hasPermission("essentials.feed.other")) {
+		    $sender->sendMessage(TextFormat::RED . $this->getPermissionMessage());
+		    return false;
+	    }
         $player->setFood(20);
         $player->getLevel()->addParticle(new HappyVillagerParticle($player->add(0, 2), 4));
         $player->sendMessage(TextFormat::GREEN . "You have been fed!");

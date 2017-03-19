@@ -31,7 +31,7 @@ class ItemCommand extends BaseCommand{
             $this->sendUsage($sender, $alias);
             return false;
         }
-        if(($gm = $sender->getGamemode()) === Player::CREATIVE || $gm === Player::SPECTATOR){
+        if(($gm = $sender->getGamemode()) === Player::SPECTATOR){
             $sender->sendMessage(TextFormat::RED . "[Error] You're in " . $this->getAPI()->getServer()->getGamemodeString($gm) . " mode");
             return false;
         }
