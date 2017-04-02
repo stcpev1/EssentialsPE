@@ -930,9 +930,9 @@ class BaseAPI{
 
         if(!is_numeric($item_name)){
             $item = Item::fromString($item_name);
-			if(strtolower($item_name) !== "air" && $item->getId() === Item::AIR) {
-				$item = $this->readableNameToItem($item_name);
-			}
+	        if(strtolower($item_name) !== "air" && $item->getId() === Item::AIR) {
+		        $item = $this->readableNameToItem($item_name);
+	        }
         }else{
             $item = Item::get($item_name);
         }
@@ -948,13 +948,13 @@ class BaseAPI{
 	 * @param Item $item
 	 * @return string|null
 	 */
-    public function getReadableName(Item $item): string{
-		$itemClass = new \ReflectionClass("pocketmine\\item\\Item");
-		$itemConstant = "AIR";
-    	foreach($itemClass->getConstants() as $constant => $value) {
-    		if($value === $item->getId()) {
-    			$itemConstant = $constant;
-			}
+	public function getReadableName(Item $item): string{
+	    $itemClass = new \ReflectionClass("pocketmine\\item\\Item");
+	    $itemConstant = "AIR";
+		foreach($itemClass->getConstants() as $constant => $value) {
+		    if($value === $item->getId()) {
+			    $itemConstant = $constant;
+		    }
 		}
 		$itemName = explode("_", strtolower($itemConstant));
     	$finalItemName = [];
@@ -971,10 +971,10 @@ class BaseAPI{
 	 * @return Item
 	 */
 	public function readableNameToItem(string $item_name): Item{
-    	$itemClass = new \ReflectionClass("pocketmine\\item\\Item");
-    	$itemConstant = strtoupper(str_replace(" ", "_", $item_name));
-    	if($itemClass->hasConstant($itemConstant)) {
-    		return Item::get($itemClass->getConstant($itemConstant));
+		$itemClass = new \ReflectionClass("pocketmine\\item\\Item");
+		$itemConstant = strtoupper(str_replace(" ", "_", $item_name));
+		if($itemClass->hasConstant($itemConstant)) {
+			return Item::get($itemClass->getConstant($itemConstant));
 		}
 		return Item::get(Item::AIR);
 	}
