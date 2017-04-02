@@ -366,7 +366,7 @@ class SignEvents extends BaseEventHandler{
                 }else{
                     $event->getPlayer()->sendMessage(TextFormat::GREEN . "Free sign successfully created!");
                     $event->setLine(0, TextFormat::AQUA . "[Free]");
-                    $event->setLine(1, ($item->getName() === "Unknown" ? $item->getId() : $item->getName()));
+                    $event->setLine(1, ($item->getName() === "Unknown" ? $item->getId() : $this->getAPI()->getReadableName($item)));
                     $event->setLine(2, $damage);
                 }
             }else{
@@ -552,6 +552,7 @@ class SignEvents extends BaseEventHandler{
                     }
 
                     $item = $this->getAPI()->getItem($item_name);
+                    $damage = explode(":", $item_name)[1];
 
                     if($item->getId() === 0 || $item->getName() === "Air"){
                         $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] Invalid item name/ID");
@@ -559,7 +560,7 @@ class SignEvents extends BaseEventHandler{
                     } else {
                         $event->getPlayer()->sendMessage(TextFormat::GREEN . "Buy sign successfully created!");
                         $event->setLine(0, TextFormat::AQUA . "[Buy]");
-                        $event->setLine(1, ($item->getName() === "Unknown" ? $item->getId() : $item->getName()));
+                        $event->setLine(1, ($item->getName() === "Unknown" ? $item->getId() . ":" . $damage : $this->getAPI()->getReadableName($item) . ":" . $damage));
                         $event->setLine(2, "Amount: " . $amount);
                         $event->setLine(3, "Price: " . $price);
                     }
@@ -586,6 +587,7 @@ class SignEvents extends BaseEventHandler{
                     }
                 
                     $item = $this->getAPI()->getItem($item_name);
+					$damage = explode(":", $item_name)[1];
 
                     if($item->getId() === 0 || $item->getName() === "Air"){
                         $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] Invalid item name/ID");
@@ -593,7 +595,7 @@ class SignEvents extends BaseEventHandler{
                     }else{
                         $event->getPlayer()->sendMessage(TextFormat::GREEN . "Sell sign successfully created!");
                         $event->setLine(0, TextFormat::AQUA . "[Sell]");
-                        $event->setLine(1, ($item->getName() === "Unknown" ? $item->getId() : $item->getName()));
+                        $event->setLine(1, ($item->getName() === "Unknown" ? $item->getId() . ":" . $damage : $this->getAPI()->getReadableName($item) . ":" . $damage));
                         $event->setLine(2, "Amount: " . $amount);
                         $event->setLine(3, "Price: " . $price);
                     }
