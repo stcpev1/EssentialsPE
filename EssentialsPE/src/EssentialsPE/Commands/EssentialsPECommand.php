@@ -20,13 +20,11 @@ class EssentialsPECommand extends BaseCommand {
 		}
 
 		switch(strtolower($args[0])) {
+			default:
 			case "info":
 				$sender->sendMessage(TF::YELLOW . "You're using " . TF::AQUA . "EssentialsPE " . TF::YELLOW . "v" . TF::GREEN . $sender->getServer()->getPluginManager()->getPlugin("EssentialsPE")->getDescription()->getVersion());
 				return true;
 			case "reload":
-				return true;
-			default:
-				$sender->sendMessage(TF::YELLOW . "You're using " . TF::AQUA . "EssentialsPE " . TF::YELLOW . "v" . TF::GREEN . $sender->getServer()->getPluginManager()->getPlugin("EssentialsPE")->getDescription()->getVersion());
 				return true;
 		}
 	}

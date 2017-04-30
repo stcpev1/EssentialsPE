@@ -35,22 +35,21 @@ abstract class BaseCommand extends Command implements PluginIdentifiableCommand 
 
 	/**
 	 * @param CommandSender $sender
-	 *
-	 * @return bool
 	 */
-	protected function checkForConsole(CommandSender $sender): bool {
-		if($sender instanceof Player) {
-			return false;
-		}
-		$sender->sendMessage(TF::RED /* TODO */);
-		return true;
+	protected function sendPermissionMessage(CommandSender $sender) {
+		$sender->sendMessage(TF::RED . "[Error] " . $this->getPermissionMessage());
 	}
 
 	/**
 	 * @param CommandSender $sender
+	 * @param string        $alias
 	 */
-	protected function sendPermissionMessage(CommandSender $sender) {
-		$sender->sendMessage(TF::RED . "[Error] " . $this->getPermissionMessage());
+	protected function sendUsage(CommandSender $sender, string $alias) {
+		if(!$sender instanceof Player) {
+			$sender->sendMessage(TF::RED . "[Error] "/* TODO */);
+			return;
+		}
+		$sender->sendMessage(TF::RED . "[Usage] /" . $alias . " " . $this->getUsage());
 	}
 
 	/**

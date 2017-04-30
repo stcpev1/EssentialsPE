@@ -1,0 +1,8 @@
+---
+# Enabling and disabling EssentialsPE commands can be done in this file.
+
+# Setting a command to false will disable it, while setting it to true enables it.
+
+essentialspe: true
+break: true
+...
