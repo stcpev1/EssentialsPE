@@ -47,7 +47,7 @@ class SignEvents extends BaseEventHandler{
                }else{
                     $v = strtolower($tile->getText()[1]);
                     $price = substr($tile->getText()[2], 7);
-                    if($price !== false) {
+                    if($price !== false && is_numeric($price)) {
                         if(!$this->getAPI()->hasPlayerBalance($event->getPlayer(), $price)) {
                             $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You don't have enough money to use this sign");
                             return;
@@ -78,7 +78,7 @@ class SignEvents extends BaseEventHandler{
                     return;
                }else{
                     $price = substr($tile->getText()[1], 7);
-                    if($price !== false) {
+                    if($price !== false && is_numeric($price)) {
                         if(!$this->getAPI()->hasPlayerBalance($event->getPlayer(), $price)) {
                             $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You don't have enough money to use this sign");
                             return;
@@ -108,7 +108,7 @@ class SignEvents extends BaseEventHandler{
                         return;
                     }else{
                         $price = substr($tile->getText()[2], 7);
-                        if($price !== false) {
+                        if($price !== false && is_numeric($price)) {
                             if(!$this->getAPI()->hasPlayerBalance($event->getPlayer(), $price)) {
                                 $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You don't have enough money to use this sign");
                                 return;
@@ -133,7 +133,7 @@ class SignEvents extends BaseEventHandler{
                }else{
                     if(($v = $tile->getText()[1]) === "Hand"){
                         $price = substr($tile->getText()[2], 7);
-                        if($price !== false) {
+                        if($price !== false && is_numeric($price)) {
                             if(!$this->getAPI()->hasPlayerBalance($event->getPlayer(), $price)) {
                                 $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You don't have enough money to use this sign");
                                 return;
@@ -178,7 +178,7 @@ class SignEvents extends BaseEventHandler{
                }else{
                     if(($v = $tile->getText()[1]) === "Day"){
                         $price = substr($tile->getText()[2], 7);
-                        if($price !== false) {
+                        if($price !== false && is_numeric($price)) {
                             if(!$this->getAPI()->hasPlayerBalance($event->getPlayer(), $price)) {
                                 $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You don't have enough money to use this sign");
                                 return;
@@ -231,7 +231,7 @@ class SignEvents extends BaseEventHandler{
                         return;
                     }
                     $price = substr($tile->getText()[2], 7);
-                    if($price !== false) {
+                    if($price !== false && is_numeric($price)) {
                         if(!$this->getAPI()->hasPlayerBalance($event->getPlayer(), $price)) {
                             $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You don't have enough money to use this sign");
                             return;
@@ -366,7 +366,7 @@ class SignEvents extends BaseEventHandler{
                 }else{
                     $event->getPlayer()->sendMessage(TextFormat::GREEN . "Free sign successfully created!");
                     $event->setLine(0, TextFormat::AQUA . "[Free]");
-                    $event->setLine(1, ($item->getName() === "Unknown" ? $item->getId() : $item->getName()));
+                    $event->setLine(1, ($item->getName() === "Unknown" ? $item->getId() : $this->getAPI()->getReadableName($item)));
                     $event->setLine(2, $damage);
                 }
             }else{
@@ -552,6 +552,7 @@ class SignEvents extends BaseEventHandler{
                     }
 
                     $item = $this->getAPI()->getItem($item_name);
+                    $damage = explode(":", $item_name)[1];
 
                     if($item->getId() === 0 || $item->getName() === "Air"){
                         $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] Invalid item name/ID");
@@ -559,7 +560,7 @@ class SignEvents extends BaseEventHandler{
                     } else {
                         $event->getPlayer()->sendMessage(TextFormat::GREEN . "Buy sign successfully created!");
                         $event->setLine(0, TextFormat::AQUA . "[Buy]");
-                        $event->setLine(1, ($item->getName() === "Unknown" ? $item->getId() : $item->getName()));
+                        $event->setLine(1, ($item->getName() === "Unknown" ? $item->getId() . ":" . $damage : $this->getAPI()->getReadableName($item) . ":" . $damage));
                         $event->setLine(2, "Amount: " . $amount);
                         $event->setLine(3, "Price: " . $price);
                     }
@@ -586,6 +587,7 @@ class SignEvents extends BaseEventHandler{
                     }
                 
                     $item = $this->getAPI()->getItem($item_name);
+					$damage = explode(":", $item_name)[1];
 
                     if($item->getId() === 0 || $item->getName() === "Air"){
                         $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] Invalid item name/ID");
@@ -593,7 +595,7 @@ class SignEvents extends BaseEventHandler{
                     }else{
                         $event->getPlayer()->sendMessage(TextFormat::GREEN . "Sell sign successfully created!");
                         $event->setLine(0, TextFormat::AQUA . "[Sell]");
-                        $event->setLine(1, ($item->getName() === "Unknown" ? $item->getId() : $item->getName()));
+                        $event->setLine(1, ($item->getName() === "Unknown" ? $item->getId() . ":" . $damage : $this->getAPI()->getReadableName($item) . ":" . $damage));
                         $event->setLine(2, "Amount: " . $amount);
                         $event->setLine(3, "Price: " . $price);
                     }

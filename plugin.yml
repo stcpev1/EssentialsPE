@@ -46,9 +46,6 @@ permissions:
                     essentials.back.use:
                         default: op
                         description: "Return to your previous spot before teleporting"
-                    essentials.back.ondeath:
-                        default: op
-                        description: "Return to the place where you die"
             essentials.balance:
                 default: false
                 description: "Allow players to see their balance"
@@ -154,8 +151,15 @@ permissions:
                         default: op
                         description: "Feed other players"
             essentials.gamemode:
-                default: op
+                default: false
                 description: "Change your gamemode!"
+                children:
+                    essentials.gamemode.use:
+                        default: op
+                        description: "Change your own gamemode"
+                    essentials.gamemode.other:
+                        default: op
+                        description: "Change other players' gamemode"
             essentials.geoip:
                 default: false
                 description: "GeoLocation nodes"

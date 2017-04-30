@@ -25,7 +25,7 @@ class Burn extends BaseCommand{
         if(!$this->testPermission($sender)){
             return false;
         }
-        if(count($args) != 2){
+        if(count($args) !== 2){
             $this->sendUsage($sender, $alias);
             return false;
         }
