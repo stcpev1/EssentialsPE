@@ -1,5 +1,6 @@
 ---
 projects:
   EssentialsPE:
-    icon: ess.jpg
+    path: EssentialsPE
+    icon: EssentialsPE\resources\ess.jpg
 ...
