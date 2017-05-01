@@ -10,7 +10,7 @@ class EssentialsPECommand extends BaseCommand {
 
 	public function __construct(Loader $loader) {
 		parent::__construct($loader, "essentialspe", "Displays information about EssentialsPE", "[info|reload]", ["esspe", "ess", "essentials"]);
-		$this->setPermission("essentials.command.essentials");
+		$this->setPermission("essentials.command.essentialspe");
 		$this->setModule(Loader::MODULE_ESSENTIALS);
 	}
 
@@ -24,7 +24,7 @@ class EssentialsPECommand extends BaseCommand {
 	public function execute(CommandSender $sender, $commandLabel, array $args): bool {
 		if(!$this->testPermission($sender)) {
 			$this->sendPermissionMessage($sender);
-			return true;
+			return false;
 		}
 
 		switch(strtolower($args[0])) {

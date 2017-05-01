@@ -95,4 +95,18 @@ class Loader extends PluginBase {
 		}
 		return false;
 	}
+
+	/**
+	 * Returns an instance of the EssentialsPEconomy module if enabled, otherwise false.
+	 *
+	 * @return bool|\EssentialsPEconomy\Loader
+	 */
+	public function getEconomyModule() {
+		if($this->isModuleLoaded(self::MODULE_ECONOMY)) {
+			if($economy = $this->getServer()->getPluginManager()->getPlugin("EssentialsPEconomy") instanceof \EssentialsPEconomy\Loader) {
+				return $economy;
+			}
+		}
+		return false;
+	}
 }

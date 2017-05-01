@@ -5,6 +5,7 @@ namespace EssentialsPEconomy;
 use EssentialsPE\Configurable\EconomyConfiguration;
 use EssentialsPE\Economy\Providers\MySQLEconomyProvider;
 use EssentialsPEconomy\Providers\EconomyProvider;
+use EssentialsPEconomy\Providers\YamlEconomyProvider;
 use pocketmine\plugin\PluginBase;
 
 class Loader extends PluginBase {
@@ -27,23 +28,24 @@ class Loader extends PluginBase {
 		$this->selectProvider();
 	}
 
-	public function selectProvider(): EconomyProvider {
-		switch($this->getConfiguration()->get("Economy-Provider")) {
-			default:
-			case "MySQL":
-				$this->provider = new MySQLEconomyProvider($this);
-				break;
-		}
-		return $this->provider;
+	public function onDisable() {
+		$this->getProvider()->closeDatabase();
 	}
 
 	/**
-	 * Returns the currency symbol configured in the config.yml.
-	 *
-	 * @return string
+	 * @return EconomyProvider
 	 */
-	public function getCurrencySymbol(): string {
-		return $this->getConfiguration()->get("Currency-Symbol");
+	public function selectProvider(): EconomyProvider {
+		switch(strtolower($this->getConfiguration()->get("Economy-Provider"))) {
+			default:
+			case "mysql":
+				$this->provider = new MySQLEconomyProvider($this);
+				break;
+			case "yaml":
+				$this->provider = new YamlEconomyProvider($this);
+				break;
+		}
+		return $this->provider;
 	}
 
 	/**
@@ -60,6 +62,11 @@ class Loader extends PluginBase {
 		return $this->essentials;
 	}
 
+	/**
+	 * Returns the provider, required to access the API of the plugin.
+	 *
+	 * @return EconomyProvider
+	 */
 	public function getProvider(): EconomyProvider {
 		return $this->provider;
 	}

@@ -4,18 +4,15 @@ namespace EssentialsPE\Economy\Providers;
 
 use EssentialsPEconomy\Loader;
 use EssentialsPEconomy\Providers\EconomyProvider;
-use EssentialsPEconomy\Providers\IEconomyProvider;
 use pocketmine\Player;
 
-class MySQLEconomyProvider extends EconomyProvider implements IEconomyProvider {
+class MySQLEconomyProvider extends EconomyProvider {
 
 	/** @var \mysqli */
 	private $database;
 
 	public function __construct(Loader $loader) {
 		parent::__construct($loader);
-
-		$this->prepare();
 	}
 
 	public function prepare() {
@@ -82,12 +79,12 @@ class MySQLEconomyProvider extends EconomyProvider implements IEconomyProvider {
 	/**
 	 * @param Player $player
 	 *
-	 * @return int
+	 * @return int|bool
 	 */
-	public function getBalance(Player $player): int {
+	public function getBalance(Player $player) {
 		$lowerCaseName = strtolower($player->getName());
 		if(!$this->playerExists($player)) {
-			return -1;
+			return false;
 		}
 		$result = $this->database->query("SELECT Balance FROM Economy WHERE Player = '" . $lowerCaseName . "'");
 		return $result->fetch_array()[0];
@@ -104,6 +101,12 @@ class MySQLEconomyProvider extends EconomyProvider implements IEconomyProvider {
 		if(!$this->playerExists($player)) {
 			return false;
 		}
+		if($amount < $this->getLoader()->getConfiguration()->get("Minimum-Balance")) {
+			throw new \OutOfBoundsException("A Player's balance can't be below the minimum balance.");
+		}
+		if($amount > $this->getLoader()->getConfiguration()->get("Maximum-Balance")) {
+			throw new \OutOfBoundsException("A Player's balance can't exceed the maximum balance.");
+		}
 		$result = $this->database->query("UPDATE Economy SET Balance = $amount WHERE Player = '" . $lowerCaseName . "'");
 		return $result;
 	}
@@ -119,6 +122,9 @@ class MySQLEconomyProvider extends EconomyProvider implements IEconomyProvider {
 		if(!$this->playerExists($player)) {
 			return false;
 		}
+		if($amount + $this->getBalance($player) > $this->getLoader()->getConfiguration()->get("Maximum-Balance")) {
+			throw new \OutOfBoundsException("A Player's balance can't be above the maximum balance.");
+		}
 		$result = $this->database->query("UPDATE Economy SET Balance = Balance + $amount WHERE Player = '" . $lowerCaseName . "'");
 		return $result;
 	}
@@ -130,6 +136,9 @@ class MySQLEconomyProvider extends EconomyProvider implements IEconomyProvider {
 	 * @return bool
 	 */
 	public function subtractFromBalance(Player $player, int $amount): bool {
+		if($this->getBalance($player) - $amount < $this->getLoader()->getConfiguration()->get("Minimum-Balance")) {
+			throw new \OutOfBoundsException("A Player's balance can't be below the minimum balance.");
+		}
 		return $this->addToBalance($player, -$amount);
 	}
 
@@ -142,5 +151,9 @@ class MySQLEconomyProvider extends EconomyProvider implements IEconomyProvider {
 			return true;
 		}
 		return false;
+	}
+
+	public function save() {
+
 	}
 }

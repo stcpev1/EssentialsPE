@@ -28,18 +28,18 @@ class BreakCommand extends BaseCommand {
 	public function execute(CommandSender $sender, $alias, array $args): bool {
 		if(!$this->testPermission($sender)) {
 			$this->sendPermissionMessage($sender);
-			return true;
+			return false;
 		}
 		if(!$sender instanceof Player) {
 			$this->sendUsage($sender, $alias);
-			return true;
+			return false;
 		}
 		if(($block = $sender->getTargetBlock(100, [Block::AIR])) === null) {
 			$sender->sendMessage(TextFormat::RED . "[Error] " /* TODO */);
-			return true;
+			return false;
 		} elseif($block->getId() === Block::BEDROCK && !$sender->hasPermission("essentials.command.break.bedrock")) {
 			$sender->sendMessage(TextFormat::RED . "[Error] " /* TODO */);
-			return true;
+			return false;
 		}
 		$sender->getLevel()->setBlock($block, new Air(), true, true);
 		return true;

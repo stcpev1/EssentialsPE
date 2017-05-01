@@ -20,7 +20,7 @@ class EconomyConfiguration {
 
 	private function check() {
 		if(!file_exists($path = $this->getLoader()->getDataFolder() . "config.yml")) {
-			$this->getLoader()->saveResource("config.yml");
+			$this->getLoader()->saveDefaultConfig();
 		}
 		$configurationData = yaml_parse_file($path);
 
