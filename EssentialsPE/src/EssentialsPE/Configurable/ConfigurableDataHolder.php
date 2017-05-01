@@ -14,12 +14,12 @@ abstract class ConfigurableDataHolder {
 		$this->check();
 	}
 
+	protected abstract function check();
+
 	/**
 	 * @return Loader
 	 */
 	public function getLoader(): Loader {
 		return $this->loader;
 	}
-
-	protected abstract function check();
 }

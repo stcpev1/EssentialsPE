@@ -27,13 +27,6 @@ class DataManager {
 	}
 
 	/**
-	 * @return EssentialsPEConfiguration
-	 */
-	public function getConfiguration(): EssentialsPEConfiguration {
-		return $this->config;
-	}
-
-	/**
 	 * @return CommandSwitch
 	 */
 	public function getCommandSwitch(): CommandSwitch {
@@ -47,7 +40,15 @@ class DataManager {
 		return $this->messages;
 	}
 
+	/**
+	 * @return EssentialsPEConfiguration
+	 */
+	public function getConfiguration(): EssentialsPEConfiguration {
+		return $this->config;
+	}
+
 	public function saveAll() {
 		$this->getConfiguration()->saveConfiguration();
 	}
+
 }

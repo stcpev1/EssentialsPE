@@ -1,7 +1,8 @@
 <?php
 
-namespace EssentialsPE\Commands;
+namespace EssentialsPE\Commands\Economy;
 
+use EssentialsPE\Commands\BaseCommand;
 use EssentialsPE\Loader;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
@@ -16,24 +17,26 @@ class BalanceCommand extends BaseCommand {
 	}
 
 	public function execute(CommandSender $sender, $commandLabel, array $args) {
-		if(!$this->testPermission($sender)){
-			return false;
+		if(!$this->testPermission($sender)) {
+			$this->sendPermissionMessage($sender);
+			return true;
 		}
-		if(!isset($args[0]) && !$sender instanceof Player){
+		if(!isset($args[0]) && !$sender instanceof Player) {
 			$this->sendUsage($sender, $commandLabel);
-			return false;
+			return true;
 		}
 		$player = $sender;
-		if(isset($args[0])){
-			if(!$sender->hasPermission("essentials.command.balance.other")){
-				$sender->sendMessage(TF::RED . "[Error] " . $this->getPermissionMessage());
-				return false;
-			}elseif(!$player = $this->getLoader()->getServer()->getPlayer($args[0])){
-				$sender->sendMessage(TF::RED . "[Error] " /* TODO */);
-				return false;
+		if(isset($args[0])) {
+			if(!$sender->hasPermission("essentials.command.balance.other")) {
+				$this->sendPermissionMessage($sender);
+				return true;
+			} elseif(!$player = $this->getLoader()->getServer()->getPlayer($args[0])) {
+				$sender->sendMessage(TF::RED . "[Error] " . $this->getMessages()->getMessages()["command"]["error"]["player-not-found"]);
+				return true;
 			}
 		}
 		$sender->sendMessage(TF::AQUA . ($player === $sender ? "Your current balance is " : $player->getDisplayName() . TF::AQUA . " has ") . TF::YELLOW . $this->getLoader()->getEconomyModule()->getProvider()->getCurrencySymbol() . $this->getLoader()->getEconomyModule()->getProvider()->getBalance($player));
+		$this->getLoader()->getEconomyModule()->getProvider()->getEconomyTop();
 		return true;
 	}
 }

@@ -1,8 +1,7 @@
 <?php
 
-namespace EssentialsPE\Configurable;
+namespace EssentialsPEconomy;
 
-use EssentialsPEconomy\Loader;
 use pocketmine\utils\TextFormat as TF;
 
 class EconomyConfiguration {
@@ -44,17 +43,24 @@ class EconomyConfiguration {
 		}
 	}
 
+	/**
+	 * @return Loader
+	 */
+	public function getLoader(): Loader {
+		return $this->loader;
+	}
+
+	public function updateEcoConfig() {
+		$this->ecoConfigurationData["Economy-Config-Version"] = self::ECONOMY_CONFIGURATION_VERSION;
+		$this->saveEcoConfiguration();
+	}
+
 	public function saveEcoConfiguration() {
 		$config = $this->getLoader()->getConfig();
 		foreach($this->ecoConfigurationData as $key => $datum) {
 			$config->setNested($key, $datum);
 		}
 		$config->save();
-	}
-
-	public function updateEcoConfig() {
-		$this->ecoConfigurationData["Economy-Config-Version"] = self::ECONOMY_CONFIGURATION_VERSION;
-		$this->saveEcoConfiguration();
 	}
 
 	/**
@@ -67,12 +73,5 @@ class EconomyConfiguration {
 			return null;
 		}
 		return $this->ecoConfigurationData[$key];
-	}
-
-	/**
-	 * @return Loader
-	 */
-	public function getLoader(): Loader {
-		return $this->loader;
 	}
 }

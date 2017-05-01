@@ -1,0 +1,11 @@
+---
+name: EssentialsPEWarps
+main: EssentialsPEWarps\Loader
+version: 1.0.0
+api:
+- 3.0.0-ALPHA5
+author: LegendsOfMCPE Team
+website: https://github.com/LegendOfMCPE/EssentialsPE
+depend:
+- EssentialsPE
+...

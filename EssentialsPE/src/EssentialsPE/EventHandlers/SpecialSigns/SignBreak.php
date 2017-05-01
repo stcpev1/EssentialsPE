@@ -28,10 +28,10 @@ class SignBreak implements Listener {
 	 */
 	public function onBreak(BlockBreakEvent $breakEvent) {
 		$tile = $breakEvent->getBlock()->getLevel()->getTile(new Vector3($breakEvent->getBlock()->getFloorX(), $breakEvent->getBlock()->getFloorY(), $breakEvent->getBlock()->getFloorZ()));
-		if($tile instanceof Sign){
+		if($tile instanceof Sign) {
 			$key = ["Free", "Gamemode", "Heal", "Kit", "Repair", "Time", "Teleport", "Warp", "Balance", "Buy", "Sell", "BalanceTop"];
-			foreach($key as $k){
-				if(TF::clean($tile->getText()[0], true) === "[" . $k . "]" && !$breakEvent->getPlayer()->hasPermission("essentials.sign.break." . strtolower($k))){
+			foreach($key as $k) {
+				if(TF::clean($tile->getText()[0], true) === "[" . $k . "]" && !$breakEvent->getPlayer()->hasPermission("essentials.sign.break." . strtolower($k))) {
 					$breakEvent->setCancelled();
 					$breakEvent->getPlayer()->sendMessage(TF::RED /* TODO */);
 					break;

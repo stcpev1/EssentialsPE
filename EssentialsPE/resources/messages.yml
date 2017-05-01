@@ -1,0 +1,15 @@
+---
+command:
+  error:
+    break:
+      no-target: No target block was found to break.
+      bedrock-perm: You don't have permission to break bedrock.
+    pay:
+      negative-value: You can't pay negative values.
+      self-pay: You can't pay yourself.
+      not-enough-money: You don't have enough money to do that.
+    player-not-found: The given player could not be found.
+  succeed:
+    pay: Paying %p1 to %p2...
+
+...

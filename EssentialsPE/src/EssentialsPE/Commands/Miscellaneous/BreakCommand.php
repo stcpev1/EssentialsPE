@@ -12,7 +12,7 @@ use pocketmine\utils\TextFormat;
 
 class BreakCommand extends BaseCommand {
 
-	public function __construct(Loader $loader){
+	public function __construct(Loader $loader) {
 		parent::__construct($loader, "break", "Breaks the block you're looking at");
 		$this->setPermission("essentials.command.break.use");
 		$this->setModule(Loader::MODULE_ESSENTIALS);
@@ -35,10 +35,10 @@ class BreakCommand extends BaseCommand {
 			return false;
 		}
 		if(($block = $sender->getTargetBlock(100, [Block::AIR])) === null) {
-			$sender->sendMessage(TextFormat::RED . "[Error] " /* TODO */);
+			$sender->sendMessage(TextFormat::RED . "[Error] " . $this->getMessages()->getMessages()["command"]["error"]["break"]["no-target"]);
 			return false;
 		} elseif($block->getId() === Block::BEDROCK && !$sender->hasPermission("essentials.command.break.bedrock")) {
-			$sender->sendMessage(TextFormat::RED . "[Error] " /* TODO */);
+			$sender->sendMessage(TextFormat::RED . "[Error] " . $this->getMessages()->getMessages()["command"]["error"]["break"]["bedrock-perm"]);
 			return false;
 		}
 		$sender->getLevel()->setBlock($block, new Air(), true, true);

@@ -14,18 +14,18 @@ abstract class EconomyProvider implements IEconomyProvider {
 	}
 
 	/**
-	 * @return Loader
-	 */
-	public function getLoader(): Loader {
-		return $this->loader;
-	}
-
-	/**
 	 * Returns the currency symbol configured in the config.yml.
 	 *
 	 * @return string
 	 */
 	public function getCurrencySymbol(): string {
 		return $this->getLoader()->getConfiguration()->get("Currency-Symbol");
+	}
+
+	/**
+	 * @return Loader
+	 */
+	public function getLoader(): Loader {
+		return $this->loader;
 	}
 }

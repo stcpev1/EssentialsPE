@@ -2,11 +2,12 @@
 
 namespace EssentialsPEconomy\Providers;
 
+
 use EssentialsPEconomy\Loader;
 use pocketmine\Player;
 use pocketmine\utils\Config;
 
-class YamlEconomyProvider extends EconomyProvider {
+class JsonEconomyProvider extends EconomyProvider {
 
 	private $database;
 	/** @var Config $data */
@@ -17,29 +18,7 @@ class YamlEconomyProvider extends EconomyProvider {
 	}
 
 	public function prepare() {
-		$this->data = new Config($this->getLoader()->getDataFolder() . "economy.yml");
-	}
-
-	public function addToBalance(Player $player, int $amount): bool {
-		$lowerCaseName = strtolower($player->getName());
-		if(!$this->playerExists($player)) {
-			return false;
-		}
-		$this->database[$lowerCaseName] += $amount;
-		return true;
-	}
-
-	/**
-	 * @param Player $player
-	 *
-	 * @return int|bool
-	 */
-	public function getBalance(Player $player) {
-		$lowerCaseName = strtolower($player->getName());
-		if(!$this->playerExists($player)) {
-			return false;
-		}
-		return $this->database[$lowerCaseName];
+		$this->data = new Config($this->getLoader()->getDataFolder() . "economy.json", Config::JSON);
 	}
 
 	/**
@@ -50,6 +29,28 @@ class YamlEconomyProvider extends EconomyProvider {
 		return true;
 	}
 
+	public function save() {
+		$balances = json_decode(file_get_contents($file = $this->getLoader()->getDataFolder() . "economy.json"), true);
+		foreach($this->database as $name => $balance) {
+			$balances[$name] = $balance;
+		}
+		file_put_contents($file, json_encode($balances));
+	}
+
+	/**
+	 * @param int $limit
+	 *
+	 * @return array
+	 */
+	public function getEconomyTop(int $limit = 10): array {
+		$sortedArray = asort($this->database);
+		$topList = [];
+		for($i = 0; $i <= 10; $i++) {
+			$topList[] = $sortedArray[$i];
+		}
+		return $topList;
+	}
+
 	/**
 	 * @param Player $player
 	 * @param int    $balance
@@ -58,6 +59,9 @@ class YamlEconomyProvider extends EconomyProvider {
 	 */
 	public function addPlayer(Player $player, int $balance = -1): bool {
 		$lowerCaseName = strtolower($player->getName());
+		if($this->playerExists($player)) {
+			return false;
+		}
 		if($balance === -1) {
 			$balance = $this->getLoader()->getConfiguration()->get("Default-Balance");
 		}
@@ -67,24 +71,7 @@ class YamlEconomyProvider extends EconomyProvider {
 		if($balance > $this->getLoader()->getConfiguration()->get("Maximum-Balance")) {
 			throw new \OutOfBoundsException("A Player's balance can't exceed the maximum balance.");
 		}
-		if($this->playerExists($player)) {
-			return false;
-		}
 		$this->database[$lowerCaseName] = $balance;
-		return true;
-	}
-
-	/**
-	 * @param Player $player
-	 *
-	 * @return bool
-	 */
-	public function removePlayer(Player $player): bool {
-		$lowerCaseName = strtolower($player->getName());
-		if(!$this->playerExists($player)) {
-			return false;
-		}
-		unset($this->database[$lowerCaseName]);
 		return true;
 	}
 
@@ -102,6 +89,20 @@ class YamlEconomyProvider extends EconomyProvider {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * @param Player $player
+	 *
+	 * @return bool
+	 */
+	public function removePlayer(Player $player): bool {
+		$lowerCaseName = strtolower($player->getName());
+		if(!$this->playerExists($player)) {
+			return false;
+		}
+		unset($this->database[$lowerCaseName]);
+		return true;
 	}
 
 	/**
@@ -138,11 +139,31 @@ class YamlEconomyProvider extends EconomyProvider {
 		return $this->addToBalance($player, -$amount);
 	}
 
-	public function save() {
-		$balances = yaml_parse_file($file = $this->getLoader()->getDataFolder() . "economy.yml");
-		foreach($this->database as $name => $balance) {
-			$balances[$name] = $balance;
+	/**
+	 * @param Player $player
+	 *
+	 * @return int|bool
+	 */
+	public function getBalance(Player $player) {
+		$lowerCaseName = strtolower($player->getName());
+		if(!$this->playerExists($player)) {
+			return false;
 		}
-		yaml_emit_file($file, $balances);
+		return $this->database[$lowerCaseName];
+	}
+
+	/**
+	 * @param Player $player
+	 * @param int    $amount
+	 *
+	 * @return bool
+	 */
+	public function addToBalance(Player $player, int $amount): bool {
+		$lowerCaseName = strtolower($player->getName());
+		if(!$this->playerExists($player)) {
+			return false;
+		}
+		$this->database[$lowerCaseName] += $amount;
+		return true;
 	}
 }

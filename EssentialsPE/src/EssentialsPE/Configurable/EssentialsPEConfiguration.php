@@ -15,6 +15,18 @@ class EssentialsPEConfiguration extends ConfigurableDataHolder {
 		parent::__construct($loader);
 	}
 
+	/**
+	 * @param string $key
+	 *
+	 * @return mixed|null
+	 */
+	public function get(string $key) {
+		if(!isset($this->configurationData[$key])) {
+			return null;
+		}
+		return $this->configurationData[$key];
+	}
+
 	protected function check() {
 		if(!file_exists($path = $this->getLoader()->getDataFolder() . "config.yml")) {
 			$this->getLoader()->saveDefaultConfig();
@@ -41,28 +53,16 @@ class EssentialsPEConfiguration extends ConfigurableDataHolder {
 		}
 	}
 
+	public function updateConfig() {
+		$this->configurationData["Config-Version"] = self::CONFIGURATION_VERSION;
+		$this->saveConfiguration();
+	}
+
 	public function saveConfiguration() {
 		$config = $this->getLoader()->getConfig();
 		foreach($this->configurationData as $key => $datum) {
 			$config->setNested($key, $datum);
 		}
 		$config->save();
-	}
-
-	public function updateConfig() {
-		$this->configurationData["Config-Version"] = self::CONFIGURATION_VERSION;
-		$this->saveConfiguration();
-	}
-
-	/**
-	 * @param string $key
-	 *
-	 * @return mixed|null
-	 */
-	public function get(string $key) {
-		if(!isset($this->configurationData[$key])) {
-			return null;
-		}
-		return $this->configurationData[$key];
 	}
 }

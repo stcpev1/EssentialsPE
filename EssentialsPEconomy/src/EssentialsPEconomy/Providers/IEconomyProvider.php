@@ -22,7 +22,7 @@ interface IEconomyProvider {
 	 * Registers a user to the database with the default money, or different if $amount is specified.
 	 *
 	 * @param Player $player
-	 * @param int    $amount
+	 * @param int    $balance
 	 *
 	 * @return bool
 	 */
@@ -78,12 +78,19 @@ interface IEconomyProvider {
 	/**
 	 * Subtracts an amount from the player balance, if the total balance is above the minimum balance.
 	 *
-	 * @param Player $Player
+	 * @param Player $player
 	 * @param int    $amount
 	 *
 	 * @return bool
 	 */
 	public function subtractFromBalance(Player $player, int $amount): bool;
+
+	/**
+	 * @param int $limit
+	 *
+	 * @return array
+	 */
+	public function getEconomyTop(int $limit = 10): array;
 
 	/**
 	 * Saves the database. Not required for all databases.

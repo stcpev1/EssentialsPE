@@ -35,7 +35,29 @@ class CommandOverloads {
 			"break" => [
 
 			],
-
+			"eco" => [
+				0 => [
+					"type" => "stringenum",
+					"name" => "parameter",
+					"optional" => false,
+					"enum_values" => [
+						"give",
+						"take",
+						"set",
+						"reset"
+					]
+				],
+				1 => [
+					"type" => "rawtext",
+					"name" => "player",
+					"optional" => false
+				],
+				2 => [
+					"type" => "int",
+					"name" => "balance",
+					"optional" => true
+				]
+			]
 		];
 	}
 }

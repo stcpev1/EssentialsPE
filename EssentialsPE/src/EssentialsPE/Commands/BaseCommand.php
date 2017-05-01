@@ -2,6 +2,7 @@
 
 namespace EssentialsPE\Commands;
 
+use EssentialsPE\Configurable\MessagesContainer;
 use EssentialsPE\Loader;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
@@ -23,15 +24,15 @@ abstract class BaseCommand extends Command implements PluginIdentifiableCommand 
 	/**
 	 * @return Loader
 	 */
-	public function getLoader(): Loader {
+	public function getPlugin(): Loader {
 		return $this->loader;
 	}
 
 	/**
-	 * @return Loader
+	 * @return int
 	 */
-	public function getPlugin(): Loader {
-		return $this->loader;
+	public function getModule(): int {
+		return $this->module;
 	}
 
 	/**
@@ -42,10 +43,15 @@ abstract class BaseCommand extends Command implements PluginIdentifiableCommand 
 	}
 
 	/**
-	 * @return int
+	 * @param Player $player
+	 *
+	 * @return array
 	 */
-	public function getModule(): int {
-		return $this->module;
+	public function generateCustomCommandData(Player $player): array {
+		$commandData = parent::generateCustomCommandData($player);
+
+		$commandData["overloads"]["default"]["input"]["parameters"] = CommandOverloads::getOverloads($this->getName());
+		return $commandData;
 	}
 
 	/**
@@ -75,14 +81,16 @@ abstract class BaseCommand extends Command implements PluginIdentifiableCommand 
 	}
 
 	/**
-	 * @param Player $player
-	 *
-	 * @return array
+	 * @return Loader
 	 */
-	public function generateCustomCommandData(Player $player): array {
-		$commandData = parent::generateCustomCommandData($player);
+	public function getLoader(): Loader {
+		return $this->loader;
+	}
 
-		$commandData["overloads"]["default"]["input"]["parameters"] = CommandOverloads::getOverloads($this->getName());
-		return $commandData;
+	/**
+	 * @return MessagesContainer
+	 */
+	public function getMessages(): MessagesContainer {
+		return $this->getLoader()->getConfigurableData()->getMessagesContainer();
 	}
 }

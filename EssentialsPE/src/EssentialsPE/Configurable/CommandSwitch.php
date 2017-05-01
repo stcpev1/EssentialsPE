@@ -13,6 +13,20 @@ class CommandSwitch extends ConfigurableDataHolder {
 		parent::__construct($loader);
 	}
 
+	/**
+	 * @return array
+	 */
+	public function getAvailableCommands(): array {
+		return $this->availableCommands;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getDisabledCommands(): array {
+		return $this->disabledCommands;
+	}
+
 	protected function check() {
 		if(!file_exists($path = $this->getLoader()->getDataFolder() . "commands.yml")) {
 			$this->getLoader()->saveResource("commands.yml");
@@ -26,19 +40,5 @@ class CommandSwitch extends ConfigurableDataHolder {
 				$this->disabledCommands[] = $command;
 			}
 		}
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getAvailableCommands(): array {
-		return $this->availableCommands;
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getDisabledCommands(): array {
-		return $this->disabledCommands;
 	}
 }
