@@ -13,6 +13,7 @@ use pocketmine\utils\TextFormat as TF;
 abstract class BaseCommand extends Command implements PluginIdentifiableCommand {
 
 	protected $loader;
+	protected $module;
 
 	public function __construct(Loader $loader, $name, $description = "", $usageMessage = null, $aliases = []) {
 		parent::__construct($name, $description, $usageMessage, $aliases);
@@ -31,6 +32,20 @@ abstract class BaseCommand extends Command implements PluginIdentifiableCommand 
 	 */
 	public function getPlugin(): Loader {
 		return $this->loader;
+	}
+
+	/**
+	 * @param int $moduleId
+	 */
+	protected function setModule(int $moduleId) {
+		$this->module = $moduleId;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getModule(): int {
+		return $this->module;
 	}
 
 	/**

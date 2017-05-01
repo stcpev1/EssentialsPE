@@ -5,20 +5,19 @@ namespace EssentialsPE\Configurable;
 use EssentialsPE\Loader;
 use pocketmine\utils\TextFormat as TF;
 
-class EssentialsPEConfiguration {
+class EssentialsPEConfiguration extends ConfigurableDataHolder {
 
 	const CONFIGURATION_VERSION = "1.0.0";
 
-	private $loader;
 	private $configurationData = [];
 
 	public function __construct(Loader $loader) {
-		$this->loader = $loader;
+		parent::__construct($loader);
 
-		$this->checkConfiguration();
+		$this->check();
 	}
 
-	private function checkConfiguration() {
+	protected function check() {
 		if(!file_exists($path = $this->getLoader()->getDataFolder() . "config.yml")) {
 			$this->getLoader()->saveDefaultConfig();
 		}
@@ -42,7 +41,7 @@ class EssentialsPEConfiguration {
 	public function saveConfiguration() {
 		$config = $this->getLoader()->getConfig();
 		foreach($this->configurationData as $key => $datum) {
-			$config->set($key, $datum);
+			$config->setNested($key, $datum);
 		}
 		$config->save();
 	}
@@ -53,9 +52,14 @@ class EssentialsPEConfiguration {
 	}
 
 	/**
-	 * @return Loader
+	 * @param string $key
+	 *
+	 * @return mixed|null
 	 */
-	public function getLoader(): Loader {
-		return $this->loader;
+	public function get(string $key) {
+		if(!isset($this->configurationData[$key])) {
+			return null;
+		}
+		return $this->configurationData[$key];
 	}
 }

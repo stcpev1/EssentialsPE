@@ -1,17 +1,15 @@
 <?php
 
-namespace EssentialsPE\Configurable;
+namespace EssentialsPE\Economy;
 
 use EssentialsPE\Loader;
 
-abstract class ConfigurableDataHolder {
+abstract class Provider {
 
 	protected $loader;
 
 	public function __construct(Loader $loader) {
 		$this->loader = $loader;
-
-		$this->check();
 	}
 
 	/**
@@ -20,6 +18,4 @@ abstract class ConfigurableDataHolder {
 	public function getLoader(): Loader {
 		return $this->loader;
 	}
-
-	protected abstract function check();
 }

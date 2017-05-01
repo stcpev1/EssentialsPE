@@ -4,26 +4,18 @@ namespace EssentialsPE\Configurable;
 
 use EssentialsPE\Loader;
 
-class CommandSwitch {
+class CommandSwitch extends ConfigurableDataHolder {
 
-	private $loader;
 	private $availableCommands = [];
 	private $disabledCommands = [];
 
 	public function __construct(Loader $loader) {
-		$this->loader = $loader;
+		parent::__construct($loader);
 
-		$this->checkCommands();
+		$this->check();
 	}
 
-	/**
-	 * @return Loader
-	 */
-	public function getLoader(): Loader {
-		return $this->loader;
-	}
-
-	public function checkCommands() {
+	protected function check() {
 		if(!file_exists($path = $this->getLoader()->getDataFolder() . "commands.yml")) {
 			$this->getLoader()->saveResource("commands.yml");
 		}
