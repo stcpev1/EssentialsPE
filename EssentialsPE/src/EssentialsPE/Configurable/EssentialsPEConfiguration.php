@@ -13,8 +13,6 @@ class EssentialsPEConfiguration extends ConfigurableDataHolder {
 
 	public function __construct(Loader $loader) {
 		parent::__construct($loader);
-
-		$this->check();
 	}
 
 	protected function check() {
@@ -26,6 +24,11 @@ class EssentialsPEConfiguration extends ConfigurableDataHolder {
 		$this->configurationData = @[
 			"Config-Version" => $configurationData["Config-Version"] ?? 0.0,
 			"Auto-Update-Config" => $configurationData["Auto-Update-Config"] ?? true,
+			"MySQL.Host" => $configurationData["MySQL"]["Host"] ?? "127.0.0.1",
+			"MySQL.User" => $configurationData["MySQL"]["User"] ?? "Admin",
+			"MySQL.Password" => $configurationData["MySQL"]["Password"] ?? "Admin",
+			"MySQL.Database" => $configurationData["MySQL"]["Database"] ?? "EssentialsPE",
+			"MySQL.Port" => $configurationData["MySQL"]["Port"] ?? 3306
 		];
 
 		if(version_compare($this->configurationData["Config-Version"], self::CONFIGURATION_VERSION) === -1) {
@@ -47,7 +50,7 @@ class EssentialsPEConfiguration extends ConfigurableDataHolder {
 	}
 
 	public function updateConfig() {
-		$this->configurationData["Configuration-Version"] = self::CONFIGURATION_VERSION;
+		$this->configurationData["Config-Version"] = self::CONFIGURATION_VERSION;
 		$this->saveConfiguration();
 	}
 

@@ -11,8 +11,6 @@ class CommandSwitch extends ConfigurableDataHolder {
 
 	public function __construct(Loader $loader) {
 		parent::__construct($loader);
-
-		$this->check();
 	}
 
 	protected function check() {

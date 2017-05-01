@@ -2,44 +2,41 @@
 
 namespace EssentialsPE\Configurable;
 
-use EssentialsPE\Loader;
+use EssentialsPEconomy\Loader;
 use pocketmine\utils\TextFormat as TF;
 
-class EconomyConfiguration extends ConfigurableDataHolder {
+class EconomyConfiguration {
 
 	const ECONOMY_CONFIGURATION_VERSION = "1.0.0";
 
 	private $ecoConfigurationData = [];
+	private $loader;
 
 	public function __construct(Loader $loader) {
-		parent::__construct($loader);
+		$this->loader = $loader;
 
 		$this->check();
 	}
 
-	protected function check() {
-		if(!file_exists($path = $this->getLoader()->getDataFolder() . "economy\\config.yml")) {
-			$this->getLoader()->saveResource("economy.yml");
+	private function check() {
+		if(!file_exists($path = $this->getLoader()->getDataFolder() . "config.yml")) {
+			$this->getLoader()->saveResource("config.yml");
 		}
 		$configurationData = yaml_parse_file($path);
 
 		$this->ecoConfigurationData = @[
-			"Economy-Config-Version" => $configurationData["Config-Version"] ?? 0.0,
+			"Economy-Config-Version" => $configurationData["Economy-Config-Version"] ?? 0.0,
 			"Auto-Update-Config" => $configurationData["Auto-Update-Config"] ?? true,
-			"Economy-Provider" => $configurationData["Economy-Provider"] ?? "SQLite3",
-			"MySQL.Host" => $configurationData["MySQL"]["Host"] ?? "127.0.0.1",
-			"MySQL.User" => $configurationData["MySQL"]["User"] ?? "Admin",
-			"MySQL.Password" => $configurationData["MySQL"]["Password"] ?? "Admin",
-			"MySQL.Database" => $configurationData["MySQL"]["Database"] ?? "EssentialsPE",
-			"MySQL.Port" => $configurationData["MySQL"]["Port"] ?? 3306,
+			"Economy-Provider" => $configurationData["Economy-Provider"] ?? "MySQL",
 			"Currency-Symbol" => $configurationData["Currency-Symbol"] ?? '$',
 			"Minimum-Balance" => $configurationData["Minimum-Balance"] ?? 0,
-			"Maximum-Balance" => $configurationData["Maximum-Balance"] ?? 10000000
+			"Maximum-Balance" => $configurationData["Maximum-Balance"] ?? 10000000,
+			"Default-Balance" => $configurationData["Default-Balance"] ?? 0
 		];
 
 		if(version_compare($this->ecoConfigurationData["Economy-Config-Version"], self::ECONOMY_CONFIGURATION_VERSION) === -1) {
 			if(($autoUpdate = $this->ecoConfigurationData["Auto-Update-Config"]) === true) {
-				$this->updateConfig();
+				$this->updateEcoConfig();
 			}
 			$this->getLoader()->getLogger()->debug(TF::YELLOW . "A new economy configuration version was found." . $autoUpdate ? "Updating economy.yml file..." : "");
 		} else {
@@ -47,7 +44,7 @@ class EconomyConfiguration extends ConfigurableDataHolder {
 		}
 	}
 
-	public function saveConfiguration() {
+	public function saveEcoConfiguration() {
 		$config = $this->getLoader()->getConfig();
 		foreach($this->ecoConfigurationData as $key => $datum) {
 			$config->setNested($key, $datum);
@@ -55,9 +52,9 @@ class EconomyConfiguration extends ConfigurableDataHolder {
 		$config->save();
 	}
 
-	public function updateConfig() {
-		$this->ecoConfigurationData["Configuration-Version"] = self::ECONOMY_CONFIGURATION_VERSION;
-		$this->saveConfiguration();
+	public function updateEcoConfig() {
+		$this->ecoConfigurationData["Economy-Config-Version"] = self::ECONOMY_CONFIGURATION_VERSION;
+		$this->saveEcoConfiguration();
 	}
 
 	/**
@@ -70,5 +67,12 @@ class EconomyConfiguration extends ConfigurableDataHolder {
 			return null;
 		}
 		return $this->ecoConfigurationData[$key];
+	}
+
+	/**
+	 * @return Loader
+	 */
+	public function getLoader(): Loader {
+		return $this->loader;
 	}
 }

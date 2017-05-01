@@ -13,6 +13,7 @@ use pocketmine\plugin\PluginBase;
 class Loader extends PluginBase {
 
 	const MODULE_ESSENTIALS = 0;
+	const MODULE_ECONOMY = 1;
 
 	private $configurableData;
 	private $installedModules = [];

@@ -10,7 +10,6 @@ class DataManager {
 	private $config;
 	private $messages;
 	private $commandSwitch;
-	private $economy;
 
 	public function __construct(Loader $loader) {
 		$this->loader = $loader;
@@ -18,7 +17,6 @@ class DataManager {
 		$this->config = new EssentialsPEConfiguration($loader);
 		$this->commandSwitch = new CommandSwitch($loader);
 		$this->messages = new MessagesContainer($loader);
-		$this->economy = new EconomyConfiguration($loader);
 	}
 
 	/**
@@ -47,13 +45,6 @@ class DataManager {
 	 */
 	public function getMessagesContainer(): MessagesContainer {
 		return $this->messages;
-	}
-
-	/**
-	 * @return EconomyConfiguration
-	 */
-	public function getEconomyConfiguration(): EconomyConfiguration {
-		return $this->economy;
 	}
 
 	public function saveAll() {

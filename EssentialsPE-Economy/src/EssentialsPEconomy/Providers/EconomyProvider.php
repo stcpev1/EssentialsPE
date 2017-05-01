@@ -1,10 +1,10 @@
 <?php
 
-namespace EssentialsPE\Economy;
+namespace EssentialsPEconomy\Providers;
 
-use EssentialsPE\Loader;
+use EssentialsPEconomy\Loader;
 
-abstract class Provider {
+abstract class EconomyProvider {
 
 	protected $loader;
 
