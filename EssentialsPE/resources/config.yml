@@ -1,0 +1,12 @@
+---
+# Configuration file for EssentialsPE, by LegendsOfMCPE.
+
+Config-Version: 1.0.0
+Auto-Update-Config: true
+MySQL:
+  Host: 127.0.0.1
+  User: Admin
+  Password: Admin
+  Database: EssentialsPE
+  Port: 3306
+...

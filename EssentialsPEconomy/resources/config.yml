@@ -1,0 +1,25 @@
+---
+# EssentialsPEconomy module configuration file.
+
+# Internal property. Do NOT change.
+Economy-Config-Version: 1.0.0
+
+# Auto update this configuration file when updating to a new version where a config update has been added.
+Auto-Update-Config: true
+
+# Economy provider used to store the balance of players.
+# Available providers: yaml, json, MySQL, SQLite
+Economy-Provider: SQLite
+
+# Currency symbol used in the game to indicate prices.
+Currency-Symbol: $
+
+# Minimum amount of money a player can have. This number can also be negative.
+Minimum-Balance: 0
+
+# Maximum amount of money a player can have.
+Maximum-Balance: 10000000
+
+# The amount of money a player starts with when joining the server for the first time.
+Default-Balance: 100
+...

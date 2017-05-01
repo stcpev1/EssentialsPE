@@ -57,6 +57,18 @@ class CommandOverloads {
 					"name" => "balance",
 					"optional" => true
 				]
+			],
+			"pay" => [
+				0 => [
+					"type" => "rawtext",
+					"name" => "player",
+					"optional" => false
+				],
+				1 => [
+					"type" => "int",
+					"name" => "amount",
+					optional => false
+				]
 			]
 		];
 	}
