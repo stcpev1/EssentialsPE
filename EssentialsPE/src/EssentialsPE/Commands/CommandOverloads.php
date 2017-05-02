@@ -67,7 +67,7 @@ class CommandOverloads {
 				1 => [
 					"type" => "int",
 					"name" => "amount",
-					optional => false
+					"optional" => false
 				]
 			]
 		];

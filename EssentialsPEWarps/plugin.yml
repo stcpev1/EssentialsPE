@@ -1,6 +1,6 @@
 ---
 name: EssentialsPEWarps
-main: EssentialsPEWarps\Loader
+main: EssentialsPEWarps\EssentialsPEWarps
 version: 1.0.0
 api:
 - 3.0.0-ALPHA5

@@ -2,7 +2,7 @@
 
 namespace EssentialsPEconomy\Providers;
 
-use EssentialsPEconomy\Loader;
+use EssentialsPEconomy\EssentialsPEconomy;
 use pocketmine\Player;
 
 class SQLiteEconomyProvider extends EconomyProvider {
@@ -10,17 +10,8 @@ class SQLiteEconomyProvider extends EconomyProvider {
 	/** @var \SQLite3 $database */
 	private $database;
 
-	public function __construct(Loader $loader) {
+	public function __construct(EssentialsPEconomy $loader) {
 		parent::__construct($loader);
-	}
-
-	/**
-	 * @param string $string
-	 *
-	 * @return string
-	 */
-	private function escape(string $string): string {
-		return \SQLite3::escapeString($string);
 	}
 
 	public function prepare() {
@@ -77,6 +68,15 @@ class SQLiteEconomyProvider extends EconomyProvider {
 
 		$result = $this->database->query("SELECT Balance FROM Economy WHERE Player = '" . $this->escape($lowerCaseName) . "'");
 		return $result->numColumns()[0] !== 0;
+	}
+
+	/**
+	 * @param string $string
+	 *
+	 * @return string
+	 */
+	private function escape(string $string): string {
+		return \SQLite3::escapeString($string);
 	}
 
 	/**

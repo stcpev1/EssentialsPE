@@ -1,8 +1,17 @@
 ---
 # Configuration file for EssentialsPE, by LegendsOfMCPE.
 
+# Internal property, do NOT change.
 Config-Version: 1.0.0
+
+# Whether to enable automatic config updates or ignore them.
 Auto-Update-Config: true
+
+# Provider used for storage from things such as economy, warps, sessions.
+# Available providers: yaml, json, MySQL, SQLite
+Provider: SQLite
+
+# MySQL settings.
 MySQL:
   Host: 127.0.0.1
   User: Admin

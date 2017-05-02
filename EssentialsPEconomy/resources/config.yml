@@ -7,10 +7,6 @@ Economy-Config-Version: 1.0.0
 # Auto update this configuration file when updating to a new version where a config update has been added.
 Auto-Update-Config: true
 
-# Economy provider used to store the balance of players.
-# Available providers: yaml, json, MySQL, SQLite
-Economy-Provider: SQLite
-
 # Currency symbol used in the game to indicate prices.
 Currency-Symbol: $
 

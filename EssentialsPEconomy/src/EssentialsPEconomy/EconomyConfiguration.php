@@ -11,7 +11,7 @@ class EconomyConfiguration {
 	private $ecoConfigurationData = [];
 	private $loader;
 
-	public function __construct(Loader $loader) {
+	public function __construct(EssentialsPEconomy $loader) {
 		$this->loader = $loader;
 
 		$this->check();
@@ -44,9 +44,9 @@ class EconomyConfiguration {
 	}
 
 	/**
-	 * @return Loader
+	 * @return EssentialsPEconomy
 	 */
-	public function getLoader(): Loader {
+	public function getLoader(): EssentialsPEconomy {
 		return $this->loader;
 	}
 

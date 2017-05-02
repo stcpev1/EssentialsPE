@@ -2,7 +2,7 @@
 
 namespace EssentialsPEconomy\Providers;
 
-use EssentialsPEconomy\Loader;
+use EssentialsPEconomy\EssentialsPEconomy;
 use pocketmine\Player;
 use pocketmine\utils\Config;
 
@@ -12,7 +12,7 @@ class YamlEconomyProvider extends EconomyProvider {
 	/** @var Config $data */
 	private $data;
 
-	public function __construct(Loader $loader) {
+	public function __construct(EssentialsPEconomy $loader) {
 		parent::__construct($loader);
 	}
 

@@ -2,6 +2,7 @@
 
 namespace EssentialsPEconomy;
 
+use EssentialsPE\Loader;
 use EssentialsPEconomy\EventHandlers\JoinHandler;
 use EssentialsPEconomy\Providers\EconomyProvider;
 use EssentialsPEconomy\Providers\JsonEconomyProvider;
@@ -10,16 +11,16 @@ use EssentialsPEconomy\Providers\SQLiteEconomyProvider;
 use EssentialsPEconomy\Providers\YamlEconomyProvider;
 use pocketmine\plugin\PluginBase;
 
-class Loader extends PluginBase {
+class EssentialsPEconomy extends PluginBase {
 
-	/** @var \EssentialsPE\Loader $essentials */
+	/** @var Loader $essentials */
 	private $essentials;
 	private $configuration;
 	private $provider;
 
 	public function onLoad() {
 		$this->essentials = $this->getServer()->getPluginManager()->getPlugin("EssentialsPE");
-		$this->essentials->addModule(\EssentialsPE\Loader::MODULE_ECONOMY);
+		$this->essentials->addModule(Loader::MODULE_ECONOMY);
 	}
 
 	public function onEnable() {
@@ -33,7 +34,7 @@ class Loader extends PluginBase {
 	 * @return EconomyProvider
 	 */
 	public function selectProvider(): EconomyProvider {
-		switch(strtolower($this->getConfiguration()->get("Economy-Provider"))) {
+		switch(strtolower($this->getEssentialsPE()->getConfigurableData()->getConfiguration()->get("Provider"))) {
 			default:
 			case "mysql":
 				$this->provider = new MySQLEconomyProvider($this);
@@ -49,6 +50,13 @@ class Loader extends PluginBase {
 				break;
 		}
 		return $this->provider;
+	}
+
+	/**
+	 * @return \EssentialsPE\Loader
+	 */
+	public function getEssentialsPE(): \EssentialsPE\Loader {
+		return $this->essentials;
 	}
 
 	/**
@@ -69,12 +77,5 @@ class Loader extends PluginBase {
 	 */
 	public function getProvider(): EconomyProvider {
 		return $this->provider;
-	}
-
-	/**
-	 * @return \EssentialsPE\Loader
-	 */
-	public function getEssentialsPE(): \EssentialsPE\Loader {
-		return $this->essentials;
 	}
 }

@@ -2,7 +2,6 @@
 
 namespace EssentialsPE\Commands;
 
-use EssentialsPE\Configurable\MessagesContainer;
 use EssentialsPE\Loader;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
@@ -15,10 +14,31 @@ abstract class BaseCommand extends Command implements PluginIdentifiableCommand 
 
 	protected $loader;
 	protected $module;
+	protected $consoleUsable;
+	protected $consoleUsageMessage;
 
-	public function __construct(Loader $loader, $name, $description = "", $usageMessage = null, $aliases = []) {
-		parent::__construct($name, $description, $usageMessage, $aliases);
+	/**
+	 * @param Loader $loader
+	 * @param string $name
+	 */
+	public function __construct(Loader $loader, string $name) {
 		$this->loader = $loader;
+		$t = $this->getLoader()->getConfigurableData()->getMessagesContainer()->getMessage("commands." . $name);
+		parent::__construct($t["name"], $t["description"], $t["usage"], $t["alias"] ?? []);
+		$this->consoleUsable = $t["console-usage"] !== false;
+		if(is_bool($t["console-usage"])) {
+			$this->consoleUsageMessage = (!$t["console-usage"] ? $this->getLoader()->getConfigurableData()->getMessagesContainer()->getMessage("error.run-in-game", $this->getName()) : parent::getUsage());
+		} else {
+			$this->consoleUsageMessage = $t["console-usage"];
+		}
+		$this->setPermissionMessage($this->getLoader()->getConfigurableData()->getMessagesContainer()->getMessage("error.need-permission"));
+	}
+
+	/**
+	 * @return Loader
+	 */
+	public function getLoader(): Loader {
+		return $this->loader;
 	}
 
 	/**
@@ -55,6 +75,36 @@ abstract class BaseCommand extends Command implements PluginIdentifiableCommand 
 	}
 
 	/**
+	 * Function to give different type of usages, switching from "Console" and "Player" executors of a command.
+	 * This function can be overridden to fit any command needs...
+	 *
+	 * @param CommandSender $sender
+	 * @param string        $alias
+	 */
+	public function sendUsage(CommandSender $sender, string $alias) {
+		$sender->sendMessage(str_replace($this->getName(), $alias, $this->isUsableByConsole() ?
+			$this->getLoader()->getConfigurableData()->getMessagesContainer()->getMessage("error.command-usage", $alias, ($sender instanceof Player ? $this->getUsage() : $this->consoleUsageMessage)) :
+			$this->consoleUsageMessage
+		));
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function isUsableByConsole(): bool {
+		return $this->consoleUsable;
+	}
+
+	/**
+	 * @param CommandSender $sender
+	 * @param string        $message
+	 * @param array         ...$args
+	 */
+	public function sendMessageContainer(CommandSender $sender, string $message, ...$replacements) {
+		$sender->sendMessage($this->getLoader()->getConfigurableData()->getMessagesContainer()->getMessage($message, ...$replacements));
+	}
+
+	/**
 	 * @param CommandSender $sender
 	 */
 	protected function sendPermissionMessage(CommandSender $sender) {
@@ -62,35 +112,9 @@ abstract class BaseCommand extends Command implements PluginIdentifiableCommand 
 	}
 
 	/**
-	 * @param CommandSender $sender
-	 * @param string        $alias
-	 */
-	protected function sendUsage(CommandSender $sender, string $alias) {
-		if(!$sender instanceof Player) {
-			$sender->sendMessage(TF::RED . "[Error] "/* TODO */);
-			return;
-		}
-		$sender->sendMessage(TF::RED . "[Usage] /" . $alias . " " . $this->getUsage());
-	}
-
-	/**
 	 * @return Config
 	 */
 	protected function getConfig(): Config {
 		return $this->getLoader()->getConfig();
-	}
-
-	/**
-	 * @return Loader
-	 */
-	public function getLoader(): Loader {
-		return $this->loader;
-	}
-
-	/**
-	 * @return MessagesContainer
-	 */
-	public function getMessages(): MessagesContainer {
-		return $this->getLoader()->getConfigurableData()->getMessagesContainer();
 	}
 }

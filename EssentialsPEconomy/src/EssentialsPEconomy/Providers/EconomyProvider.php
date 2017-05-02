@@ -2,13 +2,13 @@
 
 namespace EssentialsPEconomy\Providers;
 
-use EssentialsPEconomy\Loader;
+use EssentialsPEconomy\EssentialsPEconomy;
 
 abstract class EconomyProvider implements IEconomyProvider {
 
 	protected $loader;
 
-	public function __construct(Loader $loader) {
+	public function __construct(EssentialsPEconomy $loader) {
 		$this->loader = $loader;
 		$this->prepare();
 	}
@@ -23,9 +23,9 @@ abstract class EconomyProvider implements IEconomyProvider {
 	}
 
 	/**
-	 * @return Loader
+	 * @return EssentialsPEconomy
 	 */
-	public function getLoader(): Loader {
+	public function getLoader(): EssentialsPEconomy {
 		return $this->loader;
 	}
 }

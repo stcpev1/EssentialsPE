@@ -12,6 +12,8 @@ use EssentialsPE\Commands\Miscellaneous\BreakCommand;
 use EssentialsPE\Configurable\DataManager;
 use EssentialsPE\EventHandlers\SpecialSigns\SignBreak;
 use EssentialsPE\EventHandlers\SpecialSigns\TeleportSign;
+use EssentialsPEconomy\EssentialsPEconomy;
+use EssentialsPEWarps\EssentialsPEWarps;
 use pocketmine\plugin\PluginBase;
 
 class Loader extends PluginBase {
@@ -34,6 +36,13 @@ class Loader extends PluginBase {
 	 */
 	public function addModule(int $moduleId) {
 		$this->installedModules[$moduleId] = true;
+	}
+
+	public function onEnable() {
+		$this->configurableData = new DataManager($this);
+
+		$this->registerCommands();
+		$this->registerEventHandlers();
 	}
 
 	public function registerCommands() {
@@ -91,13 +100,6 @@ class Loader extends PluginBase {
 		}
 	}
 
-	public function onEnable() {
-		$this->configurableData = new DataManager($this);
-
-		$this->registerCommands();
-		$this->registerEventHandlers();
-	}
-
 	public function onDisable() {
 		$this->getConfigurableData()->saveAll();
 	}
@@ -105,11 +107,11 @@ class Loader extends PluginBase {
 	/**
 	 * Returns an instance of the EssentialsPEconomy module if enabled, otherwise false.
 	 *
-	 * @return bool|\EssentialsPEconomy\Loader
+	 * @return bool|EssentialsPEconomy
 	 */
 	public function getEconomyModule() {
 		if($this->isModuleLoaded(self::MODULE_ECONOMY)) {
-			if($economy = $this->getServer()->getPluginManager()->getPlugin("EssentialsPEconomy") instanceof \EssentialsPEconomy\Loader) {
+			if($economy = $this->getServer()->getPluginManager()->getPlugin("EssentialsPEconomy") instanceof EssentialsPEconomy) {
 				return $economy;
 			}
 		}
@@ -119,11 +121,11 @@ class Loader extends PluginBase {
 	/**
 	 * Returns an instance of the EssentialsPEWarps module if enabled, otherwise false.
 	 *
-	 * @return bool|\EssentialsPEWarps\Loader
+	 * @return bool|EssentialsPEWarps
 	 */
 	public function getWarpsModule() {
 		if($this->isModuleLoaded(self::MODULE_WARPS)) {
-			if($warps = $this->getServer()->getPluginManager()->getPlugin("EssentialsPEWarps") instanceof \EssentialsPEWarps\Loader) {
+			if($warps = $this->getServer()->getPluginManager()->getPlugin("EssentialsPEWarps") instanceof EssentialsPEWarps) {
 				return $warps;
 			}
 		}

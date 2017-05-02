@@ -8,12 +8,11 @@ use pocketmine\block\Air;
 use pocketmine\block\Block;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 
 class BreakCommand extends BaseCommand {
 
 	public function __construct(Loader $loader) {
-		parent::__construct($loader, "break", "Breaks the block you're looking at");
+		parent::__construct($loader, "break");
 		$this->setPermission("essentials.command.break.use");
 		$this->setModule(Loader::MODULE_ESSENTIALS);
 	}
@@ -27,19 +26,18 @@ class BreakCommand extends BaseCommand {
 	 */
 	public function execute(CommandSender $sender, $alias, array $args): bool {
 		if(!$this->testPermission($sender)) {
-			$this->sendPermissionMessage($sender);
 			return false;
 		}
-		if(!$sender instanceof Player) {
+		if(!$sender instanceof Player || count($args) !== 0) {
 			$this->sendUsage($sender, $alias);
-			return false;
+			return true;
 		}
 		if(($block = $sender->getTargetBlock(100, [Block::AIR])) === null) {
-			$sender->sendMessage(TextFormat::RED . "[Error] " . $this->getMessages()->getMessages()["command"]["error"]["break"]["no-target"]);
-			return false;
+			$this->sendMessageContainer($sender, "error.near.block");
+			return true;
 		} elseif($block->getId() === Block::BEDROCK && !$sender->hasPermission("essentials.command.break.bedrock")) {
-			$sender->sendMessage(TextFormat::RED . "[Error] " . $this->getMessages()->getMessages()["command"]["error"]["break"]["bedrock-perm"]);
-			return false;
+			$this->sendMessageContainer($sender, "commands.break.bedrock-permission");
+			return true;
 		}
 		$sender->getLevel()->setBlock($block, new Air(), true, true);
 		return true;

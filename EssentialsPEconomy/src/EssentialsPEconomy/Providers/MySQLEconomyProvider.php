@@ -2,7 +2,7 @@
 
 namespace EssentialsPEconomy\Providers;
 
-use EssentialsPEconomy\Loader;
+use EssentialsPEconomy\EssentialsPEconomy;
 use pocketmine\Player;
 
 class MySQLEconomyProvider extends EconomyProvider {
@@ -10,17 +10,8 @@ class MySQLEconomyProvider extends EconomyProvider {
 	/** @var \mysqli */
 	private $database;
 
-	public function __construct(Loader $loader) {
+	public function __construct(EssentialsPEconomy $loader) {
 		parent::__construct($loader);
-	}
-
-	/**
-	 * @param string $string
-	 *
-	 * @return string
-	 */
-	private function escape(string $string): string {
-		return $this->database->real_escape_string($string);
 	}
 
 	public function prepare() {
@@ -81,6 +72,15 @@ class MySQLEconomyProvider extends EconomyProvider {
 
 		$result = $this->database->query("SELECT Balance FROM Economy WHERE Player = '" . $this->escape($lowerCaseName) . "'");
 		return $result->num_rows !== 0;
+	}
+
+	/**
+	 * @param string $string
+	 *
+	 * @return string
+	 */
+	private function escape(string $string): string {
+		return $this->database->real_escape_string($string);
 	}
 
 	/**
