@@ -33,13 +33,14 @@ class MySQLEconomyProvider extends EconomyProvider {
 	 * @return array
 	 */
 	public function getEconomyTop(int $limit = 10): array {
-		$result = $this->database->query("SELECT * FROM Economy ORDER BY Balance DESC LIMIT 10");
+		$result = $this->database->query("SELECT * FROM Economy ORDER BY Balance DESC LIMIT 10;");
 		$return = [];
 		for($i = 0; $i <= $limit; $i++) {
 			if($array = $result->fetch_assoc()) {
-				$return[$array[0]] = $array[1];
+				$return[$array[$i]] = $array[1];
 			}
 		}
+		$result->free();
 		return $return;
 	}
 
@@ -53,12 +54,18 @@ class MySQLEconomyProvider extends EconomyProvider {
 		if($balance === -1) {
 			$balance = $this->getLoader()->getConfiguration()->get("Default-Balance");
 		}
+		if($balance < $this->getLoader()->getConfiguration()->get("Minimum-Balance")) {
+			throw new \OutOfBoundsException("A Player's balance can't be below the minimum balance.");
+		}
+		if($balance > $this->getLoader()->getConfiguration()->get("Maximum-Balance")) {
+			throw new \OutOfBoundsException("A Player's balance can't exceed the maximum balance.");
+		}
 		$lowerCaseName = strtolower($player->getName());
 
 		if($this->playerExists($player)) {
 			return false;
 		}
-		$this->database->query("INSERT INTO Economy(Player, Balance) VALUES ('" . $this->escape($lowerCaseName) . "', $balance)");
+		$this->database->query("INSERT INTO Economy(Player, Balance) VALUES ('" . $this->escape($lowerCaseName) . "', $balance);");
 		return true;
 	}
 
@@ -70,8 +77,10 @@ class MySQLEconomyProvider extends EconomyProvider {
 	public function playerExists(Player $player): bool {
 		$lowerCaseName = strtolower($player->getName());
 
-		$result = $this->database->query("SELECT Balance FROM Economy WHERE Player = '" . $this->escape($lowerCaseName) . "'");
-		return $result->num_rows !== 0;
+		$result = $this->database->query("SELECT Balance FROM Economy WHERE Player = '" . $this->escape($lowerCaseName) . "';");
+		$rows = $result->num_rows;
+		$result->free();
+		return $rows !== 0;
 	}
 
 	/**
@@ -94,7 +103,7 @@ class MySQLEconomyProvider extends EconomyProvider {
 		if(!$this->playerExists($player)) {
 			return false;
 		}
-		if($this->database->query("DELETE FROM Economy WHERE Player = '" . $this->escape($lowerCaseName) . "'")) {
+		if($this->database->query("DELETE FROM Economy WHERE Player = '" . $this->escape($lowerCaseName) . "';")) {
 			return true;
 		}
 		return false;
@@ -112,12 +121,12 @@ class MySQLEconomyProvider extends EconomyProvider {
 			return false;
 		}
 		if($amount < $this->getLoader()->getConfiguration()->get("Minimum-Balance")) {
-			throw new \OutOfBoundsException("A Player's balance can't be below the minimum balance.");
+			return false;
 		}
 		if($amount > $this->getLoader()->getConfiguration()->get("Maximum-Balance")) {
-			throw new \OutOfBoundsException("A Player's balance can't exceed the maximum balance.");
+			return false;
 		}
-		$result = $this->database->query("UPDATE Economy SET Balance = $amount WHERE Player = '" . $this->escape($lowerCaseName) . "'");
+		$result = $this->database->query("UPDATE Economy SET Balance = $amount WHERE Player = '" . $this->escape($lowerCaseName) . "';");
 		return $result;
 	}
 
@@ -129,7 +138,7 @@ class MySQLEconomyProvider extends EconomyProvider {
 	 */
 	public function subtractFromBalance(Player $player, int $amount): bool {
 		if($this->getBalance($player) - $amount < $this->getLoader()->getConfiguration()->get("Minimum-Balance")) {
-			throw new \OutOfBoundsException("A Player's balance can't be below the minimum balance.");
+			return false;
 		}
 		return $this->addToBalance($player, -$amount);
 	}
@@ -144,8 +153,10 @@ class MySQLEconomyProvider extends EconomyProvider {
 		if(!$this->playerExists($player)) {
 			return false;
 		}
-		$result = $this->database->query("SELECT Balance FROM Economy WHERE Player = '" . $this->escape($lowerCaseName) . "'");
-		return $result->fetch_array()[0];
+		$result = $this->database->query("SELECT Balance FROM Economy WHERE Player = '" . $this->escape($lowerCaseName) . "';");
+		$return = $result->fetch_array()[0];
+		$result->free();
+		return $return;
 	}
 
 	/**
@@ -160,9 +171,9 @@ class MySQLEconomyProvider extends EconomyProvider {
 			return false;
 		}
 		if($amount + $this->getBalance($player) > $this->getLoader()->getConfiguration()->get("Maximum-Balance")) {
-			throw new \OutOfBoundsException("A Player's balance can't be above the maximum balance.");
+			return false;
 		}
-		$result = $this->database->query("UPDATE Economy SET Balance = Balance + $amount WHERE Player = '" . $this->escape($lowerCaseName) . "'");
+		$result = $this->database->query("UPDATE Economy SET Balance = Balance + $amount WHERE Player = '" . $this->escape($lowerCaseName) . "';");
 		return $result;
 	}
 

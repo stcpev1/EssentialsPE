@@ -40,15 +40,15 @@ class DataManager {
 		return $this->messages;
 	}
 
+	public function saveAll() {
+		$this->getConfiguration()->saveConfiguration();
+	}
+
 	/**
 	 * @return EssentialsPEConfiguration
 	 */
 	public function getConfiguration(): EssentialsPEConfiguration {
 		return $this->config;
-	}
-
-	public function saveAll() {
-		$this->getConfiguration()->saveConfiguration();
 	}
 
 }

@@ -9,7 +9,7 @@ use pocketmine\utils\Config;
 
 class JsonEconomyProvider extends EconomyProvider {
 
-	private $database;
+	private $database = [];
 	/** @var Config $data */
 	private $data;
 
@@ -82,9 +82,9 @@ class JsonEconomyProvider extends EconomyProvider {
 	 */
 	public function playerExists(Player $player): bool {
 		$lowerCaseName = strtolower($player->getName());
-		if(!empty($value = $this->data->get($lowerCaseName))) {
+		if($this->data->exists($lowerCaseName)) {
 			if(!isset($this->database[$lowerCaseName])) {
-				$this->database[$lowerCaseName] = $value;
+				$this->database[$lowerCaseName] = $this->data->get($lowerCaseName);
 			}
 			return true;
 		}
@@ -117,10 +117,10 @@ class JsonEconomyProvider extends EconomyProvider {
 			return false;
 		}
 		if($amount < $this->getLoader()->getConfiguration()->get("Minimum-Balance")) {
-			throw new \OutOfBoundsException("A Player's balance can't be below the minimum balance.");
+			return false;
 		}
 		if($amount > $this->getLoader()->getConfiguration()->get("Maximum-Balance")) {
-			throw new \OutOfBoundsException("A Player's balance can't exceed the maximum balance.");
+			return false;
 		}
 		$this->database[$lowerCaseName] = $amount;
 		return true;
@@ -134,7 +134,7 @@ class JsonEconomyProvider extends EconomyProvider {
 	 */
 	public function subtractFromBalance(Player $player, int $amount): bool {
 		if($this->getBalance($player) - $amount < $this->getLoader()->getConfiguration()->get("Minimum-Balance")) {
-			throw new \OutOfBoundsException("A Player's balance can't be below the minimum balance.");
+			return false;
 		}
 		return $this->addToBalance($player, -$amount);
 	}
@@ -161,6 +161,9 @@ class JsonEconomyProvider extends EconomyProvider {
 	public function addToBalance(Player $player, int $amount): bool {
 		$lowerCaseName = strtolower($player->getName());
 		if(!$this->playerExists($player)) {
+			return false;
+		}
+		if($amount + $this->getBalance($player) > $this->getLoader()->getConfiguration()->get("Maximum-Balance")) {
 			return false;
 		}
 		$this->database[$lowerCaseName] += $amount;

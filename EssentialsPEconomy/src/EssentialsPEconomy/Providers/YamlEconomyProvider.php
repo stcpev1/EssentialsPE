@@ -8,7 +8,7 @@ use pocketmine\utils\Config;
 
 class YamlEconomyProvider extends EconomyProvider {
 
-	private $database;
+	private $database = [];
 	/** @var Config $data */
 	private $data;
 
@@ -81,9 +81,9 @@ class YamlEconomyProvider extends EconomyProvider {
 	 */
 	public function playerExists(Player $player): bool {
 		$lowerCaseName = strtolower($player->getName());
-		if(!empty($value = $this->data->get($lowerCaseName))) {
+		if($this->data->exists($lowerCaseName)) {
 			if(!isset($this->database[$lowerCaseName])) {
-				$this->database[$lowerCaseName] = $value;
+				$this->database[$lowerCaseName] = $this->data->get($lowerCaseName);
 			}
 			return true;
 		}
@@ -151,10 +151,19 @@ class YamlEconomyProvider extends EconomyProvider {
 		return $this->database[$lowerCaseName];
 	}
 
+	/**
+	 * @param Player $player
+	 * @param int    $amount
+	 *
+	 * @return bool
+	 */
 	public function addToBalance(Player $player, int $amount): bool {
 		$lowerCaseName = strtolower($player->getName());
 		if(!$this->playerExists($player)) {
 			return false;
+		}
+		if($amount + $this->getBalance($player) > $this->getLoader()->getConfiguration()->get("Maximum-Balance")) {
+			throw new \OutOfBoundsException("A Player's balance can't be above the maximum balance.");
 		}
 		$this->database[$lowerCaseName] += $amount;
 		return true;

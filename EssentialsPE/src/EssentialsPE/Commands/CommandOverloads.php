@@ -27,8 +27,7 @@ class CommandOverloads {
 					"name" => "parameter",
 					"optional" => true,
 					"enum_values" => [
-						"reload",
-						"info"
+						"version"
 					]
 				]
 			],
@@ -69,6 +68,23 @@ class CommandOverloads {
 					"name" => "amount",
 					"optional" => false
 				]
+			],
+			"balance" => [
+				0 => [
+					"type" => "rawtext",
+					"name" => "player",
+					"optional" => true
+				]
+			],
+			"broadcast" => [
+				0 => [
+					"type" => "rawtext",
+					"name" => "message",
+					"optional" => false
+				]
+			],
+			"balancetop" => [
+
 			]
 		];
 	}

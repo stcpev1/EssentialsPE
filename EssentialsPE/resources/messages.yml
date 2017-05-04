@@ -44,6 +44,19 @@ commands:
     self: "&bYou have &a{0}"
     set: "&eSetting &d{0} &eas balance..."
     take: "&eTaking &d{0} &efrom balance..."
+    above-limit: "&cYou can't give more money than the maximum money limit"
+    below-limit: "&cYou can't take more money than the minimum money limit"
+    out-limit: "&cYou can't set money out of the money limits"
+  balancetop:
+    name: "balancetop"
+    description: "View current top balances"
+    usage: ""
+    console-usage: true
+    alias:
+     - moneytop
+     - topmoney
+     - topbalance
+    top: "&b--- &aBalance Top List &b---"
   bigtree:
     name: "bigtree"
     description: "Spawns a big tree"
@@ -404,6 +417,7 @@ commands:
     alias: []
     confirmation: "&ePaying &a{0} &eto &d{1}"
     profit: "&cYou do not have enough profit to pay"
+    excessive: "&cThe target player has too much money"
   ping:
     name: "ping"
     description: "Pong!"

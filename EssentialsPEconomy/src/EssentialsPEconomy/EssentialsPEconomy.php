@@ -20,7 +20,7 @@ class EssentialsPEconomy extends PluginBase {
 
 	public function onLoad() {
 		$this->essentials = $this->getServer()->getPluginManager()->getPlugin("EssentialsPE");
-		$this->essentials->addModule(Loader::MODULE_ECONOMY);
+		$this->essentials->addModule(Loader::MODULE_ECONOMY, "EssentialsPEconomy");
 	}
 
 	public function onEnable() {
@@ -53,9 +53,9 @@ class EssentialsPEconomy extends PluginBase {
 	}
 
 	/**
-	 * @return \EssentialsPE\Loader
+	 * @return Loader
 	 */
-	public function getEssentialsPE(): \EssentialsPE\Loader {
+	public function getEssentialsPE(): Loader {
 		return $this->essentials;
 	}
 

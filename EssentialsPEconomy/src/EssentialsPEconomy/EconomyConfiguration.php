@@ -26,7 +26,6 @@ class EconomyConfiguration {
 		$this->ecoConfigurationData = @[
 			"Economy-Config-Version" => $configurationData["Economy-Config-Version"] ?? 0.0,
 			"Auto-Update-Config" => $configurationData["Auto-Update-Config"] ?? true,
-			"Economy-Provider" => $configurationData["Economy-Provider"] ?? "MySQL",
 			"Currency-Symbol" => $configurationData["Currency-Symbol"] ?? '$',
 			"Minimum-Balance" => $configurationData["Minimum-Balance"] ?? 0,
 			"Maximum-Balance" => $configurationData["Maximum-Balance"] ?? 10000000,

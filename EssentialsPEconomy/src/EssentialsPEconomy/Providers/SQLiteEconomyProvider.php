@@ -20,7 +20,7 @@ class SQLiteEconomyProvider extends EconomyProvider {
 		}
 		$this->database = new \SQLite3($path);
 		$query = "CREATE TABLE IF NOT EXISTS Economy(Player VARCHAR(20) PRIMARY KEY, Balance INT);";
-		$this->database->query($query);
+		$this->database->exec($query);
 	}
 
 	/**
@@ -29,12 +29,15 @@ class SQLiteEconomyProvider extends EconomyProvider {
 	 * @return array
 	 */
 	public function getEconomyTop(int $limit = 10): array {
-		$result = $this->database->query("SELECT * FROM Economy ORDER BY Balance DESC LIMIT 10");
+		$result = $this->database->query("SELECT * FROM Economy ORDER BY Balance DESC LIMIT 10;");
 		$return = [];
 		for($i = 0; $i <= $limit; $i++) {
-			if($array = $result->fetchArray(SQLITE3_ASSOC))
-			$return[] = $array;
+			if($array = $result->fetchArray(SQLITE3_ASSOC)) {
+				$return[$array[$i]] = $array["Balance"];
+			}
 		}
+		var_dump($array);
+		var_dump($result);
 		var_dump($return);
 		return $return;
 	}
@@ -54,7 +57,7 @@ class SQLiteEconomyProvider extends EconomyProvider {
 		if($this->playerExists($player)) {
 			return false;
 		}
-		$this->database->query("INSERT INTO Economy(Player, Balance) VALUES ('" . $this->escape($lowerCaseName) . "', $balance)");
+		var_dump($this->database->exec("INSERT INTO Economy(Player, Balance) VALUES ('" . $this->escape($lowerCaseName) . "', $balance);"));
 		return true;
 	}
 
@@ -66,8 +69,8 @@ class SQLiteEconomyProvider extends EconomyProvider {
 	public function playerExists(Player $player): bool {
 		$lowerCaseName = strtolower($player->getName());
 
-		$result = $this->database->query("SELECT Balance FROM Economy WHERE Player = '" . $this->escape($lowerCaseName) . "'");
-		return $result->numColumns()[0] !== 0;
+		$result = $this->database->query("SELECT Balance FROM Economy WHERE Player = '" . $this->escape($lowerCaseName) . "';");
+		return empty((array)$result);
 	}
 
 	/**
@@ -90,7 +93,7 @@ class SQLiteEconomyProvider extends EconomyProvider {
 		if(!$this->playerExists($player)) {
 			return false;
 		}
-		if($this->database->query("DELETE FROM Economy WHERE Player = '" . $this->escape($lowerCaseName) . "'")) {
+		if($this->database->exec("DELETE FROM Economy WHERE Player = '" . $this->escape($lowerCaseName) . "';")) {
 			return true;
 		}
 		return false;
@@ -113,7 +116,8 @@ class SQLiteEconomyProvider extends EconomyProvider {
 		if($amount > $this->getLoader()->getConfiguration()->get("Maximum-Balance")) {
 			throw new \OutOfBoundsException("A Player's balance can't exceed the maximum balance.");
 		}
-		$result = $this->database->query("UPDATE Economy SET Balance = $amount WHERE Player = '" . $this->escape($lowerCaseName) . "'");
+		$result = $this->database->exec("UPDATE Economy SET Balance = $amount WHERE Player = '" . $this->escape($lowerCaseName) . "';");
+		var_dump($result);
 		return $result !== false;
 	}
 
@@ -140,11 +144,9 @@ class SQLiteEconomyProvider extends EconomyProvider {
 		if(!$this->playerExists($player)) {
 			return false;
 		}
-		$result = $this->database->query("SELECT Balance FROM Economy WHERE Player = '" . $this->escape($lowerCaseName) . "'");
-		$ret = $result->fetchArray(SQLITE3_ASSOC);
-		var_dump($ret[0]);
-		var_dump($ret[1]);
-		return $ret[0];
+		$result = $this->database->query("SELECT Balance FROM Economy WHERE Player = '" . $this->escape($lowerCaseName) . "';");
+		$ret = $result->fetchArray(SQLITE3_ASSOC)["Balance"];
+		return $ret;
 	}
 
 	/**
@@ -161,7 +163,7 @@ class SQLiteEconomyProvider extends EconomyProvider {
 		if($amount + $this->getBalance($player) > $this->getLoader()->getConfiguration()->get("Maximum-Balance")) {
 			throw new \OutOfBoundsException("A Player's balance can't be above the maximum balance.");
 		}
-		$result = $this->database->query("UPDATE Economy SET Balance = Balance + $amount WHERE Player = '" . $this->escape($lowerCaseName) . "'");
+		$result = $this->database->exec("UPDATE Economy SET Balance = Balance + $amount WHERE Player = '" . $this->escape($lowerCaseName) . "';");
 		return $result !== false;
 	}
 

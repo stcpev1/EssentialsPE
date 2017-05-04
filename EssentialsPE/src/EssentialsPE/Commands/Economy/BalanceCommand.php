@@ -2,17 +2,15 @@
 
 namespace EssentialsPE\Commands\Economy;
 
-use EssentialsPE\Commands\BaseCommand;
 use EssentialsPE\Loader;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
 
-class BalanceCommand extends BaseCommand {
+class BalanceCommand extends EconomyCommand {
 
 	public function __construct(Loader $loader) {
 		parent::__construct($loader, "balance");
 		$this->setPermission("essentials.command.balance.use");
-		$this->setModule(Loader::MODULE_ECONOMY);
 	}
 
 	public function execute(CommandSender $sender, $commandLabel, array $args) {
@@ -33,7 +31,7 @@ class BalanceCommand extends BaseCommand {
 				return true;
 			}
 		}
-		$this->sendMessageContainer($sender, "commands.balance." . ($player === $sender ? "self" : "other"), $this->getLoader()->getEconomyModule()->getProvider()->getCurrencySymbol() . $this->getLoader()->getEconomyModule()->getProvider()->getBalance($player), $player->getDisplayName());
+		$this->sendMessageContainer($sender, "commands.balance." . ($player === $sender ? "self" : "other"), $this->getEconomyProvider()->getCurrencySymbol() . $this->getEconomyProvider()->getBalance($player), $player->getDisplayName());
 		return true;
 	}
 }

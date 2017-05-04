@@ -23,16 +23,16 @@ class Warp {
 	}
 
 	/**
-	 * @return Position
-	 */
-	public function getPosition(): Position {
-		return $this->position;
-	}
-
-	/**
 	 * @param Player $player
 	 */
 	public function teleportTo(Player $player) {
 		$player->teleport($this->getPosition());
+	}
+
+	/**
+	 * @return Position
+	 */
+	public function getPosition(): Position {
+		return $this->position;
 	}
 }

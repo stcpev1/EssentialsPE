@@ -1,6 +1,6 @@
 ---
 name: EssentialsPEconomy
-main: EssentialsPEconomy\Loader
+main: EssentialsPEconomy\EssentialsPEconomy
 version: 1.0.0
 api:
 - 3.0.0-ALPHA5

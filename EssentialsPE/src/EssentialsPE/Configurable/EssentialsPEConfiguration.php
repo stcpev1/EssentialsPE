@@ -36,6 +36,7 @@ class EssentialsPEConfiguration extends ConfigurableDataHolder {
 		$this->configurationData = @[
 			"Config-Version" => $configurationData["Config-Version"] ?? 0.0,
 			"Auto-Update-Config" => $configurationData["Auto-Update-Config"] ?? true,
+			"Provider" => $configurationData["Provider"] ?? "SQLite",
 			"MySQL.Host" => $configurationData["MySQL"]["Host"] ?? "127.0.0.1",
 			"MySQL.User" => $configurationData["MySQL"]["User"] ?? "Admin",
 			"MySQL.Password" => $configurationData["MySQL"]["Password"] ?? "Admin",

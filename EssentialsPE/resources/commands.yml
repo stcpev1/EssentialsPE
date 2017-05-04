@@ -5,9 +5,11 @@
 
 essentialspe: true
 break: true
+broadcast: true
 
 # Economy Commands - Require installation of the EssentialsPEconomy module.
 balance: true
 eco: true
 pay: true
+balancetop: true
 ...

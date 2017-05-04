@@ -98,7 +98,7 @@ abstract class BaseCommand extends Command implements PluginIdentifiableCommand 
 	/**
 	 * @param CommandSender $sender
 	 * @param string        $message
-	 * @param array         ...$args
+	 * @param array         ...$replacements
 	 */
 	public function sendMessageContainer(CommandSender $sender, string $message, ...$replacements) {
 		$sender->sendMessage($this->getLoader()->getConfigurableData()->getMessagesContainer()->getMessage($message, ...$replacements));

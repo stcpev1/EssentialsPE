@@ -12,7 +12,7 @@ class EssentialsPEWarps extends PluginBase {
 
 	public function onLoad() {
 		$this->essentials = $this->getServer()->getPluginManager()->getPlugin("EssentialsPE");
-		$this->essentials->addModule(Loader::MODULE_WARPS);
+		$this->essentials->addModule(Loader::MODULE_WARPS, "EssentialsPEWarps");
 	}
 
 	/**

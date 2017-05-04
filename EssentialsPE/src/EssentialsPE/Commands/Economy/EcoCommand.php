@@ -2,16 +2,15 @@
 
 namespace EssentialsPE\Commands\Economy;
 
-use EssentialsPE\Commands\BaseCommand;
 use EssentialsPE\Loader;
+use EssentialsPEconomy\EssentialsPEconomy;
 use pocketmine\command\CommandSender;
 
-class EcoCommand extends BaseCommand {
+class EcoCommand extends EconomyCommand {
 
 	public function __construct(Loader $loader) {
 		parent::__construct($loader, "eco");
 		$this->setPermission("essentials.command.eco");
-		$this->setModule(Loader::MODULE_ECONOMY);
 	}
 
 	/**
@@ -38,23 +37,33 @@ class EcoCommand extends BaseCommand {
 			return true;
 		}
 		$balance = (int)$args[2];
+		$economyModule = $this->getLoader()->getModule(Loader::MODULE_ECONOMY);
+		if(!$economyModule instanceof EssentialsPEconomy) {
+			return false;
+		}
 		switch(strtolower($args[0])) {
 			case "give":
 			case "add":
 				$this->sendMessageContainer($sender, "commands.balance.add", $balance);
-				$this->getLoader()->getEconomyModule()->getProvider()->addToBalance($player, $balance);
+				if($this->getEconomyProvider()->addToBalance($player, $balance) === false) {
+					$this->sendMessageContainer($sender, "commands.balance.above-limit");
+				}
 				break;
 			case "reset":
 				$this->sendMessageContainer($sender, "commands.balance.reset");
-				$this->getLoader()->getEconomyModule()->getProvider()->setBalance($player, $this->getLoader()->getEconomyModule()->getConfiguration()->get("Default-Balance"));
+				$this->getEconomyProvider()->setBalance($player, $economyModule->getConfiguration()->get("Default-Balance"));
 				break;
 			case "set":
-				$this->sendMessageContainer($sender, "commands.balance.set");
-				$this->getLoader()->getEconomyModule()->getProvider()->setBalance($player, $balance);
+				$this->sendMessageContainer($sender, "commands.balance.set", $balance);
+				if($this->getEconomyProvider()->setBalance($player, $balance) === false) {
+					$this->sendMessageContainer($sender, "commands.balance.below-limit");
+				}
 				break;
 			case "take":
 				$this->sendMessageContainer($sender, "commands.balance.take", $balance);
-				$this->getLoader()->getEconomyModule()->getProvider()->addToBalance($player, -$balance);
+				if($this->getEconomyProvider()->subtractFromBalance($player, $balance) === false) {
+					$this->sendMessageContainer($sender, "commands.balance.out-limit");
+				}
 				break;
 		}
 		return true;
