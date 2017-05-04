@@ -85,6 +85,95 @@ class CommandOverloads {
 			],
 			"balancetop" => [
 
+			],
+			"burn" => [
+				0 => [
+					"type" => "rawtext",
+					"name" => "player",
+					"optional" => false
+				],
+				1 => [
+					"type" => "int",
+					"name" => "seconds",
+					"optional" => false
+				]
+			],
+			"compass" => [
+
+			],
+			"depth" => [
+
+			],
+			"extinguish" => [
+				0 => [
+					"type" => "rawtext",
+					"name" => "player",
+					"optional" => true
+				]
+			],
+			"feed" => [
+				0 => [
+					"type" => "rawtext",
+					"name" => "player",
+					"optional" => true
+				]
+			],
+			"getpos" => [
+				0 => [
+					"type" => "rawtext",
+					"name" => "player",
+					"optional" => true
+				]
+			],
+			"heal" => [
+				0 => [
+					"type" => "rawtext",
+					"name" => "player",
+					"optional" => true
+				]
+			],
+			"ping" => [
+
+			],
+			"setspawn" => [
+
+			],
+			"speed" => [
+				0 => [
+					"type" => "int",
+					"name" => "amplifier",
+					"optional" => false
+				],
+				1 => [
+					"type" => "rawtext",
+					"name" => "player",
+					"optional" => true
+				]
+			],
+			"sudo" => [
+				0 => [
+					"type" => "rawtext",
+					"name" => "player",
+					"optional" => false
+				],
+				1 => [
+					"type" => "rawtext",
+					"name" => "command",
+					"optional" => false
+				]
+			],
+			"suicide" => [
+
+			],
+			"top" => [
+
+			],
+			"world" => [
+				0 => [
+					"type" => "rawtext",
+					"name" => "world",
+					"optional" => false
+				]
 			]
 		];
 	}

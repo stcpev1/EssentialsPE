@@ -1,16 +1,18 @@
 <?php
 
-namespace EssentialsPE\Commands\Economy;
+namespace EssentialsPE\Commands\Miscellaneous;
 
+use EssentialsPE\Commands\BaseCommand;
 use EssentialsPE\Loader;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
 
-class BalanceCommand extends EconomyCommand {
+class GetPosCommand extends BaseCommand {
 
 	public function __construct(Loader $loader) {
-		parent::__construct($loader, "balance");
-		$this->setPermission("essentials.command.balance.use");
+		parent::__construct($loader, "getpos");
+		$this->setPermission("essentials.command.getpos.use");
+		$this->setModule(Loader::MODULE_ESSENTIALS);
 	}
 
 	/**
@@ -30,15 +32,15 @@ class BalanceCommand extends EconomyCommand {
 		}
 		$player = $sender;
 		if(isset($args[0])) {
-			if(!$sender->hasPermission("essentials.balance.other")) {
-				$sender->sendMessage($this->getPermissionMessage());
+			if(!$sender->hasPermission("essentials.getpos.other")) {
+				$this->sendMessageContainer($sender, "commands.getpos.other-permission");
 				return true;
-			} elseif(!$player = $this->getLoader()->getServer()->getPlayer($args[0])) {
+			} elseif(!($player = $this->getLoader()->getServer()->getPlayer($args[0]))) {
 				$this->sendMessageContainer($sender, "error.player-not-found", $args[0]);
 				return true;
 			}
 		}
-		$this->sendMessageContainer($sender, "commands.balance." . ($player === $sender ? "self" : "other"), $this->getEconomyProvider()->getCurrencySymbol() . $this->getEconomyProvider()->getBalance($player), $player->getDisplayName());
+		$this->sendMessageContainer($sender, "commands.getpos." . ($player === $sender ? "self" : "other") . "-location", $player->getLevel()->getName(), $player->getX(), $player->getY(), $player->getZ(), $player->getDisplayName());
 		return true;
 	}
 }

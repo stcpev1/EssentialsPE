@@ -1,17 +1,16 @@
 <?php
 
-namespace EssentialsPE\Commands\Chat;
+namespace EssentialsPE\Commands\Miscellaneous;
 
 use EssentialsPE\Commands\BaseCommand;
 use EssentialsPE\Loader;
 use pocketmine\command\CommandSender;
-use pocketmine\utils\TextFormat as TF;
 
-class BroadcastCommand extends BaseCommand {
+class PingCommand extends BaseCommand {
 
 	public function __construct(Loader $loader) {
-		parent::__construct($loader, "broadcast");
-		$this->setPermission("essentials.command.broadcast");
+		parent::__construct($loader, "ping");
+		$this->setPermission("essentials.command.ping");
 		$this->setModule(Loader::MODULE_ESSENTIALS);
 	}
 
@@ -26,11 +25,7 @@ class BroadcastCommand extends BaseCommand {
 		if(!$this->testPermission($sender)) {
 			return false;
 		}
-		if(count($args) < 1) {
-			$this->sendUsage($sender, $commandLabel);
-			return true;
-		}
-		$sender->getServer()->broadcastMessage(TF::RED . "[Broadcast] " . TF::RESET . implode(" ", $args));
+		$this->sendMessageContainer($sender, "commands.ping.pong");
 		return true;
 	}
 }

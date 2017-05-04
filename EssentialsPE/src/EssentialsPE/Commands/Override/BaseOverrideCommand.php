@@ -1,7 +1,8 @@
 <?php
 
-namespace EssentialsPE\Commands;
+namespace EssentialsPE\Commands\Override;
 
+use EssentialsPE\Commands\BaseCommand;
 use EssentialsPE\Loader;
 
 abstract class BaseOverrideCommand extends BaseCommand {

@@ -5,7 +5,7 @@ namespace EssentialsPE\Commands\Economy;
 use EssentialsPE\Commands\BaseCommand;
 use EssentialsPE\Loader;
 use EssentialsPEconomy\EssentialsPEconomy;
-use EssentialsPEconomy\Providers\EconomyProvider;
+use EssentialsPEconomy\Providers\BaseEconomyProvider;
 
 abstract class EconomyCommand extends BaseCommand {
 
@@ -15,9 +15,9 @@ abstract class EconomyCommand extends BaseCommand {
 	}
 
 	/**
-	 * @return EconomyProvider
+	 * @return BaseEconomyProvider
 	 */
-	protected function getEconomyProvider(): EconomyProvider {
+	protected function getEconomyProvider(): BaseEconomyProvider {
 		$module = $this->getLoader()->getModule(Loader::MODULE_ECONOMY);
 		if($module instanceof EssentialsPEconomy) {
 			return $module->getProvider();

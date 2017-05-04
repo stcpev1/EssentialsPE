@@ -20,7 +20,7 @@ class BalanceTopCommand extends EconomyCommand {
 	 *
 	 * @return bool
 	 */
-	public function execute(CommandSender $sender, $commandLabel, array $args) {
+	public function execute(CommandSender $sender, $commandLabel, array $args): bool {
 		if(!$this->testPermission($sender)) {
 			return false;
 		}

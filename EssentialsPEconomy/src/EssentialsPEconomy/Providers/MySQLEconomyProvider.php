@@ -5,7 +5,7 @@ namespace EssentialsPEconomy\Providers;
 use EssentialsPEconomy\EssentialsPEconomy;
 use pocketmine\Player;
 
-class MySQLEconomyProvider extends EconomyProvider {
+class MySQLEconomyProvider extends BaseEconomyProvider {
 
 	/** @var \mysqli */
 	private $database;

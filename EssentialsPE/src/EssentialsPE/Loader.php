@@ -11,6 +11,19 @@ use EssentialsPE\Commands\Economy\EcoCommand;
 use EssentialsPE\Commands\Economy\PayCommand;
 use EssentialsPE\Commands\EssentialsPECommand;
 use EssentialsPE\Commands\Miscellaneous\BreakCommand;
+use EssentialsPE\Commands\Miscellaneous\CompassCommand;
+use EssentialsPE\Commands\Miscellaneous\DepthCommand;
+use EssentialsPE\Commands\Miscellaneous\ExtinguishCommand;
+use EssentialsPE\Commands\Miscellaneous\FeedCommand;
+use EssentialsPE\Commands\Miscellaneous\GetPosCommand;
+use EssentialsPE\Commands\Miscellaneous\HealCommand;
+use EssentialsPE\Commands\Miscellaneous\PingCommand;
+use EssentialsPE\Commands\Miscellaneous\SetSpawnCommand;
+use EssentialsPE\Commands\Miscellaneous\SpeedCommand;
+use EssentialsPE\Commands\Miscellaneous\SudoCommand;
+use EssentialsPE\Commands\Miscellaneous\SuicideCommand;
+use EssentialsPE\Commands\Miscellaneous\TopCommand;
+use EssentialsPE\Commands\Miscellaneous\WorldCommand;
 use EssentialsPE\Configurable\DataManager;
 use EssentialsPE\EventHandlers\SpecialSigns\SignBreak;
 use EssentialsPE\EventHandlers\SpecialSigns\TeleportSign;
@@ -90,9 +103,22 @@ class Loader extends PluginBase {
 
 	public function registerCommands() {
 		$essentialsCommands = [
-			new EssentialsPECommand($this),
 			new BreakCommand($this),
 			new BroadcastCommand($this),
+			new CompassCommand($this),
+			new DepthCommand($this),
+			new EssentialsPECommand($this),
+			new ExtinguishCommand($this),
+			new FeedCommand($this),
+			new GetPosCommand($this),
+			new HealCommand($this),
+			new PingCommand($this),
+			new SetSpawnCommand($this),
+			new SpeedCommand($this),
+			new SudoCommand($this),
+			new SuicideCommand($this),
+			new TopCommand($this),
+			new WorldCommand($this),
 
 			// Economy Commands
 			new PayCommand($this),

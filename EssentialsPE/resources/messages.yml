@@ -178,6 +178,14 @@ commands:
     other: "&d{0} &bhas been extinguished"
     other-permission: "&cYou are not allowed to extinguish other players"
     self: "&bYou were extinguished"
+  feed:
+    name: "feed"
+    description: "Feed yourself or other players"
+    usage: "[player]"
+    console-usage: "<player>"
+    alias: []
+    confirmation: "&aYou have been fed"
+    other-confirmation: "&d{0} &ahas been fed"
   fly:
     name: "fly"
     description: "Fly in Survival or Adventure mode!"
@@ -221,6 +229,7 @@ commands:
       - whereami
       - getlocation
       - getloc
+      - xyz
     other-location: "&d{4} &ais in world &b{0}\n&aYour coordinates:\n &bX: &e{1}\n &bY: &e{2}\n &bZ: &e{3}"
     other-permission: "&cYou are not allowed to get others' position"
     self-location: "&aYou are in world &b{0}\n&aYour coordinates:\n &bX: &e{1}\n &bY: &e{2}\n &bZ: &e{3}"

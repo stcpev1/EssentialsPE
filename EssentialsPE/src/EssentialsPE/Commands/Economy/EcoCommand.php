@@ -18,9 +18,9 @@ class EcoCommand extends EconomyCommand {
 	 * @param string        $commandLabel
 	 * @param array         $args
 	 *
-	 * @return mixed
+	 * @return bool
 	 */
-	public function execute(CommandSender $sender, $commandLabel, array $args) {
+	public function execute(CommandSender $sender, $commandLabel, array $args): bool {
 		if(!$this->testPermission($sender)) {
 			return false;
 		}

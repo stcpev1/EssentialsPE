@@ -7,7 +7,7 @@ use EssentialsPEconomy\EssentialsPEconomy;
 use pocketmine\Player;
 use pocketmine\utils\Config;
 
-class JsonEconomyProvider extends EconomyProvider {
+class JsonEconomyProvider extends BaseEconomyProvider {
 
 	private $database = [];
 	/** @var Config $data */

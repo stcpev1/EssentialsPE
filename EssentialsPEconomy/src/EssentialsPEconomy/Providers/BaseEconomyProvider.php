@@ -4,7 +4,7 @@ namespace EssentialsPEconomy\Providers;
 
 use EssentialsPEconomy\EssentialsPEconomy;
 
-abstract class EconomyProvider implements IEconomyProvider {
+abstract class BaseEconomyProvider implements IEconomyProvider {
 
 	protected $loader;
 

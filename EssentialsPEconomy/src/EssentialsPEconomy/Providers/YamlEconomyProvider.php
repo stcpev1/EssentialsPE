@@ -6,7 +6,7 @@ use EssentialsPEconomy\EssentialsPEconomy;
 use pocketmine\Player;
 use pocketmine\utils\Config;
 
-class YamlEconomyProvider extends EconomyProvider {
+class YamlEconomyProvider extends BaseEconomyProvider {
 
 	private $database = [];
 	/** @var Config $data */

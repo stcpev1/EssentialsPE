@@ -3,9 +3,23 @@
 
 # Setting a command to false will disable it, while setting it to true enables it.
 
-essentialspe: true
 break: true
 broadcast: true
+burn: true
+compass: true
+depth: true
+essentialspe: true
+extinguish: true
+feed: true
+getpos: true
+heal: true
+ping: true
+setspawn: true
+speed: true
+sudo: true
+suicide: true
+top: true
+world: true
 
 # Economy Commands - Require installation of the EssentialsPEconomy module.
 balance: true

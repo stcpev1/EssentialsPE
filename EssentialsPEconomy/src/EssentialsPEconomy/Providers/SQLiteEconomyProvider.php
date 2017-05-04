@@ -5,7 +5,7 @@ namespace EssentialsPEconomy\Providers;
 use EssentialsPEconomy\EssentialsPEconomy;
 use pocketmine\Player;
 
-class SQLiteEconomyProvider extends EconomyProvider {
+class SQLiteEconomyProvider extends BaseEconomyProvider {
 
 	/** @var \SQLite3 $database */
 	private $database;
@@ -57,7 +57,7 @@ class SQLiteEconomyProvider extends EconomyProvider {
 		if($this->playerExists($player)) {
 			return false;
 		}
-		var_dump($this->database->exec("INSERT INTO Economy(Player, Balance) VALUES ('" . $this->escape($lowerCaseName) . "', $balance);"));
+		$this->database->exec("INSERT INTO Economy(Player, Balance) VALUES ('" . $this->escape($lowerCaseName) . "', $balance);");
 		return true;
 	}
 
@@ -117,7 +117,6 @@ class SQLiteEconomyProvider extends EconomyProvider {
 			throw new \OutOfBoundsException("A Player's balance can't exceed the maximum balance.");
 		}
 		$result = $this->database->exec("UPDATE Economy SET Balance = $amount WHERE Player = '" . $this->escape($lowerCaseName) . "';");
-		var_dump($result);
 		return $result !== false;
 	}
 

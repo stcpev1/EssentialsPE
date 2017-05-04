@@ -5,12 +5,13 @@ namespace EssentialsPE\Commands\Miscellaneous;
 use EssentialsPE\Commands\BaseCommand;
 use EssentialsPE\Loader;
 use pocketmine\command\CommandSender;
+use pocketmine\Player;
 
-class BurnCommand extends BaseCommand {
+class DepthCommand extends BaseCommand {
 
 	public function __construct(Loader $loader) {
-		parent::__construct($loader, "burn");
-		$this->setPermission("essentials.command.burn");
+		parent::__construct($loader, "depth");
+		$this->setPermission("essentials.command.depth");
 		$this->setModule(Loader::MODULE_ESSENTIALS);
 	}
 
@@ -25,20 +26,11 @@ class BurnCommand extends BaseCommand {
 		if(!$this->testPermission($sender)) {
 			return false;
 		}
-		if(count($args) !== 2) {
+		if(!$sender instanceof Player || count($args) !== 0) {
 			$this->sendUsage($sender, $commandLabel);
 			return true;
 		}
-		if(!($player = $this->getLoader()->getServer()->getPlayer($args[0]))) {
-			$this->sendMessageContainer($sender, "error.player-not-found", $args[0]);
-			return true;
-		}
-		if(!is_numeric($time = $args[1]) or (int)$time < 0) {
-			$this->sendMessageContainer($sender, "commands.burn.invalid-time");
-			return true;
-		}
-		$player->setOnFire($time);
-		$this->sendMessageContainer($sender, "commands.burn.confirmation", $player->getDisplayName());
+		$this->sendMessageContainer($sender, "commands.depth." . (($pos = $sender->getFloorY() - 63) === 0 ? "at-sea-level" : ($pos > 0 ? "above" : "below")), abs($pos));
 		return true;
 	}
 }

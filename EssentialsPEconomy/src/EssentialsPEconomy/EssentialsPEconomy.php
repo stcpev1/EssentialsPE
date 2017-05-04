@@ -4,7 +4,7 @@ namespace EssentialsPEconomy;
 
 use EssentialsPE\Loader;
 use EssentialsPEconomy\EventHandlers\JoinHandler;
-use EssentialsPEconomy\Providers\EconomyProvider;
+use EssentialsPEconomy\Providers\BaseEconomyProvider;
 use EssentialsPEconomy\Providers\JsonEconomyProvider;
 use EssentialsPEconomy\Providers\MySQLEconomyProvider;
 use EssentialsPEconomy\Providers\SQLiteEconomyProvider;
@@ -31,11 +31,10 @@ class EssentialsPEconomy extends PluginBase {
 	}
 
 	/**
-	 * @return EconomyProvider
+	 * @return BaseEconomyProvider
 	 */
-	public function selectProvider(): EconomyProvider {
+	public function selectProvider(): BaseEconomyProvider {
 		switch(strtolower($this->getEssentialsPE()->getConfigurableData()->getConfiguration()->get("Provider"))) {
-			default:
 			case "mysql":
 				$this->provider = new MySQLEconomyProvider($this);
 				break;
@@ -45,6 +44,7 @@ class EssentialsPEconomy extends PluginBase {
 			case "json":
 				$this->provider = new JsonEconomyProvider($this);
 				break;
+			default:
 			case "sqlite":
 				$this->provider = new SQLiteEconomyProvider($this);
 				break;
