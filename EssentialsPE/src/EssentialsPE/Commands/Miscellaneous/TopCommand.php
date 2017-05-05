@@ -12,7 +12,6 @@ class TopCommand extends BaseCommand {
 	public function __construct(Loader $loader) {
 		parent::__construct($loader, "top");
 		$this->setPermission("essentials.command.top");
-		$this->setModule(Loader::MODULE_ESSENTIALS);
 	}
 
 	/**

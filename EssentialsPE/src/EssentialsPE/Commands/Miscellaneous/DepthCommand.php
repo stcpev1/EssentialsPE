@@ -12,7 +12,6 @@ class DepthCommand extends BaseCommand {
 	public function __construct(Loader $loader) {
 		parent::__construct($loader, "depth");
 		$this->setPermission("essentials.command.depth");
-		$this->setModule(Loader::MODULE_ESSENTIALS);
 	}
 
 	/**

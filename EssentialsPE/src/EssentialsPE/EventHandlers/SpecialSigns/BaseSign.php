@@ -2,24 +2,23 @@
 
 namespace EssentialsPE\EventHandlers\SpecialSigns;
 
+use EssentialsPE\EventHandlers\BaseEventHandler;
 use EssentialsPE\Loader;
 use pocketmine\event\block\SignChangeEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerInteractEvent;
 
-abstract class BaseSign implements Listener {
+abstract class BaseSign extends BaseEventHandler implements Listener {
 
-	private $loader;
+	private $name;
 
-	public function __construct(Loader $loader) {
-		$this->loader = $loader;
+	public function __construct(Loader $loader, string $name) {
+		parent::__construct($loader);
+		$this->name = $name;
 	}
 
-	/**
-	 * @return Loader
-	 */
-	public function getLoader(): Loader {
-		return $this->loader;
+	public function getName(): string {
+		return $this->name;
 	}
 
 	/**

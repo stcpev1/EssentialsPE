@@ -170,7 +170,7 @@ class SQLiteEconomyProvider extends BaseEconomyProvider {
 	 * @return bool
 	 */
 	public function closeDatabase(): bool {
-		if($this->database instanceof \mysqli) {
+		if($this->database instanceof \SQLite3) {
 			$this->database->close();
 			return true;
 		}

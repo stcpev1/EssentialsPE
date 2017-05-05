@@ -13,7 +13,6 @@ class SuicideCommand extends BaseCommand {
 	public function __construct(Loader $loader) {
 		parent::__construct($loader, "suicide");
 		$this->setPermission("essentials.command.suicide");
-		$this->setModule(Loader::MODULE_ESSENTIALS);
 	}
 
 	/**

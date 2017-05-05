@@ -14,7 +14,6 @@ class HealCommand extends BaseCommand {
 	public function __construct(Loader $loader) {
 		parent::__construct($loader, "heal");
 		$this->setPermission("essentials.command.heal.use");
-		$this->setModule(Loader::MODULE_ESSENTIALS);
 	}
 
 	/**
@@ -36,6 +35,9 @@ class HealCommand extends BaseCommand {
 		if(isset($args[0]) && !($player = $this->getLoader()->getServer()->getPlayer($args[0]))) {
 			$this->sendMessageContainer($sender, "error.player-not-found", $args[0]);
 			return true;
+		}
+		if($player !== $sender && !$sender->hasPermission("essentials.feed.other")) {
+			return false;
 		}
 		$player->heal($player->getMaxHealth(), new EntityRegainHealthEvent($player, $player->getMaxHealth() - $player->getHealth(), EntityRegainHealthEvent::CAUSE_CUSTOM));
 		$player->getLevel()->addParticle(new HeartParticle($player->add(0, 2), 4));

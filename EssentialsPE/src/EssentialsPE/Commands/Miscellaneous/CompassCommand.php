@@ -12,7 +12,6 @@ class CompassCommand extends BaseCommand {
 	public function __construct(Loader $loader) {
 		parent::__construct($loader, "compass");
 		$this->setPermission("essentials.command.compass");
-		$this->setModule(Loader::MODULE_ESSENTIALS);
 	}
 
 	/**

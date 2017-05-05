@@ -73,9 +73,9 @@ class EssentialsPEconomy extends PluginBase {
 	/**
 	 * Returns the provider, required to access the API of the plugin.
 	 *
-	 * @return EconomyProvider
+	 * @return BaseEconomyProvider
 	 */
-	public function getProvider(): EconomyProvider {
+	public function getProvider(): BaseEconomyProvider {
 		return $this->provider;
 	}
 }

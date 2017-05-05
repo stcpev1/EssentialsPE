@@ -12,7 +12,6 @@ class WorldCommand extends BaseCommand {
 	public function __construct(Loader $loader) {
 		parent::__construct($loader, "world");
 		$this->setPermission("essentials.command.world");
-		$this->setModule(Loader::MODULE_ESSENTIALS);
 	}
 
 	/**

@@ -26,4 +26,12 @@ balance: true
 eco: true
 pay: true
 balancetop: true
+
+# Special signs
+
+teleportsign: true
+
+# Economy Signs - Require installation of the EssentialsPEconomy module.
+
+balancesign: true
 ...

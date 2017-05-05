@@ -11,7 +11,6 @@ class BurnCommand extends BaseCommand {
 	public function __construct(Loader $loader) {
 		parent::__construct($loader, "burn");
 		$this->setPermission("essentials.command.burn");
-		$this->setModule(Loader::MODULE_ESSENTIALS);
 	}
 
 	/**

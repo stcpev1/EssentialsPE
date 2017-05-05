@@ -12,7 +12,6 @@ class SetSpawnCommand extends BaseCommand {
 	public function __construct(Loader $loader) {
 		parent::__construct($loader, "setspawn");
 		$this->setPermission("essentials.command.setspawn");
-		$this->setModule(Loader::MODULE_ESSENTIALS);
 	}
 
 	/**

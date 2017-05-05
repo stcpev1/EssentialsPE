@@ -45,7 +45,7 @@ class SQLiteSessionProvider extends BaseSessionProvider {
 	 * @return bool
 	 */
 	public function closeDatabase(): bool {
-		if($this->database instanceof \mysqli) {
+		if($this->database instanceof \SQLite3) {
 			$this->database->close();
 			return true;
 		}
@@ -111,13 +111,13 @@ class SQLiteSessionProvider extends BaseSessionProvider {
 		$nick = $slicedData[0]["Nick"];
 		$hasPvpEnabled = $slicedData[0]["HasPvpEnabled"];
 		$hasUnlimitedEnabled = $slicedData[0]["HasUnlimitedEnable"];
-		$isVanish = $slicedData[0]["IsVanish"];
+		$isVanished = $slicedData[0]["IsVanish"];
 
 		$powerToolId = $slicedData[1]["PowertoolId"];
 		$powerToolCommand = $slicedData[1]["PowertoolCommand"];
 		$powerToolChatMacro = $slicedData[1]["PowertoolChatMacro"];
 
-		if(!$result = $this->database->exec("INSERT INTO Sessions(Player, IsAFK, IsGod, IsMuted, MutedUntil, Nick, HasPvpEnabled, HasUnlimitedEnabled, IsVanished) VALUES ('" . $this->escape($lowerCaseName) . "', $isAfk, $isGod, $isMuted, $mutedUntil, $nick, $hasPvpEnabled, $hasUnlimitedEnabled, $isVanish);")) {
+		if(!$result = $this->database->exec("INSERT INTO Sessions(Player, IsAFK, IsGod, IsMuted, MutedUntil, Nick, HasPvpEnabled, HasUnlimitedEnabled, IsVanished) VALUES ('" . $this->escape($lowerCaseName) . "', $isAfk, $isGod, $isMuted, $mutedUntil, $nick, $hasPvpEnabled, $hasUnlimitedEnabled, $isVanished);")) {
 			return false;
 		}
 		if(!$result = $this->database->exec("INSERT INTO Powertools(Player, PowertoolId, PowertoolCommand, PowertoolChatMacro) VALUES ($powerToolId, '" . $this->escape($powerToolCommand) . "', '" . $this->escape($powerToolChatMacro) . "');")) {

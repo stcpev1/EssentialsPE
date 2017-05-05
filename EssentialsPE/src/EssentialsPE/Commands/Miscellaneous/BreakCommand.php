@@ -14,7 +14,6 @@ class BreakCommand extends BaseCommand {
 	public function __construct(Loader $loader) {
 		parent::__construct($loader, "break");
 		$this->setPermission("essentials.command.break.use");
-		$this->setModule(Loader::MODULE_ESSENTIALS);
 	}
 
 	/**

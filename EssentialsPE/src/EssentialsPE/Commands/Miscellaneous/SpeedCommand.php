@@ -13,7 +13,6 @@ class SpeedCommand extends BaseCommand {
 	public function __construct(Loader $loader) {
 		parent::__construct($loader, "speed");
 		$this->setPermission("essentials.command.speed.use");
-		$this->setModule(Loader::MODULE_ESSENTIALS);
 	}
 
 	/**

@@ -12,7 +12,6 @@ class ExtinguishCommand extends BaseCommand {
 	public function __construct(Loader $loader) {
 		parent::__construct($loader, "extinguish");
 		$this->setPermission("essentials.command.extinguish.use");
-		$this->setModule(Loader::MODULE_ESSENTIALS);
 	}
 
 	/**

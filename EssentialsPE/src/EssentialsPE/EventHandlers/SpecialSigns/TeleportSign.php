@@ -12,37 +12,43 @@ use pocketmine\utils\TextFormat as TF;
 class TeleportSign extends BaseSign {
 
 	public function __construct(Loader $loader) {
-		parent::__construct($loader);
+		parent::__construct($loader, "teleportsign");
 	}
 
+	/**
+	 * @param SignChangeEvent $signChangeEvent
+	 */
 	public function onSignChange(SignChangeEvent $signChangeEvent) {
-		if(strtolower(TF::clean($signChangeEvent->getLine(0), true)) === "[teleport]" && $signChangeEvent->getPlayer()->hasPermission("essentials.sign.create.teleport")) {
+		if(strtolower(TF::clean($signChangeEvent->getLine(0), true)) === "[teleport]") {
+			if(!$signChangeEvent->getPlayer()->hasPermission("essentials.sign.create.teleport")) {
+				$signChangeEvent->setCancelled();
+			}
 			if(!is_numeric($signChangeEvent->getLine(1))) {
 				$signChangeEvent->getPlayer()->sendMessage(TF::RED . "[Error] " /* TODO */);
-				$signChangeEvent->setCancelled(true);
+				$signChangeEvent->setCancelled();
 			} elseif(!is_numeric($signChangeEvent->getLine(2))) {
 				$signChangeEvent->getPlayer()->sendMessage(TF::RED . "[Error] " /* TODO */);
-				$signChangeEvent->setCancelled(true);
+				$signChangeEvent->setCancelled();
 			} elseif(!is_numeric($signChangeEvent->getLine(3))) {
 				$signChangeEvent->getPlayer()->sendMessage(TF::RED . "[Error] " /* TODO */);
-				$signChangeEvent->setCancelled(true);
+				$signChangeEvent->setCancelled();
 			} else {
 				$signChangeEvent->getPlayer()->sendMessage(TF::GREEN . "" /* TODO */);
 				$signChangeEvent->setLine(0, TF::AQUA . "[Teleport]");
-				$signChangeEvent->setLine(1, $signChangeEvent->getLine(1));
-				$signChangeEvent->setLine(2, $signChangeEvent->getLine(2));
-				$signChangeEvent->setLine(3, $signChangeEvent->getLine(3));
 			}
 		}
 	}
 
+	/**
+	 * @param PlayerInteractEvent $interactEvent
+	 */
 	public function onInteract(PlayerInteractEvent $interactEvent) {
 		$tile = $interactEvent->getBlock()->getLevel()->getTile(new Vector3($interactEvent->getBlock()->getFloorX(), $interactEvent->getBlock()->getFloorY(), $interactEvent->getBlock()->getFloorZ()));
 		if(!$tile instanceof Sign) {
 			return;
 		}
 		if(TF::clean($tile->getText()[0], true) === "[Teleport]") {
-			$interactEvent->setCancelled(true);
+			$interactEvent->setCancelled();
 			if(!$interactEvent->getPlayer()->hasPermission("essentials.sign.use.teleport")) {
 				$interactEvent->getPlayer()->sendMessage(TF::RED . "[Error] " /* TODO */);
 			} else {

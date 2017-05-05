@@ -25,6 +25,8 @@ use EssentialsPE\Commands\Miscellaneous\SuicideCommand;
 use EssentialsPE\Commands\Miscellaneous\TopCommand;
 use EssentialsPE\Commands\Miscellaneous\WorldCommand;
 use EssentialsPE\Configurable\DataManager;
+use EssentialsPE\EventHandlers\BaseEventHandler;
+use EssentialsPE\EventHandlers\SpecialSigns\Economy\BalanceSign;
 use EssentialsPE\EventHandlers\SpecialSigns\SignBreak;
 use EssentialsPE\EventHandlers\SpecialSigns\TeleportSign;
 use MongoDB\Driver\Exception\DuplicateKeyException;
@@ -145,12 +147,24 @@ class Loader extends PluginBase {
 	}
 
 	public function registerEventHandlers() {
-		$essentialsEventHandlers = [
-			new SignBreak($this),
-			new TeleportSign($this)
+		$essentialsSpecialSigns = [
+			new TeleportSign($this),
+			new BalanceSign($this)
 		];
-		foreach($essentialsEventHandlers as $essentialsEventHandler) {
-			$this->getServer()->getPluginManager()->registerEvents($essentialsEventHandler, $this);
+		foreach($essentialsSpecialSigns as $essentialsSign) {
+			if($essentialsSign instanceof BaseEventHandler) {
+				if(in_array($essentialsSign->getName(), $this->getConfigurableData()->getCommandSwitch()->getAvailableCommands())) {
+					if($this->isModuleLoaded($essentialsSign->getModule())) {
+						$this->getServer()->getPluginManager()->registerEvents($essentialsSign, $this);
+					}
+				}
+			}
+		}
+		$essentialsEventHandlers = [
+			new SignBreak($this)
+		];
+		foreach($essentialsEventHandlers as $essentialsHandler) {
+			$this->getServer()->getPluginManager()->registerEvents($essentialsHandler, $this);
 		}
 	}
 

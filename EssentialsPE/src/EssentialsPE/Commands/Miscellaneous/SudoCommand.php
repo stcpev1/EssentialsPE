@@ -12,7 +12,6 @@ class SudoCommand extends BaseCommand {
 	public function __construct(Loader $loader) {
 		parent::__construct($loader, "sudo");
 		$this->setPermission("essentials.command.sudo");
-		$this->setModule(Loader::MODULE_ESSENTIALS);
 	}
 
 	/**

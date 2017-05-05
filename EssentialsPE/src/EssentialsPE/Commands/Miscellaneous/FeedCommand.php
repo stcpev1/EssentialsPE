@@ -7,14 +7,12 @@ use EssentialsPE\Loader;
 use pocketmine\command\CommandSender;
 use pocketmine\level\particle\HappyVillagerParticle;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat as TF;
 
 class FeedCommand extends BaseCommand {
 
 	public function __construct(Loader $loader) {
 		parent::__construct($loader, "feed");
 		$this->setPermission("essentials.command.feed.use");
-		$this->setModule(Loader::MODULE_ESSENTIALS);
 	}
 
 	/**
@@ -34,11 +32,10 @@ class FeedCommand extends BaseCommand {
 		}
 		$player = $sender;
 		if(isset($args[0]) && !($player = $this->getLoader()->getServer()->getPlayer($args[0]))) {
-			$sender->sendMessage(TF::RED . "[Error] Player not found");
-			return false;
+			$this->sendMessageContainer($sender, "error.player-not-found", $args[0]);
+			return true;
 		}
 		if($player->getName() !== $sender->getName() && !$sender->hasPermission("essentials.feed.other")) {
-			$sender->sendMessage(TF::RED . $this->getPermissionMessage());
 			return false;
 		}
 		$player->setFood(20);

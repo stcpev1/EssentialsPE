@@ -11,7 +11,6 @@ class PingCommand extends BaseCommand {
 	public function __construct(Loader $loader) {
 		parent::__construct($loader, "ping");
 		$this->setPermission("essentials.command.ping");
-		$this->setModule(Loader::MODULE_ESSENTIALS);
 	}
 
 	/**
