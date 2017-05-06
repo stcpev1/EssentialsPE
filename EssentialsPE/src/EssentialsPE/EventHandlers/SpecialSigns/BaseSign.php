@@ -11,14 +11,32 @@ use pocketmine\event\player\PlayerInteractEvent;
 abstract class BaseSign extends BaseEventHandler implements Listener {
 
 	private $name;
+	private $module = Loader::MODULE_ESSENTIALS;
 
 	public function __construct(Loader $loader, string $name) {
 		parent::__construct($loader);
 		$this->name = $name;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getName(): string {
 		return $this->name;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getModule(): int {
+		return $this->module;
+	}
+
+	/**
+	 * @param int $module
+	 */
+	public function setModule(int $module) {
+		$this->module = $module;
 	}
 
 	/**

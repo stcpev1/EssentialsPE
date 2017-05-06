@@ -18,4 +18,14 @@ MySQL:
   Password: Admin
   Database: EssentialsPE
   Port: 3306
+
+Afk:
+  # Whether to broadcast a player is AFK or not.
+  Broadcast: true
+  # Whether to kick a player automatically after being AFK for too long.
+  Auto-Kick: false
+  # Whether to kick a player automatically after idling for too long, disregarding AFK status.
+  Auto-Kick-Idling: false
+  # Time to wait before kicking AFK players if Auto-Kick is enabled in seconds.
+  Kick-Time: 300
 ...

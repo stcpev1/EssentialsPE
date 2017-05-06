@@ -11,6 +11,7 @@ class BalanceSign extends BaseSign {
 
 	public function __construct(Loader $loader) {
 		parent::__construct($loader, "balancesign");
+		$this->setModule(Loader::MODULE_ECONOMY);
 	}
 
 	/**

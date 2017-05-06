@@ -31,17 +31,21 @@ class EssentialsPEConfiguration extends ConfigurableDataHolder {
 		if(!file_exists($path = $this->getLoader()->getDataFolder() . "config.yml")) {
 			$this->getLoader()->saveDefaultConfig();
 		}
-		$configurationData = yaml_parse_file($path);
+		$config = yaml_parse_file($path);
 
 		$this->configurationData = @[
-			"Config-Version" => $configurationData["Config-Version"] ?? 0.0,
-			"Auto-Update-Config" => $configurationData["Auto-Update-Config"] ?? true,
-			"Provider" => $configurationData["Provider"] ?? "SQLite",
-			"MySQL.Host" => $configurationData["MySQL"]["Host"] ?? "127.0.0.1",
-			"MySQL.User" => $configurationData["MySQL"]["User"] ?? "Admin",
-			"MySQL.Password" => $configurationData["MySQL"]["Password"] ?? "Admin",
-			"MySQL.Database" => $configurationData["MySQL"]["Database"] ?? "EssentialsPE",
-			"MySQL.Port" => $configurationData["MySQL"]["Port"] ?? 3306
+			"Config-Version" => $config["Config-Version"] ?? 0.0,
+			"Auto-Update-Config" => $config["Auto-Update-Config"] ?? true,
+			"Provider" => $config["Provider"] ?? "SQLite",
+			"MySQL.Host" => $config["MySQL"]["Host"] ?? "127.0.0.1",
+			"MySQL.User" => $config["MySQL"]["User"] ?? "Admin",
+			"MySQL.Password" => $config["MySQL"]["Password"] ?? "Admin",
+			"MySQL.Database" => $config["MySQL"]["Database"] ?? "EssentialsPE",
+			"MySQL.Port" => $config["MySQL"]["Port"] ?? 3306,
+			"Afk.Broadcast" => $config["Afk"]["Broadcast"] ?? true,
+			"Afk.Auto-Kick" => $config["Afk"]["Auto-Kick"] ?? false,
+			"Afk.Auto-Kick-Idling" => $config["Afk"]["Auto-Kick-Idling"] ?? false,
+			"Afk.Kick-Time" => $config["Afk"]["Kick-Time"] ?? 300
 		];
 
 		if(version_compare($this->configurationData["Config-Version"], self::CONFIGURATION_VERSION) === -1) {
