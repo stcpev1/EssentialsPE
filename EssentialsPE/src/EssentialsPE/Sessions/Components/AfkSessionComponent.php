@@ -10,17 +10,9 @@ class AfkSessionComponent extends BaseSessionComponent {
 
 	private $isAfk = false;
 
-	public function __construct(Loader $loader, PlayerSession $session) {
+	public function __construct(Loader $loader, PlayerSession $session, bool $isAfk = false) {
 		parent::__construct($loader, $session);
-	}
-
-	/**
-	 * @param bool $broadcast
-	 *
-	 * @return bool
-	 */
-	public function switchAfk(bool $broadcast = true): bool {
-		return $this->setAfk(!$this->isAfk(), $broadcast);
+		$this->setAfk($isAfk, false);
 	}
 
 	/**
@@ -56,5 +48,14 @@ class AfkSessionComponent extends BaseSessionComponent {
 				$player->sendMessage($message);
 			}
 		}
+	}
+
+	/**
+	 * @param bool $broadcast
+	 *
+	 * @return bool
+	 */
+	public function switchAfk(bool $broadcast = true): bool {
+		return $this->setAfk(!$this->isAfk(), $broadcast);
 	}
 }

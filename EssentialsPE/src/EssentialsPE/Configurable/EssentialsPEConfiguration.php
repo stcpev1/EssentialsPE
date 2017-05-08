@@ -45,7 +45,8 @@ class EssentialsPEConfiguration extends ConfigurableDataHolder {
 			"Afk.Broadcast" => $config["Afk"]["Broadcast"] ?? true,
 			"Afk.Auto-Kick" => $config["Afk"]["Auto-Kick"] ?? false,
 			"Afk.Auto-Kick-Idling" => $config["Afk"]["Auto-Kick-Idling"] ?? false,
-			"Afk.Kick-Time" => $config["Afk"]["Kick-Time"] ?? 300
+			"Afk.Kick-Time" => $config["Afk"]["Kick-Time"] ?? 300,
+			"Teleporting.Tpa-Valid-Time" => $config["Teleport"]["Tpa-Valid-Time"] ?? 30
 		];
 
 		if(version_compare($this->configurationData["Config-Version"], self::CONFIGURATION_VERSION) === -1) {

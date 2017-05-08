@@ -24,11 +24,18 @@ use EssentialsPE\Commands\Miscellaneous\SudoCommand;
 use EssentialsPE\Commands\Miscellaneous\SuicideCommand;
 use EssentialsPE\Commands\Miscellaneous\TopCommand;
 use EssentialsPE\Commands\Miscellaneous\WorldCommand;
+use EssentialsPE\Commands\Teleporting\TpAcceptCommand;
+use EssentialsPE\Commands\Teleporting\TpaCommand;
+use EssentialsPE\Commands\Teleporting\TpaHereCommand;
+use EssentialsPE\Commands\Teleporting\TpAllCommand;
+use EssentialsPE\Commands\Teleporting\TpDenyCommand;
+use EssentialsPE\Commands\Teleporting\TpHereCommand;
 use EssentialsPE\Configurable\DataManager;
 use EssentialsPE\EventHandlers\BaseEventHandler;
 use EssentialsPE\EventHandlers\SpecialSigns\Economy\BalanceSign;
 use EssentialsPE\EventHandlers\SpecialSigns\SignBreak;
 use EssentialsPE\EventHandlers\SpecialSigns\TeleportSign;
+use EssentialsPE\Sessions\SessionManager;
 use MongoDB\Driver\Exception\DuplicateKeyException;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\TextFormat as TF;
@@ -41,6 +48,7 @@ class Loader extends PluginBase {
 
 	private $configurableData;
 	private $installedModules = [];
+	private $sessionManager;
 
 	public function onLoad() {
 		$this->addModule(self::MODULE_ESSENTIALS, "EssentialsPE");
@@ -101,6 +109,7 @@ class Loader extends PluginBase {
 				$this->getLogger()->info(TF::GOLD . "[" . $moduleId . "] " . TF::GREEN . $moduleName);
 			}
 		}
+		$this->sessionManager = new SessionManager($this);
 	}
 
 	public function registerCommands() {
@@ -126,7 +135,15 @@ class Loader extends PluginBase {
 			new PayCommand($this),
 			new BalanceCommand($this),
 			new EcoCommand($this),
-			new BalanceTopCommand($this)
+			new BalanceTopCommand($this),
+
+			// Teleporting commands
+			new TpAcceptCommand($this),
+			new TpaCommand($this),
+			new TpaHereCommand($this),
+			new TpAllCommand($this),
+			new TpDenyCommand($this),
+			new TpHereCommand($this)
 		];
 		foreach($essentialsCommands as $essentialsCommand) {
 			if($essentialsCommand instanceof BaseCommand) {
@@ -183,5 +200,12 @@ class Loader extends PluginBase {
 			return $module;
 		}
 		throw new \InvalidArgumentException("A module with the given ID -> Name combination could not be found.");
+	}
+
+	/**
+	 * @return SessionManager
+	 */
+	public function getSessionManager(): SessionManager {
+		return $this->sessionManager;
 	}
 }

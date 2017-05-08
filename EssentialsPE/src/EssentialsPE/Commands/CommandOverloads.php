@@ -5,7 +5,7 @@ namespace EssentialsPE\Commands;
 class CommandOverloads {
 
 	/*
-	 * Perhaps a good idea to move this to json...
+	 * Perhaps a good idea to move this to json.
 	 */
 
 	private static $commandOverloads = [];
@@ -172,6 +172,51 @@ class CommandOverloads {
 				0 => [
 					"type" => "rawtext",
 					"name" => "world",
+					"optional" => false
+				]
+			],
+			"kill" => [
+				0 => [
+					"type" => "rawtext",
+					"name" => "player",
+					"optional" => true
+				]
+			],
+			"tpaccept" => [
+				0 => [
+					"type" => "rawtext",
+					"name" => "player",
+					"optional" => true
+				]
+			],
+			"tpa" => [
+				0 => [
+					"type" => "rawtext",
+					"name" => "player",
+					"optional" => false
+				]
+			],
+			"tpahere" => [
+				0 => [
+					"type" => "rawtext",
+					"name" => "player",
+					"optional" => false
+				]
+			],
+			"tpall" => [
+
+			],
+			"tpdeny" => [
+				0 => [
+					"type" => "rawtext",
+					"name" => "player",
+					"optional" => true
+				]
+			],
+			"tphere" => [
+				0 => [
+					"type" => "rawtext",
+					"name" => "player",
 					"optional" => false
 				]
 			]

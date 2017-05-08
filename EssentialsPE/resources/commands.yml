@@ -27,6 +27,14 @@ eco: true
 pay: true
 balancetop: true
 
+# Teleporting Commands
+tpaccept: true
+tpa: true
+tpahere: true
+tpall: true
+tpdeny: true
+tphere: true
+
 # Special signs
 
 teleportsign: true

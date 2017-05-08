@@ -10,16 +10,9 @@ class GodSessionComponent extends BaseSessionComponent {
 
 	private $isGod = false;
 
-	public function __construct(Loader $loader, PlayerSession $session) {
+	public function __construct(Loader $loader, PlayerSession $session, bool $isGod = false) {
 		parent::__construct($loader, $session);
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function switchGod(): bool {
-		$this->setGod(!$this->isGod());
-		return true;
+		$this->setGod($isGod);
 	}
 
 	/**
@@ -40,5 +33,13 @@ class GodSessionComponent extends BaseSessionComponent {
 	 */
 	public function isGod(): bool {
 		return $this->isGod;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function switchGod(): bool {
+		$this->setGod(!$this->isGod());
+		return true;
 	}
 }

@@ -28,4 +28,7 @@ Afk:
   Auto-Kick-Idling: false
   # Time to wait before kicking AFK players if Auto-Kick is enabled in seconds.
   Kick-Time: 300
+Teleporting:
+  # Time in seconds for a teleport request to remain valid.
+  Tpa-Valid-Time: 30
 ...

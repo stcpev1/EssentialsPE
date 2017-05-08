@@ -11,33 +11,9 @@ class MuteSessionComponent extends BaseSessionComponent {
 	private $isMuted = false;
 	private $mutedUntil;
 
-	public function __construct(Loader $loader, PlayerSession $session) {
+	public function __construct(Loader $loader, PlayerSession $session, bool $isMuted = false, \DateTime $mutedUntil = null) {
 		parent::__construct($loader, $session);
-	}
-
-	/**
-	 * @return bool|null|\DateTime
-	 */
-	public function getMutedUntil() {
-		if(!$this->isMuted()) {
-			return false;
-		}
-		return $this->mutedUntil;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function isMuted(): bool {
-		return $this->isMuted;
-	}
-
-	/**
-	 * @param \DateTime|null $expires
-	 * @param bool           $notify
-	 */
-	public function switchMute(\DateTime $expires = null, bool $notify = true) {
-		$this->setMuted(!$this->isMuted(), $expires, $notify);
+		$this->setMuted($isMuted, $mutedUntil, false);
 	}
 
 	/**
@@ -56,7 +32,35 @@ class MuteSessionComponent extends BaseSessionComponent {
 					$this->getLoader()->getConfigurableData()->getMessagesContainer()->getMessage("commands.mute.mute-forever")
 					: $this->getLoader()->getConfigurableData()->getMessagesContainer()->getMessage("commands.mute.mute-until", $expires->format("l, F j, Y"), $expires->format("h:ia")))));
 			}
+			return true;
 		}
-		return true;
+		return false;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isMuted(): bool {
+		return $this->isMuted;
+	}
+
+	/**
+	 * @return bool|null|\DateTime
+	 */
+	public function getMutedUntil() {
+		if(!$this->isMuted()) {
+			return false;
+		}
+		return $this->mutedUntil;
+	}
+
+	/**
+	 * @param \DateTime|null $expires
+	 * @param bool           $notify
+	 *
+	 * @return bool
+	 */
+	public function switchMute(\DateTime $expires = null, bool $notify = true) {
+		return $this->setMuted(!$this->isMuted(), $expires, $notify);
 	}
 }
