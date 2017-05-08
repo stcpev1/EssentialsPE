@@ -35,6 +35,7 @@ tpall: true
 tpdeny: true
 tphere: true
 
+
 # Special signs
 
 teleportsign: true

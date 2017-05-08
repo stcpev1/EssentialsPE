@@ -3,8 +3,11 @@
 namespace EssentialsPE\EventHandlers;
 
 use EssentialsPE\Loader;
+use EssentialsPE\Tasks\DelayedTeleportTask;
+use pocketmine\event\entity\EntityTeleportEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerQuitEvent;
+use pocketmine\Player;
 
 class PlayerEventHandler extends BaseEventHandler {
 
@@ -24,5 +27,20 @@ class PlayerEventHandler extends BaseEventHandler {
 	 */
 	public function onQuit(PlayerQuitEvent $event) {
 		$this->getLoader()->getSessionManager()->deleteSession($event->getPlayer());
+	}
+
+	/**
+	 * @param EntityTeleportEvent $event
+	 */
+	public function onTeleport(EntityTeleportEvent $event) {
+		$player = $event->getEntity();
+		if($player instanceof Player) {
+			if($this->getLoader()->getConfigurableData()->getConfiguration()->get("Teleporting.Delay") !== true) {
+				return;
+			}
+			$delay = $this->getLoader()->getConfigurableData()->getConfiguration()->get("Teleporting.Delay-Time");
+			$this->getLoader()->getServer()->getScheduler()->scheduleDelayedTask(new DelayedTeleportTask($this->getLoader(), $player, $event->getTo()), $delay);
+			$player->sendMessage($this->getLoader()->getConfigurableData()->getMessagesContainer()->getMessage("general.teleport-delay", $delay));
+		}
 	}
 }

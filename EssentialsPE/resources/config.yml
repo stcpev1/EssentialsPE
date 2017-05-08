@@ -31,4 +31,8 @@ Afk:
 Teleporting:
   # Time in seconds for a teleport request to remain valid.
   Tpa-Valid-Time: 30
+  # Whether to delay teleport or teleport immediately.
+  Delay: true
+  # Time in seconds to wait for teleport if the option above is set to true.
+  Delay-Time: 3
 ...

@@ -32,6 +32,7 @@ use EssentialsPE\Commands\Teleporting\TpDenyCommand;
 use EssentialsPE\Commands\Teleporting\TpHereCommand;
 use EssentialsPE\Configurable\DataManager;
 use EssentialsPE\EventHandlers\BaseEventHandler;
+use EssentialsPE\EventHandlers\PlayerEventHandler;
 use EssentialsPE\EventHandlers\SpecialSigns\Economy\BalanceSign;
 use EssentialsPE\EventHandlers\SpecialSigns\SignBreak;
 use EssentialsPE\EventHandlers\SpecialSigns\TeleportSign;
@@ -178,6 +179,7 @@ class Loader extends PluginBase {
 			}
 		}
 		$essentialsEventHandlers = [
+			new PlayerEventHandler($this),
 			new SignBreak($this)
 		];
 		foreach($essentialsEventHandlers as $essentialsHandler) {
