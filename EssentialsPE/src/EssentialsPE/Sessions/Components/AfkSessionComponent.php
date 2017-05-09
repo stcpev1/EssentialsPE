@@ -3,16 +3,19 @@
 namespace EssentialsPE\Sessions\Components;
 
 use EssentialsPE\Loader;
-use EssentialsPE\Sessions\BaseSessionComponent;
+use EssentialsPE\Sessions\BaseSavedSessionComponent;
 use EssentialsPE\Sessions\PlayerSession;
+use EssentialsPE\Sessions\Providers\BaseSessionProvider;
 
-class AfkSessionComponent extends BaseSessionComponent {
+class AfkSessionComponent extends BaseSavedSessionComponent {
 
 	private $isAfk = false;
 
-	public function __construct(Loader $loader, PlayerSession $session, bool $isAfk = false) {
+	public function __construct(Loader $loader, PlayerSession $session, array $data = []) {
 		parent::__construct($loader, $session);
-		$this->setAfk($isAfk, false);
+		if(isset($data[BaseSessionProvider::IS_AFK])) {
+			$this->setAfk($data[BaseSessionProvider::IS_AFK], false);
+		}
 	}
 
 	/**
@@ -57,5 +60,9 @@ class AfkSessionComponent extends BaseSessionComponent {
 	 */
 	public function switchAfk(bool $broadcast = true): bool {
 		return $this->setAfk(!$this->isAfk(), $broadcast);
+	}
+
+	public function save() {
+		$this->getSession()->addToSavedData(BaseSessionProvider::IS_AFK, $this->isAfk());
 	}
 }

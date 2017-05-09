@@ -30,7 +30,7 @@ class BalanceCommand extends EconomyCommand {
 		}
 		$player = $sender;
 		if(isset($args[0])) {
-			if(!$sender->hasPermission("essentials.balance.other")) {
+			if(!$sender->hasPermission("essentials.command.balance.other")) {
 				$sender->sendMessage($this->getPermissionMessage());
 				return true;
 			} elseif(!$player = $this->getLoader()->getServer()->getPlayer($args[0])) {

@@ -13,6 +13,7 @@ class PlayerSession {
 
 	private $player;
 	private $loader;
+	private $savedData;
 
 	private $afkComponent;
 	private $godComponent;
@@ -20,16 +21,44 @@ class PlayerSession {
 	private $teleportComponent;
 
 	public function __construct(Loader $loader, Player $player, array $values = []) {
-		$this->player = $player;
+		$this->player = &$player;
 		$this->loader = $loader;
-		if(!empty($data = $loader->getSessionManager()->getProvider()->getPlayerData($player))) {
+		$data = $loader->getSessionManager()->getProvider()->getPlayerData($player);
 
-		}
+		$this->afkComponent = new AfkSessionComponent($loader, $this, $data);
+		$this->godComponent = new GodSessionComponent($loader, $this, $data);
+		$this->muteComponent = new MuteSessionComponent($loader, $this, $this);
 
-		$this->afkComponent = new AfkSessionComponent($loader, $this);
-		$this->godComponent = new GodSessionComponent($loader, $this);
-		$this->muteComponent = new MuteSessionComponent($loader, $this);
 		$this->teleportComponent = new TeleportRequestSessionComponent($loader, $this);
+	}
+
+	/**
+	 * @return array
+	 */
+	public function saveData(): array {
+		foreach($this as $key => $value) {
+			if(strpos($key, "Component") !== false) {
+				if($this->{$key} instanceof BaseSavedSessionComponent) {
+					$this->{$key}->save();
+				}
+			}
+		}
+		$this->getLoader()->getSessionManager()->getProvider()->storePlayerData($this->getLoader()->getServer()->getPlayer($this->player->getName()), $this->getSavedData());
+		return $this->getSavedData();
+	}
+
+	/**
+	 * @return Loader
+	 */
+	public function getLoader(): Loader {
+		return $this->loader;
+	}
+
+	/**
+	 * @return array
+	 */
+	private function getSavedData(): array {
+		return $this->savedData;
 	}
 
 	/**
@@ -40,10 +69,11 @@ class PlayerSession {
 	}
 
 	/**
-	 * @return Loader
+	 * @param string $key
+	 * @param        $value
 	 */
-	public function getLoader(): Loader {
-		return $this->loader;
+	public function addToSavedData(string $key, $value) {
+		$this->savedData[$key] = $value;
 	}
 
 	/**

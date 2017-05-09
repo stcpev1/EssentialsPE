@@ -10,12 +10,14 @@ use EssentialsPE\Commands\Economy\BalanceTopCommand;
 use EssentialsPE\Commands\Economy\EcoCommand;
 use EssentialsPE\Commands\Economy\PayCommand;
 use EssentialsPE\Commands\EssentialsPECommand;
+use EssentialsPE\Commands\Miscellaneous\AfkCommand;
 use EssentialsPE\Commands\Miscellaneous\BreakCommand;
 use EssentialsPE\Commands\Miscellaneous\CompassCommand;
 use EssentialsPE\Commands\Miscellaneous\DepthCommand;
 use EssentialsPE\Commands\Miscellaneous\ExtinguishCommand;
 use EssentialsPE\Commands\Miscellaneous\FeedCommand;
 use EssentialsPE\Commands\Miscellaneous\GetPosCommand;
+use EssentialsPE\Commands\Miscellaneous\GodCommand;
 use EssentialsPE\Commands\Miscellaneous\HealCommand;
 use EssentialsPE\Commands\Miscellaneous\PingCommand;
 use EssentialsPE\Commands\Miscellaneous\SetSpawnCommand;
@@ -63,7 +65,7 @@ class Loader extends PluginBase {
 	 * @param int    $moduleId
 	 * @param string $moduleName
 	 */
-	public function addModule(int $moduleId, $moduleName = "EssentialsModule") {
+	public function addModule(int $moduleId, $moduleName = "EssentialsPEModule") {
 		if($this->isModuleLoaded($moduleId)) {
 			throw new DuplicateKeyException("EssentialsPE modules with the same ID can't be loaded together.");
 		}
@@ -131,6 +133,8 @@ class Loader extends PluginBase {
 			new SuicideCommand($this),
 			new TopCommand($this),
 			new WorldCommand($this),
+			new GodCommand($this),
+			new AfkCommand($this),
 
 			// Economy Commands
 			new PayCommand($this),
@@ -201,7 +205,7 @@ class Loader extends PluginBase {
 		if(($module = $this->getServer()->getPluginManager()->getPlugin($moduleName)) !== null) {
 			return $module;
 		}
-		throw new \InvalidArgumentException("A module with the given ID -> Name combination could not be found.");
+		throw new \InvalidArgumentException("A module with the ID " . $moduleId . " and name " . $moduleName . " could not be found.");
 	}
 
 	/**

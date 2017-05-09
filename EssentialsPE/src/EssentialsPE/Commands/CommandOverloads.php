@@ -219,6 +219,20 @@ class CommandOverloads {
 					"name" => "player",
 					"optional" => false
 				]
+			],
+			"god" => [
+				0 => [
+					"type" => "rawtext",
+					"name" => "player",
+					"optional" => true
+				]
+			],
+			"afk" => [
+				0 => [
+					"type" => "rawtext",
+					"name" => "player",
+					"optional" => true
+				]
 			]
 		];
 	}

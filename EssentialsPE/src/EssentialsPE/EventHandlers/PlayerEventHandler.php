@@ -3,6 +3,7 @@
 namespace EssentialsPE\EventHandlers;
 
 use EssentialsPE\Loader;
+use EssentialsPE\Sessions\SessionManager;
 use EssentialsPE\Tasks\DelayedTeleportTask;
 use pocketmine\event\entity\EntityTeleportEvent;
 use pocketmine\event\player\PlayerJoinEvent;
@@ -26,6 +27,7 @@ class PlayerEventHandler extends BaseEventHandler {
 	 * @param PlayerQuitEvent $event
 	 */
 	public function onQuit(PlayerQuitEvent $event) {
+		SessionManager::getSession($event->getPlayer())->saveData();
 		$this->getLoader()->getSessionManager()->deleteSession($event->getPlayer());
 	}
 

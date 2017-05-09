@@ -3,10 +3,11 @@
 namespace EssentialsPE\Sessions\Components;
 
 use EssentialsPE\Loader;
-use EssentialsPE\Sessions\BaseSessionComponent;
+use EssentialsPE\Sessions\BaseSavedSessionComponent;
 use EssentialsPE\Sessions\PlayerSession;
+use EssentialsPE\Sessions\Providers\BaseSessionProvider;
 
-class MuteSessionComponent extends BaseSessionComponent {
+class MuteSessionComponent extends BaseSavedSessionComponent {
 
 	private $isMuted = false;
 	private $mutedUntil;
@@ -45,16 +46,6 @@ class MuteSessionComponent extends BaseSessionComponent {
 	}
 
 	/**
-	 * @return bool|null|\DateTime
-	 */
-	public function getMutedUntil() {
-		if(!$this->isMuted()) {
-			return false;
-		}
-		return $this->mutedUntil;
-	}
-
-	/**
 	 * @param \DateTime|null $expires
 	 * @param bool           $notify
 	 *
@@ -62,5 +53,20 @@ class MuteSessionComponent extends BaseSessionComponent {
 	 */
 	public function switchMute(\DateTime $expires = null, bool $notify = true) {
 		return $this->setMuted(!$this->isMuted(), $expires, $notify);
+	}
+
+	public function save() {
+		$this->getSession()->addToSavedData(BaseSessionProvider::IS_MUTED, $this->isMuted());
+		$this->getSession()->addToSavedData(BaseSessionProvider::MUTED_UNTIL, $this->getMutedUntil());
+	}
+
+	/**
+	 * @return bool|null|\DateTime
+	 */
+	public function getMutedUntil() {
+		if(!$this->isMuted()) {
+			return false;
+		}
+		return $this->mutedUntil;
 	}
 }

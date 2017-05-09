@@ -6,6 +6,19 @@ use EssentialsPE\Loader;
 
 abstract class BaseSessionProvider implements ISessionProvider {
 
+	const IS_AFK = "IsAfk";
+	const IS_GOD = "IsGod";
+	const IS_MUTED = "IsMuted";
+	const MUTED_UNTIL = "MutedUntil";
+	const NICK = "Nick";
+	const HAS_PVP_ENABLED = "HasPvpEnabled";
+	const HAS_UNLIMITED_ENABLED = "HasUnlimitedEnabled";
+	const IS_VANISHED = "IsVanished";
+
+	const POWERTOOL_ID = "PowertoolId";
+	const POWERTOOL_COMMAND = "PowertoolCommand";
+	const POWERTOOL_CHAT_MACRO = "PowertoolChatMacro";
+
 	protected $loader;
 
 	public function __construct(Loader $loader) {

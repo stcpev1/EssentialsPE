@@ -3,6 +3,7 @@
 namespace EssentialsPE\Sessions\Providers;
 
 use EssentialsPE\Loader;
+use EssentialsPE\Sessions\Providers\BaseSessionProvider as Provider;
 use pocketmine\Player;
 
 class SQLiteSessionProvider extends BaseSessionProvider {
@@ -104,18 +105,18 @@ class SQLiteSessionProvider extends BaseSessionProvider {
 		$lowerCaseName = strtolower($player->getName());
 		$slicedData = array_slice($data, 8);
 
-		$isAfk = $slicedData[0]["IsAfk"];
-		$isGod = $slicedData[0]["IsGod"];
-		$isMuted = $slicedData[0]["IsMuted"];
-		$mutedUntil = $slicedData[0]["MutedUntil"];
-		$nick = $slicedData[0]["Nick"];
-		$hasPvpEnabled = $slicedData[0]["HasPvpEnabled"];
-		$hasUnlimitedEnabled = $slicedData[0]["HasUnlimitedEnable"];
-		$isVanished = $slicedData[0]["IsVanish"];
+		$isAfk = $slicedData[0][Provider::IS_AFK];
+		$isGod = $slicedData[0][Provider::IS_GOD];
+		$isMuted = $slicedData[0][Provider::IS_MUTED];
+		$mutedUntil = $slicedData[0][Provider::MUTED_UNTIL];
+		$nick = $slicedData[0][Provider::NICK];
+		$hasPvpEnabled = $slicedData[0][Provider::HAS_PVP_ENABLED];
+		$hasUnlimitedEnabled = $slicedData[0][Provider::HAS_UNLIMITED_ENABLED];
+		$isVanished = $slicedData[0][Provider::IS_VANISHED];
 
-		$powerToolId = $slicedData[1]["PowertoolId"];
-		$powerToolCommand = $slicedData[1]["PowertoolCommand"];
-		$powerToolChatMacro = $slicedData[1]["PowertoolChatMacro"];
+		$powerToolId = $slicedData[1][Provider::POWERTOOL_ID];
+		$powerToolCommand = $slicedData[1][Provider::POWERTOOL_COMMAND];
+		$powerToolChatMacro = $slicedData[1][Provider::POWERTOOL_CHAT_MACRO];
 
 		if(!$result = $this->database->exec("INSERT INTO Sessions(Player, IsAFK, IsGod, IsMuted, MutedUntil, Nick, HasPvpEnabled, HasUnlimitedEnabled, IsVanished) VALUES ('" . $this->escape($lowerCaseName) . "', $isAfk, $isGod, $isMuted, $mutedUntil, $nick, $hasPvpEnabled, $hasUnlimitedEnabled, $isVanished);")) {
 			return false;

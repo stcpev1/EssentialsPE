@@ -3,16 +3,19 @@
 namespace EssentialsPE\Sessions\Components;
 
 use EssentialsPE\Loader;
-use EssentialsPE\Sessions\BaseSessionComponent;
+use EssentialsPE\Sessions\BaseSavedSessionComponent;
 use EssentialsPE\Sessions\PlayerSession;
+use EssentialsPE\Sessions\Providers\BaseSessionProvider;
 
-class GodSessionComponent extends BaseSessionComponent {
+class GodSessionComponent extends BaseSavedSessionComponent {
 
 	private $isGod = false;
 
-	public function __construct(Loader $loader, PlayerSession $session, bool $isGod = false) {
+	public function __construct(Loader $loader, PlayerSession $session, array $data = []) {
 		parent::__construct($loader, $session);
-		$this->setGod($isGod);
+		if(isset($data[BaseSessionProvider::IS_GOD])) {
+			$this->setGod($data[BaseSessionProvider::IS_GOD]);
+		}
 	}
 
 	/**
@@ -41,5 +44,9 @@ class GodSessionComponent extends BaseSessionComponent {
 	public function switchGod(): bool {
 		$this->setGod(!$this->isGod());
 		return true;
+	}
+
+	public function save() {
+		$this->getSession()->addToSavedData(BaseSessionProvider::IS_GOD, $this->isGod());
 	}
 }
