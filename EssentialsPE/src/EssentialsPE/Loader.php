@@ -108,20 +108,19 @@ class Loader extends PluginBase {
 		SpoonDetector::printSpoon($this);
 		$this->configurableData = new DataManager($this);
 
-		$this->registerCommands();
-		$this->registerEventHandlers();
 		$this->getLogger()->info(TF::AQUA . "EssentialsPE modules loaded:");
 		if(!empty($this->getInstalledModules())) {
 			foreach($this->getInstalledModules() as $moduleId => $moduleName) {
 				$this->getLogger()->info(TF::GOLD . "[" . $moduleId . "] " . TF::GREEN . $moduleName);
 			}
 		}
+		$this->registerCommands();
+		$this->registerEventHandlers();
 		$this->sessionManager = new SessionManager($this);
 	}
 
 	public function registerCommands() {
 		$essentialsCommands = [
-			new BreakCommand($this),
 			new BroadcastCommand($this),
 			new CompassCommand($this),
 			new DepthCommand($this),
@@ -129,6 +128,7 @@ class Loader extends PluginBase {
 			new ExtinguishCommand($this),
 			new FeedCommand($this),
 			new GetPosCommand($this),
+			new BreakCommand($this),
 			new HealCommand($this),
 			new PingCommand($this),
 			new SetSpawnCommand($this),

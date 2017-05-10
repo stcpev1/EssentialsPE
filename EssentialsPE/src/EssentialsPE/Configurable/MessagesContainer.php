@@ -35,7 +35,10 @@ class MessagesContainer extends ConfigurableDataHolder {
 				$result = str_replace("{" . $i . "}", $a, $result);
 			}
 		}
-		return ChatUtils::colorMessage($result, $this->getLoader()->getConfigurableData()->getMessagesContainer()->getMessage("general.error.color-codes-permission"));
+		if($message === "general.error.color-codes-permission") {
+			return $result;
+		}
+		return ChatUtils::colorMessage($result, $this->getMessage("general.error.color-codes-permission"));
 	}
 
 	protected function check() {

@@ -15,56 +15,8 @@ class SessionManager {
 
 	public function __construct(Loader $loader) {
 		self::$loader = $loader;
-	}
 
-	public static function getSession(Player $player): PlayerSession {
-		if(!self::hasSession($player)) {
-			return self::createSession($player);
-		}
-		return self::$session[$player->getName()];
-	}
-
-	/**
-	 * @param Player $player
-	 *
-	 * @return bool
-	 */
-	public static function hasSession(Player $player): bool {
-		return isset(self::$session[$player->getName()]);
-	}
-
-	/**
-	 * @param Player $player
-	 *
-	 * @return PlayerSession
-	 */
-	public function createSession(Player $player): PlayerSession {
-		if(self::hasSession($player)) {
-			return self::getSession($player);
-		}
-		self::$session[$player->getName()] = new PlayerSession(self::getLoader(), $player);
-		return self::getSession($player);
-		// TODO: Add session 'importing' from database.
-	}
-
-	/**
-	 * @return Loader
-	 */
-	public static function getLoader(): Loader {
-		return self::$loader;
-	}
-
-	/**
-	 * @param Player $player
-	 *
-	 * @return bool
-	 */
-	public function deleteSession(Player $player): bool {
-		if(!$this->hasSession($player)) {
-			return false;
-		}
-		unset(self::$session[$player->getName()]);
-		return true;
+		$this->selectProvider();
 	}
 
 	/**
@@ -87,6 +39,57 @@ class SessionManager {
 				break;
 		}
 		return $this->provider;
+	}
+
+	/**
+	 * @return Loader
+	 */
+	public static function getLoader(): Loader {
+		return self::$loader;
+	}
+
+	/**
+	 * @param Player $player
+	 *
+	 * @return PlayerSession
+	 */
+	public function createSession(Player $player): PlayerSession {
+		if(self::hasSession($player)) {
+			return self::getSession($player);
+		}
+		self::$session[$player->getName()] = new PlayerSession(self::getLoader(), $player);
+		return self::getSession($player);
+	}
+
+	/**
+	 * @param Player $player
+	 *
+	 * @return bool
+	 */
+	public static function hasSession(Player $player): bool {
+		return isset(self::$session[$player->getName()]);
+	}
+
+	/**
+	 * @param Player $player
+	 *
+	 * @return PlayerSession
+	 */
+	public static function getSession(Player $player): PlayerSession {
+		return self::$session[$player->getName()];
+	}
+
+	/**
+	 * @param Player $player
+	 *
+	 * @return bool
+	 */
+	public function deleteSession(Player $player): bool {
+		if(!$this->hasSession($player)) {
+			return false;
+		}
+		unset(self::$session[$player->getName()]);
+		return true;
 	}
 
 	/**

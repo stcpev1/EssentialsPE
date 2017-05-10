@@ -7,7 +7,6 @@ use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\command\PluginIdentifiableCommand;
 use pocketmine\Player;
-use pocketmine\utils\Config;
 use pocketmine\utils\TextFormat as TF;
 
 abstract class BaseCommand extends Command implements PluginIdentifiableCommand {
@@ -23,7 +22,6 @@ abstract class BaseCommand extends Command implements PluginIdentifiableCommand 
 	 */
 	public function __construct(Loader $loader, string $name) {
 		$this->loader = $loader;
-		echo $name . " Registered!";
 		$t = $this->getLoader()->getConfigurableData()->getMessagesContainer()->getMessage("commands." . $name);
 		parent::__construct($t["name"], $t["description"], $t["usage"], $t["alias"] ?? []);
 		$this->consoleUsable = $t["console-usage"] !== false;
@@ -110,12 +108,5 @@ abstract class BaseCommand extends Command implements PluginIdentifiableCommand 
 	 */
 	protected function sendPermissionMessage(CommandSender $sender) {
 		$sender->sendMessage(TF::RED . "[Error] " . $this->getPermissionMessage());
-	}
-
-	/**
-	 * @return Config
-	 */
-	protected function getConfig(): Config {
-		return $this->getLoader()->getConfig();
 	}
 }

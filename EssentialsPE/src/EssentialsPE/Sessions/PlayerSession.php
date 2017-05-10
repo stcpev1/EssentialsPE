@@ -24,7 +24,7 @@ class PlayerSession {
 	private $teleportComponent;
 
 	public function __construct(Loader $loader, Player $player, array $values = []) {
-		$this->player = &$player;
+		$this->player = $player;
 		$this->loader = $loader;
 		$data = $loader->getSessionManager()->getProvider()->getPlayerData($player);
 

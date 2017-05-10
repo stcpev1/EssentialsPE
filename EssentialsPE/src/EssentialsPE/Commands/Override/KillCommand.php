@@ -4,6 +4,7 @@ namespace EssentialsPE\Commands\Override;
 
 
 use EssentialsPE\Loader;
+use EssentialsPE\Sessions\SessionManager;
 use pocketmine\command\CommandSender;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\Player;
@@ -28,23 +29,23 @@ class KillCommand extends BaseOverrideCommand {
 		}
 		if(!$sender instanceof Player && count($args) !== 1) {
 			$this->sendUsage($sender, $commandLabel);
-			return false;
+			return true;
 		}
 		$player = $sender;
 		if(isset($args[0])) {
 			if(!$sender->hasPermission("essentials.kill.other")) {
 				$this->sendMessageContainer($sender, "commands.kill.other-permission");
-				return false;
+				return true;
 			}
 			if(!($player = $this->getLoader()->getServer()->getPlayer($args[0])) instanceof Player) {
 				$this->sendMessageContainer($sender, "error.player-not-found", $args[0]);
-				return false;
+				return true;
 			}
 		}
-		/*if($this->getAPI()->isGod($player)){
-			$this->sendTranslation($sender, "commands.kill.exempt", $player->getDisplayName()); TODO: Uncomment this once sessions are re-implemented
-			return false;
-		}*/
+		if(SessionManager::getSession($player)->isGod()) {
+			$this->sendMessageContainer($sender, "commands.kill.exempt", $player->getDisplayName());
+			return true;
+		}
 		$this->getLoader()->getServer()->getPluginManager()->callEvent($ev = new EntityDamageEvent($player, EntityDamageEvent::CAUSE_SUICIDE, ($player->getHealth())));
 		if($ev->isCancelled()) {
 			return true;

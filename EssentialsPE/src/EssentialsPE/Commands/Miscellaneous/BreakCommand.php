@@ -4,7 +4,6 @@ namespace EssentialsPE\Commands\Miscellaneous;
 
 use EssentialsPE\Commands\BaseCommand;
 use EssentialsPE\Loader;
-use pocketmine\block\Air;
 use pocketmine\block\Block;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
@@ -38,7 +37,7 @@ class BreakCommand extends BaseCommand {
 			$this->sendMessageContainer($sender, "commands.break.bedrock-permission");
 			return true;
 		}
-		$sender->getLevel()->setBlock($block, new Air(), true, true);
+		$sender->getLevel()->setBlock($block, Block::get(Block::AIR), true, true);
 		return true;
 	}
 }

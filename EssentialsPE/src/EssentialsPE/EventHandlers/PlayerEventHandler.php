@@ -12,6 +12,8 @@ use pocketmine\Player;
 
 class PlayerEventHandler extends BaseEventHandler {
 
+	private $teleportScheduled = [];
+
 	public function __construct(Loader $loader) {
 		parent::__construct($loader);
 	}
@@ -40,9 +42,16 @@ class PlayerEventHandler extends BaseEventHandler {
 			if($this->getLoader()->getConfigurableData()->getConfiguration()->get("Teleporting.Delay") !== true) {
 				return;
 			}
+			if(isset($this->teleportScheduled[$player->getName()])) {
+				unset($this->teleportScheduled[$player->getName()]);
+				return;
+			}
 			$delay = $this->getLoader()->getConfigurableData()->getConfiguration()->get("Teleporting.Delay-Time");
+			$this->teleportScheduled[$player->getName()] = true;
 			$this->getLoader()->getServer()->getScheduler()->scheduleDelayedTask(new DelayedTeleportTask($this->getLoader(), $player, $event->getTo()), $delay);
 			$player->sendMessage($this->getLoader()->getConfigurableData()->getMessagesContainer()->getMessage("general.teleport-delay", $delay));
+
+			$event->setCancelled();
 		}
 	}
 }

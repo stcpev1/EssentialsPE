@@ -23,6 +23,8 @@ afk: true
 top: true
 world: true
 nick: true
+kill: true
+top: true
 seeinventory: true
 
 # Economy Commands - Require installation of the EssentialsPEconomy module.
