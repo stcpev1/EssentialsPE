@@ -62,7 +62,8 @@ class Loader extends PluginBase {
 	}
 
 	/**
-	 * Adds a module to EssentialsPE. The module name should be equal to the name specified in the plugin.yml of your module for correct initialization.
+	 * Adds a module to EssentialsPE.
+	 * The module name should be equal to the name in the plugin.yml to access it using $this->getModule();
 	 *
 	 * @param int    $moduleId
 	 * @param string $moduleName
@@ -104,7 +105,7 @@ class Loader extends PluginBase {
 	}
 
 	public function onEnable() {
-		\SpoonDetector::printSpoon($this);
+		SpoonDetector::printSpoon($this);
 		$this->configurableData = new DataManager($this);
 
 		$this->registerCommands();

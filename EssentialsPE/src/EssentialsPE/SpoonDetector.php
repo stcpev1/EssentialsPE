@@ -1,6 +1,7 @@
 <?php
 
-use EssentialsPE\Loader;
+namespace EssentialsPE;
+
 use pocketmine\Server;
 
 class SpoonDetector {

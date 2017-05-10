@@ -18,6 +18,8 @@ setspawn: true
 speed: true
 sudo: true
 suicide: true
+god: true
+afk: true
 top: true
 world: true
 nick: true

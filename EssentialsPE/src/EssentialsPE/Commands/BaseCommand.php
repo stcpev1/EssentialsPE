@@ -23,6 +23,7 @@ abstract class BaseCommand extends Command implements PluginIdentifiableCommand 
 	 */
 	public function __construct(Loader $loader, string $name) {
 		$this->loader = $loader;
+		echo $name . " Registered!";
 		$t = $this->getLoader()->getConfigurableData()->getMessagesContainer()->getMessage("commands." . $name);
 		parent::__construct($t["name"], $t["description"], $t["usage"], $t["alias"] ?? []);
 		$this->consoleUsable = $t["console-usage"] !== false;
