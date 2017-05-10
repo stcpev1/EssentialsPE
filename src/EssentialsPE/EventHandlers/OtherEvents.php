@@ -53,9 +53,8 @@ class OtherEvents extends BaseEventHandler{
 
         // Unlimited block placing
         elseif($this->getAPI()->isUnlimitedEnabled($event->getPlayer())){
-            $event->setCancelled(true);
-            $pos = new Vector3($event->getBlockReplaced()->getX(), $event->getBlockReplaced()->getY(), $event->getBlockReplaced()->getZ());
-            $event->getPlayer()->getLevel()->setBlock($pos, $event->getBlock(), true);
+            $hand = $event->getPlayer()->getInventory()->getItemInHand()
+            $event->getPlayer()->getInventory()->setItemInHand($hand->setCount($hand->getCount() + 1));
         }
     }
 }
