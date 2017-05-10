@@ -53,7 +53,7 @@ class OtherEvents extends BaseEventHandler{
 
         // Unlimited block placing
         elseif($this->getAPI()->isUnlimitedEnabled($event->getPlayer())){
-            $hand = $event->getPlayer()->getInventory()->getItemInHand()
+            $hand = $event->getPlayer()->getInventory()->getItemInHand();
             $event->getPlayer()->getInventory()->setItemInHand($hand->setCount($hand->getCount() + 1));
         }
     }
