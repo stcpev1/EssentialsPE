@@ -6,12 +6,12 @@ use pocketmine\Server;
 class SpoonDetector {
 
 	/*
-	 * Thank you @Falk
+	 * Thank you @Falk.
 	 */
 
 	private static $subtleAsciiSpoon = "   
-         ___ _ __   ___   ___  _ __  
-        / __| '_ \\ / _ \\ / _ \\| '_ \\ 
+         ___ _ __    ___    ___  _ __  
+        / __| '_ \\ / _ \\ / _ \\|'_ \\ 
         \\__ \\ |_) | (_) | (_) | | | |
         |___/ .__/ \\___/ \\___/|_| |_|
             | |                      
@@ -19,15 +19,15 @@ class SpoonDetector {
     ";
 
 	private static $spoonTxtContent = "
-    LegendsOfMCPE does not provide support for third-party builds of 
-    PocketMine-MP (spoons). Spoons detract from the overall quality of the Minecraft PE plugin environment, which is already 
-    lacking in quality. They force plugin developers to waste time trying to support conflicting APIs.
+        LegendsOfMCPE does not provide support for third-party builds of 
+        PocketMine-MP (spoons). Spoons detract from the overall quality of the Minecraft PE plugin environment, which is already 
+        lacking in quality. They force plugin developers to waste time trying to support conflicting APIs.
     
-    In order to begin using EssentialsPE you must understand that you will be offered no support whatsoever. 
+        In order to begin using EssentialsPE you must understand that you will be offered no support whatsoever. 
     
-    Furthermore, the GitHub issue tracker for EssentialsPE is targeted at vanilla PocketMine only. Any bugs you create which don't affect vanilla PocketMine will be deleted.
+        Furthermore, the GitHub issue tracker for EssentialsPE is targeted at vanilla PocketMine only. Any bugs you create which don't affect vanilla PocketMine will be deleted.
     
-    Have you read and understood the above (type 'yes' after the question mark)?";
+        Have you read and understood the above (type 'yes' after the question mark)?";
 
 	private static $thingsThatAreNotSpoons = [
 		"PocketMine-MP"

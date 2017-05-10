@@ -245,6 +245,13 @@ class CommandOverloads {
 					"name" => "player",
 					"optional" => true
 				]
+			],
+			"seeinventory" => [
+				0 => [
+					"type" => "rawtext",
+					"name" => "player",
+					"optional" => false
+				]
 			]
 		];
 	}

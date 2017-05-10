@@ -11,6 +11,7 @@ use EssentialsPE\Commands\Economy\BalanceTopCommand;
 use EssentialsPE\Commands\Economy\EcoCommand;
 use EssentialsPE\Commands\Economy\PayCommand;
 use EssentialsPE\Commands\EssentialsPECommand;
+use EssentialsPE\Commands\Inventory\SeeInventoryCommand;
 use EssentialsPE\Commands\Miscellaneous\AfkCommand;
 use EssentialsPE\Commands\Miscellaneous\BreakCommand;
 use EssentialsPE\Commands\Miscellaneous\CompassCommand;
@@ -138,6 +139,7 @@ class Loader extends PluginBase {
 			new GodCommand($this),
 			new AfkCommand($this),
 			new NickCommand($this),
+			new SeeInventoryCommand($this),
 
 			// Economy Commands
 			new PayCommand($this),

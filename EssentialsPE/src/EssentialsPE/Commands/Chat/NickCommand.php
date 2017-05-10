@@ -28,31 +28,31 @@ class NickCommand extends BaseCommand {
 		}
 		if((!isset($args[1]) && !$sender instanceof Player) || (count($args) < 1 || count($args) > 2)) {
 			$this->sendUsage($sender, $commandLabel);
-			return false;
+			return true;
 		}
 		$nick = ($n = strtolower($commandLabel[0])) === "off" || $n === "remove" || $n === "restore" || (bool) $n === false ? false : $args[0];
 		$player = $sender;
 		if(isset($args[1])) {
 			if(!$sender->hasPermission("essentials.command.nick.other")) {
 				$this->sendMessageContainer($sender, "commands.nick.other-permission");
-				return false;
+				return true;
 			} elseif(!($player = $this->getLoader()->getServer()->getPlayer($args[1]))) {
 				$this->sendMessageContainer($sender, "error.player-not-found", $args[1]);
-				return false;
+				return true;
 			}
 		}
 		if(!$nick) {
 			SessionManager::getSession($player)->clearNick();
 		} elseif(!$sender->hasPermission("essentials.colorchat")) {
-			$this->sendTranslation($sender, "error.color-codes-permission");
-			return false;
-		} elseif(!$this->getAPI()->setNick($player, $nick)) {
-			$this->sendTranslation($sender, "commands.nick.cancelled");
-			return false;
+			$this->sendMessageContainer($sender, "error.color-codes-permission");
+			return true;
+		} elseif(!SessionManager::getSession($player)->setNick($nick)) {
+			$this->sendMessageContainer($sender, "commands.nick.cancelled");
+			return true;
 		}
-		$this->sendTranslation($player, "commands.nick.self-" . (!$nick ? "restore" : "change"), $nick);
+		$this->sendMessageContainer($player, "commands.nick.self-" . (!$nick ? "restore" : "change"), $nick);
 		if($player !== $sender) {
-			$this->sendTranslation($sender, "commands.nick.other-change", $player->getName(), $player->getDisplayName());
+			$this->sendMessageContainer($sender, "commands.nick.other-change", $player->getName(), $player->getDisplayName());
 		}
 		return true;
 	}

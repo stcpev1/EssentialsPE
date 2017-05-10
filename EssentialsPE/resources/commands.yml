@@ -21,6 +21,7 @@ suicide: true
 top: true
 world: true
 nick: true
+seeinventory: true
 
 # Economy Commands - Require installation of the EssentialsPEconomy module.
 balance: true

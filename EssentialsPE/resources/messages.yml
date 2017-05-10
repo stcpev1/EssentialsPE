@@ -512,6 +512,13 @@ commands:
     no-target: "&cNo target available to reply"
     other-syntax: "[{0} &r-> me] {1}"
     self-syntax: "[me -> {0}&r] {1}"
+  seeinventory:
+    name: "seeinventory"
+    description: "See the content of other players' inventories"
+    usage: "<player>"
+    console-usage: false
+    alias: ["si", "lookinventory", "checkinventory"]
+    success: "&cInventory of &e{0} &copened successfully"
   seen:
     name: "seen"
     description: "See player's last connection time"
@@ -731,6 +738,12 @@ commands:
     i-money: "&7Money"
     i-name: "&7Name"
     i-nick: "&7Nick"
+  workbench:
+    name: "workbench"
+    descripition: "Opens up a crafting table window"
+    usage: ""
+    console-usage: false
+    alias: ["craftingtable", "worktable", "craftingbench"]
   world:
     name: "world"
     description: "Teleport bewteen worlds"
