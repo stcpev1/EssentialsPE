@@ -28,6 +28,7 @@ Afk:
   Auto-Kick-Idling: false
   # Time to wait before kicking AFK players if Auto-Kick is enabled in seconds.
   Kick-Time: 300
+
 Teleporting:
   # Time in seconds for a teleport request to remain valid.
   Tpa-Valid-Time: 30
@@ -35,4 +36,8 @@ Teleporting:
   Delay: true
   # Time in seconds to wait for teleport if the option above is set to true.
   Delay-Time: 3
+
+Chat:
+  # The symbol to show before a name to indicate that it is a nickname.
+  Nick-Symbol: "&9&l~&r"
 ...

@@ -20,6 +20,7 @@ sudo: true
 suicide: true
 top: true
 world: true
+nick: true
 
 # Economy Commands - Require installation of the EssentialsPEconomy module.
 balance: true

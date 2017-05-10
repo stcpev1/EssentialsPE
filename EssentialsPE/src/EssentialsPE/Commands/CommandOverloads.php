@@ -233,6 +233,18 @@ class CommandOverloads {
 					"name" => "player",
 					"optional" => true
 				]
+			],
+			"nick" => [
+				0 => [
+					"type" => "rawtext",
+					"name" => "nickname",
+					"optional" => false
+				],
+				1 => [
+					"type" => "rawtext",
+					"name" => "player",
+					"optional" => true
+				]
 			]
 		];
 	}

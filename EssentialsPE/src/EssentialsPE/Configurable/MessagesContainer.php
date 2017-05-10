@@ -3,7 +3,7 @@
 namespace EssentialsPE\Configurable;
 
 use EssentialsPE\Loader;
-use pocketmine\Player;
+use EssentialsPE\Utils\ChatUtils;
 use pocketmine\utils\Config;
 
 class MessagesContainer extends ConfigurableDataHolder {
@@ -35,31 +35,7 @@ class MessagesContainer extends ConfigurableDataHolder {
 				$result = str_replace("{" . $i . "}", $a, $result);
 			}
 		}
-		return $this->colorMessage($result);
-	}
-
-	/**
-	 * Return a colored message replacing every color code (&a = §a)
-	 *
-	 * @param string      $message
-	 * @param Player|null $player
-	 * @param bool        $force
-	 *
-	 * @return bool|string
-	 */
-	public function colorMessage(string $message, Player $player = null, bool $force = false) {
-		$message = preg_replace_callback(
-			"/(\\\&|\&)[0-9a-fk-or]/",
-			function(array $matches) {
-				return str_replace("\\§", "&", str_replace("&", "§", $matches[0]));
-			},
-			$message
-		);
-		if(strpos($message, "§") !== false && ($player instanceof Player) && !$player->hasPermission("essentials.chat.color") && $force !== true) {
-			$player->sendMessage($this->getMessage("general.error.color-codes-permission"));
-			return false;
-		}
-		return $message;
+		return ChatUtils::colorMessage($result, $this->getLoader()->getConfigurableData()->getMessagesContainer()->getMessage("general.error.color-codes-permission"));
 	}
 
 	protected function check() {

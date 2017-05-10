@@ -6,6 +6,7 @@ use EssentialsPE\Loader;
 use EssentialsPE\Sessions\Components\AfkSessionComponent;
 use EssentialsPE\Sessions\Components\GodSessionComponent;
 use EssentialsPE\Sessions\Components\MuteSessionComponent;
+use EssentialsPE\Sessions\Components\NickSessionComponent;
 use EssentialsPE\Sessions\Components\TeleportRequestSessionComponent;
 use pocketmine\Player;
 
@@ -18,6 +19,8 @@ class PlayerSession {
 	private $afkComponent;
 	private $godComponent;
 	private $muteComponent;
+	private $nickComponent;
+
 	private $teleportComponent;
 
 	public function __construct(Loader $loader, Player $player, array $values = []) {
@@ -27,7 +30,8 @@ class PlayerSession {
 
 		$this->afkComponent = new AfkSessionComponent($loader, $this, $data);
 		$this->godComponent = new GodSessionComponent($loader, $this, $data);
-		$this->muteComponent = new MuteSessionComponent($loader, $this, $this);
+		$this->muteComponent = new MuteSessionComponent($loader, $this, $data);
+		$this->nickComponent = new NickSessionComponent($loader, $this, $data);
 
 		$this->teleportComponent = new TeleportRequestSessionComponent($loader, $this);
 	}
@@ -234,5 +238,28 @@ class PlayerSession {
 	 */
 	public function hasARequest(): bool {
 		return $this->teleportComponent->hasARequest();
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getNick(): string {
+		return $this->nickComponent->getNick();
+	}
+
+	/**
+	 * @param string $nick
+	 *
+	 * @return bool
+	 */
+	public function setNick(string $nick): bool {
+		return $this->nickComponent->setNick($nick);
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function clearNick(): bool {
+		return $this->nickComponent->clearNick();
 	}
 }

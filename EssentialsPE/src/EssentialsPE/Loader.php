@@ -4,6 +4,7 @@ namespace EssentialsPE;
 
 use EssentialsPE\Commands\BaseCommand;
 use EssentialsPE\Commands\Chat\BroadcastCommand;
+use EssentialsPE\Commands\Chat\NickCommand;
 use EssentialsPE\Commands\CommandOverloads;
 use EssentialsPE\Commands\Economy\BalanceCommand;
 use EssentialsPE\Commands\Economy\BalanceTopCommand;
@@ -102,6 +103,7 @@ class Loader extends PluginBase {
 	}
 
 	public function onEnable() {
+		\SpoonDetector::printSpoon($this);
 		$this->configurableData = new DataManager($this);
 
 		$this->registerCommands();
@@ -135,6 +137,7 @@ class Loader extends PluginBase {
 			new WorldCommand($this),
 			new GodCommand($this),
 			new AfkCommand($this),
+			new NickCommand($this),
 
 			// Economy Commands
 			new PayCommand($this),
