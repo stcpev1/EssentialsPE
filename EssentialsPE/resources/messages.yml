@@ -777,11 +777,13 @@ error:
   run-in-game: "&cCommand &d{0} &ccan only be run &ein-game"
   run-in-console: "&cCommand &d{0} &ccan only be run &ein-console"
   unknown-item: "&cUnknown item &d{0}"
+  sign-need-permission: "&eYou don't have permission to &c{0}&e this sign"
 general:
   prefix: "&f[&aEssentialsPE&f]"
   teleport-confirmation: "&eTeleporting..."
   teleport-delay: "&ePlease stand still for &c{0} &eseconds"
   teleport-cancel: "&cTeleport cancelled"
+  sign-success: "&aSuccessfully created a {0} sign"
   updater:
     debug: "&eRunning EssentialsPE UpdateFetchTask"
     development: "&eFetching latest development build..."
