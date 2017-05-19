@@ -50,6 +50,7 @@ class Loader extends PluginBase {
 	const MODULE_ESSENTIALS = 0;
 	const MODULE_ECONOMY = 1;
 	const MODULE_WARPS = 2;
+	const MODULE_HOMES = 3;
 
 	private $configurableData;
 	private $installedModules = [];

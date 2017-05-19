@@ -780,7 +780,8 @@ error:
 general:
   prefix: "&f[&aEssentialsPE&f]"
   teleport-confirmation: "&eTeleporting..."
-  teleport-delay: "&cPlease stand still for &e{0} &cseconds"
+  teleport-delay: "&ePlease stand still for &c{0} &eseconds"
+  teleport-cancel: "&cTeleport cancelled"
   updater:
     debug: "&eRunning EssentialsPE UpdateFetchTask"
     development: "&eFetching latest development build..."

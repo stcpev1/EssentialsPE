@@ -48,7 +48,7 @@ class PlayerEventHandler extends BaseEventHandler {
 			}
 			$delay = $this->getLoader()->getConfigurableData()->getConfiguration()->get("Teleporting.Delay-Time");
 			$this->teleportScheduled[$player->getName()] = true;
-			$this->getLoader()->getServer()->getScheduler()->scheduleDelayedTask(new DelayedTeleportTask($this->getLoader(), $player, $event->getTo()), $delay);
+			$this->getLoader()->getServer()->getScheduler()->scheduleDelayedTask(new DelayedTeleportTask($this->getLoader(), $player, $event->getFrom(), $event->getTo()), $delay * 20);
 			$player->sendMessage($this->getLoader()->getConfigurableData()->getMessagesContainer()->getMessage("general.teleport-delay", $delay));
 
 			$event->setCancelled();

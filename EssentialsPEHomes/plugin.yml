@@ -1,0 +1,11 @@
+---
+name: EssentialsPEHomes
+main: EssentialsPEHomes\EssentialsPEHomes
+version: 1.0.0
+api:
+- 3.0.0-ALPHA5
+author: LegendsOfMCPE Team
+website: https://github.com/LegendOfMCPE/EssentialsPE
+depend:
+- EssentialsPE
+...

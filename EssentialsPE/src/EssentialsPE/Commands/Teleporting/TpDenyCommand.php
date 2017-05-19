@@ -65,9 +65,9 @@ class TpDenyCommand extends BaseCommand {
 				return true;
 				break;
 		}
-		$session->acceptTeleportRequest($player);
-		$this->sendMessageContainer($player, "commands.tpaccept.conformation", $t = $this->getLoader()->getConfigurableData()->getMessagesContainer()->getMessage("general.teleporting"));
-		$this->sendMessageContainer($sender, $t);
+		$session->removeRequest($player);
+		$this->sendMessageContainer($player, "commands.tpdeny.other-notice", $sender->getDisplayName());
+		$this->sendMessageContainer($sender, "commands.tpdeny.confirmation", $player->getDisplayName());
 		return true;
 	}
 }

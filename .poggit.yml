@@ -3,4 +3,13 @@ projects:
   EssentialsPE:
     path: EssentialsPE
     icon: EssentialsPE\resources\ess.jpg
+  EssentialsPEconomy:
+    path: EssentialsPEconomy
+    icon: EssentialsPE\resources\ess.jpg
+  EssentialsPEWarps:
+    path: EssentialsPEWarps
+    icon: EssentialsPE\resources\ess.jpg
+  EssentialsPEHomes:
+    path: EssentialsPEHomes
+    icon: EssentialsPE\resources\ess.jpg
 ...

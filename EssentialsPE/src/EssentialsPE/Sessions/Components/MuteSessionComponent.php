@@ -12,9 +12,9 @@ class MuteSessionComponent extends BaseSavedSessionComponent {
 	private $isMuted = false;
 	private $mutedUntil;
 
-	public function __construct(Loader $loader, PlayerSession $session, bool $isMuted = false, \DateTime $mutedUntil = null) {
+	public function __construct(Loader $loader, PlayerSession $session, array $data = []) {
 		parent::__construct($loader, $session);
-		$this->setMuted($isMuted, $mutedUntil, false);
+		// TODO
 	}
 
 	/**

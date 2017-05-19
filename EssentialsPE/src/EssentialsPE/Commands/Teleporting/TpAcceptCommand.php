@@ -65,9 +65,9 @@ class TpAcceptCommand extends BaseCommand {
 				return true;
 				break;
 		}
-		$session->removeRequest($player);
-		$this->sendMessageContainer($player, "commands.tpdeny.other-confirmation", $sender->getDisplayName());
-		$this->sendMessageContainer($sender, "commands.tpdeny.confirmation", $player->getDisplayName());
+		$session->acceptTeleportRequest($player);
+		$this->sendMessageContainer($player, "commands.tpaccept.conformation", $t = $this->getLoader()->getConfigurableData()->getMessagesContainer()->getMessage("general.teleport-confirmation"));
+		$this->sendMessageContainer($sender, $t);
 		return true;
 	}
 }

@@ -37,7 +37,7 @@ class SeeInventoryCommand extends BaseCommand {
 		$contents = $player->getInventory()->getContents();
 		$window = new PlayerInventory($sender);
 		$window->setContents($contents);
-		$sender->addWindow($window);
+		$sender->addWindow($window, true);
 		$this->sendMessageContainer($sender, "commands.seeinventory.success", $player->getName());
 		return true;
 	}

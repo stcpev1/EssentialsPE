@@ -16,7 +16,7 @@ class SQLiteSessionProvider extends BaseSessionProvider {
 	}
 
 	public function prepare() {
-		if(!file_exists($path = $this->getLoader()->getDataFolder() . "economy.sqlite3")) {
+		if(!file_exists($path = $this->getLoader()->getDataFolder() . "sessions.sqlite3")) {
 			file_put_contents($path, "");
 		}
 		$this->database = new \SQLite3($path);
@@ -64,14 +64,22 @@ class SQLiteSessionProvider extends BaseSessionProvider {
 	 */
 	public function getPlayerData(Player $player): array {
 		$lowerCaseName = strtolower($player->getName());
+		$data1 = [];
+		$data2 = [];
 
 		if(!$this->playerDataExists($player)) {
 			return [];
 		}
 		$result = $this->database->query("SELECT * FROM Sessions WHERE Player = '" . $this->escape($lowerCaseName) . "';");
 		$result2 = $this->database->query("SELECT * FROM Powertools WHERE Player = '" . $this->escape($lowerCaseName) . "';");
-
-		return array_merge($result->fetchArray(SQLITE3_ASSOC), $result2->fetchArray(SQLITE3_ASSOC));
+		if(is_array($return = $result->fetchArray(SQLITE3_ASSOC))) {
+			$data1 = $return;
+		}
+		if(is_array($return2 = $result2->fetchArray(SQLITE3_ASSOC))) {
+			$data2 = $return2;
+		}
+		$data = array_merge($data1, $data2);
+		return $data;
 	}
 
 	/**
