@@ -4,7 +4,6 @@
 # Setting a command to false will disable it, while setting it to true enables it.
 
 break: true
-broadcast: true
 burn: true
 compass: true
 depth: true
@@ -22,7 +21,6 @@ god: true
 afk: true
 top: true
 world: true
-nick: true
 kill: true
 top: true
 seeinventory: true
@@ -41,6 +39,11 @@ tpall: true
 tpdeny: true
 tphere: true
 
+# Chat Commands
+broadcast: true
+nick: true
+prefix: true
+suffix: true
 
 # Special signs
 

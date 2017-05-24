@@ -252,6 +252,30 @@ class CommandOverloads {
 					"name" => "player",
 					"optional" => false
 				]
+			],
+			"prefix" => [
+				0 => [
+					"type" => "rawtext",
+					"name" => "prefix",
+					"optional" => false
+				],
+				1 => [
+					"type" => "rawtext",
+					"name" => "player",
+					"optional" => true
+				]
+			],
+			"suffix" => [
+				0 => [
+					"type" => "rawtext",
+					"name" => "suffix",
+					"optional" => false
+				],
+				1 => [
+					"type" => "rawtext",
+					"name" => "player",
+					"optional" => true
+				]
 			]
 		];
 	}

@@ -1,7 +1,8 @@
 <?php
 
-namespace EssentialsPE\EventHandlers\SpecialSigns;
+namespace EssentialsPE\EventHandlers\SpecialSigns\Economy;
 
+use EssentialsPE\EventHandlers\SpecialSigns\BaseSign;
 use EssentialsPE\Loader;
 use EssentialsPEconomy\EssentialsPEconomy;
 use EssentialsPEconomy\Providers\BaseEconomyProvider;

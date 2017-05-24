@@ -3,6 +3,7 @@
 namespace EssentialsPE\Sessions\Providers;
 
 
+use pocketmine\OfflinePlayer;
 use pocketmine\Player;
 
 interface ISessionProvider {
@@ -27,28 +28,28 @@ interface ISessionProvider {
 	/**
 	 * Checks whether the given player has a session available.
 	 *
-	 * @param Player $player
+	 * @param OfflinePlayer $player
 	 *
 	 * @return bool
 	 */
-	public function playerDataExists(Player $player): bool;
+	public function playerDataExists(OfflinePlayer $player): bool;
 
 	/**
 	 * Returns an array containing all the session data of a player.
 	 *
-	 * @param Player $player
+	 * @param OfflinePlayer $player
 	 *
 	 * @return array
 	 */
-	public function getPlayerData(Player $player): array;
+	public function getPlayerData(OfflinePlayer $player): array;
 
 	/**
 	 * Dumps all array session values into the database.
 	 *
-	 * @param Player $player
+	 * @param OfflinePlayer $player
 	 * @param array  $data
 	 *
 	 * @return bool
 	 */
-	public function storePlayerData(Player $player, array $data): bool;
+	public function storePlayerData(OfflinePlayer $player, array $data): bool;
 }

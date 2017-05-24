@@ -22,6 +22,8 @@ class DelayedTeleportTask extends BaseTask {
 
 	public function onRun($currentTick) {
 		if($this->player->isOnline()) {
+			var_dump($this->originalPosition);
+			var_dump($this->player->getPosition());
 			if($this->player->getPosition()->equals($this->originalPosition)) {
 				$this->player->teleport($this->teleportPosition);
 			} else {

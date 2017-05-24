@@ -5,6 +5,8 @@ namespace EssentialsPE;
 use EssentialsPE\Commands\BaseCommand;
 use EssentialsPE\Commands\Chat\BroadcastCommand;
 use EssentialsPE\Commands\Chat\NickCommand;
+use EssentialsPE\Commands\Chat\PrefixCommand;
+use EssentialsPE\Commands\Chat\SuffixCommand;
 use EssentialsPE\Commands\CommandOverloads;
 use EssentialsPE\Commands\Economy\BalanceCommand;
 use EssentialsPE\Commands\Economy\BalanceTopCommand;
@@ -122,7 +124,6 @@ class Loader extends PluginBase {
 
 	public function registerCommands() {
 		$essentialsCommands = [
-			new BroadcastCommand($this),
 			new CompassCommand($this),
 			new DepthCommand($this),
 			new EssentialsPECommand($this),
@@ -140,7 +141,6 @@ class Loader extends PluginBase {
 			new WorldCommand($this),
 			new GodCommand($this),
 			new AfkCommand($this),
-			new NickCommand($this),
 			new SeeInventoryCommand($this),
 
 			// Economy Commands
@@ -155,7 +155,13 @@ class Loader extends PluginBase {
 			new TpaHereCommand($this),
 			new TpAllCommand($this),
 			new TpDenyCommand($this),
-			new TpHereCommand($this)
+			new TpHereCommand($this),
+
+			// Chat Commands
+			new NickCommand($this),
+			new BroadcastCommand($this),
+			new PrefixCommand($this),
+			new SuffixCommand($this)
 		];
 		foreach($essentialsCommands as $essentialsCommand) {
 			if($essentialsCommand instanceof BaseCommand) {

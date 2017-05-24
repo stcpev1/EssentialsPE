@@ -5,7 +5,9 @@ namespace EssentialsPE\Sessions;
 use EssentialsPE\Loader;
 use EssentialsPE\Sessions\Providers\BaseSessionProvider;
 use EssentialsPE\Sessions\Providers\SQLiteSessionProvider;
+use pocketmine\OfflinePlayer;
 use pocketmine\Player;
+use pocketmine\Server;
 
 class SessionManager {
 
@@ -49,11 +51,14 @@ class SessionManager {
 	}
 
 	/**
-	 * @param Player $player
+	 * @param $player
 	 *
 	 * @return PlayerSession
 	 */
-	public function createSession(Player $player): PlayerSession {
+	public function createSession($player): PlayerSession {
+		if($player instanceof Player || is_string($player) || $player instanceof OfflinePlayer) {
+			$player = new OfflinePlayer(Server::getInstance(), is_string($player) ? $player : $player->getName());
+		}
 		if(self::hasSession($player)) {
 			return self::getSession($player);
 		}
@@ -62,29 +67,32 @@ class SessionManager {
 	}
 
 	/**
-	 * @param Player $player
+	 * @param OfflinePlayer $player
 	 *
 	 * @return bool
 	 */
-	public static function hasSession(Player $player): bool {
+	public static function hasSession(OfflinePlayer $player): bool {
 		return isset(self::$session[$player->getName()]);
 	}
 
 	/**
-	 * @param Player $player
+	 * @param $player
 	 *
 	 * @return PlayerSession
 	 */
-	public static function getSession(Player $player): PlayerSession {
+	public static function getSession($player): PlayerSession {
+		if($player instanceof Player || is_string($player) || $player instanceof OfflinePlayer) {
+			$player = new OfflinePlayer(Server::getInstance(), is_string($player) ? $player : $player->getName());
+		}
 		return self::$session[$player->getName()];
 	}
 
 	/**
-	 * @param Player $player
+	 * @param OfflinePlayer $player
 	 *
 	 * @return bool
 	 */
-	public function deleteSession(Player $player): bool {
+	public function deleteSession(OfflinePlayer $player): bool {
 		if(!$this->hasSession($player)) {
 			return false;
 		}

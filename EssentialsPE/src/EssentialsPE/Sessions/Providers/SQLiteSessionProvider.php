@@ -4,7 +4,9 @@ namespace EssentialsPE\Sessions\Providers;
 
 use EssentialsPE\Loader;
 use EssentialsPE\Sessions\Providers\BaseSessionProvider as Provider;
+use pocketmine\OfflinePlayer;
 use pocketmine\Player;
+use switchbox\api\ProviderReply;
 
 class SQLiteSessionProvider extends BaseSessionProvider {
 
@@ -21,12 +23,14 @@ class SQLiteSessionProvider extends BaseSessionProvider {
 		}
 		$this->database = new \SQLite3($path);
 		$query = "CREATE TABLE IF NOT EXISTS Sessions(
-			Player VARCHAR(20) PRIMARY KEY,
+			Player VARCHAR(16) PRIMARY KEY,
 			IsAfk BOOLEAN,
 			IsGod BOOLEAN,
 			IsMuted BOOLEAN,
 			MutedUntil NOT NULL,
-			Nick VARCHAR(20),
+			Nick VARCHAR(32),
+			Prefix VARCHAR(32),
+			Suffix VARCHAR(32),
 			HasPvpEnabled BOOLEAN,
 			HasUnlimitedEnabled BOOLEAN,
 			IsVanished BOOLEAN
@@ -83,11 +87,11 @@ class SQLiteSessionProvider extends BaseSessionProvider {
 	}
 
 	/**
-	 * @param Player $player
+	 * @param OfflinePlayer $player
 	 *
 	 * @return bool
 	 */
-	public function playerDataExists(Player $player): bool {
+	public function playerDataExists(OfflinePlayer $player): bool {
 		$lowerCaseName = strtolower($player->getName());
 
 		$result = $this->database->query("SELECT * FROM Sessions WHERE Player = '" . $this->escape($lowerCaseName) . "';");
@@ -109,7 +113,7 @@ class SQLiteSessionProvider extends BaseSessionProvider {
 	 *
 	 * @return bool
 	 */
-	public function storePlayerData(Player $player, array $data): bool {
+	public function storePlayerData(OfflinePlayer $player, array $data): bool {
 		$lowerCaseName = strtolower($player->getName());
 		$slicedData = array_slice($data, 8);
 
@@ -118,6 +122,8 @@ class SQLiteSessionProvider extends BaseSessionProvider {
 		$isMuted = $slicedData[0][Provider::IS_MUTED];
 		$mutedUntil = $slicedData[0][Provider::MUTED_UNTIL];
 		$nick = $slicedData[0][Provider::NICK];
+		$prefix = $slicedData[0][Provider::PREFIX];
+		$suffix = $slicedData[0][Provider::SUFFIX];
 		$hasPvpEnabled = $slicedData[0][Provider::HAS_PVP_ENABLED];
 		$hasUnlimitedEnabled = $slicedData[0][Provider::HAS_UNLIMITED_ENABLED];
 		$isVanished = $slicedData[0][Provider::IS_VANISHED];
@@ -126,7 +132,7 @@ class SQLiteSessionProvider extends BaseSessionProvider {
 		$powerToolCommand = $slicedData[1][Provider::POWERTOOL_COMMAND];
 		$powerToolChatMacro = $slicedData[1][Provider::POWERTOOL_CHAT_MACRO];
 
-		if(!$result = $this->database->exec("INSERT INTO Sessions(Player, IsAFK, IsGod, IsMuted, MutedUntil, Nick, HasPvpEnabled, HasUnlimitedEnabled, IsVanished) VALUES ('" . $this->escape($lowerCaseName) . "', $isAfk, $isGod, $isMuted, $mutedUntil, $nick, $hasPvpEnabled, $hasUnlimitedEnabled, $isVanished);")) {
+		if(!$result = $this->database->exec("INSERT INTO Sessions(Player, IsAFK, IsGod, IsMuted, MutedUntil, Nick, Prefix, Suffix, HasPvpEnabled, HasUnlimitedEnabled, IsVanished) VALUES ('" . $this->escape($lowerCaseName) . "', $isAfk, $isGod, $isMuted, $mutedUntil, '" . $this->escape($nick) . "', '" . $this->escape($prefix) . "', '" . $this->escape($suffix) . "', $hasPvpEnabled, $hasUnlimitedEnabled, $isVanished);")) {
 			return false;
 		}
 		if(!$result = $this->database->exec("INSERT INTO Powertools(Player, PowertoolId, PowertoolCommand, PowertoolChatMacro) VALUES ($powerToolId, '" . $this->escape($powerToolCommand) . "', '" . $this->escape($powerToolChatMacro) . "');")) {

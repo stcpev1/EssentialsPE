@@ -3,7 +3,6 @@
 namespace EssentialsPE\EventHandlers\SpecialSigns\Economy;
 
 use EssentialsPE\EventHandlers\SpecialSigns\BaseSign;
-use EssentialsPE\EventHandlers\SpecialSigns\EconomySign;
 use EssentialsPE\Loader;
 use pocketmine\event\block\SignChangeEvent;
 use pocketmine\event\player\PlayerInteractEvent;

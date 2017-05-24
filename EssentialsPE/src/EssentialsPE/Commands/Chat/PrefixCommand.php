@@ -8,11 +8,11 @@ use EssentialsPE\Sessions\SessionManager;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
 
-class NickCommand extends BaseCommand {
+class PrefixCommand extends BaseCommand {
 
 	public function __construct(Loader $loader) {
-		parent::__construct($loader, "nick");
-		$this->setPermission("essentials.command.nick.use");
+		parent::__construct($loader, "prefix");
+		$this->setPermission("essentials.command.prefix.use");
 	}
 
 	/**
@@ -30,29 +30,29 @@ class NickCommand extends BaseCommand {
 			$this->sendUsage($sender, $commandLabel);
 			return true;
 		}
-		$nick = ($n = strtolower($args[0])) === "off" || $n === "remove" || $n === "restore" || (bool) $n === false ? false : $args[0];
+		$prefix = ($n = strtolower($args[0])) === "off" || $n === "remove" || $n === "restore" || (bool) $n === false ? false : $args[0];
 		$player = $sender;
 		if(isset($args[1])) {
-			if(!$sender->hasPermission("essentials.command.nick.other")) {
-				$this->sendMessageContainer($sender, "commands.nick.other-permission");
+			if(!$sender->hasPermission("essentials.command.prefix.other")) {
+				$this->sendMessageContainer($sender, "commands.prefix.other-permission");
 				return true;
 			} elseif(!($player = $this->getLoader()->getServer()->getPlayer($args[1]))) {
 				$this->sendMessageContainer($sender, "error.player-not-found", $args[1]);
 				return true;
 			}
 		}
-		if(!$nick) {
-			SessionManager::getSession($player)->clearNick();
+		if(!$prefix) {
+			SessionManager::getSession($player)->clearPrefix();
 		} elseif(!$sender->hasPermission("essentials.colorchat")) {
 			$this->sendMessageContainer($sender, "error.color-codes-permission");
 			return true;
-		} elseif(!SessionManager::getSession($player)->setNick($nick)) {
-			$this->sendMessageContainer($sender, "commands.nick.cancelled");
+		} elseif(!SessionManager::getSession($player)->setPrefix($prefix)) {
+			$this->sendMessageContainer($sender, "commands.prefix.cancelled");
 			return true;
 		}
-		$this->sendMessageContainer($player, "commands.nick.self-" . (!$nick ? "restore" : "change"), $nick);
+		$this->sendMessageContainer($player, "commands.prefix.self-" . (!$prefix ? "restore" : "change"), $prefix);
 		if($player !== $sender) {
-			$this->sendMessageContainer($sender, "commands.nick.other-change", $player->getName(), $player->getDisplayName());
+			$this->sendMessageContainer($sender, "commands.prefix.other-change", $player->getName(), $player->getDisplayName());
 		}
 		return true;
 	}

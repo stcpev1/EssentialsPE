@@ -19,7 +19,7 @@ interface IEconomyProvider {
 	public function closeDatabase(): bool;
 
 	/**
-	 * Registers a user to the database with the default money, or different if $amount is specified.
+	 * Registers a user to the database with the default money, or different if $balance is specified.
 	 *
 	 * @param Player $player
 	 * @param int    $balance

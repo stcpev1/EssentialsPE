@@ -11,6 +11,8 @@ abstract class BaseSessionProvider implements ISessionProvider {
 	const IS_MUTED = "IsMuted";
 	const MUTED_UNTIL = "MutedUntil";
 	const NICK = "Nick";
+	const PREFIX = "Prefix";
+	const SUFFIX = "Suffix";
 	const HAS_PVP_ENABLED = "HasPvpEnabled";
 	const HAS_UNLIMITED_ENABLED = "HasUnlimitedEnabled";
 	const IS_VANISHED = "IsVanished";

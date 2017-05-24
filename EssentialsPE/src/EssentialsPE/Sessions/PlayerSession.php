@@ -6,8 +6,10 @@ use EssentialsPE\Loader;
 use EssentialsPE\Sessions\Components\AfkSessionComponent;
 use EssentialsPE\Sessions\Components\GodSessionComponent;
 use EssentialsPE\Sessions\Components\MuteSessionComponent;
+use EssentialsPE\Sessions\Components\NameTagSessionComponent;
 use EssentialsPE\Sessions\Components\NickSessionComponent;
 use EssentialsPE\Sessions\Components\TeleportRequestSessionComponent;
+use pocketmine\OfflinePlayer;
 use pocketmine\Player;
 
 class PlayerSession {
@@ -19,11 +21,11 @@ class PlayerSession {
 	private $afkComponent;
 	private $godComponent;
 	private $muteComponent;
-	private $nickComponent;
+	private $nameTagComponent;
 
 	private $teleportComponent;
 
-	public function __construct(Loader $loader, Player $player, array $values = []) {
+	public function __construct(Loader $loader, OfflinePlayer $player, array $values = []) {
 		$this->player = $player;
 		$this->loader = $loader;
 		$data = $loader->getSessionManager()->getProvider()->getPlayerData($player);
@@ -31,7 +33,7 @@ class PlayerSession {
 		$this->afkComponent = new AfkSessionComponent($loader, $this, $data);
 		$this->godComponent = new GodSessionComponent($loader, $this, $data);
 		$this->muteComponent = new MuteSessionComponent($loader, $this, $data);
-		$this->nickComponent = new NickSessionComponent($loader, $this, $data);
+		$this->nameTagComponent = new NameTagSessionComponent($loader, $this, $data);
 
 		$this->teleportComponent = new TeleportRequestSessionComponent($loader, $this);
 	}
@@ -47,7 +49,7 @@ class PlayerSession {
 				}
 			}
 		}
-		$this->getLoader()->getSessionManager()->getProvider()->storePlayerData($this->getLoader()->getServer()->getPlayer($this->player->getName()), $this->getSavedData());
+		$this->getLoader()->getSessionManager()->getProvider()->storePlayerData($this->player, $this->getSavedData());
 		return $this->getSavedData();
 	}
 
@@ -244,7 +246,7 @@ class PlayerSession {
 	 * @return string
 	 */
 	public function getNick(): string {
-		return $this->nickComponent->getNick();
+		return $this->nameTagComponent->getNick();
 	}
 
 	/**
@@ -253,13 +255,59 @@ class PlayerSession {
 	 * @return bool
 	 */
 	public function setNick(string $nick): bool {
-		return $this->nickComponent->setNick($nick);
+		return $this->nameTagComponent->setNick($nick);
 	}
 
 	/**
 	 * @return bool
 	 */
 	public function clearNick(): bool {
-		return $this->nickComponent->clearNick();
+		return $this->nameTagComponent->clearNick();
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getPrefix(): string {
+		return $this->nameTagComponent->getPrefix();
+	}
+
+	/**
+	 * @param string $nick
+	 *
+	 * @return bool
+	 */
+	public function setPrefix(string $prefix): bool {
+		return $this->nameTagComponent->setPrefix($prefix);
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function clearPrefix(): bool {
+		return $this->nameTagComponent->clearPrefix();
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getSuffix(): string {
+		return $this->nameTagComponent->getSuffix();
+	}
+
+	/**
+	 * @param string $nick
+	 *
+	 * @return bool
+	 */
+	public function setSuffix(string $suffix): bool {
+		return $this->nameTagComponent->setSuffix($suffix);
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function clearSuffiix(): bool {
+		return $this->nameTagComponent->clearSuffix();
 	}
 }
