@@ -36,6 +36,9 @@ use EssentialsPE\Commands\Teleporting\TpaHereCommand;
 use EssentialsPE\Commands\Teleporting\TpAllCommand;
 use EssentialsPE\Commands\Teleporting\TpDenyCommand;
 use EssentialsPE\Commands\Teleporting\TpHereCommand;
+use EssentialsPE\Commands\Warps\DelWarpCommand;
+use EssentialsPE\Commands\Warps\SetWarpCommand;
+use EssentialsPE\Commands\Warps\WarpCommand;
 use EssentialsPE\Configurable\DataManager;
 use EssentialsPE\EventHandlers\BaseEventHandler;
 use EssentialsPE\EventHandlers\PlayerEventHandler;
@@ -161,7 +164,12 @@ class Loader extends PluginBase {
 			new NickCommand($this),
 			new BroadcastCommand($this),
 			new PrefixCommand($this),
-			new SuffixCommand($this)
+			new SuffixCommand($this),
+
+			// Warp Commands
+			new WarpCommand($this),
+			new SetWarpCommand($this),
+			new DelWarpCommand($this)
 		];
 		foreach($essentialsCommands as $essentialsCommand) {
 			if($essentialsCommand instanceof BaseCommand) {
@@ -226,5 +234,12 @@ class Loader extends PluginBase {
 	 */
 	public function getSessionManager(): SessionManager {
 		return $this->sessionManager;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getProvider(): string {
+		return $this->getConfigurableData()->getConfiguration()->get("Provider");
 	}
 }

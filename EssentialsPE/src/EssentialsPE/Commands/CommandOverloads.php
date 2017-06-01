@@ -276,6 +276,32 @@ class CommandOverloads {
 					"name" => "player",
 					"optional" => true
 				]
+			],
+			"warp" => [
+				0 => [
+					"type" => "string",
+					"name" => "warp",
+					"optional" => false
+				],
+				1 => [
+					"type" => "rawtext",
+					"name" => "player",
+					"optional" => true
+				]
+			],
+			"delwarp" => [
+				0 => [
+					"type" => "rawtext",
+					"name" => "warp",
+					"optional" => false
+				]
+			],
+			"setwarp" => [
+				0 => [
+					"type" => "rawtext",
+					"name" => "name",
+					"optional" => false
+				]
 			]
 		];
 	}

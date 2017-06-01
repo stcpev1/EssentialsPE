@@ -45,6 +45,11 @@ nick: true
 prefix: true
 suffix: true
 
+# Warp Commands - Require installation of the EssentialsPEWarps module.
+warp: true
+delwarp: true
+setwarp: true
+
 # Special signs
 
 teleportsign: true

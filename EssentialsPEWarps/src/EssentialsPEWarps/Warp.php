@@ -2,17 +2,17 @@
 
 namespace EssentialsPEWarps;
 
-use pocketmine\level\Position;
+use pocketmine\level\Location;
 use pocketmine\Player;
 
 class Warp {
 
 	private $name;
-	private $position;
+	private $location;
 
-	public function __construct(string $name, Position $position) {
+	public function __construct(string $name, Location $location) {
 		$this->name = $name;
-		$this->position = $position;
+		$this->location = $location;
 	}
 
 	/**
@@ -26,13 +26,20 @@ class Warp {
 	 * @param Player $player
 	 */
 	public function teleportTo(Player $player) {
-		$player->teleport($this->getPosition());
+		$player->teleport($this->getLocation());
 	}
 
 	/**
-	 * @return Position
+	 * @return Location
 	 */
-	public function getPosition(): Position {
-		return $this->position;
+	public function getLocation(): Location {
+		return $this->location;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getPermission(): string {
+		return "essentials.warps." . $this->name;
 	}
 }
