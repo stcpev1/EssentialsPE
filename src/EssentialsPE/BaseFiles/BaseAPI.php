@@ -2238,11 +2238,13 @@ class BaseAPI{
         if(!$noPacket){
             if(!$state){
                 $pk = new MobEffectPacket();
+                $pk->eid = $player->getId(); // TODO: Remove
                 $pk->entityRuntimeId = $player->getId();
                 $pk->eventId = MobEffectPacket::EVENT_REMOVE;
                 $pk->effectId = $this->invisibilityEffect->getId();
             }else{
                 $pk = new MobEffectPacket();
+	            $pk->eid = $player->getId(); // TODO: Remove
                 $pk->entityRuntimeId = $player->getId();
                 $pk->effectId = $this->invisibilityEffect->getId();
                 $pk->amplifier = $this->invisibilityEffect->getAmplifier();
@@ -2305,6 +2307,7 @@ class BaseAPI{
                 if($p !== $player){
                     if($this->isVanished($player)){
                         if(!$noPacket){
+	                        $pk->eid = $player->getId(); // TODO: Remove
                             $pk->entityRuntimeId = $player->getId();
                             $p->dataPacket($pk);
                         }else{
@@ -2313,6 +2316,7 @@ class BaseAPI{
                     }
                     if($this->isVanished($p)){
                         if(!$this->hasNoPacket($p)){
+	                        $pk->eid = $player->getId(); // TODO: Remove
                             $pk->entityRuntimeId = $p->getId();
                             $player->dataPacket($pk);
                         }else{
@@ -2327,6 +2331,7 @@ class BaseAPI{
                 if($p !== $player){
                     if($this->isVanished($player)){
                         if(!$noPacket){
+	                        $pk->eid = $player->getId(); // TODO: Remove
                             $pk->entityRuntimeId = $player->getId();
                             $p->dataPacket($pk);
                         }else{
@@ -2335,6 +2340,7 @@ class BaseAPI{
                     }
                     if($this->isVanished($p)){
                         if(!$this->hasNoPacket($p)){
+	                        $pk->eid = $player->getId(); // TODO: Remove
                             $pk->entityRuntimeId = $p->getId();
                             $player->dataPacket($pk);
                         }else{
