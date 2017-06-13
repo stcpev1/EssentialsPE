@@ -691,9 +691,7 @@ class BaseAPI{
             $pk->type = 93;
             $pk->eid = Entity::$entityCount++;
             $pk->metadata = [];
-            $pk->speedX = 0;
-            $pk->speedY = 0;
-            $pk->speedZ = 0;
+            $pk->speedX = $pk->speedY = $pk->speedZ = 0.0;
             $this->lightningPacket = $pk;
         }
         $this->lightningPacket->x = $pos->getX();
@@ -2240,12 +2238,12 @@ class BaseAPI{
         if(!$noPacket){
             if(!$state){
                 $pk = new MobEffectPacket();
-                $pk->eid = $player->getId();
+                $pk->entityRuntimeId = $player->getId();
                 $pk->eventId = MobEffectPacket::EVENT_REMOVE;
                 $pk->effectId = $this->invisibilityEffect->getId();
             }else{
                 $pk = new MobEffectPacket();
-                $pk->eid = $player->getId();
+                $pk->entityRuntimeId = $player->getId();
                 $pk->effectId = $this->invisibilityEffect->getId();
                 $pk->amplifier = $this->invisibilityEffect->getAmplifier();
                 $pk->particles = $this->invisibilityEffect->isVisible();
@@ -2307,7 +2305,7 @@ class BaseAPI{
                 if($p !== $player){
                     if($this->isVanished($player)){
                         if(!$noPacket){
-                            $pk->eid = $player->getId();
+                            $pk->entityRuntimeId = $player->getId();
                             $p->dataPacket($pk);
                         }else{
                             $p->showPlayer($player);
@@ -2315,7 +2313,7 @@ class BaseAPI{
                     }
                     if($this->isVanished($p)){
                         if(!$this->hasNoPacket($p)){
-                            $pk->eid = $p->getId();
+                            $pk->entityRuntimeId = $p->getId();
                             $player->dataPacket($pk);
                         }else{
                             $player->showPlayer($p);
@@ -2329,7 +2327,7 @@ class BaseAPI{
                 if($p !== $player){
                     if($this->isVanished($player)){
                         if(!$noPacket){
-                            $pk->eid = $player->getId();
+                            $pk->entityRuntimeId = $player->getId();
                             $p->dataPacket($pk);
                         }else{
                             $p->hidePlayer($player);
@@ -2337,7 +2335,7 @@ class BaseAPI{
                     }
                     if($this->isVanished($p)){
                         if(!$this->hasNoPacket($p)){
-                            $pk->eid = $p->getId();
+                            $pk->entityRuntimeId = $p->getId();
                             $player->dataPacket($pk);
                         }else{
                             $player->hidePlayer($p);
