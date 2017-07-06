@@ -12,7 +12,7 @@ class Compass extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "compass", "Display your current bearing direction", null, false, ["direction"]);
+        parent::__construct($api, "compass", "Display your current bearing direction", "", false, ["direction"]);
         $this->setPermission("essentials.compass");
     }
 
@@ -22,7 +22,7 @@ class Compass extends BaseCommand{
      * @param array $args
      * @return bool
      */
-    public function execute(CommandSender $sender, $alias, array $args): bool{
+    public function execute(CommandSender $sender, string $alias, array $args): bool{
         if(!$this->testPermission($sender)){
             return false;
         }

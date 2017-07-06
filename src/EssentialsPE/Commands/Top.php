@@ -13,7 +13,7 @@ class Top extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "top", "Teleport to the highest block above you", null, false);
+        parent::__construct($api, "top", "Teleport to the highest block above you", "", false);
         $this->setPermission("essentials.top");
     }
 
@@ -23,7 +23,7 @@ class Top extends BaseCommand{
      * @param array $args
      * @return bool
      */
-    public function execute(CommandSender $sender, $alias, array $args): bool{
+    public function execute(CommandSender $sender, string $alias, array $args): bool{
         if(!$this->testPermission($sender)){
             return false;
         }

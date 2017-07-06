@@ -12,7 +12,7 @@ class SetSpawn extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "setspawn", "Change your server main spawn point", null, false);
+        parent::__construct($api, "setspawn", "Change your server main spawn point", "", false);
         $this->setPermission("essentials.setspawn");
     }
 
@@ -22,7 +22,7 @@ class SetSpawn extends BaseCommand{
      * @param array $args
      * @return bool
      */
-    public function execute(CommandSender $sender, $alias, array $args): bool{
+    public function execute(CommandSender $sender, string $alias, array $args): bool{
         if(!$this->testPermission($sender)){
             return false;
         }

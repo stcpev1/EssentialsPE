@@ -12,7 +12,7 @@ class Antioch extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "antioch", "Holy hand grenade", null, false, ["grenade", "tnt"]);
+        parent::__construct($api, "antioch", "Holy hand grenade", "", false, ["grenade", "tnt"]);
         $this->setPermission("essentials.antioch");
     }
 
@@ -22,7 +22,7 @@ class Antioch extends BaseCommand{
      * @param array $args
      * @return bool
      */
-    public function execute(CommandSender $sender, $alias, array $args): bool{
+    public function execute(CommandSender $sender, string $alias, array $args): bool{
         if(!$this->testPermission($sender)){
             return false;
         }

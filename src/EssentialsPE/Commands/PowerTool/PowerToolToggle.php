@@ -12,7 +12,7 @@ class PowerToolToggle extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "powertooltoggle", "Disable PowerTool from all the items", null, false, ["ptt", "pttoggle"]);
+        parent::__construct($api, "powertooltoggle", "Disable PowerTool from all the items", "", false, ["ptt", "pttoggle"]);
         $this->setPermission("essentials.powertooltoggle");
     }
 
@@ -22,7 +22,7 @@ class PowerToolToggle extends BaseCommand{
      * @param array $args
      * @return bool
      */
-    public function execute(CommandSender $sender, $alias, array $args): bool{
+    public function execute(CommandSender $sender, string $alias, array $args): bool{
         if(!$this->testPermission($sender)){
             return false;
         }

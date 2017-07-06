@@ -12,7 +12,7 @@ class Jump extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "jump", "Teleport you to the block you're looking at", null, false, ["j", "jumpto"]);
+        parent::__construct($api, "jump", "Teleport you to the block you're looking at", "", false, ["j", "jumpto"]);
         $this->setPermission("essentials.jump");
     }
 
@@ -22,7 +22,7 @@ class Jump extends BaseCommand{
      * @param array $args
      * @return bool
      */
-    public function execute(CommandSender $sender, $alias, array $args): bool{
+    public function execute(CommandSender $sender, string $alias, array $args): bool{
         if(!$this->testPermission($sender)){
             return false;
         }

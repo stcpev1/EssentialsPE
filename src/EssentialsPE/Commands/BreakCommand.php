@@ -14,7 +14,7 @@ class BreakCommand extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "break", "Breaks the block you're looking at", null, false);
+        parent::__construct($api, "break", "Breaks the block you're looking at", "", false);
         $this->setPermission("essentials.break.use");
     }
 
@@ -24,7 +24,7 @@ class BreakCommand extends BaseCommand{
      * @param array $args
      * @return bool
      */
-    public function execute(CommandSender $sender, $alias, array $args): bool{
+    public function execute(CommandSender $sender, string $alias, array $args): bool{
         if(!$this->testPermission($sender)){
             return false;
         }
