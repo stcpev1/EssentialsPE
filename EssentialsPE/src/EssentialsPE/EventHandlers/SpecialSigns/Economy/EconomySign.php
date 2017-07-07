@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace EssentialsPE\EventHandlers\SpecialSigns\Economy;
 
 use EssentialsPE\EventHandlers\SpecialSigns\BaseSign;
 use EssentialsPE\Loader;
 use EssentialsPEconomy\EssentialsPEconomy;
 use EssentialsPEconomy\Providers\BaseEconomyProvider;
-use pocketmine\event\Listener;
 
 abstract class EconomySign extends BaseSign {
 

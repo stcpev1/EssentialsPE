@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace EssentialsPE\Commands\Miscellaneous;
 
 use EssentialsPE\Commands\BaseCommand;
@@ -22,7 +24,7 @@ class SpeedCommand extends BaseCommand {
 	 *
 	 * @return bool
 	 */
-	public function execute(CommandSender $sender, $commandLabel, array $args): bool {
+	public function execute(CommandSender $sender, string $commandLabel, array $args): bool {
 		if($this->testPermission($sender)) {
 			return false;
 		}
@@ -43,11 +45,11 @@ class SpeedCommand extends BaseCommand {
 			return false;
 		}
 
-		if((int)$args[0] === 0) {
+		if((int) $args[0] === 0) {
 			$player->removeEffect(Effect::SPEED);
 		} else {
 			$effect = Effect::getEffect(Effect::SPEED);
-			$effect->setAmplifier($args[0]);
+			$effect->setAmplifier((int) $args[0]);
 			$effect->setDuration(PHP_INT_MAX);
 			$player->addEffect($effect);
 		}

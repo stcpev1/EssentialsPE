@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace EssentialsPE\Tasks;
 
 use EssentialsPE\Loader;
 use pocketmine\level\Position;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 
 class DelayedTeleportTask extends BaseTask {
 
@@ -20,10 +21,8 @@ class DelayedTeleportTask extends BaseTask {
 		$this->teleportPosition = $teleportPosition;
 	}
 
-	public function onRun($currentTick) {
+	public function onRun(int $currentTick) {
 		if($this->player->isOnline()) {
-			var_dump($this->originalPosition);
-			var_dump($this->player->getPosition());
 			if($this->player->getPosition()->equals($this->originalPosition)) {
 				$this->player->teleport($this->teleportPosition);
 			} else {

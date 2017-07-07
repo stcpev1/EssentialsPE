@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace EssentialsPE\EventHandlers\SpecialSigns;
 
 use EssentialsPE\Loader;

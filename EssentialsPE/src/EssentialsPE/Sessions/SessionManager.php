@@ -1,13 +1,13 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace EssentialsPE\Sessions;
 
 use EssentialsPE\Loader;
 use EssentialsPE\Sessions\Providers\BaseSessionProvider;
 use EssentialsPE\Sessions\Providers\SQLiteSessionProvider;
-use pocketmine\OfflinePlayer;
-use pocketmine\Player;
-use pocketmine\Server;
+use pocketmine\IPlayer;
 
 class SessionManager {
 
@@ -51,14 +51,11 @@ class SessionManager {
 	}
 
 	/**
-	 * @param $player
+	 * @param IPlayer $player
 	 *
 	 * @return PlayerSession
 	 */
-	public function createSession($player): PlayerSession {
-		if($player instanceof Player || is_string($player) || $player instanceof OfflinePlayer) {
-			$player = new OfflinePlayer(Server::getInstance(), is_string($player) ? $player : $player->getName());
-		}
+	public function createSession(IPlayer $player): PlayerSession {
 		if(self::hasSession($player)) {
 			return self::getSession($player);
 		}
@@ -67,32 +64,29 @@ class SessionManager {
 	}
 
 	/**
-	 * @param OfflinePlayer $player
+	 * @param IPlayer $player
 	 *
 	 * @return bool
 	 */
-	public static function hasSession(OfflinePlayer $player): bool {
+	public static function hasSession(IPlayer $player): bool {
 		return isset(self::$session[$player->getName()]);
 	}
 
 	/**
-	 * @param $player
+	 * @param IPlayer $player
 	 *
 	 * @return PlayerSession
 	 */
-	public static function getSession($player): PlayerSession {
-		if($player instanceof Player || is_string($player) || $player instanceof OfflinePlayer) {
-			$player = new OfflinePlayer(Server::getInstance(), is_string($player) ? $player : $player->getName());
-		}
+	public static function getSession(IPlayer $player): PlayerSession {
 		return self::$session[$player->getName()];
 	}
 
 	/**
-	 * @param OfflinePlayer $player
+	 * @param IPlayer $player
 	 *
 	 * @return bool
 	 */
-	public function deleteSession(OfflinePlayer $player): bool {
+	public function deleteSession(IPlayer $player): bool {
 		if(!$this->hasSession($player)) {
 			return false;
 		}

@@ -1,7 +1,8 @@
 <?php
 
-namespace EssentialsPE\Commands\Override;
+declare(strict_types = 1);
 
+namespace EssentialsPE\Commands\Override;
 
 use EssentialsPE\Loader;
 use EssentialsPE\Sessions\SessionManager;
@@ -23,7 +24,7 @@ class KillCommand extends BaseOverrideCommand {
 	 *
 	 * @return bool
 	 */
-	public function execute(CommandSender $sender, $commandLabel, array $args): bool {
+	public function execute(CommandSender $sender, string $commandLabel, array $args): bool {
 		if(!$this->testPermission($sender)) {
 			return false;
 		}

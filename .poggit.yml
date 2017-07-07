@@ -3,6 +3,9 @@ projects:
   EssentialsPE:
     path: EssentialsPE
     icon: EssentialsPE\resources\ess.jpg
+    libs:
+      - src: Falkirks/spoondetecctor/spoondetector
+        version: ^0
   EssentialsPEconomy:
     path: EssentialsPEconomy
     icon: EssentialsPE\resources\ess.jpg

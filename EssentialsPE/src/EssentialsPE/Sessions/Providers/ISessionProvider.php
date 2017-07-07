@@ -1,10 +1,10 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace EssentialsPE\Sessions\Providers;
 
-
-use pocketmine\OfflinePlayer;
-use pocketmine\Player;
+use pocketmine\IPlayer;
 
 interface ISessionProvider {
 
@@ -28,28 +28,28 @@ interface ISessionProvider {
 	/**
 	 * Checks whether the given player has a session available.
 	 *
-	 * @param OfflinePlayer $player
+	 * @param IPlayer $player
 	 *
 	 * @return bool
 	 */
-	public function playerDataExists(OfflinePlayer $player): bool;
+	public function playerDataExists(IPlayer $player): bool;
 
 	/**
 	 * Returns an array containing all the session data of a player.
 	 *
-	 * @param OfflinePlayer $player
+	 * @param IPlayer $player
 	 *
 	 * @return array
 	 */
-	public function getPlayerData(OfflinePlayer $player): array;
+	public function getPlayerData(IPlayer $player): array;
 
 	/**
 	 * Dumps all array session values into the database.
 	 *
-	 * @param OfflinePlayer $player
-	 * @param array  $data
+	 * @param IPlayer $player
+	 * @param array   $data
 	 *
 	 * @return bool
 	 */
-	public function storePlayerData(OfflinePlayer $player, array $data): bool;
+	public function storePlayerData(IPlayer $player, array $data): bool;
 }

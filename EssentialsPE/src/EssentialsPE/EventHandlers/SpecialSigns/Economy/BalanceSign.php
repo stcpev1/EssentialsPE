@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace EssentialsPE\EventHandlers\SpecialSigns\Economy;
 
-use EssentialsPE\EventHandlers\SpecialSigns\BaseSign;
 use EssentialsPE\Loader;
 use pocketmine\event\block\SignChangeEvent;
 use pocketmine\event\player\PlayerInteractEvent;

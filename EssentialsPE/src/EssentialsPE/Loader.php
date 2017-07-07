@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace EssentialsPE;
 
 use EssentialsPE\Commands\BaseCommand;
@@ -13,6 +15,7 @@ use EssentialsPE\Commands\Economy\BalanceTopCommand;
 use EssentialsPE\Commands\Economy\EcoCommand;
 use EssentialsPE\Commands\Economy\PayCommand;
 use EssentialsPE\Commands\EssentialsPECommand;
+use EssentialsPE\Commands\Inventory\ClearInventoryCommand;
 use EssentialsPE\Commands\Inventory\SeeInventoryCommand;
 use EssentialsPE\Commands\Miscellaneous\AfkCommand;
 use EssentialsPE\Commands\Miscellaneous\BreakCommand;
@@ -47,8 +50,10 @@ use EssentialsPE\EventHandlers\SpecialSigns\SignBreak;
 use EssentialsPE\EventHandlers\SpecialSigns\TeleportSign;
 use EssentialsPE\Sessions\SessionManager;
 use MongoDB\Driver\Exception\DuplicateKeyException;
+use pocketmine\plugin\Plugin;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\TextFormat as TF;
+use spoondetector\SpoonDetector;
 
 class Loader extends PluginBase {
 
@@ -56,6 +61,7 @@ class Loader extends PluginBase {
 	const MODULE_ECONOMY = 1;
 	const MODULE_WARPS = 2;
 	const MODULE_HOMES = 3;
+	const MODULE_MAIL = 4;
 
 	private $configurableData;
 	private $installedModules = [];
@@ -127,6 +133,7 @@ class Loader extends PluginBase {
 
 	public function registerCommands() {
 		$essentialsCommands = [
+			// Miscellaneous Commands
 			new CompassCommand($this),
 			new DepthCommand($this),
 			new EssentialsPECommand($this),
@@ -144,7 +151,6 @@ class Loader extends PluginBase {
 			new WorldCommand($this),
 			new GodCommand($this),
 			new AfkCommand($this),
-			new SeeInventoryCommand($this),
 
 			// Economy Commands
 			new PayCommand($this),
@@ -169,7 +175,11 @@ class Loader extends PluginBase {
 			// Warp Commands
 			new WarpCommand($this),
 			new SetWarpCommand($this),
-			new DelWarpCommand($this)
+			new DelWarpCommand($this),
+
+			// Inventory Commands
+			new SeeInventoryCommand($this),
+			new ClearInventoryCommand($this)
 		];
 		foreach($essentialsCommands as $essentialsCommand) {
 			if($essentialsCommand instanceof BaseCommand) {
@@ -219,7 +229,7 @@ class Loader extends PluginBase {
 	/**
 	 * @param int $moduleId
 	 *
-	 * @return \pocketmine\plugin\Plugin
+	 * @return Plugin
 	 */
 	public function getModule(int $moduleId) {
 		$moduleName = $this->getInstalledModules()[$moduleId];
@@ -240,6 +250,6 @@ class Loader extends PluginBase {
 	 * @return string
 	 */
 	public function getProvider(): string {
-		return $this->getConfigurableData()->getConfiguration()->get("Provider");
+		return (string) $this->getConfigurableData()->getConfiguration()->get("Provider");
 	}
 }

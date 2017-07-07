@@ -1,7 +1,8 @@
 <?php
 
-namespace EssentialsPE\Sessions;
+declare(strict_types = 1);
 
+namespace EssentialsPE\Sessions;
 
 use EssentialsPE\Loader;
 use pocketmine\Player;

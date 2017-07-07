@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace EssentialsPE\Commands\Miscellaneous;
 
 use EssentialsPE\Commands\BaseCommand;
 use EssentialsPE\Loader;
 use pocketmine\command\CommandSender;
+use pocketmine\math\Vector3;
 use pocketmine\Player;
 
 class TopCommand extends BaseCommand {
@@ -21,7 +24,7 @@ class TopCommand extends BaseCommand {
 	 *
 	 * @return bool
 	 */
-	public function execute(CommandSender $sender, $commandLabel, array $args): bool {
+	public function execute(CommandSender $sender, string $commandLabel, array $args): bool {
 		if(!$this->testPermission($sender)) {
 			return false;
 		}
@@ -30,7 +33,7 @@ class TopCommand extends BaseCommand {
 			return true;
 		}
 		$this->sendMessageContainer($sender, "general.teleport-confirmation");
-		$sender->teleport($sender->x, $sender->level->getHighestBlockAt($sender->x, $sender->z) + 1, $sender->z);
+		$sender->teleport(new Vector3($sender->x, (float) ($sender->level->getHighestBlockAt($sender->x, $sender->z) + 1), $sender->z));
 		return true;
 	}
 }

@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace EssentialsPE\EventHandlers\SpecialSigns;
 
 use EssentialsPE\EventHandlers\BaseEventHandler;
 use EssentialsPE\Loader;
 use pocketmine\event\block\SignChangeEvent;
 use pocketmine\event\Event;
-use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\math\Vector3;
 use pocketmine\tile\Sign;
@@ -21,13 +22,6 @@ abstract class BaseSign extends BaseEventHandler {
 	public function __construct(Loader $loader, string $name) {
 		parent::__construct($loader);
 		$this->name = $name;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getName(): string {
-		return $this->name;
 	}
 
 	/**
@@ -80,6 +74,13 @@ abstract class BaseSign extends BaseEventHandler {
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getName(): string {
+		return $this->name;
+	}
+
+	/**
 	 * @param Event $event
 	 *
 	 * @return bool
@@ -99,8 +100,16 @@ abstract class BaseSign extends BaseEventHandler {
 
 	/**
 	 * @param PlayerInteractEvent $interactEvent
+	 *
+	 * @return null|Sign
 	 */
-	public abstract function onInteract(PlayerInteractEvent $interactEvent);
+	public function onInteract(PlayerInteractEvent $interactEvent) {
+		$tile = $interactEvent->getBlock()->getLevel()->getTile(new Vector3($interactEvent->getBlock()->getFloorX(), $interactEvent->getBlock()->getFloorY(), $interactEvent->getBlock()->getFloorZ()));
+		if(!$tile instanceof Sign) {
+			return null;
+		}
+		return $tile;
+	}
 
 	/**
 	 * @param SignChangeEvent $signChangeEvent

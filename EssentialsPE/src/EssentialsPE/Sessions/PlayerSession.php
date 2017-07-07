@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace EssentialsPE\Sessions;
 
 use EssentialsPE\Loader;
@@ -7,9 +9,8 @@ use EssentialsPE\Sessions\Components\AfkSessionComponent;
 use EssentialsPE\Sessions\Components\GodSessionComponent;
 use EssentialsPE\Sessions\Components\MuteSessionComponent;
 use EssentialsPE\Sessions\Components\NameTagSessionComponent;
-use EssentialsPE\Sessions\Components\NickSessionComponent;
 use EssentialsPE\Sessions\Components\TeleportRequestSessionComponent;
-use pocketmine\OfflinePlayer;
+use pocketmine\IPlayer;
 use pocketmine\Player;
 
 class PlayerSession {
@@ -25,7 +26,7 @@ class PlayerSession {
 
 	private $teleportComponent;
 
-	public function __construct(Loader $loader, OfflinePlayer $player, array $values = []) {
+	public function __construct(Loader $loader, IPlayer $player, array $values = []) {
 		$this->player = $player;
 		$this->loader = $loader;
 		$data = $loader->getSessionManager()->getProvider()->getPlayerData($player);
@@ -307,7 +308,7 @@ class PlayerSession {
 	/**
 	 * @return bool
 	 */
-	public function clearSuffiix(): bool {
+	public function clearSuffix(): bool {
 		return $this->nameTagComponent->clearSuffix();
 	}
 }

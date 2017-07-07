@@ -1,7 +1,8 @@
 <?php
 
-namespace EssentialsPE\Utils;
+declare(strict_types = 1);
 
+namespace EssentialsPE\Utils;
 
 use pocketmine\Player;
 

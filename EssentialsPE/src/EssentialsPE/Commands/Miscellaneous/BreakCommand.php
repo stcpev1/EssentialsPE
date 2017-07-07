@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace EssentialsPE\Commands\Miscellaneous;
 
 use EssentialsPE\Commands\BaseCommand;
@@ -17,17 +19,17 @@ class BreakCommand extends BaseCommand {
 
 	/**
 	 * @param CommandSender $sender
-	 * @param string        $alias
+	 * @param string        $commandLabel
 	 * @param array         $args
 	 *
 	 * @return bool
 	 */
-	public function execute(CommandSender $sender, $alias, array $args): bool {
+	public function execute(CommandSender $sender, string $commandLabel, array $args): bool {
 		if(!$this->testPermission($sender)) {
 			return false;
 		}
 		if(!$sender instanceof Player || count($args) !== 0) {
-			$this->sendUsage($sender, $alias);
+			$this->sendUsage($sender, $commandLabel);
 			return true;
 		}
 		if(($block = $sender->getTargetBlock(100, [Block::AIR])) === null) {

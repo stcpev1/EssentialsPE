@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace EssentialsPE\Commands;
 
 class CommandOverloads {
@@ -301,6 +303,13 @@ class CommandOverloads {
 					"type" => "rawtext",
 					"name" => "name",
 					"optional" => false
+				]
+			],
+			"clearinventory" => [
+				0 => [
+					"type" => "rawtext",
+					"name" => "player",
+					"optional" => true
 				]
 			]
 		];

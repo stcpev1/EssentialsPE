@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace EssentialsPE\Sessions\Components;
 
 use EssentialsPE\Loader;
@@ -18,13 +20,13 @@ class NameTagSessionComponent extends BaseSavedSessionComponent {
 	public function __construct(Loader $loader, PlayerSession $session, array $data = []) {
 		parent::__construct($loader, $session);
 		if(isset($data[BaseSessionProvider::NICK])) {
-			$this->setNick($data[BaseSessionProvider::NICK] === null ? null : $data[BaseSessionProvider::NICK]);
+			$this->setNick($data[BaseSessionProvider::NICK] === null ? "clear" : $data[BaseSessionProvider::NICK]);
 		}
 		if(isset($data[BaseSessionProvider::PREFIX])) {
-			$this->setPrefix($data[BaseSessionProvider::PREFIX] === null ? null : $data[BaseSessionProvider::PREFIX]);
+			$this->setPrefix($data[BaseSessionProvider::PREFIX] === null ? "clear" : $data[BaseSessionProvider::PREFIX]);
 		}
 		if(isset($data[BaseSessionProvider::SUFFIX])) {
-			$this->setSuffix($data[BaseSessionProvider::SUFFIX] === null ? null : $data[BaseSessionProvider::SUFFIX]);
+			$this->setSuffix($data[BaseSessionProvider::SUFFIX] === null ? "clear" : $data[BaseSessionProvider::SUFFIX]);
 		}
 	}
 
@@ -68,18 +70,27 @@ class NameTagSessionComponent extends BaseSavedSessionComponent {
 	}
 
 	/**
-	 * @return string
-	 */
-	private function getNickSymbol(): string {
-		return $this->getLoader()->getConfigurableData()->getConfiguration()->get("Chat.Nick-Symbol");
-	}
-
-
-	/**
 	 * @return bool
 	 */
 	public function clearNick(): bool {
 		return $this->setNick("clear");
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function clearPrefix(): bool {
+		return $this->setPrefix("clear");
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getPrefix(): string {
+		if($this->prefix === null) {
+			return "";
+		}
+		return $this->prefix . TF::RESET;
 	}
 
 	/**
@@ -110,18 +121,18 @@ class NameTagSessionComponent extends BaseSavedSessionComponent {
 	/**
 	 * @return bool
 	 */
-	public function clearPrefix(): bool {
-		return $this->setPrefix("clear");
+	public function clearSuffix(): bool {
+		return $this->setSuffix("clear");
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getPrefix(): string {
-		if($this->prefix === null) {
+	public function getSuffix(): string {
+		if($this->suffix === null) {
 			return "";
 		}
-		return $this->prefix . TF::RESET;
+		return (string) $this->suffix;
 	}
 
 	/**
@@ -149,26 +160,16 @@ class NameTagSessionComponent extends BaseSavedSessionComponent {
 		return true;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function clearSuffix(): bool {
-		return $this->setSuffix("clear");
+	public function save() {
+		$this->getSession()->addToSavedData(BaseSessionProvider::NICK, $this->nick);
+		$this->getSession()->addToSavedData(BaseSessionProvider::PREFIX, $this->prefix);
+		$this->getSession()->addToSavedData(BaseSessionProvider::SUFFIX, $this->suffix);
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getSuffix(): string {
-		if($this->suffix === null) {
-			return "";
-		}
-		return $this->suffix;
-	}
-
-	public function save() {
-		$this->getSession()->addToSavedData(BaseSessionProvider::NICK, $this->nick);
-		$this->getSession()->addToSavedData(BaseSessionProvider::PREFIX, $this->prefix);
-		$this->getSession()->addToSavedData(BaseSessionProvider::SUFFIX, $this->suffix);
+	private function getNickSymbol(): string {
+		return (string) $this->getLoader()->getConfigurableData()->getConfiguration()->get("Chat.Nick-Symbol");
 	}
 }

@@ -70,7 +70,7 @@ class SQLiteEconomyProvider extends BaseEconomyProvider {
 		$lowerCaseName = strtolower($player->getName());
 
 		$result = $this->database->query("SELECT Balance FROM Economy WHERE Player = '" . $this->escape($lowerCaseName) . "';");
-		return empty((array)$result);
+		return empty((array) $result);
 	}
 
 	/**

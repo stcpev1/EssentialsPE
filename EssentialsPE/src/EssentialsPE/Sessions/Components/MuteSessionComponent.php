@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace EssentialsPE\Sessions\Components;
 
 use EssentialsPE\Loader;
@@ -15,6 +17,16 @@ class MuteSessionComponent extends BaseSavedSessionComponent {
 	public function __construct(Loader $loader, PlayerSession $session, array $data = []) {
 		parent::__construct($loader, $session);
 		// TODO
+	}
+
+	/**
+	 * @param \DateTime|null $expires
+	 * @param bool           $notify
+	 *
+	 * @return bool
+	 */
+	public function switchMute(\DateTime $expires = null, bool $notify = true) {
+		return $this->setMuted(!$this->isMuted(), $expires, $notify);
 	}
 
 	/**
@@ -43,16 +55,6 @@ class MuteSessionComponent extends BaseSavedSessionComponent {
 	 */
 	public function isMuted(): bool {
 		return $this->isMuted;
-	}
-
-	/**
-	 * @param \DateTime|null $expires
-	 * @param bool           $notify
-	 *
-	 * @return bool
-	 */
-	public function switchMute(\DateTime $expires = null, bool $notify = true) {
-		return $this->setMuted(!$this->isMuted(), $expires, $notify);
 	}
 
 	public function save() {

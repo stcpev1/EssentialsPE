@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace EssentialsPE\Commands\Economy;
 
 use EssentialsPE\Loader;
@@ -21,7 +23,7 @@ class PayCommand extends EconomyCommand {
 	 *
 	 * @return bool
 	 */
-	public function execute(CommandSender $sender, $commandLabel, array $args): bool {
+	public function execute(CommandSender $sender, string $commandLabel, array $args): bool {
 		if(!$this->testPermission($sender)) {
 			return false;
 		}
@@ -37,17 +39,17 @@ class PayCommand extends EconomyCommand {
 		if(!$economyModule instanceof EssentialsPEconomy) {
 			return false;
 		}
-		if(($args[1] = (int)$args[1]) < 1) {
+		if(($args[1] = (int) $args[1]) < 1) {
 			$this->sendMessageContainer($sender, "error.invalid-amount");
 			return true;
 		}
 		$balance = $this->getEconomyProvider()->getBalance($sender);
 		$newBalance = $balance - $args[1];
-		if($balance < $args[1] || $newBalance < $economyModule->getConfiguration()->get("Minimum-Balance") || ($newBalance < 0 && !$player->hasPermission("essentials.eco.loan"))) {
+		if($balance < $args[1] || $newBalance < (int) $economyModule->getConfiguration()->get("Minimum-Balance") || ($newBalance < 0 && !$player->hasPermission("essentials.eco.loan"))) {
 			$this->sendMessageContainer($sender, "commands.pay.profit");
 			return true;
 		}
-		if(($newTargetBalance = $this->getEconomyProvider()->getBalance($player) + $args[1]) > $economyModule->getConfiguration()->get("Maximum-Balance")) {
+		if(($newTargetBalance = $this->getEconomyProvider()->getBalance($player) + $args[1]) > (int) $economyModule->getConfiguration()->get("Maximum-Balance")) {
 			$this->sendMessageContainer($sender, "commands.pay.excessive");
 			return true;
 		}

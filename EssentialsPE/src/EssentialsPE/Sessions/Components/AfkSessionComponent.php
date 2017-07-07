@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace EssentialsPE\Sessions\Components;
 
 use EssentialsPE\Loader;

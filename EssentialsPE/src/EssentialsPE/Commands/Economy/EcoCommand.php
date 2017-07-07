@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace EssentialsPE\Commands\Economy;
 
 use EssentialsPE\Loader;
@@ -20,7 +22,7 @@ class EcoCommand extends EconomyCommand {
 	 *
 	 * @return bool
 	 */
-	public function execute(CommandSender $sender, $commandLabel, array $args): bool {
+	public function execute(CommandSender $sender, string $commandLabel, array $args): bool {
 		if(!$this->testPermission($sender)) {
 			return false;
 		}
@@ -36,7 +38,7 @@ class EcoCommand extends EconomyCommand {
 			$this->sendMessageContainer($sender, "error.invalid-amount");
 			return true;
 		}
-		$balance = (int)$args[2];
+		$balance = (int) $args[2];
 		$economyModule = $this->getLoader()->getModule(Loader::MODULE_ECONOMY);
 		if(!$economyModule instanceof EssentialsPEconomy) {
 			return false;
@@ -51,7 +53,7 @@ class EcoCommand extends EconomyCommand {
 				break;
 			case "reset":
 				$this->sendMessageContainer($sender, "commands.balance.reset");
-				$this->getEconomyProvider()->setBalance($player, $economyModule->getConfiguration()->get("Default-Balance"));
+				$this->getEconomyProvider()->setBalance($player, (int) $economyModule->getConfiguration()->get("Default-Balance"));
 				break;
 			case "set":
 				$this->sendMessageContainer($sender, "commands.balance.set", $balance);

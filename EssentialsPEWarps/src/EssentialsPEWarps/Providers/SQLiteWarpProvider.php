@@ -32,7 +32,7 @@ class SQLiteWarpProvider extends BaseProvider {
 					  Level VARCHAR(32),
 					  Yaw INT,
 					  Pitch INT
-					  )";
+		)";
 		return $this->database->exec($query);
 	}
 

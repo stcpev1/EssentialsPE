@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace EssentialsPE\Commands;
 
 use EssentialsPE\Loader;
@@ -7,6 +9,7 @@ use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\command\PluginIdentifiableCommand;
 use pocketmine\Player;
+use pocketmine\plugin\Plugin;
 use pocketmine\utils\TextFormat as TF;
 
 abstract class BaseCommand extends Command implements PluginIdentifiableCommand {
@@ -43,7 +46,7 @@ abstract class BaseCommand extends Command implements PluginIdentifiableCommand 
 	/**
 	 * @return Loader
 	 */
-	public function getPlugin(): Loader {
+	public function getPlugin(): Plugin {
 		return $this->loader;
 	}
 
@@ -78,11 +81,11 @@ abstract class BaseCommand extends Command implements PluginIdentifiableCommand 
 	 * This function can be overridden to fit any command needs...
 	 *
 	 * @param CommandSender $sender
-	 * @param string        $alias
+	 * @param string        $commandLabel
 	 */
-	public function sendUsage(CommandSender $sender, string $alias) {
-		$sender->sendMessage(str_replace($this->getName(), $alias, $this->isUsableByConsole() ?
-			$this->getLoader()->getConfigurableData()->getMessagesContainer()->getMessage("error.command-usage", $alias, ($sender instanceof Player ? $this->getUsage() : $this->consoleUsageMessage)) :
+	public function sendUsage(CommandSender $sender, string $commandLabel) {
+		$sender->sendMessage(str_replace($this->getName(), $commandLabel, $this->isUsableByConsole() ?
+			$this->getLoader()->getConfigurableData()->getMessagesContainer()->getMessage("error.command-usage", $commandLabel, ($sender instanceof Player ? $this->getUsage() : $this->consoleUsageMessage)) :
 			$this->consoleUsageMessage
 		));
 	}

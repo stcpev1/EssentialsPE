@@ -1,12 +1,12 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace EssentialsPE\Sessions\Providers;
 
 use EssentialsPE\Loader;
 use EssentialsPE\Sessions\Providers\BaseSessionProvider as Provider;
-use pocketmine\OfflinePlayer;
-use pocketmine\Player;
-use switchbox\api\ProviderReply;
+use pocketmine\IPlayer;
 
 class SQLiteSessionProvider extends BaseSessionProvider {
 
@@ -62,11 +62,11 @@ class SQLiteSessionProvider extends BaseSessionProvider {
 	}
 
 	/**
-	 * @param Player $player
+	 * @param IPlayer $player
 	 *
 	 * @return array
 	 */
-	public function getPlayerData(Player $player): array {
+	public function getPlayerData(IPlayer $player): array {
 		$lowerCaseName = strtolower($player->getName());
 		$data1 = [];
 		$data2 = [];
@@ -87,15 +87,15 @@ class SQLiteSessionProvider extends BaseSessionProvider {
 	}
 
 	/**
-	 * @param OfflinePlayer $player
+	 * @param IPlayer $player
 	 *
 	 * @return bool
 	 */
-	public function playerDataExists(OfflinePlayer $player): bool {
+	public function playerDataExists(IPlayer $player): bool {
 		$lowerCaseName = strtolower($player->getName());
 
 		$result = $this->database->query("SELECT * FROM Sessions WHERE Player = '" . $this->escape($lowerCaseName) . "';");
-		return empty((array)$result);
+		return empty((array) $result);
 	}
 
 	/**
@@ -108,12 +108,12 @@ class SQLiteSessionProvider extends BaseSessionProvider {
 	}
 
 	/**
-	 * @param Player $player
-	 * @param array  $data
+	 * @param IPlayer $player
+	 * @param array   $data
 	 *
 	 * @return bool
 	 */
-	public function storePlayerData(OfflinePlayer $player, array $data): bool {
+	public function storePlayerData(IPlayer $player, array $data): bool {
 		$lowerCaseName = strtolower($player->getName());
 		$slicedData = array_slice($data, 8);
 

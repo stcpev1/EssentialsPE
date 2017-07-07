@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace EssentialsPE\Commands\Chat;
 
 use EssentialsPE\Commands\BaseCommand;
@@ -22,7 +24,7 @@ class NickCommand extends BaseCommand {
 	 *
 	 * @return bool
 	 */
-	public function execute(CommandSender $sender, $commandLabel, array $args): bool {
+	public function execute(CommandSender $sender, string $commandLabel, array $args): bool {
 		if(!$this->testPermission($sender)) {
 			return false;
 		}
@@ -30,7 +32,7 @@ class NickCommand extends BaseCommand {
 			$this->sendUsage($sender, $commandLabel);
 			return true;
 		}
-		$nick = ($n = strtolower($args[0])) === "off" || $n === "remove" || $n === "restore" || (bool) $n === false ? false : $args[0];
+		$nick = ($n = strtolower($args[0])) === "off" || $n === "remove" || $n === "restore" || (bool) $n === false ? "clear" : $args[0];
 		$player = $sender;
 		if(isset($args[1])) {
 			if(!$sender->hasPermission("essentials.command.nick.other")) {

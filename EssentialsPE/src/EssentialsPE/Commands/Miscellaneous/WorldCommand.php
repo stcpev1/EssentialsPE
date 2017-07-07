@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace EssentialsPE\Commands\Miscellaneous;
 
 use EssentialsPE\Commands\BaseCommand;
@@ -21,7 +23,7 @@ class WorldCommand extends BaseCommand {
 	 *
 	 * @return bool
 	 */
-	public function execute(CommandSender $sender, $commandLabel, array $args): bool {
+	public function execute(CommandSender $sender, string $commandLabel, array $args): bool {
 		if(!$this->testPermission($sender)) {
 			return false;
 		}
@@ -44,7 +46,7 @@ class WorldCommand extends BaseCommand {
 			}
 		}
 		$this->sendMessageContainer($sender, "commands.world.teleport", $args[0]);
-		$sender->teleport($this->getLoader()->getServer()->getLevelByName($args[0])->getSpawnLocation(), 0, 0);
+		$sender->teleport($this->getLoader()->getServer()->getLevelByName($args[0])->getSpawnLocation(), 0.0, 0.0);
 		return true;
 	}
 }

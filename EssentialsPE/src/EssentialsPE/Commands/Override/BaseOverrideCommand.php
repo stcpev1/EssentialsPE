@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace EssentialsPE\Commands\Override;
 
 use EssentialsPE\Commands\BaseCommand;

@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace EssentialsPE\Utils;
 
 use pocketmine\item\Armor;
 use pocketmine\item\Item;
 use pocketmine\item\ItemBlock;
+use pocketmine\item\Tool;
 
 class ItemUtils {
 
@@ -22,7 +25,7 @@ class ItemUtils {
 		if(strpos($item_name, ":") !== false) {
 			$v = explode(":", $item_name);
 			$item_name = $v[0];
-			$damage = (int)$v[1];
+			$damage = (int) $v[1];
 		} else {
 			$damage = 0;
 		}
@@ -39,7 +42,7 @@ class ItemUtils {
 	}
 
 	/**
-	 * Converts the readable item name (obtained using function above) to an Item object.
+	 * Converts the readable item name (obtained using function below) to an Item object.
 	 *
 	 * @param string $item_name
 	 *
@@ -86,7 +89,7 @@ class ItemUtils {
 	 * @return bool
 	 */
 	public static function isRepairable(Item $item): bool {
-		if($item->isTool() || $item instanceof Armor) {
+		if($item instanceof Tool || $item instanceof Armor) {
 			return true;
 		}
 		return false;

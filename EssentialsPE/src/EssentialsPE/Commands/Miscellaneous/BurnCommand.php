@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace EssentialsPE\Commands\Miscellaneous;
 
 use EssentialsPE\Commands\BaseCommand;
@@ -20,7 +22,7 @@ class BurnCommand extends BaseCommand {
 	 *
 	 * @return bool
 	 */
-	public function execute(CommandSender $sender, $commandLabel, array $args): bool {
+	public function execute(CommandSender $sender, string $commandLabel, array $args): bool {
 		if(!$this->testPermission($sender)) {
 			return false;
 		}
@@ -32,7 +34,7 @@ class BurnCommand extends BaseCommand {
 			$this->sendMessageContainer($sender, "error.player-not-found", $args[0]);
 			return true;
 		}
-		if(!is_numeric($time = $args[1]) or (int)$time < 0) {
+		if(!is_numeric($time = $args[1]) or (int) $time < 0) {
 			$this->sendMessageContainer($sender, "commands.burn.invalid-time");
 			return true;
 		}

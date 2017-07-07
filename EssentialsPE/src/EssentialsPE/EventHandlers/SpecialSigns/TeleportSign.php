@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace EssentialsPE\EventHandlers\SpecialSigns;
 
 use EssentialsPE\Loader;
 use pocketmine\event\block\SignChangeEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\math\Vector3;
-use pocketmine\tile\Sign;
 use pocketmine\utils\TextFormat as TF;
 
 class TeleportSign extends BaseSign {
@@ -43,8 +44,7 @@ class TeleportSign extends BaseSign {
 	 * @param PlayerInteractEvent $interactEvent
 	 */
 	public function onInteract(PlayerInteractEvent $interactEvent) {
-		$tile = $interactEvent->getBlock()->getLevel()->getTile(new Vector3($interactEvent->getBlock()->getFloorX(), $interactEvent->getBlock()->getFloorY(), $interactEvent->getBlock()->getFloorZ()));
-		if(!$tile instanceof Sign) {
+		if(!($tile = parent::onInteract($interactEvent))) {
 			return;
 		}
 		if(TF::clean($tile->getText()[0], true) === "[Teleport]") {

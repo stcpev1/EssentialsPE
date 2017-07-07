@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace EssentialsPE\Commands\Economy;
 
 use EssentialsPE\Commands\BaseCommand;
