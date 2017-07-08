@@ -8,11 +8,8 @@ use EssentialsPE\EventHandlers\BaseEventHandler;
 use EssentialsPE\Loader;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\SignChangeEvent;
-use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerInteractEvent;
-use pocketmine\math\Vector3;
 use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\nbt\tag\ListTag;
 use pocketmine\nbt\tag\StringTag;
 use pocketmine\tile\Sign;
 use pocketmine\utils\TextFormat as TF;
@@ -40,6 +37,15 @@ class SignHandler extends BaseEventHandler {
 				$event->getPlayer()->sendMessage(TF::RED /* TODO */);
 			}
 		}
+	}
+
+	/**
+	 * @param Sign $sign
+	 *
+	 * @return bool
+	 */
+	public function isSpecialSign(Sign $sign) {
+		return isset($sign->namedtag->essentialsSS);
 	}
 
 	/**
@@ -89,14 +95,5 @@ class SignHandler extends BaseEventHandler {
 				}
 			}
 		}
-	}
-
-	/**
-	 * @param Sign $sign
-	 *
-	 * @return bool
-	 */
-	public function isSpecialSign(Sign $sign) {
-		return isset($sign->namedtag->essentialsSS);
 	}
 }

@@ -8,7 +8,7 @@ use EssentialsPE\Loader;
 
 class SignManager {
 
-	/** @var Loader  */
+	/** @var Loader */
 	private $loader;
 	/** @var BaseSign[] */
 	private $signs = [];

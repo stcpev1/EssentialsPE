@@ -6,9 +6,9 @@ namespace EssentialsPE\EventHandlers\SpecialSigns\Others;
 
 use EssentialsPE\EventHandlers\SpecialSigns\BaseSign;
 use EssentialsPE\Loader;
-use pocketmine\Server;
 use pocketmine\event\block\SignChangeEvent;
 use pocketmine\event\player\PlayerInteractEvent;
+use pocketmine\Server;
 use pocketmine\tile\Sign;
 
 class GamemodeSign extends BaseSign {

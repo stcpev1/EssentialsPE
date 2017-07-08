@@ -82,7 +82,7 @@ class ItemUtils {
 	}
 
 	/**
-	 * Checks whether the given item is a repairable item. (tool/armor)
+	 * Checks whether the given item is a repairable item or not. (tool/armor)
 	 *
 	 * @param Item $item
 	 *

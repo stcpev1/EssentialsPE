@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace EssentialsPE;
 
-use aliuly\manyworlds\common\Session;
 use EssentialsPE\Commands\BaseCommand;
 use EssentialsPE\Commands\Chat\BroadcastCommand;
 use EssentialsPE\Commands\Chat\NickCommand;
@@ -206,13 +205,6 @@ class Loader extends PluginBase {
 		return $this->configurableData;
 	}
 
-	/**
-	 * @return SignManager
-	 */
-	public function getSignManager(): SignManager {
-		return $this->signManager;
-	}
-
 	public function registerEventHandlers() {
 		$this->signManager = new SignManager($this);
 		$essentialsSpecialSigns = [
@@ -235,6 +227,13 @@ class Loader extends PluginBase {
 		foreach($essentialsEventHandlers as $essentialsHandler) {
 			$this->getServer()->getPluginManager()->registerEvents($essentialsHandler, $this);
 		}
+	}
+
+	/**
+	 * @return SignManager
+	 */
+	public function getSignManager(): SignManager {
+		return $this->signManager;
 	}
 
 	public function onDisable() {
