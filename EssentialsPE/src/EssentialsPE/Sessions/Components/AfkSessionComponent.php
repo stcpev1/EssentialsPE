@@ -11,6 +11,7 @@ use EssentialsPE\Sessions\Providers\BaseSessionProvider;
 
 class AfkSessionComponent extends BaseSavedSessionComponent {
 
+	/** @var bool */
 	private $isAfk = false;
 
 	public function __construct(Loader $loader, PlayerSession $session, array $data = []) {

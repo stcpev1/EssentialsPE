@@ -11,6 +11,7 @@ use EssentialsPE\Sessions\Providers\BaseSessionProvider;
 
 class GodSessionComponent extends BaseSavedSessionComponent {
 
+	/** @var bool */
 	private $isGod = false;
 
 	public function __construct(Loader $loader, PlayerSession $session, array $data = []) {

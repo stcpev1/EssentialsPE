@@ -14,6 +14,7 @@ use pocketmine\Player;
 
 class PlayerEventHandler extends BaseEventHandler {
 
+	/** @var bool[] */
 	private $teleportScheduled = [];
 
 	public function __construct(Loader $loader) {

@@ -8,7 +8,9 @@ use EssentialsPE\Loader;
 
 class CommandSwitch extends ConfigurableDataHolder {
 
+	/** @var string[] */
 	private $availableCommands = [];
+	/** @var string[] */
 	private $disabledCommands = [];
 
 	public function __construct(Loader $loader) {

@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace EssentialsPE;
 
+use aliuly\manyworlds\common\Session;
 use EssentialsPE\Commands\BaseCommand;
 use EssentialsPE\Commands\Chat\BroadcastCommand;
 use EssentialsPE\Commands\Chat\NickCommand;
@@ -45,9 +46,10 @@ use EssentialsPE\Commands\Warps\WarpCommand;
 use EssentialsPE\Configurable\DataManager;
 use EssentialsPE\EventHandlers\BaseEventHandler;
 use EssentialsPE\EventHandlers\PlayerEventHandler;
-use EssentialsPE\EventHandlers\SpecialSigns\Economy\BalanceSign;
-use EssentialsPE\EventHandlers\SpecialSigns\SignBreak;
-use EssentialsPE\EventHandlers\SpecialSigns\TeleportSign;
+use EssentialsPE\EventHandlers\SpecialSigns\Others\GamemodeSign;
+use EssentialsPE\EventHandlers\SpecialSigns\SignHandler;
+use EssentialsPE\EventHandlers\SpecialSigns\SignManager;
+use EssentialsPE\EventHandlers\SpecialSigns\Teleportation\TeleportSign;
 use EssentialsPE\Sessions\SessionManager;
 use MongoDB\Driver\Exception\DuplicateKeyException;
 use pocketmine\plugin\Plugin;
@@ -63,9 +65,14 @@ class Loader extends PluginBase {
 	const MODULE_HOMES = 3;
 	const MODULE_MAIL = 4;
 
+	/** @var DataManager */
 	private $configurableData;
+	/** @var string[] */
 	private $installedModules = [];
+	/** @var SessionManager */
 	private $sessionManager;
+	/** @var SignManager */
+	private $signManager;
 
 	public function onLoad() {
 		$this->addModule(self::MODULE_ESSENTIALS, "EssentialsPE");
@@ -199,23 +206,31 @@ class Loader extends PluginBase {
 		return $this->configurableData;
 	}
 
+	/**
+	 * @return SignManager
+	 */
+	public function getSignManager(): SignManager {
+		return $this->signManager;
+	}
+
 	public function registerEventHandlers() {
+		$this->signManager = new SignManager($this);
 		$essentialsSpecialSigns = [
-			new TeleportSign($this),
-			new BalanceSign($this)
+			new GamemodeSign($this),
+			new TeleportSign($this)
 		];
 		foreach($essentialsSpecialSigns as $essentialsSign) {
 			if($essentialsSign instanceof BaseEventHandler) {
-				if(in_array($essentialsSign->getName(), $this->getConfigurableData()->getCommandSwitch()->getAvailableCommands())) {
+				if(in_array($essentialsSign->getName() . "sign", $this->getConfigurableData()->getCommandSwitch()->getAvailableCommands())) {
 					if($this->isModuleLoaded($essentialsSign->getModule())) {
-						$this->getServer()->getPluginManager()->registerEvents($essentialsSign, $this);
+						$this->getSignManager()->registerSign($essentialsSign);
 					}
 				}
 			}
 		}
 		$essentialsEventHandlers = [
 			new PlayerEventHandler($this),
-			new SignBreak($this)
+			new SignHandler($this)
 		];
 		foreach($essentialsEventHandlers as $essentialsHandler) {
 			$this->getServer()->getPluginManager()->registerEvents($essentialsHandler, $this);

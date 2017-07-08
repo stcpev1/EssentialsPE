@@ -13,20 +13,23 @@ use pocketmine\utils\TextFormat as TF;
 
 class NameTagSessionComponent extends BaseSavedSessionComponent {
 
-	private $nick = null;
-	private $prefix = null;
-	private $suffix = null;
+	/** @var string */
+	private $nick = "";
+	/** @var string */
+	private $prefix = "";
+	/** @var string */
+	private $suffix = "";
 
 	public function __construct(Loader $loader, PlayerSession $session, array $data = []) {
 		parent::__construct($loader, $session);
 		if(isset($data[BaseSessionProvider::NICK])) {
-			$this->setNick($data[BaseSessionProvider::NICK] === null ? "clear" : $data[BaseSessionProvider::NICK]);
+			$this->setNick($data[BaseSessionProvider::NICK] === "" ? "clear" : $data[BaseSessionProvider::NICK]);
 		}
 		if(isset($data[BaseSessionProvider::PREFIX])) {
-			$this->setPrefix($data[BaseSessionProvider::PREFIX] === null ? "clear" : $data[BaseSessionProvider::PREFIX]);
+			$this->setPrefix($data[BaseSessionProvider::PREFIX] === "" ? "clear" : $data[BaseSessionProvider::PREFIX]);
 		}
 		if(isset($data[BaseSessionProvider::SUFFIX])) {
-			$this->setSuffix($data[BaseSessionProvider::SUFFIX] === null ? "clear" : $data[BaseSessionProvider::SUFFIX]);
+			$this->setSuffix($data[BaseSessionProvider::SUFFIX] === "" ? "clear" : $data[BaseSessionProvider::SUFFIX]);
 		}
 	}
 
@@ -35,7 +38,7 @@ class NameTagSessionComponent extends BaseSavedSessionComponent {
 	 * @return string
 	 */
 	public function getNick(): string {
-		if($this->nick === null) {
+		if($this->nick === "") {
 			return $this->getPlayer()->getName();
 		}
 		return $this->nick . TF::RESET;
@@ -55,7 +58,7 @@ class NameTagSessionComponent extends BaseSavedSessionComponent {
 			return $this->clearNick();
 		}
 		if($n === "clear") {
-			$this->nick = null;
+			$this->nick = "";
 			$this->getPlayer()->setDisplayName($this->getPrefix() . $this->getNick() . $this->getSuffix());
 			$this->getPlayer()->setNameTag($this->getPrefix() . $this->getNick() . $this->getSuffix());
 			return true;
@@ -87,7 +90,7 @@ class NameTagSessionComponent extends BaseSavedSessionComponent {
 	 * @return string
 	 */
 	public function getPrefix(): string {
-		if($this->prefix === null) {
+		if($this->prefix === "") {
 			return "";
 		}
 		return $this->prefix . TF::RESET;
@@ -106,7 +109,7 @@ class NameTagSessionComponent extends BaseSavedSessionComponent {
 			return $this->clearPrefix();
 		}
 		if($n === "clear") {
-			$this->prefix = null;
+			$this->prefix = "";
 			$this->getPlayer()->setDisplayName($this->getPrefix() . $this->getNick() . $this->getSuffix());
 			$this->getPlayer()->setNameTag($this->getPrefix() . $this->getNick() . $this->getSuffix());
 			return true;
@@ -129,7 +132,7 @@ class NameTagSessionComponent extends BaseSavedSessionComponent {
 	 * @return string
 	 */
 	public function getSuffix(): string {
-		if($this->suffix === null) {
+		if($this->suffix === "") {
 			return "";
 		}
 		return (string) $this->suffix;
@@ -148,7 +151,7 @@ class NameTagSessionComponent extends BaseSavedSessionComponent {
 			return $this->clearSuffix();
 		}
 		if($n === "clear") {
-			$this->suffix = null;
+			$this->suffix = "";
 			$this->getPlayer()->setDisplayName($this->getPrefix() . $this->getNick() . $this->getSuffix());
 			$this->getPlayer()->setNameTag($this->getPrefix() . $this->getNick() . $this->getSuffix());
 			return true;

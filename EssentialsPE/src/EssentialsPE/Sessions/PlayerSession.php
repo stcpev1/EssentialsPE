@@ -15,15 +15,22 @@ use pocketmine\Player;
 
 class PlayerSession {
 
+	/** @var IPlayer */
 	private $player;
+	/** @var Loader */
 	private $loader;
-	private $savedData;
+	/** @var array */
+	private $savedData = [];
 
+	/** @var AfkSessionComponent */
 	private $afkComponent;
+	/** @var GodSessionComponent */
 	private $godComponent;
+	/** @var MuteSessionComponent */
 	private $muteComponent;
+	/** @var NameTagSessionComponent */
 	private $nameTagComponent;
-
+	/** @var TeleportRequestSessionComponent */
 	private $teleportComponent;
 
 	public function __construct(Loader $loader, IPlayer $player, array $values = []) {

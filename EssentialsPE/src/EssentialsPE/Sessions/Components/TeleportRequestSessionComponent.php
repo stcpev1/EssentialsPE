@@ -14,7 +14,9 @@ class TeleportRequestSessionComponent extends BaseSessionComponent {
 	const MODE_TELEPORT_TO = 0;
 	const MODE_TELEPORT_HERE = 1;
 
+	/** @var array */
 	private $receivedRequests = [];
+	/** @var array */
 	private $latestRequest = [];
 
 	public function __construct(Loader $loader, PlayerSession $session) {

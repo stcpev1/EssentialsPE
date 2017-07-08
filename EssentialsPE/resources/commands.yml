@@ -23,7 +23,6 @@ top: true
 world: true
 kill: true
 top: true
-seeinventory: true
 
 # Economy Commands - Require installation of the EssentialsPEconomy module.
 balance: true
@@ -50,11 +49,19 @@ warp: true
 delwarp: true
 setwarp: true
 
+# Inventory Commands
+clearinventory: true
+seeinventory: true
+
+
 # Special signs
 
+# Teleportation Signs
 teleportsign: true
 
 # Economy Signs - Require installation of the EssentialsPEconomy module.
-
 balancesign: true
+
+# Miscellaneous Signs
+gamemodesign: true
 ...

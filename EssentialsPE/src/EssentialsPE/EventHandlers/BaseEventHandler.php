@@ -10,7 +10,8 @@ use pocketmine\Player;
 
 abstract class BaseEventHandler implements Listener {
 
-	private $loader;
+	/** @var Loader */
+	protected $loader;
 
 	public function __construct(Loader $loader) {
 		$this->loader = $loader;

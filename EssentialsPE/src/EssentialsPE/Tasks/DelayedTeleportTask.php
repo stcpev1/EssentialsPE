@@ -10,8 +10,11 @@ use pocketmine\Player;
 
 class DelayedTeleportTask extends BaseTask {
 
+	/** @var Player */
 	private $player;
+	/** @var Position */
 	private $originalPosition;
+	/** @var Position */
 	private $teleportPosition;
 
 	public function __construct(Loader $loader, Player $player, Position $originalPosition, Position $teleportPosition) {

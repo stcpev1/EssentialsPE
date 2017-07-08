@@ -11,6 +11,7 @@ use EssentialsPE\Sessions\Providers\BaseSessionProvider;
 
 class MuteSessionComponent extends BaseSavedSessionComponent {
 
+	/** @var bool */
 	private $isMuted = false;
 	private $mutedUntil;
 

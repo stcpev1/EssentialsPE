@@ -14,9 +14,13 @@ use pocketmine\utils\TextFormat as TF;
 
 abstract class BaseCommand extends Command implements PluginIdentifiableCommand {
 
+	/** @var Loader */
 	protected $loader;
+	/** @var int */
 	protected $module = Loader::MODULE_ESSENTIALS;
+	/** @var bool */
 	protected $consoleUsable;
+	/** @var string */
 	protected $consoleUsageMessage;
 
 	/**

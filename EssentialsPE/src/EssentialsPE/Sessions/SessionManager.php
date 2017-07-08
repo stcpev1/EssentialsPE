@@ -11,8 +11,11 @@ use pocketmine\IPlayer;
 
 class SessionManager {
 
-	private static $session;
+	/** @var PlayerSession[] */
+	private static $session = [];
+	/** @var Loader */
 	private static $loader;
+	/** @var BaseSessionProvider */
 	private $provider;
 
 	public function __construct(Loader $loader) {

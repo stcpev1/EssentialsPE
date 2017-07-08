@@ -8,6 +8,7 @@ use EssentialsPE\Loader;
 
 abstract class ConfigurableDataHolder {
 
+	/** @var Loader */
 	protected $loader;
 
 	public function __construct(Loader $loader) {

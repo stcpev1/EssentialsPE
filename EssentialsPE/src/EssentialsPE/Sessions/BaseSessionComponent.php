@@ -9,7 +9,9 @@ use pocketmine\Player;
 
 class BaseSessionComponent {
 
+	/** @var Loader */
 	private $loader;
+	/** @var PlayerSession */
 	private $session;
 
 	public function __construct(Loader $loader, PlayerSession $session) {

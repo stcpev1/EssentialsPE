@@ -8,9 +8,13 @@ use EssentialsPE\Loader;
 
 class DataManager {
 
+	/** @var Loader */
 	private $loader;
+	/** @var EssentialsPEConfiguration */
 	private $config;
+	/** @var MessagesContainer */
 	private $messages;
+	/** @var CommandSwitch */
 	private $commandSwitch;
 
 	public function __construct(Loader $loader) {

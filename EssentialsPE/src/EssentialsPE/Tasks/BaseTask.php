@@ -9,6 +9,7 @@ use pocketmine\scheduler\PluginTask;
 
 abstract class BaseTask extends PluginTask {
 
+	/** @var Loader */
 	private $loader;
 
 	public function __construct(Loader $loader) {

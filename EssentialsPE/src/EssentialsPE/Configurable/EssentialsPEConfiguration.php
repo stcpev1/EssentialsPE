@@ -11,6 +11,7 @@ class EssentialsPEConfiguration extends ConfigurableDataHolder {
 
 	const CONFIGURATION_VERSION = "1.0.0";
 
+	/** @var array */
 	private $configurationData = [];
 
 	public function __construct(Loader $loader) {

@@ -23,6 +23,7 @@ abstract class BaseSessionProvider implements ISessionProvider {
 	const POWERTOOL_COMMAND = "PowertoolCommand";
 	const POWERTOOL_CHAT_MACRO = "PowertoolChatMacro";
 
+	/** @var Loader */
 	protected $loader;
 
 	public function __construct(Loader $loader) {
