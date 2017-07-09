@@ -45,6 +45,7 @@ use pocketmine\OfflinePlayer;
 use pocketmine\permission\Permission;
 use pocketmine\Player;
 use pocketmine\Server;
+use pocketmine\utils\Color;
 use pocketmine\utils\Config;
 use pocketmine\utils\Random;
 use pocketmine\utils\TextFormat;
@@ -221,7 +222,7 @@ class BaseAPI{
      */
 
     const NON_SOLID_BLOCKS = [Block::SAPLING, Block::WATER, Block::STILL_WATER, Block::LAVA, Block::STILL_LAVA, Block::COBWEB, Block::TALL_GRASS, Block::LEAVES, Block::DANDELION,
-        Block::POPPY, Block::BROWN_MUSHROOM, Block::RED_MUSHROOM, Block::TORCH, Block::FIRE, Block::WHEAT_BLOCK, Block::SIGN_POST, Block::WALL_SIGN, Block::SUGARCANE_BLOCK,
+        Block::POPPY, Block::BROWN_MUSHROOM, Block::RED_MUSHROOM, Block::TORCH, Block::FIRE, Block::WHEAT_BLOCK, Block::STANDING_SIGN, Block::WALL_SIGN, Block::SUGARCANE_BLOCK,
         Block::PUMPKIN_STEM, Block::MELON_STEM, Block::VINE, Block::CARROT_BLOCK, Block::POTATO_BLOCK, Block::DOUBLE_PLANT];
 
     /**
@@ -1487,7 +1488,7 @@ class BaseAPI{
         return [
             "name" => $player->getName(),
             "nick" => $player->getDisplayName(),
-            //"money" => $this->getPlayerBalance($player), TODO
+            "money" => $this->getPlayerBalance($player),
             "afk" => $this->isAFK($player),
             "location" => $this->getGeoLocation($player)
         ];
@@ -2213,7 +2214,7 @@ class BaseAPI{
      */
     public function setVanish(Player $player, bool $state, bool $noPacket = false): bool{
         if($this->invisibilityEffect === null){
-            $effect = new Effect(Effect::INVISIBILITY, "Vanish", 127, 131, 146);
+            $effect = new Effect(Effect::INVISIBILITY, "Vanish", new Color(127, 131, 146));
             $effect->setDuration(PHP_INT_MAX);
             $this->invisibilityEffect = $effect;
         }
@@ -2238,13 +2239,11 @@ class BaseAPI{
         if(!$noPacket){
             if(!$state){
                 $pk = new MobEffectPacket();
-                $pk->eid = $player->getId(); // TODO: Remove
                 $pk->entityRuntimeId = $player->getId();
                 $pk->eventId = MobEffectPacket::EVENT_REMOVE;
                 $pk->effectId = $this->invisibilityEffect->getId();
             }else{
                 $pk = new MobEffectPacket();
-	            $pk->eid = $player->getId(); // TODO: Remove
                 $pk->entityRuntimeId = $player->getId();
                 $pk->effectId = $this->invisibilityEffect->getId();
                 $pk->amplifier = $this->invisibilityEffect->getAmplifier();
@@ -2307,7 +2306,6 @@ class BaseAPI{
                 if($p !== $player){
                     if($this->isVanished($player)){
                         if(!$noPacket){
-	                        $pk->eid = $player->getId(); // TODO: Remove
                             $pk->entityRuntimeId = $player->getId();
                             $p->dataPacket($pk);
                         }else{
@@ -2316,7 +2314,6 @@ class BaseAPI{
                     }
                     if($this->isVanished($p)){
                         if(!$this->hasNoPacket($p)){
-	                        $pk->eid = $player->getId(); // TODO: Remove
                             $pk->entityRuntimeId = $p->getId();
                             $player->dataPacket($pk);
                         }else{
@@ -2331,7 +2328,6 @@ class BaseAPI{
                 if($p !== $player){
                     if($this->isVanished($player)){
                         if(!$noPacket){
-	                        $pk->eid = $player->getId(); // TODO: Remove
                             $pk->entityRuntimeId = $player->getId();
                             $p->dataPacket($pk);
                         }else{
@@ -2340,7 +2336,6 @@ class BaseAPI{
                     }
                     if($this->isVanished($p)){
                         if(!$this->hasNoPacket($p)){
-	                        $pk->eid = $player->getId(); // TODO: Remove
                             $pk->entityRuntimeId = $p->getId();
                             $player->dataPacket($pk);
                         }else{
