@@ -9,12 +9,20 @@ use pocketmine\Player;
 use pocketmine\utils\TextFormat;
 
 class Speed extends BaseCommand{
+
     public function __construct(BaseAPI $api){
         parent::__construct($api, "speed", "Change your speed limit", "<speed> [player]");
         $this->setPermission("essentials.speed");
     }
 
-    public function execute(CommandSender $sender, string $alias, array $args): bool{
+	/**
+	 * @param CommandSender $sender
+	 * @param string        $alias
+	 * @param array         $args
+	 *
+	 * @return bool
+	 */
+    public function execute(CommandSender $sender, $alias, array $args): bool{
         if($this->testPermission($sender)){
             return false;
         }

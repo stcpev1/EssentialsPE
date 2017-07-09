@@ -17,7 +17,14 @@ class Hat extends BaseCommand{
         $this->setPermission("essentials.hat");
     }
 
-    public function execute(CommandSender $sender, string $alias, array $args): bool{
+	/**
+	 * @param CommandSender $sender
+	 * @param string        $alias
+	 * @param array         $args
+	 *
+	 * @return bool
+	 */
+    public function execute(CommandSender $sender, $alias, array $args): bool{
         if(!$this->testPermission($sender)){
             return false;
         }

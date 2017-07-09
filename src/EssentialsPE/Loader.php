@@ -55,6 +55,7 @@ use EssentialsPE\Commands\Reply;
 use EssentialsPE\Commands\Seen;
 use EssentialsPE\Commands\SetSpawn;
 use EssentialsPE\Commands\Spawn;
+use EssentialsPE\Commands\Speed;
 use EssentialsPE\Commands\Sudo;
 use EssentialsPE\Commands\Suicide;
 use EssentialsPE\Commands\Teleport\TPA;
@@ -70,6 +71,7 @@ use EssentialsPE\Commands\Vanish;
 use EssentialsPE\Commands\Warp\DelWarp;
 use EssentialsPE\Commands\Warp\Setwarp;
 use EssentialsPE\Commands\Warp\Warp;
+use EssentialsPE\Commands\Whois;
 use EssentialsPE\Commands\World;
 use EssentialsPE\EventHandlers\OtherEvents;
 use EssentialsPE\EventHandlers\PlayerEvents;
@@ -171,7 +173,7 @@ class Loader extends PluginBase{
             new Seen($this->getAPI()),
             new SetSpawn($this->getAPI()),
             new Spawn($this->getAPI()),
-            //new Speed($this->getAPI()), TODO
+            new Speed($this->getAPI()),
             new Sudo($this->getAPI()),
             new Suicide($this->getAPI()),
             new TempBan($this->getAPI()),
@@ -179,7 +181,7 @@ class Loader extends PluginBase{
             //new TreeCommand($this->getAPI()), TODO
             new Unlimited($this->getAPI()),
             new Vanish($this->getAPI()),
-            //new Whois($this->getAPI()), TODO
+            new Whois($this->getAPI()),
             new World($this->getAPI()),
 		
             // Messages
@@ -189,76 +191,77 @@ class Loader extends PluginBase{
             // Override
             new Gamemode($this->getAPI()),
             new Kill($this->getAPI())		
-	];
+		];
 	    
-	$economycommands = [
-            new Balance($this->getAPI()),
-            new Eco($this->getAPI()),
-            new Pay($this->getAPI()),
-            new Sell($this->getAPI()),
-            new SetWorth($this->getAPI()),
-            new Worth($this->getAPI()),
-            new BalanceTop($this->getAPI())
-        ];
-	    
-	$homecommands = [
-            new DelHome($this->getAPI()),
-            new Home($this->getAPI()),
-            new SetHome($this->getAPI())
-	];
-	    
-	$powertoolcommands = [
-            new PowerTool($this->getAPI())
-	];
-		
-	$teleportcommands = [
-            new TPA($this->getAPI()),
-            new TPAccept($this->getAPI()),
-            new TPAHere($this->getAPI()),
-            new TPAll($this->getAPI()),
-            new TPDeny($this->getAPI()),
-            new TPHere($this->getAPI())
-	];
-	    
-	$warpcommands = [
-            new DelWarp($this->getAPI()),
-            new Setwarp($this->getAPI()),
-            new Warp($this->getAPI())
-        ];
-	    
-	    
-	if($this->getServer()->getPluginManager()->getPlugin("SimpleWarp") === null) {
-            foreach($warpcommands as $warpcommand) {
-	        if($this->getConfig()->get("warps") === true) {
-		    $commands[] = $warpcommand;
-	        }
+		$economyCommands = [
+	        new Balance($this->getAPI()),
+	        new Eco($this->getAPI()),
+	        new Pay($this->getAPI()),
+	        new Sell($this->getAPI()),
+	        new SetWorth($this->getAPI()),
+	        new Worth($this->getAPI()),
+	        new BalanceTop($this->getAPI())
+		];
+
+		$homeCommands = [
+	        new DelHome($this->getAPI()),
+	        new Home($this->getAPI()),
+	        new SetHome($this->getAPI())
+		];
+
+		$powertoolCommands = [
+	        new PowerTool($this->getAPI()),
+			new PowerToolToggle($this->getAPI())
+		];
+
+		$teleportCommands = [
+	        new TPA($this->getAPI()),
+	        new TPAccept($this->getAPI()),
+	        new TPAHere($this->getAPI()),
+	        new TPAll($this->getAPI()),
+	        new TPDeny($this->getAPI()),
+	        new TPHere($this->getAPI())
+		];
+
+		$warpCommands = [
+	        new DelWarp($this->getAPI()),
+	        new Setwarp($this->getAPI()),
+	        new Warp($this->getAPI())
+		];
+
+
+		if($this->getServer()->getPluginManager()->getPlugin("SimpleWarp") === null) {
+	            foreach($warpCommands as $warpCommand) {
+		        if($this->getConfig()->get("warps") === true) {
+			    $commands[] = $warpCommand;
+		        }
+		    }
+	    } else {
+	        $this->getLogger()->info(TextFormat::YELLOW . "SimpleWarp installed, disabling EssentialsPE warps...");
 	    }
-        } else {
-            $this->getLogger()->info(TextFormat::YELLOW . "SimpleWarp installed, disabling EssentialsPE warps...");
-        }
-	  
-	foreach($teleportcommands as $teleportcommand) {
-	    if($this->getConfig()->get("teleporting") === true) {
-		 $commands[] = $teleportcommand;
-	    }
-	}
-        
-	foreach($powertoolcommands as $powertoolcommand) {
-	    if($this->getConfig()->get("powertool") === true) {
-		 $commands[] = $powertoolcommand;
-	    }
-	}
-	    
-	foreach($homecommands as $homecommand) {
-	    if($this->getConfig()->get("homes") === true) {
-		 $commands[] = $homecommand;
-	    }
-	}	    
-	foreach($economycommands as $economycommand) {
-	    if($this->getConfig()->get("economy") === true) {
-		 $commands[] = $economycommand;
-	    }
-	}
+
+		foreach($teleportCommands as $teleportCommand) {
+		    if($this->getConfig()->get("teleporting") === true) {
+			 $commands[] = $teleportCommand;
+		    }
+		}
+
+		foreach($powertoolCommands as $powertoolCommand) {
+		    if($this->getConfig()->get("powertool") === true) {
+			 $commands[] = $powertoolCommand;
+		    }
+		}
+
+		foreach($homeCommands as $homeCommand) {
+		    if($this->getConfig()->get("homes") === true) {
+			 $commands[] = $homeCommand;
+		    }
+		}
+		foreach($economyCommands as $economyCommand) {
+		    if($this->getConfig()->get("economy") === true) {
+			 $commands[] = $economyCommand;
+		    }
+		}
 	    
         $aliased = [];
         foreach($commands as $cmd){

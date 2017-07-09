@@ -12,7 +12,7 @@ class Back extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "back", "Teleport to your previous location", null, false, ["return"]);
+        parent::__construct($api, "back", "Teleport to your previous location", "", false, ["return"]);
         $this->setPermission("essentials.back.use");
     }
 
@@ -22,7 +22,7 @@ class Back extends BaseCommand{
      * @param array $args
      * @return bool
      */
-    public function execute(CommandSender $sender, string $alias, array $args): bool{
+    public function execute(CommandSender $sender, $alias, array $args): bool{
         if(!$this->testPermission($sender)){
             return false;
         }
