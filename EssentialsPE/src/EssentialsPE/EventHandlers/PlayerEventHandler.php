@@ -9,6 +9,7 @@ use EssentialsPE\Sessions\SessionManager;
 use EssentialsPE\Tasks\DelayedTeleportTask;
 use pocketmine\event\entity\EntityTeleportEvent;
 use pocketmine\event\player\PlayerJoinEvent;
+use pocketmine\event\player\PlayerLoginEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\Player;
 
@@ -22,9 +23,9 @@ class PlayerEventHandler extends BaseEventHandler {
 	}
 
 	/**
-	 * @param PlayerJoinEvent $event
+	 * @param PlayerLoginEvent $event
 	 */
-	public function onJoin(PlayerJoinEvent $event) {
+	public function onLogin(PlayerLoginEvent $event) {
 		$this->getLoader()->getSessionManager()->createSession($event->getPlayer());
 	}
 
