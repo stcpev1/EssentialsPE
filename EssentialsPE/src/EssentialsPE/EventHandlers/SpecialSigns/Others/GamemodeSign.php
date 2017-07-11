@@ -24,7 +24,7 @@ class GamemodeSign extends BaseSign {
 	 * @return bool
 	 */
 	public function create(SignChangeEvent $event, Sign $sign): bool {
-		$gamemode = $sign->namedtag->essentialsSS->{'0'};
+		$gamemode = $sign->namedtag->essentialsSS["1"];
 		if(($gamemodeInt = Server::getGamemodeFromString($gamemode)) === -1) {
 			return false;
 		}
@@ -38,7 +38,7 @@ class GamemodeSign extends BaseSign {
 	 * @return bool
 	 */
 	public function tap(PlayerInteractEvent $event, Sign $sign): bool {
-		$gamemode = Server::getGamemodeFromString($sign->namedtag->essentialsSS->{'0'});
+		$gamemode = Server::getGamemodeFromString($sign->namedtag->essentialsSS["1"]);
 		$event->getPlayer()->setGamemode($gamemode);
 		return true;
 	}

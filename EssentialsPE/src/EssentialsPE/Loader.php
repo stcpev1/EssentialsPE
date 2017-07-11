@@ -123,9 +123,12 @@ class Loader extends PluginBase {
 	}
 
 	public function onEnable() {
-		SpoonDetector::printSpoon($this);
 		$this->configurableData = new DataManager($this);
 
+		if(!is_dir($this->getDataFolder())) {
+			mkdir($this->getDataFolder());
+		}
+		SpoonDetector::printSpoon($this);
 		$this->getLogger()->info(TF::AQUA . "EssentialsPE modules loaded:");
 		if(!empty($this->getInstalledModules())) {
 			foreach($this->getInstalledModules() as $moduleId => $moduleName) {

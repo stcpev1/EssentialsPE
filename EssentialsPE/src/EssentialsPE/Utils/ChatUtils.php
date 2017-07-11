@@ -14,7 +14,7 @@ class ChatUtils {
 	 * @param string      $errorMessage
 	 * @param bool        $force
 	 *
-	 * @return bool|mixed|string
+	 * @return bool|string
 	 */
 	public static function colorMessage(string $message, string $errorMessage = "", Player $player = null, bool $force = false) {
 		$message = preg_replace_callback(

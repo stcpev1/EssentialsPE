@@ -19,7 +19,7 @@ class ItemUtils {
 	 *
 	 * @param string $item_name
 	 *
-	 * @return Item|ItemBlock
+	 * @return Item
 	 */
 	public static function getItem(string $item_name): Item {
 		if(strpos($item_name, ":") !== false) {

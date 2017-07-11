@@ -38,7 +38,7 @@ class CommandSwitch extends ConfigurableDataHolder {
 		$commands = yaml_parse_file($path);
 
 		foreach($commands as $command => $enabled) {
-			if($enabled === true) {
+			if(($enabled === true && $commands["Disable-All"] === false) || ($enabled === false && $commands["Disable-All"] === true)) {
 				$this->availableCommands[] = $command;
 			} else {
 				$this->disabledCommands[] = $command;

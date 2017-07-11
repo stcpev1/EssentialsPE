@@ -18,6 +18,7 @@ abstract class BaseSessionProvider implements ISessionProvider {
 	const HAS_PVP_ENABLED = "HasPvpEnabled";
 	const HAS_UNLIMITED_ENABLED = "HasUnlimitedEnabled";
 	const IS_VANISHED = "IsVanished";
+	const IGNORED_PLAYERS = "ignoredPlayers";
 
 	const POWERTOOL_ID = "PowertoolId";
 	const POWERTOOL_COMMAND = "PowertoolCommand";

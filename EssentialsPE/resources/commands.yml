@@ -1,7 +1,11 @@
 ---
 # Enabling and disabling EssentialsPE commands can be done in this file.
 
-# Setting a command to false will disable it, while setting it to true enables it.
+# Disables all commands
+Disable-All: false
+
+# Setting a command to false will disable it if the above is set to false, while setting it to true enables it.
+# If the above is set to true, only commands that have false below will be registered.
 
 break: true
 burn: true
