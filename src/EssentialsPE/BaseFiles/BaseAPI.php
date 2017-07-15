@@ -690,7 +690,7 @@ class BaseAPI{
         if($this->lightningPacket === null){
             $pk = new AddEntityPacket();
             $pk->type = 93;
-            $pk->eid = Entity::$entityCount++;
+            $pk->entityRuntimeId = Entity::$entityCount++;
             $pk->metadata = [];
             $pk->speedX = $pk->speedY = $pk->speedZ = 0.0;
             $this->lightningPacket = $pk;
