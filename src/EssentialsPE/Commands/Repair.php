@@ -22,7 +22,7 @@ class Repair extends BaseCommand{
      * @param array $args
      * @return bool
      */
-    public function execute(CommandSender $sender, $alias, array $args): bool{
+    public function execute(CommandSender $sender, string $alias, array $args): bool{
         if(!$this->testPermission($sender)){
             return false;
         }
@@ -30,6 +30,7 @@ class Repair extends BaseCommand{
             $this->sendUsage($sender, $alias);
             return false;
         }
+        $a = "hand";
         if(isset($args[0])) {
             $a = strtolower($args[0]);
         }
