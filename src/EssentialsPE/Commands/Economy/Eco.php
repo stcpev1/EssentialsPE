@@ -37,7 +37,7 @@ class Eco extends BaseCommand{
                     return false;
                 }
                 $balance = 0;
-                if(strtolower($args[0]) !== "reset") {
+                if(strtolower($args[0]) !== "reset"){
 	                $balance = (int) $args[2];
                 }
                 switch(strtolower($args[0])){

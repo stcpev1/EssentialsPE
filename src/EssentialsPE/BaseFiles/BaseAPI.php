@@ -682,7 +682,7 @@ class BaseAPI{
             return;
         }
         foreach($pos->getLevel()->getNearbyEntities(new AxisAlignedBB($pos->getFloorX() - ($radius = 5), $pos->getFloorY() - $radius, $pos->getFloorZ() - $radius, $pos->getFloorX() + $radius, $pos->getFloorY() + $radius, $pos->getFloorZ() + $radius), $pos) as $e){
-            $e->attack(0, new EntityDamageEvent($pos, EntityDamageEvent::CAUSE_MAGIC, $damage));
+            $e->attack(new EntityDamageEvent($pos, EntityDamageEvent::CAUSE_MAGIC, $damage));
         }
     }
 
