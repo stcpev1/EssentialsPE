@@ -72,7 +72,7 @@ class BaseAPI{
         $this->getServerGeoLocation();
     }
 
-    public function __destruct(){
+    public function close(){
         $this->encodeWarps(true);
     }
 
@@ -192,7 +192,7 @@ class BaseAPI{
         $warps = [];
         foreach($this->warps as $name => $object){
             if($object instanceof BaseLocation){
-                $warps[$name] = [$object->getX(), $object->getY(), $object->getZ(), $object->getLevel()->getName(), $object->getYaw(), $object->getPitch()];
+                $warps[$name] = [$object->getX(), $object->getY(), $object->getZ(), $object->getLevelName(), $object->getYaw(), $object->getPitch()];
             }
         }
         if($save && count($warps) > 0){

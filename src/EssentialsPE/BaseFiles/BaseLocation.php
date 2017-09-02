@@ -5,8 +5,11 @@ use pocketmine\level\Level;
 use pocketmine\level\Location;
 
 class BaseLocation extends Location{
+
     /** @var string */
     protected $name;
+    /** @var string */
+    protected $levelName;
 
     /**
      * @param string $name
@@ -17,9 +20,10 @@ class BaseLocation extends Location{
      * @param float $yaw
      * @param float $pitch
      */
-    public function __construct($name, $x, $y, $z, Level $level, $yaw, $pitch){
+    public function __construct(string $name, int $x, int $y, int $z, Level $level, float $yaw, float $pitch){
         parent::__construct($x, $y, $z, $yaw, $pitch, $level);
         $this->name = $name;
+        $this->levelName = $level->getName();
     }
 
     /**
@@ -29,12 +33,19 @@ class BaseLocation extends Location{
         return $this->name;
     }
 
+	/**
+	 * @return string
+	 */
+    public function getLevelName(): string{
+    	return $this->levelName;
+    }
+
     /**
-     * @param $name
+     * @param string $name
      * @param Location $pos
      * @return BaseLocation
      */
-    public static function fromPosition($name, Location $pos): BaseLocation{
+    public static function fromPosition(string $name, Location $pos): BaseLocation{
         return new BaseLocation($name, $pos->getX(), $pos->getY(), $pos->getZ(), $pos->getLevel(), $pos->getYaw(), $pos->getPitch());
     }
 }

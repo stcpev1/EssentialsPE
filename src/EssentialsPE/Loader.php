@@ -117,8 +117,7 @@ class Loader extends PluginBase{
         if(count($l = $this->getServer()->getOnlinePlayers()) > 0){
             $this->getAPI()->removeSession($l);
         }
-
-        $this->api = null;
+        $this->getAPI()->close();
     }
 
     /**
