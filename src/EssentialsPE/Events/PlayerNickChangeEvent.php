@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types = 1);
+
 namespace EssentialsPE\Events;
 
 
@@ -23,14 +26,14 @@ class PlayerNickChangeEvent extends BaseCustomEvent implements Cancellable{
      * @param BaseAPI $api
      * @param Player $player
      * @param string $new_nick
-     * @param mixed $nametag
+     * @param mixed $nameTag
      */
-    public function __construct(BaseAPI $api, Player $player, string $new_nick, $nametag = false){
+    public function __construct(BaseAPI $api, Player $player, string $new_nick, $nameTag = false){
         parent::__construct($api);
         $this->player = $player;
         $this->new_nick = $new_nick;
         $this->old_nick = $player->getDisplayName();
-        $this->nametag = ($nametag ?? $new_nick);
+        $this->nametag = ($nameTag ?? $new_nick);
     }
 
     /**
@@ -65,7 +68,7 @@ class PlayerNickChangeEvent extends BaseCustomEvent implements Cancellable{
      *
      * @param string $nick
      */
-    public function setNick(string $nick){
+    public function setNick(string $nick): void{
         $this->new_nick = $nick;
     }
 
@@ -84,7 +87,7 @@ class PlayerNickChangeEvent extends BaseCustomEvent implements Cancellable{
      *
      * @param null|string $nametag
      */
-    public function setNameTag($nametag){
+    public function setNameTag($nametag): void{
         $this->nametag = $nametag;
     }
 }

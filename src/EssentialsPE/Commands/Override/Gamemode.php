@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types = 1);
+
 namespace EssentialsPE\Commands\Override;
 
 use EssentialsPE\BaseFiles\BaseAPI;
@@ -110,20 +113,20 @@ class Gamemode extends BaseOverrideCommand{
                     break;
             }
         }
-        $gmstring = $this->getAPI()->getServer()->getGamemodeString($gm);
+        $gmString = $this->getAPI()->getServer()->getGamemodeString($gm);
         if($player->getGamemode() === $gm){
             $sender->sendMessage(TextFormat::RED . "[Error] " . ($player === $sender ? "You're" : $player->getDisplayName() . " is") . " already in " . $gmstring);
             return false;
         }
         $player->setGamemode($gm);
-        $player->sendMessage(TextFormat::YELLOW . "You're now in " . $gmstring);
+        $player->sendMessage(TextFormat::YELLOW . "You're now in " . $gmString);
         if($player !== $sender){
-            $sender->sendMessage(TextFormat::GREEN . $player->getDisplayName() . " is now in " . $gmstring);
+            $sender->sendMessage(TextFormat::GREEN . $player->getDisplayName() . " is now in " . $gmString);
         }
         return true;
     }
 
-    public function sendUsage(CommandSender $sender, string $alias){
+    public function sendUsage(CommandSender $sender, string $alias): void{
         $usage = $this->usageMessage;
         if(strtolower($alias) !== "gamemode" && strtolower($alias) !== "gm"){
             $usage = str_replace("<mode> ", "", $usage);

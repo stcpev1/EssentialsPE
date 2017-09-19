@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types = 1);
+
 namespace EssentialsPE\BaseFiles;
 
 use EssentialsPE\Loader;
@@ -18,7 +21,7 @@ class MessagesAPI{
      * @param Loader $plugin
      * @param string $originalFile
      */
-    public function __construct(Loader $plugin, $originalFile){
+    public function __construct(Loader $plugin, string $originalFile){
             $oF = fopen($originalFile, "rb");
             $originalInfo = fread($oF, filesize($originalFile));
             fclose($oF);
@@ -43,16 +46,15 @@ class MessagesAPI{
      * @param $identifier
      * @return bool|string
      */
-    public function getMessage($identifier){
+    public function getMessage($identifier): ?string{
         if(trim($identifier) === ""){
-            return false;
+            return null;
         }
         if(($c = $this->config->getNested($identifier)) !== null){
             return $c;
         }elseif(($o = $this->original->getNested($identifier)) !== null){
             return $o;
-        }else{
-            return false;
         }
+	    return null;
     }
 }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types = 1);
+
 namespace EssentialsPE\Events;
 
 use EssentialsPE\BaseFiles\BaseAPI;
@@ -15,7 +18,7 @@ class CreateAPIEvent extends PluginEvent{
      * @param Loader $plugin
      * @param BaseAPI::class $api
      */
-    public function __construct(Loader $plugin, $api){
+    public function __construct(Loader $plugin, string $api){
         parent::__construct($plugin);
         if(!is_a($api, BaseAPI::class, true)){
             throw new \RuntimeException("Class $api must extend " . BaseAPI::class);
@@ -33,10 +36,10 @@ class CreateAPIEvent extends PluginEvent{
     /**
      * @param BaseAPI::class $api
      */
-    public function setClass($api){
-        if(!is_a($api, BaseAPI::class, true)){
-            throw new \RuntimeException("Class $api must extend " . BaseAPI::class);
+    public function setClass(string $class): void{
+        if(!is_a($class, BaseAPI::class, true)){
+            throw new \RuntimeException("Class $class must extend " . BaseAPI::class);
         }
-        $this->class = $api;
+        $this->class = $class;
     }
 }

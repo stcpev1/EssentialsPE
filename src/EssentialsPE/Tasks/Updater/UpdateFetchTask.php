@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types = 1);
+
 namespace EssentialsPE\Tasks\Updater;
 
 use EssentialsPE\Loader;
@@ -22,7 +25,7 @@ class UpdateFetchTask extends AsyncTask{
         $this->install = $install;
     }
 
-    public function onRun(){
+    public function onRun(): void{
         switch($this->build){
             case "stable":
             default:
@@ -61,7 +64,7 @@ class UpdateFetchTask extends AsyncTask{
     /**
      * @param Server $server
      */
-    public function onCompletion(Server $server){
+    public function onCompletion(Server $server): void{
         /** @var Loader $ess */
         $ess = $server->getPluginManager()->getPlugin("EssentialsPE");
 
@@ -93,7 +96,7 @@ class UpdateFetchTask extends AsyncTask{
      * @param string $version
      * @return string
      */
-    protected function correctVersion(string $version){
+    protected function correctVersion(string $version): string{
         if(($beta = stripos($version, "Beta")) !== false){
             str_replace("Beta", ".", $version);
         }

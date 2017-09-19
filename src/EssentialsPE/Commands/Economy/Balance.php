@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types = 1);
+
 namespace EssentialsPE\Commands\Economy;
 
 use EssentialsPE\BaseFiles\BaseAPI;
@@ -12,7 +15,7 @@ class Balance extends BaseCommand{
      * @param BaseAPI $api
      */
     public function __construct(BaseAPI $api){
-        parent::__construct($api, "balance", "See how many money do you have", "[player]", true, ["bal", "money"]);
+        parent::__construct($api, "balance", "See how many money do you have", "[player]", false, ["bal", "money"]);
         $this->setPermission("essentials.balance.use");
     }
 

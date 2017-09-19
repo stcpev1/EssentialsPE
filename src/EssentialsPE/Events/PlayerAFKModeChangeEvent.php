@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types = 1);
+
 namespace EssentialsPE\Events;
 
 use EssentialsPE\BaseFiles\BaseAPI;
@@ -66,7 +69,7 @@ class PlayerAFKModeChangeEvent extends BaseCustomEvent implements Cancellable{
      *
      * @param bool $mode
      */
-    public function setAFKMode(bool $mode){
+    public function setAFKMode(bool $mode): void{
         $this->mode = $mode;
     }
 
@@ -84,7 +87,7 @@ class PlayerAFKModeChangeEvent extends BaseCustomEvent implements Cancellable{
      *
      * @param bool $mode
      */
-    public function setBroadcast(bool $mode){
+    public function setBroadcast(bool $mode): void{
         $this->broadcast = $mode;
     }
 } 

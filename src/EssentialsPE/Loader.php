@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types = 1);
+
 namespace EssentialsPE;
 
 use EssentialsPE\BaseFiles\BaseAPI;
@@ -84,7 +87,7 @@ class Loader extends PluginBase{
     /** @var BaseAPI */
     private $api;
 
-    public function onEnable(){
+    public function onEnable(): void{
         if($this->getConfig()->get("enable") === false) {
            $this->setEnabled(false);
         }
@@ -101,7 +104,7 @@ class Loader extends PluginBase{
             mkdir($this->getDataFolder());
         }
         
-	$this->getLogger()->info(TextFormat::YELLOW . "Loading...");
+		$this->getLogger()->info(TextFormat::YELLOW . "Loading...");
         $this->registerEvents();
         $this->registerCommands();
         if(count($p = $this->getServer()->getOnlinePlayers()) > 0){
@@ -113,7 +116,7 @@ class Loader extends PluginBase{
         $this->getAPI()->scheduleAutoAFKSetter();
     }
 
-    public function onDisable(){
+    public function onDisable(): void{
         if(count($l = $this->getServer()->getOnlinePlayers()) > 0){
             $this->getAPI()->removeSession($l);
         }
@@ -123,7 +126,7 @@ class Loader extends PluginBase{
     /**
      * Function to register all the Event Handlers that EssentialsPE provide
      */
-    public function registerEvents(){
+    public function registerEvents(): void{
         $this->getServer()->getPluginManager()->registerEvents(new OtherEvents($this->getAPI()), $this);
         $this->getServer()->getPluginManager()->registerEvents(new PlayerEvents($this->getAPI()), $this);
         $this->getServer()->getPluginManager()->registerEvents(new SignEvents($this->getAPI()), $this);
@@ -133,7 +136,7 @@ class Loader extends PluginBase{
      * Function to register all EssentialsPE's commands...
      * And to override some default ones
      */
-    private function registerCommands(){
+    private function registerCommands(): void{
         $commands = [
             new AFK($this->getAPI()),
             new Antioch($this->getAPI()),
@@ -283,7 +286,7 @@ class Loader extends PluginBase{
         $this->getServer()->getCommandMap()->registerAll("EssentialsPE", $commands);
     }
 
-    public function checkConfig(){
+    public function checkConfig(): void{
         if(!is_dir($this->getDataFolder())){
             mkdir($this->getDataFolder());
         }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types = 1);
+
 namespace EssentialsPE\BaseFiles;
 
 use EssentialsPE\Events\PlayerAFKModeChangeEvent;
@@ -22,8 +25,10 @@ use pocketmine\block\Block;
 use pocketmine\command\CommandSender;
 use pocketmine\entity\Effect;
 use pocketmine\entity\Entity;
+use pocketmine\entity\PrimedTNT;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\inventory\BaseInventory;
+use pocketmine\IPlayer;
 use pocketmine\item\Armor;
 use pocketmine\item\Item;
 use pocketmine\item\ItemBlock;
@@ -72,7 +77,7 @@ class BaseAPI{
         $this->getServerGeoLocation();
     }
 
-    public function close(){
+    public function close(): void{
         $this->encodeWarps(true);
     }
 
@@ -97,7 +102,7 @@ class BaseAPI{
         return self::$instance;
     }
 
-    private final function saveConfigs(){
+    private final function saveConfigs(): void{
         $this->economy = new Config($this->getEssentialsPEPlugin()->getDataFolder() . "Economy.yml", Config::YAML);
         $keys = ["default-balance", "max-money", "min-money"];
         foreach($keys as $k){
@@ -125,7 +130,7 @@ class BaseAPI{
         $this->updateHomesAndNicks();
     }
 
-    private final function updateHomesAndNicks(){
+    private final function updateHomesAndNicks(): void{
         if(file_exists($f = $this->getEssentialsPEPlugin()->getDataFolder() . "Homes.yml")){
             $cfg = new Config($f, Config::YAML);
             foreach($cfg->getAll() as $player => $home){
@@ -154,7 +159,7 @@ class BaseAPI{
         }
     }
 
-    private final function loadKits(){
+    private final function loadKits(): void{
         $parent = new Permission("essentials.kits");
         $this->getServer()->getPluginManager()->addPermission($parent);
 
@@ -167,7 +172,7 @@ class BaseAPI{
         }
     }
 
-    private final function loadWarps(){
+    private final function loadWarps(): void{
         $parent = new Permission("essentials.warps", null, false);
         $this->getServer()->getPluginManager()->addPermission($parent);
 
@@ -188,7 +193,7 @@ class BaseAPI{
     /**
      * @param bool $save
      */
-    private final function encodeWarps(bool $save = false){
+    private final function encodeWarps(bool $save = false): void{
         $warps = [];
         foreach($this->warps as $name => $object){
             if($object instanceof BaseLocation){
@@ -203,7 +208,7 @@ class BaseAPI{
         $this->warps = $warps;
     }
 
-    public function reloadFiles(){
+    public function reloadFiles(): void{
         $this->getEssentialsPEPlugin()->getConfig()->reload();
         $this->economy->reload();
         $this->loadKits();
@@ -226,7 +231,7 @@ class BaseAPI{
      *
      */
 
-    const NON_SOLID_BLOCKS = [Block::SAPLING, Block::WATER, Block::STILL_WATER, Block::LAVA, Block::STILL_LAVA, Block::COBWEB, Block::TALL_GRASS, Block::LEAVES, Block::DANDELION,
+    const NON_SOLID_BLOCKS = [Block::SAPLING, Block::WATER, Block::STILL_WATER, Block::LAVA, Block::STILL_LAVA, Block::COBWEB, Block::TALL_GRASS, Block::DEAD_BUSH, Block::DANDELION,
         Block::POPPY, Block::BROWN_MUSHROOM, Block::RED_MUSHROOM, Block::TORCH, Block::FIRE, Block::WHEAT_BLOCK, Block::SIGN_POST, Block::WALL_SIGN, Block::SUGARCANE_BLOCK,
         Block::PUMPKIN_STEM, Block::MELON_STEM, Block::VINE, Block::CARROT_BLOCK, Block::POTATO_BLOCK, Block::DOUBLE_PLANT];
 
@@ -285,7 +290,7 @@ class BaseAPI{
      * @param Player $player
      * @param bool $broadcast
      */
-    public function switchAFKMode(Player $player, bool $broadcast = true){
+    public function switchAFKMode(Player $player, bool $broadcast = true): void{
         $this->setAFKMode($player, !$this->isAFK($player), $broadcast);
     }
 
@@ -294,7 +299,7 @@ class BaseAPI{
      *
      * This function schedules the global Auto-AFK setter
      */
-    public function scheduleAutoAFKSetter(){
+    public function scheduleAutoAFKSetter(): void{
         if(is_int($v = $this->getEssentialsPEPlugin()->getConfig()->getNested("afk.auto-set")) && $v > 0){
             $this->getServer()->getScheduler()->scheduleDelayedTask(new AFKSetterTask($this), 600); // Check every 30 seconds...
         }
@@ -306,7 +311,7 @@ class BaseAPI{
      * @param Player $player
      * @return int|null
      */
-    public function getLastPlayerMovement(Player $player){
+    public function getLastPlayerMovement(Player $player): ?int{
         return $this->getSession($player)->getLastMovement();
     }
 
@@ -316,7 +321,7 @@ class BaseAPI{
      * @param Player $player
      * @param int $time
      */
-    public function setLastPlayerMovement(Player $player, $time){
+    public function setLastPlayerMovement(Player $player, int $time): void{
         if(!$player->hasPermission("essentials.afk.preventauto")){
             $this->getSession($player)->setLastMovement($time);
         }
@@ -327,7 +332,7 @@ class BaseAPI{
      *
      * @param Player $player
      */
-    public function broadcastAFKStatus(Player $player){
+    public function broadcastAFKStatus(Player $player): void{
         if(!$this->getEssentialsPEPlugin()->getConfig()->getNested("afk.broadcast")){
             return;
         }
@@ -352,9 +357,9 @@ class BaseAPI{
      * Return the last known spot of a player before teleporting
      *
      * @param Player $player
-     * @return bool|Location
+     * @return null|Location
      */
-    public function getLastPlayerPosition(Player $player){
+    public function getLastPlayerPosition(Player $player): ?Location{
         return $this->getSession($player)->getLastPosition();
     }
 
@@ -364,14 +369,14 @@ class BaseAPI{
      * @param Player $player
      * @param Location $pos
      */
-    public function setPlayerLastPosition(Player $player, Location $pos){
+    public function setPlayerLastPosition(Player $player, Location $pos): void{
         $this->getSession($player)->setLastPosition($pos);
     }
 
     /**
      * @param Player $player
      */
-    public function removePlayerLastPosition(Player $player){
+    public function removePlayerLastPosition(Player $player): void{
         $this->getSession($player)->removeLastPosition();
     }
 
@@ -391,25 +396,25 @@ class BaseAPI{
      * @return int
      */
     public function getDefaultBalance(): int{
-        return $this->getEssentialsPEPlugin()->getConfig()->get("default-balance");
+        return (int) $this->economy->get("default-balance");
     }
 
     /**
      * Get the max balance that a player can own
      *
-     * @return bool|mixed
+     * @return int
      */
-    public function getMaxBalance(){
-        return $this->economy->get("max-money");
+    public function getMaxBalance(): int{
+        return (int) $this->economy->get("max-money");
     }
 
     /**
-     * Gets the minium balance that a player can own
+     * Gets the minimum balance that a player can own
      *
-     * @return bool|mixed
+     * @return int
      */
-    public function getMinBalance(){
-        return $this->economy->get("min-money");
+    public function getMinBalance(): int{
+        return (int) $this->economy->get("min-money");
     }
 
     /**
@@ -418,27 +423,28 @@ class BaseAPI{
      * @return string
      */
     public function getCurrencySymbol(): string{
-        return $this->economy->get("currency-symbol");
+        return (string) $this->economy->get("currency-symbol");
     }
 
     /**
      * Return the top 5 players with most money
      *
-     * @param CommandSender $sender
+     * @param CommandSender $player
      *
      * @return bool
      */
-    public function sendBalanceTop(CommandSender $sender) : bool{
-        $moneylist = $this->economy->get("player-balances");
-        arsort($moneylist);
+    public function sendBalanceTop(Player $player): void{
+        $moneyList = $this->economy->get("player-balances");
+        arsort($moneyList);
         $i = 0;
-        foreach($moneylist as $player => $money) {
+        foreach($moneyList as $playerName => $money) {
             if($i <= 4) {
-                $sender->sendMessage($player . " - " . TextFormat::GREEN . $money);
+                $player->sendMessage($playerName . " - " . TextFormat::GREEN . $money);
+            } else {
+            	break;
             }
             $i++;
         }
-        return true;
     }
     
     /**
@@ -462,7 +468,7 @@ class BaseAPI{
      * @param Player $player
      * @param int $balance
      */
-    public function setPlayerBalance(Player $player, int $balance){
+    public function setPlayerBalance(Player $player, int $balance): void{
         if($balance > $this->getMaxBalance()){
             $balance = $this->getMaxBalance();
         }elseif($balance < $this->getMinBalance()){
@@ -481,7 +487,7 @@ class BaseAPI{
      * @param Player $player
      * @param int $quantity
      */
-    public function addToPlayerBalance(Player $player, int $quantity){
+    public function addToPlayerBalance(Player $player, int $quantity): void{
         $balance = $this->getPlayerBalance($player) + $quantity;
         if($balance > $this->getMaxBalance()){
             $balance = $this->getMaxBalance();
@@ -509,7 +515,7 @@ class BaseAPI{
      * @param int $itemId
      * @param int $worth
      */
-    public function setItemWorth(int $itemId, int $worth){
+    public function setItemWorth(int $itemId, int $worth): void{
         $this->economy->setNested("worth." . $itemId, $worth);
         $this->economy->save();
     }
@@ -518,6 +524,7 @@ class BaseAPI{
      * @param Player $player
      * @param Item $item
      * @param int|null $amount
+     *
      * @return array|bool|int
      */
     public function sellPlayerItem(Player $player, Item $item, int $amount = null){
@@ -569,7 +576,7 @@ class BaseAPI{
      * @param int $amount
      * @return bool
      */
-    public function hasPlayerBalance(Player $player, int $amount): bool {
+    public function hasPlayerBalance(Player $player, int $amount): bool{
         if($this->getPlayerBalance($player) >= $amount) {
             return true;
         }
@@ -602,7 +609,7 @@ class BaseAPI{
      *
      * @param Player $player
      */
-    public function nuke(Player $player){
+    public function nuke(Player $player): void{
         for($x = -10; $x <= 10; $x += 5){
             for($z = -10; $z <= 10; $z += 5){
                 $this->createTNT($player->add($x, 0, $z), $player->getLevel());
@@ -615,14 +622,15 @@ class BaseAPI{
      * @param Vector3 $pos
      * @param Level|null $level
      * @param CompoundTag|null $nbt
-     * @return bool|Entity
+     *
+     * @return null|Entity
      */
-    public function createEntity(string $type , Vector3 $pos, Level $level = null, CompoundTag $nbt = null){
+    public function createEntity(string $type, Vector3 $pos, Level $level = null, CompoundTag $nbt = null): ?Entity{
         if($level === null){
             if($pos instanceof Position){
                 $level = $pos->getLevel();
             }else{
-                return false;
+                return null;
             }
         }
         if($nbt === null){
@@ -635,16 +643,17 @@ class BaseAPI{
             ]);
         }
 
-        return (Entity::createEntity($type, $level, $nbt) ?? false);
+        return Entity::createEntity($type, $level, $nbt);
     }
 
     /**
      * @param Vector3|Position $pos
      * @param null|Level $level
      * @param bool $spawn
-     * @return null|Entity
+     *
+     * @return null|PrimedTNT
      */
-    public function createTNT(Vector3 $pos, Level $level = null, $spawn = true){
+    public function createTNT(Vector3 $pos, Level $level = null, $spawn = true): ?PrimedTNT{
         $mot = (new Random())->nextSignedFloat() * M_PI * 2;
         $entity = $this->createEntity("PrimedTNT", $pos, $level, new CompoundTag("EssPE", [
             "Pos" => new ListTag("Pos", [
@@ -666,14 +675,17 @@ class BaseAPI{
         if($spawn){
             $entity->spawnToAll();
         }
-        return $entity;
+        if($entity instanceof PrimedTNT){
+	        return $entity;
+        }
+        return null;
     }
 
     /**
      * @param Position|Player $pos
      * @param int $damage
      */
-    public function strikeLightning(Position $pos, int $damage = 0){
+    public function strikeLightning(Position $pos, int $damage = 0): void{
         $pk = $this->lightning($pos);
         foreach($pos->getLevel()->getPlayers() as $p){
             $p->dataPacket($pk);
@@ -691,6 +703,7 @@ class BaseAPI{
 
     /**
      * @param Vector3 $pos
+     *
      * @return AddEntityPacket
      */
     protected function lightning(Vector3 $pos): AddEntityPacket{
@@ -705,6 +718,7 @@ class BaseAPI{
         $this->lightningPacket->x = $pos->getX();
         $this->lightningPacket->y = $pos->getY();
         $this->lightningPacket->z = $pos->getZ();
+
         return $this->lightningPacket;
     }
 
@@ -722,6 +736,7 @@ class BaseAPI{
      * Get the "Can fly" status of a player
      *
      * @param Player $player
+     *
      * @return bool
      */
     public function canFly(Player $player): bool{
@@ -733,6 +748,7 @@ class BaseAPI{
      *
      * @param Player $player
      * @param bool $mode
+     *
      * @return bool
      */
     public function setFlying(Player $player, bool $mode): bool{
@@ -749,7 +765,7 @@ class BaseAPI{
      *
      * @param Player $player
      */
-    public function switchCanFly(Player $player){
+    public function switchCanFly(Player $player): void{
         $this->setFlying($player, !$this->canFly($player));
     }
 
@@ -766,9 +782,10 @@ class BaseAPI{
 
     /**
      * @param Player $player
+     *
      * @return string|null
      */
-    public function getGeoLocation(Player $player){
+    public function getGeoLocation(Player $player): ?string{
         return $this->getSession($player)->getGeoLocation();
     }
 
@@ -786,14 +803,14 @@ class BaseAPI{
      * @param Player $player
      * @param string $location
      */
-    public function updateGeoLocation(Player $player, string $location){
+    public function updateGeoLocation(Player $player, string $location): void{
         $this->getSession($player)->setGeoLocation($location);
     }
 
     /**
      * @param string $location
      */
-    public function setServerGeoLocation(string $location){
+    public function setServerGeoLocation(string $location): void{
         if($this->serverGeoLocation === null){
             $this->serverGeoLocation = $location;
         }
@@ -811,6 +828,7 @@ class BaseAPI{
      * Tell if a player is in God Mode
      *
      * @param Player $player
+     *
      * @return bool
      */
     public function isGod(Player $player): bool{
@@ -822,6 +840,7 @@ class BaseAPI{
      *
      * @param Player $player
      * @param bool $state
+     *
      * @return bool
      */
     public function setGodMode(Player $player, bool $state): bool{
@@ -838,7 +857,7 @@ class BaseAPI{
      *
      * @param Player $player
      */
-    public function switchGodMode(Player $player){
+    public function switchGodMode(Player $player): void{
         $this->setGodMode($player, !$this->isGod($player));
     }
 
@@ -855,6 +874,7 @@ class BaseAPI{
      *
      * @param Player $player
      * @param string $home
+     *
      * @return bool
      */
     public function homeExists(Player $player, string $home): bool{
@@ -866,9 +886,10 @@ class BaseAPI{
      *
      * @param Player $player
      * @param string $home
-     * @return bool|BaseLocation
+     *
+     * @return null|BaseLocation
      */
-    public function getHome(Player $player, string $home){
+    public function getHome(Player $player, string $home): ?BaseLocation{
         return $this->getSession($player)->getHome($home);
     }
 
@@ -880,9 +901,10 @@ class BaseAPI{
      * @param Position $pos
      * @param float $yaw
      * @param float $pitch
+     *
      * @return bool
      */
-    public function setHome(Player $player, string$home, Position $pos, float $yaw = 0.0, float $pitch = 0.0): bool{
+    public function setHome(Player $player, string $home, Position $pos, float $yaw = 0.0, float $pitch = 0.0): bool{
         return $this->getSession($player)->setHome($home, ($pos instanceof Location ? $pos : Location::fromObject($pos, $pos->getLevel(), $yaw, $pitch)));
     }
 
@@ -891,6 +913,7 @@ class BaseAPI{
      *
      * @param Player $player
      * @param string $home
+     *
      * @return bool
      */
     public function removeHome(Player $player, string $home): bool{
@@ -1055,7 +1078,7 @@ class BaseAPI{
      * @param Item $item
      * @return Item|null
      */
-    private function condenseRecipes(Item $item){
+    private function condenseRecipes(Item $item): ?Item{
         if(isset($this->condenseShapes[0][$item->getId()])){ // 2x2 Shapes
             $shape = 4;
         }elseif(isset($this->condenseShapes[1][$item->getId()])){ // 3x3 Shapes
@@ -1117,9 +1140,9 @@ class BaseAPI{
      * @param string $kit
      * @return bool|BaseKit
      */
-    public function getKit(string $kit){
+    public function getKit(string $kit): ?BaseKit{
         if(!$this->kitExists($kit)){
-            return false;
+            return null;
         }
         return $this->kits[$kit];
     }
@@ -1154,7 +1177,7 @@ class BaseAPI{
     /** @var MessagesAPI */
     private $messagesAPI = null;
 
-    public function loadMessagesAPI(){
+    public function loadMessagesAPI(): void{
         //$this->messagesAPI = new MessagesAPI($this, $this->getFile() . "resources/Messages.yml"); TODO Directly implement in this class
     }
 
@@ -1175,9 +1198,10 @@ class BaseAPI{
      * @param string $message
      * @param Player|null $player
      * @param bool $force
-     * @return bool|string
+     *
+     * @return null|string
      */
-    public function colorMessage(string $message, Player $player = null, bool $force = false){
+    public function colorMessage(string $message, Player $player = null, bool $force = false): ?string{
         $message = preg_replace_callback(
             "/(\\\&|\&)[0-9a-fk-or]/",
             function(array $matches){
@@ -1187,7 +1211,7 @@ class BaseAPI{
         );
         if(strpos($message, "§") !== false && ($player instanceof Player) && !$player->hasPermission("essentials.colorchat") && !$force){
             $player->sendMessage(TextFormat::RED . "You can't chat using colors!");
-            return false;
+            return null;
         }
         return $message;
     }
@@ -1197,9 +1221,10 @@ class BaseAPI{
      *
      * @param string $string
      * @param bool $allowColorCodes
+     *
      * @return bool
      */
-    public function validateName(string $string, $allowColorCodes = false): bool{
+    public function validateName(string $string, bool $allowColorCodes = false): bool{
         if(trim($string) === ""){
             return false;
         }
@@ -1235,9 +1260,10 @@ class BaseAPI{
      * Get the target for QuickReply, in string...
      *
      * @param CommandSender $sender
-     * @return bool|string
+     *
+     * @return null|string
      */
-    public function getQuickReply(CommandSender $sender){
+    public function getQuickReply(CommandSender $sender): ?string{
         if($sender instanceof Player){
             $q = $this->getSession($sender)->getQuickReply();
         }else{
@@ -1252,7 +1278,7 @@ class BaseAPI{
      * @param CommandSender $messaged, The player that got the message
      * @param CommandSender $messenger, The player that sent the message
      */
-    public function setQuickReply(CommandSender $messaged, CommandSender $messenger){
+    public function setQuickReply(CommandSender $messaged, CommandSender $messenger): void{
         if($messaged instanceof Player){
             $this->getSession($messaged)->setQuickReply($messenger);
         }else{
@@ -1265,7 +1291,7 @@ class BaseAPI{
      *
      * @param CommandSender $sender
      */
-    public function removeQuickReply(CommandSender $sender){
+    public function removeQuickReply(CommandSender $sender): void{
         if($sender instanceof Player){
             $this->getSession($sender)->removeQuickReply();
         }else{
@@ -1285,6 +1311,7 @@ class BaseAPI{
      * Tell if the is Muted or not
      *
      * @param Player $player
+     *
      * @return bool
      */
     public function isMuted(Player $player): bool{
@@ -1298,7 +1325,8 @@ class BaseAPI{
      * null = Will keep muted forever
      *
      * @param Player $player
-     * @return bool|\DateTime|null
+     *
+     * @return \DateTime|null|bool
      */
     public function getMutedUntil(Player $player){
         if(!$this->isMuted($player)){
@@ -1314,6 +1342,7 @@ class BaseAPI{
      * @param bool $state
      * @param \DateTime|null $expires
      * @param bool $notify
+     *
      * @return bool
      */
     public function setMute(Player $player, bool $state, \DateTime $expires = null, bool $notify = true): bool{
@@ -1337,7 +1366,7 @@ class BaseAPI{
      * @param \DateTime|null $expires
      * @param bool $notify
      */
-    public function switchMute(Player $player, \DateTime $expires = null, bool $notify = true){
+    public function switchMute(Player $player, \DateTime $expires = null, bool $notify = true): void{
         $this->setMute($player, !$this->isMuted($player), $expires, $notify);
     }
 
@@ -1353,9 +1382,10 @@ class BaseAPI{
      * Get players' saved Nicks
      *
      * @param Player $player
+     *
      * @return null|string
      */
-    public function getNick(Player $player){
+    public function getNick(Player $player): ?string{
         return $this->getSession($player)->getNick();
     }
 
@@ -1365,9 +1395,10 @@ class BaseAPI{
      * @param Player $player
      * @param null|string $nick
      * @param bool $force
+     *
      * @return bool
      */
-    public function setNick(Player $player, $nick, bool $force = false): bool{
+    public function setNick(Player $player, ?string $nick, bool $force = false): bool{
         if(!$this->colorMessage($nick, $player, $force)){
             return false;
         }
@@ -1386,6 +1417,7 @@ class BaseAPI{
      * Restore the original player name for chat and on his NameTag
      *
      * @param Player $player
+     *
      * @return bool
      */
     public function removeNick(Player $player): bool{
@@ -1411,11 +1443,12 @@ class BaseAPI{
      * Let you search for a player using his Display name(Nick) or Real name
      *
      * @param string $player
-     * @return bool|Player
+     *
+     * @return null|Player
      */
-    public function getPlayer($player){
+    public function getPlayer($player): ?Player{
         if(!$this->validateName($player, false)){
-            return false;
+            return null;
         }
         $player = strtolower($player);
         $found = false;
@@ -1457,9 +1490,10 @@ class BaseAPI{
      * Instead of returning false, this method will create an OfflinePlayer object.
      *
      * @param string $name
+     *
      * @return Player|OfflinePlayer
      */
-    public function getOfflinePlayer(string $name){
+    public function getOfflinePlayer(string $name): IPlayer{
         $player = $this->getPlayer($name);
         if($player === false){
             $player = new OfflinePlayer($this->getServer(), strtolower($name));
@@ -1472,14 +1506,15 @@ class BaseAPI{
      *
      * @param Player $player
      * @param int $radius
-     * @return bool|Player[]
+     *
+     * @return null|Player[]
      */
-    public function getNearPlayers(Player $player, int $radius = null){
+    public function getNearPlayers(Player $player, int $radius = null): ?array{
         if($radius === null || !is_numeric($radius)){
             $radius = $this->getEssentialsPEPlugin()->getConfig()->get("near-default-radius");
         }
         if(!is_numeric($radius)){
-            return false;
+            return null;
         }
         /** @var Player[] $players */
         $players = [];
@@ -1493,6 +1528,7 @@ class BaseAPI{
 
     /**
      * @param Player $player
+     *
      * @return array
      */
     public function getPlayerInformation(Player $player): array{
@@ -1517,6 +1553,7 @@ class BaseAPI{
      * Tell is PowerTool is enabled for a player, doesn't matter on what item
      *
      * @param Player $player
+     *
      * @return bool
      */
     public function isPowerToolEnabled(Player $player): bool{
@@ -1528,6 +1565,7 @@ class BaseAPI{
      *
      * @param Player $player
      * @param Item $item
+     *
      * @return bool
      */
     public function executePowerTool(Player $player, Item $item): bool{
@@ -1562,6 +1600,7 @@ class BaseAPI{
      * @param Player $player
      * @param Item $item
      * @param string $command
+     *
      * @return bool
      */
     public function setPowerToolItemCommand(Player $player, Item $item, string $command): bool{
@@ -1574,9 +1613,10 @@ class BaseAPI{
      *
      * @param Player $player
      * @param Item $item
-     * @return bool|string
+     *
+     * @return null|string
      */
-    public function getPowerToolItemCommand(Player $player, Item $item){
+    public function getPowerToolItemCommand(Player $player, Item $item): ?string{
         return $this->getSession($player)->getPowerToolItemCommand($item->getId());
     }
 
@@ -1586,6 +1626,7 @@ class BaseAPI{
      * @param Player $player
      * @param Item $item
      * @param array $commands
+     *
      * @return bool
      */
     public function setPowerToolItemCommands(Player $player, Item $item, array $commands): bool{
@@ -1598,9 +1639,10 @@ class BaseAPI{
      *
      * @param Player $player
      * @param Item $item
-     * @return bool|array
+     *
+     * @return null|array
      */
-    public function getPowerToolItemCommands(Player $player, Item $item){
+    public function getPowerToolItemCommands(Player $player, Item $item): ?array{
         return $this->getSession($player)->getPowerToolItemCommands($item->getId());
     }
 
@@ -1612,7 +1654,7 @@ class BaseAPI{
      * @param Item $item
      * @param string $command
      */
-    public function removePowerToolItemCommand(Player $player, Item $item, string $command){
+    public function removePowerToolItemCommand(Player $player, Item $item, string $command): void{
         $this->getSession($player)->removePowerToolItemCommand($item->getId(), $command);
     }
 
@@ -1622,6 +1664,7 @@ class BaseAPI{
      * @param Player $player
      * @param Item $item
      * @param string $chat_message
+     *
      * @return bool
      */
     public function setPowerToolItemChatMacro(Player $player, Item $item, string $chat_message): bool{
@@ -1633,9 +1676,10 @@ class BaseAPI{
      *
      * @param Player $player
      * @param Item $item
-     * @return bool|string
+     *
+     * @return null|string
      */
-    public function getPowerToolItemChatMacro(Player $player, Item $item){
+    public function getPowerToolItemChatMacro(Player $player, Item $item): ?string{
         return $this->getSession($player)->getPowerToolItemChatMacro($item->getId());
     }
 
@@ -1643,9 +1687,10 @@ class BaseAPI{
      * Remove the command only for the item in hand
      *
      * @param Player $player
+     *
      * @param Item $item
      */
-    public function disablePowerToolItem(Player $player, Item $item){
+    public function disablePowerToolItem(Player $player, Item $item): void{
         $this->getSession($player)->disablePowerToolItem($item->getId());
     }
 
@@ -1654,7 +1699,7 @@ class BaseAPI{
      *
      * @param Player $player
      */
-    public function disablePowerTool(Player $player){
+    public function disablePowerTool(Player $player): void{
         $this->getSession($player)->disablePowerTool();
     }
 
@@ -1670,6 +1715,7 @@ class BaseAPI{
      * Tell if the PvP mode is enabled for the specified player, or not
      *
      * @param Player $player
+     *
      * @return bool
      */
     public function isPvPEnabled(Player $player): bool{
@@ -1681,6 +1727,7 @@ class BaseAPI{
      *
      * @param Player $player
      * @param bool $state
+     *
      * @return bool
      */
     public function setPvP(Player $player, bool $state): bool{
@@ -1697,7 +1744,7 @@ class BaseAPI{
      *
      * @param Player $player
      */
-    public function switchPvP(Player $player){
+    public function switchPvP(Player $player): void{
         $this->setPvP($player, !$this->isPvPEnabled($player));
     }
 
@@ -1715,6 +1762,7 @@ class BaseAPI{
     /**     * Tell if a session exists for a specific player
      *
      * @param Player $player
+     *
      * @return bool
      */
     public function sessionExists(Player $player): bool{
@@ -1725,6 +1773,7 @@ class BaseAPI{
      * Creates a new Sessions for the specified player
      *
      * @param Player|Player[] $player
+     *
      * @return array
      */
     public function createSession($player): array{
@@ -1792,15 +1841,16 @@ class BaseAPI{
     }
 
     /**
-     * @param $player
-     * @return bool|Config
+     * @param string $player
+     *
+     * @return Config
      */
-    private function getSessionFile(string $player){
+    private function getSessionFile(string $player): Config{
         $this->getEssentialsPEPlugin()->getLogger()->debug("Fetching session file from player: " . $player);
         if(!is_dir($dir = $this->getEssentialsPEPlugin()->getDataFolder() . "Sessions" . DIRECTORY_SEPARATOR)){
             mkdir($dir);
         }
-        if(!is_dir($dir = $dir . strtolower(substr($player, 0, 1)) . DIRECTORY_SEPARATOR)){
+        if(!is_dir($dir = $dir . strtolower($player[0]) . DIRECTORY_SEPARATOR)){
             mkdir($dir);
         }
         return new Config($dir . strtolower($player) . ".session", Config::JSON, BaseSession::$configDefaults);
@@ -1811,10 +1861,8 @@ class BaseAPI{
      *
      * @param Player|Player[] $player
      */
-    public function removeSession($player){
-        if(!is_array($player)){
-            $player = [$player];
-        }
+    public function removeSession($player): void{
+        $player = (array) $player;
         foreach($player as $p){
             if($this->sessionExists($p)){
                 $this->getSession($p)->onClose();
@@ -1825,6 +1873,7 @@ class BaseAPI{
 
     /**
      * @param Player $player
+     *
      * @return BaseSession
      */
     private function getSession(Player $player): BaseSession{
@@ -1847,10 +1896,10 @@ class BaseAPI{
      *
      * @param Player $player
      * @param int $time
-     * @param bool $static @deprecated
+     *
      * @return bool
      */
-    public function setPlayerTime(Player $player, int $time, bool $static = false): bool{
+    public function setPlayerTime(Player $player, int $time): bool{
         $pk = new SetTimePacket();
         $pk->time = $time;
         $pk->encode();
@@ -1868,9 +1917,10 @@ class BaseAPI{
      * 1 => The rest of the string (removing any "space" between time codes)
      *
      * @param string $string
-     * @return array|bool
+     *
+     * @return array|null
      */
-    public function stringToTimestamp(string $string){
+    public function stringToTimestamp(string $string): ?array{
         /**
          * Rules:
          * Integers without suffix are considered as seconds
@@ -1883,12 +1933,12 @@ class BaseAPI{
          * "y" is for years
          */
         if(trim($string) === ""){
-            return false;
+            return null;
         }
         $t = new \DateTime();
         preg_match_all("/[0-9]+(y|mo|w|d|h|m|s)|[0-9]+/", $string, $found);
         if(count($found[0]) < 1){
-            return false;
+            return null;
         }
         $found[2] = preg_replace("/[^0-9]/", "", $found[0]);
         foreach($found[2] as $k => $i){
@@ -1933,9 +1983,10 @@ class BaseAPI{
      *      "tphere" means that the requester wants to tp the target to its position
      *
      * @param Player $player
-     * @return bool|array
+     *
+     * @return null|array
      */
-    public function hasARequest(Player $player){
+    public function hasARequest(Player $player): ?array{
         return $this->getSession($player)->hasARequest();
     }
 
@@ -1948,9 +1999,10 @@ class BaseAPI{
      *
      * @param Player $target
      * @param Player $requester
-     * @return bool|string
+     *
+     * @return null|string
      */
-    public function hasARequestFrom(Player $target, Player $requester){
+    public function hasARequestFrom(Player $target, Player $requester): ?string{
         return $this->getSession($target)->hasARequestFrom($requester->getName());
     }
 
@@ -1958,9 +2010,10 @@ class BaseAPI{
      * Return the name of the latest teleport requester for a specific player
      *
      * @param Player $player
-     * @return bool|string
+     *
+     * @return null|string
      */
-    public function getLatestRequest(Player $player){
+    public function getLatestRequest(Player $player): ?string{
         return $this->getSession($player)->getLatestRequestFrom();
     }
 
@@ -1972,9 +2025,10 @@ class BaseAPI{
      *      "tphere" means that the requester wants to tp the target to its position
      *
      * @param Player $player
-     * @return array|bool
+     *
+     * @return array|null
      */
-    public function madeARequest(Player $player){
+    public function madeARequest(Player $player): ?array{
         return $this->getSession($player)->madeARequest();
     }
 
@@ -1984,7 +2038,7 @@ class BaseAPI{
      * @param Player $requester
      * @param Player $target
      */
-    public function requestTPTo(Player $requester, Player $target){
+    public function requestTPTo(Player $requester, Player $target): void{
         $this->getSession($requester)->requestTP($target->getName(), "tpto");
 
         $this->getSession($target)->receiveRequest($requester->getName(), "tpto");
@@ -1998,7 +2052,7 @@ class BaseAPI{
      * @param Player $requester
      * @param Player $target
      */
-    public function requestTPHere(Player $requester, Player $target){
+    public function requestTPHere(Player $requester, Player $target): void{
         $this->getSession($requester)->requestTP($target->getName(), "tphere");
 
         $this->getSession($target)->receiveRequest($requester->getName(), "tphere");
@@ -2011,6 +2065,7 @@ class BaseAPI{
      *
      * @param Player $requester
      * @param Player $target
+     *
      * @return bool
      */
     public function removeTPRequest(Player $requester, Player $target = null): bool{
@@ -2038,7 +2093,7 @@ class BaseAPI{
      *
      * @param Player $player
      */
-    private function scheduleTPRequestTask(Player $player){
+    private function scheduleTPRequestTask(Player $player): void{
         $task = $this->getServer()->getScheduler()->scheduleDelayedTask(new TPRequestTask($this, $player), 20 * 60 * 5);
         $this->getSession($player)->setRequestToTaskID($task->getTaskId());
     }
@@ -2048,7 +2103,7 @@ class BaseAPI{
      *
      * @param Player $player
      */
-    private function cancelTPRequestTask(Player $player){
+    private function cancelTPRequestTask(Player $player): void{
         $this->getServer()->getScheduler()->cancelTask($this->getSession($player)->getRequestToTaskID());
         $this->getSession($player)->removeRequestToTaskID();
     }
@@ -2066,6 +2121,7 @@ class BaseAPI{
      * Tells if the unlimited mode is enabled
      *
      * @param Player $player
+     *
      * @return bool
      */
     public function isUnlimitedEnabled(Player $player): bool{
@@ -2077,6 +2133,7 @@ class BaseAPI{
      *
      * @param Player $player
      * @param bool $mode
+     *
      * @return bool
      */
     public function setUnlimited(Player $player, bool $mode): bool{
@@ -2093,7 +2150,7 @@ class BaseAPI{
      *
      * @param Player $player
      */
-    public function switchUnlimited(Player $player){
+    public function switchUnlimited(Player $player): void{
         $this->setUnlimited($player, !$this->isUnlimitedEnabled($player));
     }
 
@@ -2144,6 +2201,7 @@ class BaseAPI{
      * Get the latest version, and install it if you want
      *
      * @param bool $install
+     *
      * @return bool
      */
     public function fetchEssentialsPEUpdate(bool $install = false): bool{
@@ -2159,7 +2217,7 @@ class BaseAPI{
     /**
      * Schedules the updater task :3
      */
-    public function scheduleUpdaterTask(){
+    public function scheduleUpdaterTask(): void{
         if($this->isUpdaterEnabled()){
             $this->getServer()->getScheduler()->scheduleDelayedTask(new AutoFetchCallerTask($this), $this->getUpdaterInterval() * 20);
         }
@@ -2170,7 +2228,7 @@ class BaseAPI{
      *
      * @param string $message
      */
-    public function broadcastUpdateAvailability(string $message){
+    public function broadcastUpdateAvailability(string $message): void{
         if($this->getEssentialsPEPlugin()->getConfig()->getNested("updater.warn-console")){
             $this->getServer()->getLogger()->info($message);
         }
@@ -2198,6 +2256,7 @@ class BaseAPI{
      * Tell if a player is Vanished, or not
      *
      * @param Player $player
+     *
      * @return bool
      */
     public function isVanished(Player $player): bool{
@@ -2208,6 +2267,7 @@ class BaseAPI{
      * Tells if the specified player has "noPacket" enabled for vanish
      *
      * @param Player $player
+     *
      * @return bool
      */
     public function hasNoPacket(Player $player): bool{
@@ -2220,6 +2280,7 @@ class BaseAPI{
      * @param Player $player
      * @param bool $state
      * @param bool $noPacket
+     *
      * @return bool
      */
     public function setVanish(Player $player, bool $state, bool $noPacket = false): bool{
@@ -2281,6 +2342,7 @@ class BaseAPI{
      * Switch the Vanish mode on/off automatically
      *
      * @param Player $player
+     *
      * @return bool
      */
     public function switchVanish(Player $player): bool{
@@ -2296,7 +2358,7 @@ class BaseAPI{
      * @param Level $origin
      * @param Level $target
      */
-    public function switchLevelVanish(Player $player, Level $origin, Level $target){
+    public function switchLevelVanish(Player $player, Level $origin, Level $target): void{
         if($origin !== $target && $this->isVanished($player)){
 
             // This will be used if the specified player has "noPacket" enabled.
@@ -2382,11 +2444,11 @@ class BaseAPI{
      * If the function returns "false", it means that the warp doesn't exists
      *
      * @param string $warp
-     * @return bool|BaseLocation
+     * @return null|BaseLocation
      */
-    public function getWarp(string $warp){
+    public function getWarp(string $warp): ?BaseLocation{
         if(!$this->warpExists($warp)){
-            return false;
+            return null;
         }
         return $this->warps[$warp];
     }

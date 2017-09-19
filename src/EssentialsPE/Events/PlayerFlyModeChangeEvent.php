@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types = 1);
+
 namespace EssentialsPE\Events;
 
 use EssentialsPE\BaseFiles\BaseAPI;
@@ -60,7 +63,7 @@ class PlayerFlyModeChangeEvent extends BaseCustomEvent implements Cancellable{
      *
      * @param bool $mode
      */
-    public function setCanFly(bool $mode){
+    public function setCanFly(bool $mode): void{
         $this->mode = $mode;
     }
 }

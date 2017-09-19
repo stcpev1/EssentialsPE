@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types = 1);
+
 namespace EssentialsPE\Events;
 
 use EssentialsPE\BaseFiles\BaseAPI;
@@ -62,7 +65,7 @@ class PlayerPvPModeChangeEvent extends BaseCustomEvent implements Cancellable{
      *
      * @param bool $mode
      */
-    public function setPvPMode(bool $mode){
+    public function setPvPMode(bool $mode): void{
         $this->mode = $mode;
     }
 } 

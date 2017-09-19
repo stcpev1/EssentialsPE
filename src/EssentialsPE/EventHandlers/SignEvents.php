@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace EssentialsPE\EventHandlers;
 
 use EssentialsPE\BaseFiles\BaseEventHandler;
@@ -18,6 +20,7 @@ class SignEvents extends BaseEventHandler{
     public function onSignTap(PlayerInteractEvent $event){
         $tile = $event->getBlock()->getLevel()->getTile(new Vector3($event->getBlock()->getFloorX(), $event->getBlock()->getFloorY(), $event->getBlock()->getFloorZ()));
         if($tile instanceof Sign){
+	        $economy = (bool) ($this->getAPI()->getEssentialsPEPlugin()->getConfig()->get("economy"));
             // Free sign
             if(TextFormat::clean($tile->getText()[0], true) === "[Free]"){
                 $event->setCancelled(true);
@@ -112,9 +115,8 @@ class SignEvents extends BaseEventHandler{
                             if(!$this->getAPI()->hasPlayerBalance($event->getPlayer(), $price)) {
                                 $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You don't have enough money to use this sign");
                                 return;
-                            } else {
-                                $this->getAPI()->addToPlayerBalance($event->getPlayer(), -$price);
                             }
+	                        $this->getAPI()->addToPlayerBalance($event->getPlayer(), -$price);
                         }
                         $kit->giveToPlayer($event->getPlayer());
                         $event->getPlayer()->sendMessage(TextFormat::GREEN . "Getting kit " . TextFormat::AQUA . $kit->getName() . TextFormat::GREEN . ($price ? " for " . $this->getAPI()->getCurrencySymbol() . $price : "..."));
@@ -134,6 +136,7 @@ class SignEvents extends BaseEventHandler{
                     if(($v = $tile->getText()[1]) === "Hand"){
                         $price = substr($tile->getText()[2], 7);
                         if($price !== false && is_numeric($price)) {
+                        	$price = (int) $price;
                             if(!$this->getAPI()->hasPlayerBalance($event->getPlayer(), $price)) {
                                 $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You don't have enough money to use this sign");
                                 return;
@@ -147,7 +150,8 @@ class SignEvents extends BaseEventHandler{
                         }
                     }elseif($v === "All"){
                         $price = substr($tile->getText()[2], 7);
-                        if($price !== false) {
+                        if($price !== false && is_numeric($price)) {
+	                        $price = (int) $price;
                             if(!$this->getAPI()->hasPlayerBalance($event->getPlayer(), $price)) {
                                 $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You don't have enough money to use this sign");
                                 return;
@@ -179,6 +183,7 @@ class SignEvents extends BaseEventHandler{
                     if(($v = $tile->getText()[1]) === "Day"){
                         $price = substr($tile->getText()[2], 7);
                         if($price !== false && is_numeric($price)) {
+	                        $price = (int) $price;
                             if(!$this->getAPI()->hasPlayerBalance($event->getPlayer(), $price)) {
                                 $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You don't have enough money to use this sign");
                                 return;
@@ -190,7 +195,8 @@ class SignEvents extends BaseEventHandler{
                         $event->getPlayer()->sendMessage(TextFormat::GREEN . "Time set to \"Day\"" . TextFormat::GREEN . ($price ? " for " . $this->getAPI()->getCurrencySymbol() . $price : null));
                     }elseif($v === "Night"){
                         $price = substr($tile->getText()[2], 7);
-                        if($price !== false) {
+                        if($price !== false && is_numeric($price)) {
+	                        $price = (int) $price;
                             if(!$this->getAPI()->hasPlayerBalance($event->getPlayer(), $price)) {
                                 $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You don't have enough money to use this sign");
                                 return;
@@ -232,6 +238,7 @@ class SignEvents extends BaseEventHandler{
                     }
                     $price = substr($tile->getText()[2], 7);
                     if($price !== false && is_numeric($price)) {
+	                    $price = (int) $price;
                         if(!$this->getAPI()->hasPlayerBalance($event->getPlayer(), $price)) {
                             $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You don't have enough money to use this sign");
                             return;
@@ -247,9 +254,9 @@ class SignEvents extends BaseEventHandler{
             /*
              * Economy Signs
              */
-            
+
             // Balance sign
-            elseif(TextFormat::clean($tile->getText()[0], true) === "[Balance]" && $this->getAPI()->getEssentialsPEPlugin()->getConfig()->get("economy") === true){
+            elseif(TextFormat::clean($tile->getText()[0], true) === "[Balance]" && $economy === true){
                 $event->setCancelled(true);
                 if(!$event->getPlayer()->hasPermission("essentials.sign.use.balance")){
                     $event->getPlayer()->sendMessage(TextFormat::RED . "You don't have permissions to use this sign");
@@ -259,7 +266,7 @@ class SignEvents extends BaseEventHandler{
             }
 
             // BalanceTop sign
-            elseif(TextFormat::clean($tile->getText()[0], true) === "[BalanceTop]" && $this->getAPI()->getEssentialsPEPlugin()->getConfig()->get("economy") === true){
+            elseif(TextFormat::clean($tile->getText()[0], true) === "[BalanceTop]" && $economy === true){
                 $event->setCancelled(true);
                 if(!$event->getPlayer()->hasPermission("essentials.sign.use.balancetop")){
                     $event->getPlayer()->sendMessage(TextFormat::RED . "You don't have permissions to use this sign");
@@ -270,7 +277,7 @@ class SignEvents extends BaseEventHandler{
             }
             
             // Buy sign
-            elseif(TextFormat::clean($tile->getText()[0], true) === "[Buy]" && $this->getAPI()->getEssentialsPEPlugin()->getConfig()->get("economy") === true){
+            elseif(TextFormat::clean($tile->getText()[0], true) === "[Buy]" && $economy === true){
                 $event->setCancelled(true);
                 if(!$event->getPlayer()->hasPermission("essentials.sign.use.buy")){
                     $event->getPlayer()->sendMessage(TextFormat::RED . "You don't have permissions to use this sign");
@@ -281,10 +288,10 @@ class SignEvents extends BaseEventHandler{
                     }
 
                     $item_name = $tile->getText()[1];
-                    $amount = (int)substr($tile->getText()[2], 8);
+                    $amount = (int) substr($tile->getText()[2], 8);
                     $item = $this->getAPI()->getItem($item_name);
                     $item->setCount($amount);
-                    $price = (int)substr($tile->getText()[3], 7);
+                    $price = (int) substr($tile->getText()[3], 7);
                     if(!$this->getAPI()->hasPlayerBalance($event->getPlayer(), $price)) {
                         $event->getPlayer()->sendMessage(TextFormat::RED . "[Error] You don't have enough money to buy this item!");
                         return;
@@ -296,7 +303,7 @@ class SignEvents extends BaseEventHandler{
             }
             
             // Sell sign
-            elseif(TextFormat::clean($tile->getText()[0], true) === "[Sell]" && $this->getAPI()->getEssentialsPEPlugin()->getConfig()->get("economy") === true){
+            elseif(TextFormat::clean($tile->getText()[0], true) === "[Sell]" && $economy === true){
                 $event->setCancelled(true);
                 if(!$event->getPlayer()->hasPermission("essentials.sign.use.sell")){
                     $event->getPlayer()->sendMessage(TextFormat::RED . "You don't have permissions to use this sign");
@@ -348,6 +355,7 @@ class SignEvents extends BaseEventHandler{
     public function onSignChange(SignChangeEvent $event){
         // Special Signs
         // Free sign
+	    $economy = (bool) ($this->getAPI()->getEssentialsPEPlugin()->getConfig()->get("economy"));
         if(strtolower(TextFormat::clean($event->getLine(0), true)) === "[free]" && $event->getPlayer()->hasPermission("essentials.sign.create.free")){
             if(trim($event->getLine(1)) !== "" || $event->getLine(1) !== null){
                 $item_name = $event->getLine(1);
@@ -403,7 +411,7 @@ class SignEvents extends BaseEventHandler{
             $event->getPlayer()->sendMessage(TextFormat::GREEN . "Gamemode sign successfully created!");
             $event->setLine(0, TextFormat::AQUA . "[Gamemode]");
             $price = $event->getLine(2);
-            if(is_numeric($price) && $this->getAPI()->getEssentialsPEPlugin()->getConfig()->get("economy") === true) {
+            if(is_numeric($price) && $economy === true) {
                 $event->setLine(2, "Price: " . $price);
             }
         }
@@ -413,7 +421,7 @@ class SignEvents extends BaseEventHandler{
             $event->getPlayer()->sendMessage(TextFormat::GREEN . "Heal sign successfully created!");
             $event->setLine(0, TextFormat::AQUA . "[Heal]");
             $price = $event->getLine(1);
-            if(is_numeric($price) && $this->getAPI()->getEssentialsPEPlugin()->getConfig()->get("economy") === true) {
+            if(is_numeric($price) && $economy === true) {
                 $event->setLine(1, "Price: " . $price);
             }
         }
@@ -427,7 +435,7 @@ class SignEvents extends BaseEventHandler{
             $event->getPlayer()->sendMessage(TextFormat::GREEN . "Kit sign successfully created!");
             $event->setLine(0, TextFormat::AQUA . "[Kit]");
             $price = $event->getLine(2);
-            if(is_numeric($price)) {
+            if(is_numeric($price) && $economy === true) {
                 $event->setLine(2, "Price: " . $price);
             }
         }
@@ -449,7 +457,7 @@ class SignEvents extends BaseEventHandler{
             $event->getPlayer()->sendMessage(TextFormat::GREEN . "Repair sign successfully created!");
             $event->setLine(0, TextFormat::AQUA . "[Repair]");
             $price = $event->getLine(2);
-            if(is_numeric($price) && $this->getAPI()->getEssentialsPEPlugin()->getConfig()->get("economy") === true) {
+            if(is_numeric($price) && $economy === true) {
                 $event->setLine(2, "Price: " . $price);
             }
         }
@@ -471,7 +479,7 @@ class SignEvents extends BaseEventHandler{
             $event->getPlayer()->sendMessage(TextFormat::GREEN . "Time sign successfully created!");
             $event->setLine(0, TextFormat::AQUA . "[Time]");
             $price = $event->getLine(2);
-            if(is_numeric($price) && $this->getAPI()->getEssentialsPEPlugin()->getConfig()->get("economy") === true) {
+            if(is_numeric($price) && $economy === true) {
                 $event->setLine(2, "Price: " . $price);
             }
         }
@@ -506,7 +514,7 @@ class SignEvents extends BaseEventHandler{
                 $event->getPlayer()->sendMessage(TextFormat::GREEN . "Warp sign successfully created!");
                 $event->setLine(0, TextFormat::AQUA . "[Warp]");
                 $price = $event->getLine(2);
-                if(is_numeric($price) && $this->getAPI()->getEssentialsPEPlugin()->getConfig()->get("economy") === true) {
+                if(is_numeric($price) && $economy === true) {
                     $event->setLine(2, "Price: " . $price);
                 }
             }
@@ -528,7 +536,7 @@ class SignEvents extends BaseEventHandler{
         }
         
         // Balance sign
-        elseif(strtolower(TextFormat::clean($event->getLine(0), true)) === "[balance]" && $this->getAPI()->getEssentialsPEPlugin()->getConfig()->get("economy") === true) {
+        elseif(strtolower(TextFormat::clean($event->getLine(0), true)) === "[balance]" && $economy === true) {
             if($event->getPlayer()->hasPermission("essentials.sign.create.balance")) {
                 $event->setLine(0, TextFormat::AQUA . "[Balance]");
                 $event->getPlayer()->sendMessage(TextFormat::GREEN . "Balance sign successfully created!");
@@ -539,7 +547,7 @@ class SignEvents extends BaseEventHandler{
         }
         
         // Buy sign
-        elseif(strtolower(TextFormat::clean($event->getLine(0), true)) === "[buy]" && $this->getAPI()->getEssentialsPEPlugin()->getConfig()->get("economy") === true){
+        elseif(strtolower(TextFormat::clean($event->getLine(0), true)) === "[buy]" && $economy === true){
             if($event->getPlayer()->hasPermission("essentials.sign.create.buy")) {
                 if(trim($event->getLine(1)) !== "" || $event->getLine(1) !== null){
                     $item_name = $event->getLine(1);
@@ -574,7 +582,7 @@ class SignEvents extends BaseEventHandler{
             }
         }
         
-        elseif(strtolower(TextFormat::clean($event->getLine(0), true)) === "[sell]" && $this->getAPI()->getEssentialsPEPlugin()->getConfig()->get("economy") === true){
+        elseif(strtolower(TextFormat::clean($event->getLine(0), true)) === "[sell]" && $economy === true){
             if($event->getPlayer()->hasPermission("essentials.sign.create.sell")) {
                 if(trim($event->getLine(1)) !== "" || $event->getLine(1) !== null){
                     $item_name = $event->getLine(1);

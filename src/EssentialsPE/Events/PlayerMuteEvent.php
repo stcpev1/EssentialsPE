@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types = 1);
+
 namespace EssentialsPE\Events;
 
 use EssentialsPE\BaseFiles\BaseAPI;
@@ -66,7 +69,7 @@ class PlayerMuteEvent extends BaseCustomEvent implements Cancellable{
      *
      * @param bool $mode
      */
-    public function setMuted(bool $mode){
+    public function setMuted(bool $mode): void{
         $this->mode = $mode;
     }
 
@@ -77,7 +80,7 @@ class PlayerMuteEvent extends BaseCustomEvent implements Cancellable{
      *
      * @return \DateTime|null
      */
-    public function getMutedUntil(){
+    public function getMutedUntil(): ?\DateTime{
         return $this->expires;
     }
 
@@ -88,7 +91,7 @@ class PlayerMuteEvent extends BaseCustomEvent implements Cancellable{
      *
      * @param \DateTime|null $expires
      */
-    public function setMutedUntil(\DateTime $expires = null){
+    public function setMutedUntil(\DateTime $expires = null): ?\DateTime{
         $this->expires = $expires;
     }
 } 

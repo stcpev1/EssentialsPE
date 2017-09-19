@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types = 1);
+
 namespace EssentialsPE\Commands;
 
 use EssentialsPE\BaseFiles\BaseAPI;
@@ -37,7 +40,7 @@ class Whois extends BaseCommand{
         if(!$sender->hasPermission("essentials.geoip.show") || $player->hasPermission("essentials.geoip.hide")){
             unset($data["location"]);
         }
-        $m =TextFormat::AQUA . "Information:\n";
+        $m = TextFormat::AQUA . "Information:\n";
         foreach($data as $k => $v){
             $m .= TextFormat::GRAY . " * " . ucfirst($k) . ": $v";
         }

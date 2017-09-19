@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types = 1);
+
 namespace EssentialsPE\Tasks\Updater;
 
 use EssentialsPE\BaseFiles\BaseTask;
@@ -16,7 +19,7 @@ class AutoFetchCallerTask extends BaseTask{
     /**
      * @param int $currentTick
      */
-    public function onRun(int $currentTick){
+    public function onRun(int $currentTick): void{
         $this->getAPI()->getServer()->getLogger()->debug(TextFormat::YELLOW . "Running EssentialsPE's AutoFetchCallerTask");
         $this->getAPI()->fetchEssentialsPEUpdate(false);
     }

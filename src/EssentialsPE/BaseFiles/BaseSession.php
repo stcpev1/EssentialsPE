@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types = 1);
+
 namespace EssentialsPE\BaseFiles;
 
 use EssentialsPE\Loader;
@@ -70,7 +73,7 @@ class BaseSession{
         $this->loadHomes();
     }
 
-    private function saveSession(){
+    private function saveSession(): void{
         $values = [];
         foreach(self::$configDefaults as $k => $v){
             switch($k){
@@ -90,15 +93,15 @@ class BaseSession{
         $this->config->save(true);
     }
 
-    public function onClose(){
+    public function onClose(): void{
         $this->saveSession();
 
         // Let's revert some things to their original state...
         $this->setNick(null);
         $this->getAPI()->removeTPRequest($this->getPlayer());
-        /*if($this->isVanished()){
+        if($this->isVanished()){
             $this->getAPI()->setVanish($this->getPlayer(), false, $this->noPacket());
-        }*/
+        }
     }
 
     /**
@@ -119,7 +122,7 @@ class BaseSession{
      * @return Player
      */
     public final function getPlayer(): Player{
-        return $this->player->getPlayer();
+        return $this->player;
     }
 
     /**
@@ -155,11 +158,11 @@ class BaseSession{
     }
 
     /**
-     * @return bool|int
+     * @return null|int
      */
-    public function getAFKKickTaskID(){
+    public function getAFKKickTaskID(): ?int{
         if(!$this->isAFK()){
-            return false;
+            return null;
         }
         return $this->kickAFK;
     }
@@ -173,21 +176,21 @@ class BaseSession{
         return true;
     }
 
-    public function removeAFKKickTaskID(){
+    public function removeAFKKickTaskID(): void{
         $this->kickAFK = null;
     }
 
     /**
      * @return int|null
      */
-    public function getLastMovement(){
+    public function getLastMovement(): ?int{
         return $this->lastMovement;
     }
 
-    /**
-     * @param int $time
-     */
-    public function setLastMovement(int $time){
+	/**
+	 * @param int $time
+	 */
+    public function setLastMovement(int $time): void{
         $this->lastMovement = $time;
     }
 
@@ -203,11 +206,11 @@ class BaseSession{
     private $lastLocation = null;
 
     /**
-     * @return bool|Location
+     * @return null|Location
      */
-    public function getLastPosition(){
+    public function getLastPosition(): ?Location{
         if(!$this->lastLocation instanceof Location){
-            return false;
+            return null;
         }
         return $this->lastLocation;
     }
@@ -215,11 +218,11 @@ class BaseSession{
     /**
      * @param Location $pos
      */
-    public function setLastPosition(Location $pos){
+    public function setLastPosition(Location $pos): void{
         $this->lastLocation = $pos;
     }
 
-    public function removeLastPosition(){
+    public function removeLastPosition(): void{
         $this->lastLocation = null;
     }
 
@@ -237,14 +240,14 @@ class BaseSession{
     /**
      * @return null|string
      */
-    public function getGeoLocation(){
+    public function getGeoLocation(): ?string{
         return $this->geoLocation;
     }
 
     /**
      * @param string $location
      */
-    public function setGeoLocation($location){
+    public function setGeoLocation(string $location): void{
         $this->geoLocation = $location;
     }
 
@@ -286,7 +289,7 @@ class BaseSession{
     /** @var array */
     private $homes = [];
 
-    private function loadHomes(){
+    private function loadHomes(): void{
         $homes = [];
         foreach($this->homes as $name => $values){
             if(is_array($values) && count($values) > 1){
@@ -301,11 +304,11 @@ class BaseSession{
         $this->homes = $homes;
     }
 
-    private function encodeHomes(){
+    private function encodeHomes(): array{
         $homes = [];
         foreach($this->homes as $name => $object){
             if($object instanceof BaseLocation){
-                $homes[$name] = [$object->getX(), $object->getY(), $object->getZ(), $object->getLevel()->getName(), $object->getYaw(), $object->getPitch()];
+                $homes[$name] = [$object->getX(), $object->getY(), $object->getZ(), $object->getLevelName(), $object->getYaw(), $object->getPitch()];
             }
         }
         return $homes;
@@ -321,11 +324,11 @@ class BaseSession{
 
     /**
      * @param string $home
-     * @return bool|BaseLocation
+     * @return null|BaseLocation
      */
-    public function getHome(string $home){
+    public function getHome(string $home): ?BaseLocation{
         if(!$this->homeExists($home)){
-            return false;
+            return null;
         }
         return $this->homes[$home];
     }
@@ -336,7 +339,7 @@ class BaseSession{
      * @return bool
      */
     public function setHome(string $home, Location $pos): bool{
-        if(!$this->getAPI()->validateName($home, false)){
+        if(!$this->getAPI()->validateName($home)){
             return false;
         }
         $this->homes[$home] = $pos instanceof BaseLocation ? $pos : BaseLocation::fromPosition($home, $pos);
@@ -384,20 +387,20 @@ class BaseSession{
     private $quickReply = false;
 
     /**
-     * @return bool|string
+     * @return null|string
      */
-    public function getQuickReply(){
+    public function getQuickReply(): ?string{
         return $this->quickReply;
     }
 
     /**
      * @param CommandSender $sender
      */
-    public function setQuickReply(CommandSender $sender){
+    public function setQuickReply(CommandSender $sender): void{
         $this->quickReply = $sender->getName();
     }
 
-    public function removeQuickReply(){
+    public function removeQuickReply(): void{
         $this->quickReply = false;
     }
 
@@ -424,7 +427,7 @@ class BaseSession{
     /**
      * @return \DateTime|null
      */
-    public function getMutedUntil(){
+    public function getMutedUntil(): ?\DateTime{
         return $this->mutedUntil;
     }
 
@@ -432,7 +435,7 @@ class BaseSession{
      * @param bool $state
      * @param \DateTime|null $expires
      */
-    public function setMuted(bool $state, \DateTime $expires = null){
+    public function setMuted(bool $state, \DateTime $expires = null): void{
         $this->isMuted = $state;
         $this->mutedUntil = $expires;
     }
@@ -451,14 +454,14 @@ class BaseSession{
     /**
      * @return null|string
      */
-    public function getNick(){
+    public function getNick(): ?string{
         return $this->nick;
     }
 
     /**
      * @param null|string $nick
      */
-    public function setNick($nick){
+    public function setNick(?string $nick): void{
         $this->nick = $nick;
         $this->getPlayer()->setDisplayName($nick ?? $this->getPlayer()->getName());
         $this->getPlayer()->setNameTag($nick ?? $this->getPlayer()->getName());
@@ -506,16 +509,16 @@ class BaseSession{
 
     /**
      * @param int $itemId
-     * @return bool|string
+     * @return null|string
      */
-    public function getPowerToolItemCommand(int $itemId){
+    public function getPowerToolItemCommand(int $itemId): ?string{
         if($itemId < 1) {
-            return false;
+            return null;
         }elseif(!isset($this->ptCommands[$itemId]) || is_array($this->ptCommands[$itemId])){
-            return false;
+            return null;
         }elseif($this->ptCommands[$itemId] === null){
             unset($this->ptCommands[$itemId]);
-            return false;
+            return null;
         }
         return $this->ptCommands[$itemId];
     }
@@ -535,14 +538,14 @@ class BaseSession{
 
     /**
      * @param int $itemId
-     * @return bool
+     * @return null|array
      */
-    public function getPowerToolItemCommands(int $itemId): bool{
+    public function getPowerToolItemCommands(int $itemId): ?array{
         if($itemId < 1 || !is_array($this->ptCommands) || !isset($this->ptCommands[$itemId]) || !is_array($this->ptCommands[$itemId])){
-            return false;
+            return null;
         }elseif($this->ptCommands[$itemId] === null){
             unset($this->ptCommands[$itemId]);
-            return false;
+            return null;
         }
         return $this->ptCommands[$itemId];
     }
@@ -551,7 +554,7 @@ class BaseSession{
      * @param int $itemId
      * @param string $command
      */
-    public function removePowerToolItemCommand(int $itemId, string $command){
+    public function removePowerToolItemCommand(int $itemId, string $command): void{
         $commands = $this->getPowerToolItemCommands($itemId);
         if(is_array($commands)){
             foreach($commands as $c){
@@ -578,11 +581,11 @@ class BaseSession{
 
     /**
      * @param int $itemId
-     * @return bool
+     * @return null|string
      */
-    public function getPowerToolItemChatMacro(int $itemId): bool{
+    public function getPowerToolItemChatMacro(int $itemId): ?string{
         if($itemId < 1 || !isset($this->ptChatMacro[$itemId])){
-            return false;
+            return null;
         }
         return $this->ptChatMacro[$itemId];
     }
@@ -590,12 +593,12 @@ class BaseSession{
     /**
      * @param int $itemId
      */
-    public function disablePowerToolItem(int $itemId){
+    public function disablePowerToolItem(int $itemId): void{
         unset($this->ptCommands[$itemId]);
         unset($this->ptChatMacro[$itemId]);
     }
 
-    public function disablePowerTool(){
+    public function disablePowerTool(): void{
         $this->ptCommands = false;
         $this->ptChatMacro = false;
     }
@@ -646,10 +649,10 @@ class BaseSession{
     private $requestToTask = null;
 
     /**
-     * @return array|bool
+     * @return array|null
      */
-    public function madeARequest(){
-        return ($this->requestTo !== false ? [$this->requestTo, $this->requestToAction] : false);
+    public function madeARequest(): ?array{
+        return ($this->requestTo !== false ? [$this->requestTo, $this->requestToAction] : null);
     }
 
     /**
@@ -664,33 +667,31 @@ class BaseSession{
      * @param string $target
      * @param string $action
      */
-    public function requestTP(string $target, string $action){
+    public function requestTP(string $target, string $action): void{
         $this->requestTo = $target;
         $this->requestToAction = $action;
     }
 
-    public function cancelTPRequest(){
+    public function cancelTPRequest(): void{
         $this->requestTo = false;
         $this->requestToAction = false;
     }
 
     /**
-     * @return bool|int
+     * @return null|int
      */
-    public function getRequestToTaskID(){
-        return ($this->requestToTask ?? false);
+    public function getRequestToTaskID(): ?int{
+        return $this->requestToTask;
     }
 
     /**
      * @param int $taskId
-     * @return bool
      */
-    public function setRequestToTaskID(int $taskId): bool{
+    public function setRequestToTaskID(int $taskId): void{
         $this->requestToTask = $taskId;
-        return true;
     }
 
-    public function removeRequestToTaskID(){
+    public function removeRequestToTaskID(): void{
         $this->requestToTask = null;
     }
 
@@ -707,32 +708,32 @@ class BaseSession{
     */
 
     /**
-     * @return array|bool
+     * @return array|null
      */
-    public function hasARequest(){
-        return (count($this->requestsFrom) > 0 ? $this->requestsFrom : false);
+    public function hasARequest(): ?array{
+        return (count($this->requestsFrom) > 0 ? $this->requestsFrom : null);
     }
 
     /**
      * @param string $requester
-     * @return bool|string
+     * @return null|string
      */
-    public function hasARequestFrom(string $requester){
-        return ($this->requestsFrom[$requester] ?? false);
+    public function hasARequestFrom(string $requester): ?string{
+        return $this->requestsFrom[$requester];
     }
 
     /**
-     * @return bool|string
+     * @return null|string
      */
-    public function getLatestRequestFrom(){
-        return ($this->latestRequestFrom ?? false);
+    public function getLatestRequestFrom(): ?string{
+        return $this->latestRequestFrom;
     }
 
     /**
      * @param string $requester
      * @param string $action
      */
-    public function receiveRequest(string $requester, string $action){
+    public function receiveRequest(string $requester, string $action): void{
         $this->latestRequestFrom = $requester;
         $this->requestsFrom[$requester] = $action;
     }
@@ -740,7 +741,7 @@ class BaseSession{
     /**
      * @param string $requester
      */
-    public function removeRequestFrom(string $requester){
+    public function removeRequestFrom(string $requester): void{
         unset($this->requestsFrom[$requester]);
         if($this->getLatestRequestFrom() === $requester){
             $this->latestRequestFrom = null;

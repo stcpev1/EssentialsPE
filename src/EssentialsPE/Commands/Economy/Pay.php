@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types = 1);
+
 namespace EssentialsPE\Commands\Economy;
 
 use EssentialsPE\BaseFiles\BaseAPI;
@@ -34,7 +37,7 @@ class Pay extends BaseCommand{
             $sender->sendMessage(TextFormat::RED . "[Error] Player not found");
             return false;
         }
-        if(substr($args[1], 0, 1) === "-"){
+        if($args[1][0] === "-"){
             $sender->sendMessage(TextFormat::RED . "[Error] You can't pay a negative value");
             return false;
         }

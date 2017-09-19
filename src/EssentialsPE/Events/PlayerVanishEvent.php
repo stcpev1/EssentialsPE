@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types = 1);
+
 namespace EssentialsPE\Events;
 
 use EssentialsPE\BaseFiles\BaseAPI;
@@ -70,7 +73,7 @@ class PlayerVanishEvent extends BaseCustomEvent implements Cancellable{
      *
      * @param bool $value
      */
-    public function setVanished(bool $value){
+    public function setVanished(bool $value): void{
         $this->willVanish = $value;
     }
 
@@ -92,7 +95,7 @@ class PlayerVanishEvent extends BaseCustomEvent implements Cancellable{
      *
      * @param bool $state
      */
-    public function setNoPacket(bool $state){
+    public function setNoPacket(bool $state): void{
         $this->noPacket = $state;
     }
 
@@ -103,7 +106,7 @@ class PlayerVanishEvent extends BaseCustomEvent implements Cancellable{
      *
      * @param Player $player
      */
-    public function keepHiddenFor(Player $player){
+    public function keepHiddenFor(Player $player): void{
         $this->keepHiddenFor[] = $player->getName();
     }
 

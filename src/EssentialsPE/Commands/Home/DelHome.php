@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types = 1);
+
 namespace EssentialsPE\Commands\Home;
 
 use EssentialsPE\BaseFiles\BaseAPI;

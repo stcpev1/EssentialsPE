@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types = 1);
+
 namespace EssentialsPE\Events;
 
 use EssentialsPE\BaseFiles\BaseAPI;
@@ -48,7 +51,7 @@ class SessionCreateEvent extends BaseCustomEvent{
      * @param string $key
      * @param mixed $value
      */
-    public function setValue(string $key, mixed $value){
+    public function setValue(string $key, $value): void{
         if(!isset($this->values[$key])){
             return;
         }
@@ -60,7 +63,7 @@ class SessionCreateEvent extends BaseCustomEvent{
      *
      * @param array $values
      */
-    public function setValues(array $values){
+    public function setValues(array $values): void{
         $this->values = $values;
     }
 } 

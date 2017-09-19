@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types = 1);
+
 namespace EssentialsPE\BaseFiles;
 
 use pocketmine\inventory\Inventory;
@@ -50,18 +53,18 @@ class BaseKit{
     /**
      * @return Item[]
      */
-    public function getItems(){
+    public function getItems(): array{
         return $this->items;
     }
 
     /**
      * @param int $id
      * @param int|null $meta
-     * @return bool|Item
+     * @return null|Item
      */
-    public function hasItem($id, $meta = null){
+    public function hasItem($id, $meta = null): ?array{
         if(!isset($this->items[$id]) || ($meta !== null && $this->items[$id]->getDamage() !== $meta)){
-            return false;
+            return null;
         }
         return $this->items[$id];
     }
@@ -69,7 +72,7 @@ class BaseKit{
     /**
      * @param Inventory $inventory
      */
-    public function addToInventory(Inventory $inventory){
+    public function addToInventory(Inventory $inventory): void{
         foreach($this->getItems() as $i){
             $inventory->setItem($inventory->firstEmpty(), clone $i);
         }
@@ -79,7 +82,7 @@ class BaseKit{
     /**
      * @param Player $player
      */
-    public function giveToPlayer(Player $player){
+    public function giveToPlayer(Player $player): void{
         $this->addToInventory($player->getInventory());
     }
 }
