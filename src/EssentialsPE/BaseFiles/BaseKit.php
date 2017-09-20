@@ -62,7 +62,7 @@ class BaseKit{
      * @param int|null $meta
      * @return null|Item
      */
-    public function hasItem($id, $meta = null): ?array{
+    public function hasItem($id, $meta = null): ?Item{
         if(!isset($this->items[$id]) || ($meta !== null && $this->items[$id]->getDamage() !== $meta)){
             return null;
         }

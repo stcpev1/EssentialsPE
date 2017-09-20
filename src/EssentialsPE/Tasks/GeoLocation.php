@@ -21,7 +21,9 @@ class GeoLocation extends AsyncTask{
      */
     public function __construct($player){
         if($player !== null){
-	        $player = (array) $player;
+        	if(!is_array($player)) {
+        		$player = [$player];
+	        }
             foreach($player as $p){
                 $spl = spl_object_hash($p);
                 $this->player[$spl] = $p;

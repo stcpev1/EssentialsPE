@@ -139,9 +139,6 @@ class BaseAPI{
                 }
                 $pCfg = $this->getSessionFile($player);
                 foreach($home as $name => $values){
-                    if(!$this->validateName($name, false) || !is_array($values)){
-                        continue;
-                    }
                     $pCfg->setNested("homes." . $name, $values);
                 }
                 $pCfg->save();

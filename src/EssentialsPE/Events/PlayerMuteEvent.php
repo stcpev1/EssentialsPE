@@ -91,7 +91,7 @@ class PlayerMuteEvent extends BaseCustomEvent implements Cancellable{
      *
      * @param \DateTime|null $expires
      */
-    public function setMutedUntil(\DateTime $expires = null): ?\DateTime{
+    public function setMutedUntil(\DateTime $expires = null): void{
         $this->expires = $expires;
     }
 } 

@@ -42,19 +42,19 @@ class MessagesAPI{
         }
     }
 
-    /**
-     * @param $identifier
-     * @return bool|string
-     */
-    public function getMessage($identifier): ?string{
-        if(trim($identifier) === ""){
-            return null;
-        }
-        if(($c = $this->config->getNested($identifier)) !== null){
-            return $c;
-        }elseif(($o = $this->original->getNested($identifier)) !== null){
-            return $o;
-        }
-	    return null;
-    }
+	/**
+	* @param $identifier
+	* @return bool|string
+	*/
+	public function getMessage($identifier): ?string{
+		if(trim($identifier) === ""){
+		    return null;
+		}
+		if(($c = $this->config->getNested($identifier)) !== null){
+		    return $c;
+		}elseif(($o = $this->original->getNested($identifier)) !== null){
+		    return $o;
+		}
+		return null;
+	}
 }
