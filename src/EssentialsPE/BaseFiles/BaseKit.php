@@ -37,7 +37,7 @@ class BaseKit{
                     $id = $i[0];
                     $meta = 0;
                 }
-                $i = new Item($id, $meta, $amount);
+                $i = new Item((int) $id, (int) $meta, (int) $amount);
             }
             $this->items[$i->getId()] = $i;
         }
