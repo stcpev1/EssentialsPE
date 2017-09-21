@@ -22,7 +22,7 @@ class BaseKit{
         $this->name = $name;
         foreach($items as $i){
             if(!$i instanceof Item){
-                $i = explode(" ", $i);
+                $i = explode(" ", (string) $i);
                 if(count($i) > 1){
                     $amount = $i[1];
                     unset($i[1]);
