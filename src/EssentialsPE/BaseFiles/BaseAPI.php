@@ -1572,7 +1572,7 @@ class BaseAPI{
         }elseif($this->getPowerToolItemCommands($player, $item) !== false){
             $command = $this->getPowerToolItemCommands($player, $item);
         }
-        if($command !== false){
+        if(!empty($command)){
             if(!is_array($command)){
                 $this->getServer()->dispatchCommand($player, $command);
             }else{
