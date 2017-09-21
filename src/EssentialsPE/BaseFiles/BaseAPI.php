@@ -170,7 +170,7 @@ class BaseAPI{
     }
 
     private final function loadWarps(): void{
-        $parent = new Permission("essentials.warps", null, false);
+        $parent = new Permission("essentials.warps", null, null);
         $this->getServer()->getPluginManager()->addPermission($parent);
 
         $cfg = new Config($this->getEssentialsPEPlugin()->getDataFolder() . "Warps.yml", Config::YAML);
@@ -180,7 +180,7 @@ class BaseAPI{
                     $this->getServer()->loadLevel($v[3]);
                 }
                 $this->warps[$n] = new BaseLocation($n, $v[0], $v[1], $v[2], $this->getServer()->getLevelByName($v[3]), $v[4] ?? 0.0, $v[5] ?? 0.0);
-                $child = new Permission("essentials.warps." . $n, null, false);
+                $child = new Permission("essentials.warps." . $n, null, null);
                 $child->addParent($parent, false);
                 $this->getServer()->getPluginManager()->addPermission($child);
             }
