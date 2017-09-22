@@ -49,6 +49,6 @@ class BaseLocation extends Location{
      * @return BaseLocation
      */
     public static function fromPosition(string $name, Location $pos): BaseLocation{
-        return new BaseLocation($name, $pos->getX(), $pos->getY(), $pos->getZ(), $pos->getLevel(), $pos->getYaw(), $pos->getPitch());
+        return new BaseLocation($name, (int) $pos->getX(), (int) $pos->getY(), (int) $pos->getZ(), $pos->getLevel(), $pos->getYaw(), $pos->getPitch());
     }
 }

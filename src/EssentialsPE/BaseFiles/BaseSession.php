@@ -297,7 +297,7 @@ class BaseSession{
                     if(!$this->getPlugin()->getServer()->isLevelLoaded($values[3])){
                         $this->getPlugin()->getServer()->loadLevel($values[3]);
                     }
-                    $homes[$name] = new BaseLocation($name, $values[0], $values[1], $values[2], $this->getPlugin()->getServer()->getLevelByName($values[3]), $values[4], $values[5]);
+                    $homes[$name] = new BaseLocation($name, (int) $values[0], (int) $values[1], (int) $values[2], $this->getPlugin()->getServer()->getLevelByName($values[3]), $values[4], $values[5]);
                 }
             }
         }

@@ -17,7 +17,7 @@ class SignEvents extends BaseEventHandler{
     /**
      * @param PlayerInteractEvent $event
      */
-    public function onSignTap(PlayerInteractEvent $event){
+    public function onSignTap(PlayerInteractEvent $event): void{
         $tile = $event->getBlock()->getLevel()->getTile(new Vector3($event->getBlock()->getFloorX(), $event->getBlock()->getFloorY(), $event->getBlock()->getFloorZ()));
         if($tile instanceof Sign){
 	        $economy = (bool) ($this->getAPI()->getEssentialsPEPlugin()->getConfig()->get("economy"));
@@ -335,7 +335,7 @@ class SignEvents extends BaseEventHandler{
      *
      * @priority HIGH
      */
-    public function onBlockBreak(BlockBreakEvent $event){
+    public function onBlockBreak(BlockBreakEvent $event): void{
         $tile = $event->getBlock()->getLevel()->getTile(new Vector3($event->getBlock()->getFloorX(), $event->getBlock()->getFloorY(), $event->getBlock()->getFloorZ()));
         if($tile instanceof Sign){
             $key = ["Free", "Gamemode", "Heal", "Kit", "Repair", "Time", "Teleport", "Warp", "Balance", "Buy", "Sell", "BalanceTop"];
@@ -352,7 +352,7 @@ class SignEvents extends BaseEventHandler{
     /**
      * @param SignChangeEvent $event
      */
-    public function onSignChange(SignChangeEvent $event){
+    public function onSignChange(SignChangeEvent $event): void{
         // Special Signs
         // Free sign
 	    $economy = (bool) ($this->getAPI()->getEssentialsPEPlugin()->getConfig()->get("economy"));

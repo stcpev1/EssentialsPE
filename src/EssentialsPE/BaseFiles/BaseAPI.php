@@ -179,7 +179,7 @@ class BaseAPI{
                 if(!$this->getServer()->isLevelLoaded($v[3])){
                     $this->getServer()->loadLevel($v[3]);
                 }
-                $this->warps[$n] = new BaseLocation($n, $v[0], $v[1], $v[2], $this->getServer()->getLevelByName($v[3]), $v[4] ?? 0.0, $v[5] ?? 0.0);
+                $this->warps[$n] = new BaseLocation($n, (int) $v[0], (int) $v[1], (int) $v[2], $this->getServer()->getLevelByName($v[3]), $v[4] ?? 0.0, $v[5] ?? 0.0);
                 $child = new Permission("essentials.warps." . $n, null, null);
                 $child->addParent($parent, false);
                 $this->getServer()->getPluginManager()->addPermission($child);
@@ -1581,7 +1581,7 @@ class BaseAPI{
                 }
             }
         }
-        if($chat = $this->getPowerToolItemChatMacro($player, $item) !== false){
+        if($chat = $this->getPowerToolItemChatMacro($player, $item) !== null){
             $this->getServer()->broadcast("<" . $player->getDisplayName() . "> " . TextFormat::RESET . $this->getPowerToolItemChatMacro($player, $item), Server::BROADCAST_CHANNEL_USERS);
         }
         if($command === false && $chat === false){
@@ -1859,7 +1859,9 @@ class BaseAPI{
      * @param Player|Player[] $player
      */
     public function removeSession($player): void{
-        $player = (array) $player;
+        if(!is_array($player)) {
+        	$player = [$player];
+        }
         foreach($player as $p){
             if($this->sessionExists($p)){
                 $this->getSession($p)->onClose();
