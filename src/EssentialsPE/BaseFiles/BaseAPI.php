@@ -267,7 +267,7 @@ class BaseAPI{
         $state = $ev->getAFKMode();
         $this->getSession($player)->setAFK($state);
         $time = $this->getEssentialsPEPlugin()->getConfig()->getNested("afk.auto-kick");
-        if(!$state && ($id = $this->getSession($player)->getAFKKickTaskID()) !== false){
+        if(!$state && ($id = $this->getSession($player)->getAFKKickTaskID()) !== null){
             $this->getServer()->getScheduler()->cancelTask($id);
             $this->getSession($player)->removeAFKKickTaskID();
         }elseif($state && (is_int($time) && $time  > 0) && !$player->hasPermission("essentials.afk.kickexempt")){
@@ -1448,7 +1448,7 @@ class BaseAPI{
             return null;
         }
         $player = strtolower($player);
-        $found = false;
+        $found = null;
         foreach($this->getServer()->getOnlinePlayers() as $p){
             if(strtolower(TextFormat::clean($p->getDisplayName(), true)) === $player || strtolower($p->getName()) === $player){
                 $found = $p;
@@ -1457,7 +1457,7 @@ class BaseAPI{
         }
         // If cannot get the exact player name/nick, try with portions of it
         if(!$found){
-            $found = ($f = $this->getServer()->getPlayer($player)) === null ? false : $f; // PocketMine function to get from portions of name
+            $found = ($f = $this->getServer()->getPlayer($player)) === null ? null : $f; // PocketMine function to get from portions of name
         }
         /*
          * Copy from PocketMine's function (use above xD) but modified to work with Nicknames :P
