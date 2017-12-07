@@ -1214,7 +1214,7 @@ class BaseAPI{
     }
 
     /**
-     * Checks if a name is valid, it could be for a Nick, Home, Warp, etc...
+     * Checks if a name is valid, it could be for a Home, Warp, etc...
      *
      * @param string $string
      * @param bool $allowColorCodes
@@ -1444,7 +1444,7 @@ class BaseAPI{
      * @return null|Player
      */
     public function getPlayer($player): ?Player{
-        if(!$this->validateName($player, false)){
+        if(!Player::isValidUserName($player)){
             return null;
         }
         $player = strtolower($player);
