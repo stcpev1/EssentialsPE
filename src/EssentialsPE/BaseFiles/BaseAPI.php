@@ -51,6 +51,7 @@ use pocketmine\OfflinePlayer;
 use pocketmine\permission\Permission;
 use pocketmine\Player;
 use pocketmine\Server;
+use pocketmine\utils\Color;
 use pocketmine\utils\Config;
 use pocketmine\utils\Random;
 use pocketmine\utils\TextFormat;
@@ -2284,7 +2285,7 @@ class BaseAPI{
      */
     public function setVanish(Player $player, bool $state, bool $noPacket = false): bool{
         if($this->invisibilityEffect === null){
-            $effect = new Effect(Effect::INVISIBILITY, "Vanish", 127, 131, 146);
+            $effect = new Effect(Effect::INVISIBILITY, "Vanish", new Color(127, 131, 146));
             $effect->setDuration(INT32_MAX);
             $this->invisibilityEffect = $effect;
         }
