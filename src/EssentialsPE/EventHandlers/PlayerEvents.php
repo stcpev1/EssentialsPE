@@ -23,7 +23,6 @@ use pocketmine\Player;
 use pocketmine\utils\TextFormat;
 
 class PlayerEvents extends BaseEventHandler{
-	
     /**
      * @param PlayerPreLoginEvent $event
      *
