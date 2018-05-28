@@ -103,8 +103,7 @@ class Loader extends PluginBase{
         if(!is_dir($this->getDataFolder())){
             mkdir($this->getDataFolder());
         }
-        
-		$this->getLogger()->info(TextFormat::YELLOW . "Loading...");
+
         $this->registerEvents();
         $this->registerCommands();
         if(count($p = $this->getServer()->getOnlinePlayers()) > 0){
@@ -114,6 +113,7 @@ class Loader extends PluginBase{
             $this->getAPI()->fetchEssentialsPEUpdate(false);
         }
         $this->getAPI()->scheduleAutoAFKSetter();
+	$this->getLogger()->info("Plugin Enabled");
     }
 
     public function onDisable(): void{
