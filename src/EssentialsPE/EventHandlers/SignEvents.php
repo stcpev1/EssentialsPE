@@ -14,7 +14,6 @@ use pocketmine\tile\Sign;
 use pocketmine\utils\TextFormat;
 
 class SignEvents extends BaseEventHandler{
-	
     /**
      * @param PlayerInteractEvent $event
      */
