@@ -14,13 +14,13 @@ class CreateAPIEvent extends PluginEvent{
     /** @var string */
     private $class;
 
-	/**
-	 * CreateAPIEvent constructor.
-	 *
-	 * @param Loader $plugin
-	 * @param string $api
-	 */
-	public function __construct(Loader $plugin, string $api){
+    /**
+     * CreateAPIEvent constructor.
+     *
+     * @param Loader $plugin
+     * @param string $api
+     */
+    public function __construct(Loader $plugin, string $api){
         parent::__construct($plugin);
         if(!is_a($api, BaseAPI::class, true)){
             throw new \RuntimeException("Class $api must extend " . BaseAPI::class);
@@ -28,17 +28,17 @@ class CreateAPIEvent extends PluginEvent{
         $this->class = BaseAPI::class;
     }
 
-	/**
-	 * @return string
-	 */
-	public function getClass(): string{
+    /**
+     * @return string
+     */
+    public function getClass(): string{
         return $this->class;
     }
 
-	/**
-	 * @param string $class
-	 */
-	public function setClass(string $class): void{
+    /**
+     * @param string $class
+     */
+    public function setClass(string $class): void{
         if(!is_a($class, BaseAPI::class, true)){
             throw new \RuntimeException("Class $class must extend " . BaseAPI::class);
         }
