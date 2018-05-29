@@ -428,9 +428,9 @@ class BaseAPI{
     /**
      * Return the top 5 players with most money
      *
-     * @param CommandSender $player
+     * @param CommandSender|Player $player
      *
-     * @return bool
+     * @return bool|void
      */
     public function sendBalanceTop(Player $player): void{
         $moneyList = $this->economy->get("player-balances");
@@ -1483,13 +1483,14 @@ class BaseAPI{
         }
         return $found;
     }
+
     /**
      * Let you search for a player using his Display name(Nick) or Real name
      * Instead of returning false, this method will create an OfflinePlayer object.
      *
      * @param string $name
      *
-     * @return Player|OfflinePlayer
+     * @return IPlayer|Player|OfflinePlayer
      */
     public function getOfflinePlayer(string $name): IPlayer{
         $player = $this->getPlayer($name);
