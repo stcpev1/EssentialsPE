@@ -1815,14 +1815,10 @@ class BaseAPI{
                     $this->getEssentialsPEPlugin()->getLogger()->info($p->getName() . " is also known as " . $n);
                     unset($values["nick"]);
                 }
-                $v = BaseSession::$defaults["isVanished"];
-                $vNP = BaseSession::$defaults["noPacket"];
                 if(isset($values["isVanished"])){
                     if(!isset($values["noPacket"])){
                         $values["noPacket"] = false;
                     }
-                    $v = $values["isVanished"];
-                    $vNP = $values["noPacket"];
                     unset($values["isVanished"]);
                     unset($values["noPacket"]);
                 }
