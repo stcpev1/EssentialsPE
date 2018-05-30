@@ -165,18 +165,16 @@ class SignEvents extends BaseEventHandler{
                                 $this->getAPI()->addToPlayerBalance($event->getPlayer(), -$price);
                             }
                         }
-                        foreach($event->getPlayer()->getInventory()->getContents() as $item){
+                        foreach($event->getPlayer()->getInventory()->getContents() as $index => $item){
                             if($this->getAPI()->isRepairable($item)){
-                                if($item->getDamage() > 0) {
-                                    $index = $event->getPlayer()->getInventory()->first($item , true);
-                                    $event->getPlayer()->getInventory()->setItem($index , $item->setDamage(0));
+                                if($item->getDamage() > 0){
+                                    $event->getPlayer()->getInventory()->setItem($index, $item->setDamage(0));
                                 }
                             }
                         }
-                        foreach($event->getPlayer()->getArmorInventory()->getContents() as $item){
+                        foreach($event->getPlayer()->getArmorInventory()->getContents() as $index => $item){
                             if($this->getAPI()->isRepairable($item)){
-                                if($item->getDamage() > 0) {
-                                    $index = $event->getPlayer()->getArmorInventory()->first($item, true);
+                                if($item->getDamage() > 0){
                                     $event->getPlayer()->getArmorInventory()->setItem($index, $item->setDamage(0));
                                 }
                             }
