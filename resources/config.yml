@@ -28,28 +28,28 @@ Afk:
   # You Can Disable This Feature By Assigning A Value Lower To 0
   Auto-Kick: 1
   # Allow The Broadcasting Of The AFK Status Of A Player
-  broadcast: false
+  Broadcast: false
   
-# Let you configure the size of a stack that players (with permission) can get (via /more or /item)
-oversized-stacks: 64
+# Let You Configure The Size Of A Stack That Players (With Permission) Can Get (Via /More Or /Item)
+Oversized-Stacks: 800
 
-# Let you set a limit for the /near command to search for players (in blocks)
-near-radius-limit: 200
-# Let you set a default value to search for players (it can't be higher than the default limit)
-near-default-radius: 200
+# Let You Set A Limit For The /Near Command To Search For Players (In Blocks)
+Near-Radius-Limit: 300
+# Let You Set A Default Value To Search For Players (It Can't Be Higher Than The Default Limit)
+Near-Default-Radius: 300
 
-# This option let you enable color codes in the server, but keep in mind that the client may not support them
-enable-custom-colors: false
+# This Option Let You Enable Color Codes In The Server, But Keep In Mind That The Client May Not Support Them
+Enable-Custom-Colors: false
 
-# These options will let you configure how the auto-updater will work
-updater:
-  # Enable the AUTOMATIC updater
-  enabled: true
-  # Allow to set a time interval for the auto-updater to work (In seconds) [Default is 30 minutes {1800 seconds}]
-  time-interval: 1800
-  # Do you want to warn the console?
-  warn-console: true
-  # Do you want to warn players with the permission 'essentials.update'?
-  warn-players: true
-  # Do you want to use 'stable', 'beta' or 'development' releases?
-  channel: stable
+# These Options Will Let You Configure How The Auto-Updater Will Work
+Updater:
+  # Enable The AUTOMATIC Updater
+  Enabled: false
+  # Allow To Set A Time Interval For The Auto-Updater To Work (In Seconds) [Default Is 30 Minutes {1800 Seconds}]
+  Time-Interval: 800
+  # Do You Want To Warn The Console?
+  Warn-Console: false
+  # Do You Want To Warn Players With The Permission 'essentials.update'?
+  Warn-Players: false
+  # Do You Waant To Use 'Stable', 'Beta' Or 'Development' releases?
+  Channel: Stable
