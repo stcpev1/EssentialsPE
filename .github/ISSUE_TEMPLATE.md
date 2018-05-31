@@ -1,8 +1,8 @@
 
-<!--- Make sure to read the following carefully.
-- Make sure your issue applies to the latest version of EssentialsPE.
-- Do not submit duplicated issues. Search the issue tracker before you submit one.
-- EssentialsPE is designed for PocketMine-MP. Modded versions of it may not be supported.
+<!--- Make sure to read the following carefully
+- Make sure your issue applies to the latest version of EssentialsPE
+- Do not submit duplicated issues. Search the issue tracker before you submit one
+- EssentialsPE is designed for PocketMine-MP. Modded versions of it may not be supported
 -->
 
 #### Description
@@ -18,4 +18,4 @@
 <!--- Insert in the code block below -->
 ```
 ```
-<!--- Issues that do not follow this template will get closed immediatly. -->
+<!--- Issues that do not follow this template will get closed immediatly -->
