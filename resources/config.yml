@@ -15,21 +15,21 @@ Teleporting: false
 Economy: false
 
 # Edit Different Parts Of The AFK Feature!!!
-afk:
-  # Players that are AFK can, or not, be damaged
-  safe: true
-  # Time until a player is known as AFK
-  # You can disable this feature by assigning a value lower to 0
-  auto-set: 300
-  # This option et you enable or disable the "Auto-AFK" broadcast status,
-  # So when someone is automatically set into AFK for idling, it will be broadcasted... Or not
-  auto-broadcast: true
-  # Time until a player is kicked for being AFK
-  # You can disable this feature by assigning a value lower to 0
-  auto-kick: 300
-  # Allow the broadcasting of the AFK status of a player
-  broadcast: true
-
+Afk:
+  # Players That Are AFK Can, Or Not, Be Damaged
+  safe: false
+  # Time Until A Player Is // Known As AFK
+  # You Can Disable This Feature By Assigning A Value Lower To 0
+  Auto-Set: 1
+  # This Option Will Let You Enable Or Disable The "Auto-AFK" Broadcast Status,
+  # So When Someone Is Automatically Set Into AFK For Idling, It Will Be Broadcasted... Or Not
+  Auto-Broadcast: false
+  # Time Until A Player Is Kicked For Being AFK
+  # You Can Disable This Feature By Assigning A Value Lower To 0
+  Auto-Kick: 1
+  # Allow The Broadcasting Of The AFK Status Of A Player
+  broadcast: false
+  
 # Let you configure the size of a stack that players (with permission) can get (via /more or /item)
 oversized-stacks: 64
 
