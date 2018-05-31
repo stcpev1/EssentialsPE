@@ -1,7 +1,7 @@
-language: php
-php: 7.0
-sudo: false
-script: php ./travis/build.php
-branches:
-  only:
+Language: php
+PhP: 7.0
+Sudo: false
+Script: PhP ./Travis/Build.PhP
+Branches:
+  Only:
     - master
