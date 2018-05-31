@@ -1,20 +1,20 @@
-# EssentialsPE configuration
-# This configuration file lets you modify how EssentialsPE work with some features
+# EssentialsPE Configuration
+# This Configuration File Lets You Modify How EssentialsPE Work With Some Features
 
-# DO NOT EDIT THIS PROPERTY! For internal use ONLY
-version: "0.0.3"
+# DO NOT EDIT THIS PROPERTY!!! For Internal Use Only
+Version: "0.0.3"
 
 # SET THIS TO "TRUE" TO ENABLE THIS PLUGIN
 enable: true
 
-# Disable various command features of EssentialsPE, set to false to disable
-homes: true
-warps: true
-powertool: true
-teleporting: true
-economy: false
+# Disable Various Commands Features Of EssentialsPE, Set To False To Disable Set To True TO Enable
+Homes: false
+Warps: false
+PowerTool: false
+Teleporting: false
+Economy: false
 
-# Edit different parts of the AFK feature!
+# Edit Different Parts Of The AFK Feature!!!
 afk:
   # Players that are AFK can, or not, be damaged
   safe: true
