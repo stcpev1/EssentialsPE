@@ -612,3 +612,4 @@ permissions:
             essentials.worth:
                 default: true
                 description: "Get the price of an item"
+
