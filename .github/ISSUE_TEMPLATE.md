@@ -1,8 +1,8 @@
 
-<!--- Make sure to read the following carefully
-- Make sure your issue applies to the latest version of EssentialsPE
-- Do not submit duplicated issues. Search the issue tracker before you submit one
-- EssentialsPE is designed for PocketMine-MP. Modded versions of it may not be supported
+<!--- Make Sure To Read The Following Carefully
+- Make Sure Your Issue Applies To The Latest Version Of EssentialsPE
+- Do Not Submit Duplicated Issues Search The Issue Tracker Before You Submit One
+- EssentialsPE Is Designed For PocketMine-MP Modded Versions Of It May Not Be Supported
 -->
 
 #### Description
@@ -14,7 +14,7 @@
 * EssentialsPE Version:
 * Game Version: PE / Windows 10
 
-#### Crashdump or console errors
+#### Crashdump Or Console Errors
 <!--- Insert In The Code Block Below -->
 ```
 ```
