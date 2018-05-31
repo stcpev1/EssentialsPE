@@ -6,16 +6,16 @@
 -->
 
 #### Description
-<!--- Write a detailed description about the issue -->
+<!--- Write A Detailed Description About The Issue -->
 
 #### Versions
-<!--- 'Latest' is not a valid version. Please copy the 'git commit hash' -->
+<!--- 'Latest' Is Not A Valid Version. Please Copy The 'Git Commit Hash' -->
 * PocketMine Version:
 * EssentialsPE Version:
 * Game Version: PE / Windows 10
 
 #### Crashdump or console errors
-<!--- Insert in the code block below -->
+<!--- Insert In The Code Block Below -->
 ```
 ```
-<!--- Issues that do not follow this template will get closed immediatly -->
+<!--- Issues That Do Not Follow This Template Will Get Closed Immediatly -->
